@@ -1,4 +1,4 @@
-#include "binarysearchtree.hpp"
+#include "binary_search_tree.hpp"
 
 int main(void) {
     BinarySearchTree<int> tree;

@@ -1,4 +1,4 @@
-// File: linkedlist.hpp
+// File: linked_list.hpp
 // Author: Phi Luu
 // Created: December 18, 2017
 //
@@ -14,8 +14,8 @@
 //     - Adding an element to the list
 //     - Removing an element from the list
 
-#ifndef LINKEDLIST_HPP_
-#define LINKEDLIST_HPP_
+#ifndef LINKED_LIST_HPP_
+#define LINKED_LIST_HPP_
 
 #include <iostream>
 
@@ -349,4 +349,4 @@ private:
     int size_;
 };
 
-#endif  // LINKEDLIST_HPP_
+#endif  // LINKED_LIST_HPP_

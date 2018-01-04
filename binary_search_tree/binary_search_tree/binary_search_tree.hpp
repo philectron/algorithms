@@ -1,4 +1,4 @@
-// File: binarysearchtree.hpp
+// File: binary_search_tree.hpp
 // Author: Phi Luu
 // Created: December 27, 2017
 //
@@ -14,8 +14,8 @@
 //     - Removing an element from the tree
 //     - Clearing the tree
 
-#ifndef BINARYTREE_HPP_
-#define BINARYTREE_HPP_
+#ifndef BINARY_SEARCH_TREE_HPP_
+#define BINARY_SEARCH_TREE_HPP_
 
 #include <iostream>
 #include <string>
@@ -266,4 +266,4 @@ private:
     BinaryNode* root_;
 };
 
-#endif  // BINARYTREE_HPP_
+#endif  // BINARY_SEARCH_TREE_HPP_
