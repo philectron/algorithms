@@ -2,20 +2,20 @@
 #include "stack.hpp"
 
 int main(void) {
-    std::ifstream testin("testin.txt");
+    std::ifstream testinput("testinput.txt");
     try {
-        if (testin.is_open()) {
+        if (testinput.is_open()) {
             int num_test_cases;
-            testin >> num_test_cases;
+            testinput >> num_test_cases;
 
             for (int t = 0; t < num_test_cases; t++) {
                 Stack<int> stack;
                 int size;
-                testin >> size;
+                testinput >> size;
 
                 for (int i = 0; i < size; i++) {
                     int value;
-                    testin >> value;
+                    testinput >> value;
                     stack.Push(value);
                 }
 
@@ -73,7 +73,7 @@ int main(void) {
                 std::cout << std::endl << std::endl;
             }
 
-            testin.close();
+            testinput.close();
         }
     } catch (const std::out_of_range& e) {
         std::cout << e.what() << std::endl;
