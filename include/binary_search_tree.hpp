@@ -14,8 +14,8 @@
 //     - Removing an element from the tree
 //     - Clearing the tree
 
-#ifndef BINARY_SEARCH_TREE_HPP_
-#define BINARY_SEARCH_TREE_HPP_
+#ifndef ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
+#define ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
 
 #include <iostream>
 #include <string>
@@ -266,4 +266,4 @@ private:
     BinaryNode* root_;
 };
 
-#endif  // BINARY_SEARCH_TREE_HPP_
+#endif  // ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_

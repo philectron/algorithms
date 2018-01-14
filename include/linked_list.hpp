@@ -14,8 +14,8 @@
 //     - Adding an element to the list
 //     - Removing an element from the list
 
-#ifndef LINKED_LIST_HPP_
-#define LINKED_LIST_HPP_
+#ifndef ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
+#define ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
 
 #include <iostream>
 
@@ -349,4 +349,4 @@ private:
     int size_;
 };
 
-#endif  // LINKED_LIST_HPP_
+#endif  // ALGORITHMS_INCLUDE_LINKEDLIST_HPP_

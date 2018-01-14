@@ -15,8 +15,8 @@
 //     - Removing the top element from the queue
 //     - Clearing the queue
 
-#ifndef QUEUE_HPP_
-#define QUEUE_HPP_
+#ifndef ALGORITHMS_INCLUDE_QUEUE_HPP_
+#define ALGORITHMS_INCLUDE_QUEUE_HPP_
 
 #include <iostream>
 #include <stdexcept>
@@ -155,4 +155,4 @@ private:
     int size_;
 };
 
-#endif  // QUEUE_HPP_
+#endif  // ALGORITHMS_INCLUDE_QUEUE_HPP_

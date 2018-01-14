@@ -15,8 +15,8 @@
 //     - Removing the top element from the stack
 //     - Clearing the stack
 
-#ifndef STACK_HPP_
-#define STACK_HPP_
+#ifndef ALGORITHMS_INCLUDE_STACK_HPP_
+#define ALGORITHMS_INCLUDE_STACK_HPP_
 
 #include <iostream>
 #include <stdexcept>
@@ -163,4 +163,4 @@ private:
     int size_;
 };
 
-#endif  // STACK_HPP_
+#endif  // ALGORITHMS_INCLUDE_STACK_HPP_
