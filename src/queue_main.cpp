@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 #include "queue.hpp"
 
 int main(void) {

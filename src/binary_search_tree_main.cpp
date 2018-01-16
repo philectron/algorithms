@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <iostream>
 #include <vector>
 #include "binary_search_tree.hpp"
 
