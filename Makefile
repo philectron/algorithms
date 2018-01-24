@@ -14,6 +14,7 @@ ALL = \
 		stack
 
 all: $(ALL)
+	mkdir $(OUT_DIR)
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@
@@ -33,4 +34,5 @@ stack: $(SRC_DIR)/stack_main.o
 .PHONY: clean
 
 clean:
-	rm -f $(ALL) $(SRC_DIR)/*.o $(OUT_DIR)/*
+	rm -f $(ALL) $(SRC_DIR)/*.o
+	rm -rf $(OUT_DIR)
