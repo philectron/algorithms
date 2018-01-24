@@ -1,12 +1,12 @@
 #include <fstream>
-#include <iostream>
 #include "queue.hpp"
 
 int main(void) {
-    std::ifstream infile("testcases/queue_input.txt");
+    std::ifstream infile("input/queue.txt");
+    std::ofstream outfile("output/queue.txt");
 
-    if (!infile.is_open()) {
-        std::cerr << "Could not open file." << std::endl;
+    if (!infile.is_open() || !outfile.is_open()) {
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -25,64 +25,65 @@ int main(void) {
                 queue.Enqueue(value);
             }
 
-            std::cout << "Initial:\n";
-            queue.Print();
-            std::cout << std::endl;
+            outfile << "Initial:\n";
+            outfile << queue;
+            outfile << std::endl;
 
-            std::cout << "After push 0 to back:\n";
+            outfile << "After push 0 to back:\n";
             queue.Enqueue(0);
-            queue.Print();
-            std::cout << std::endl;
+            outfile << queue;
+            outfile << std::endl;
 
-            std::cout << "After removing the front node:\n";
+            outfile << "After removing the front node:\n";
             queue.Dequeue();
-            queue.Print();
-            std::cout << std::endl;
+            outfile << queue;
+            outfile << std::endl;
 
-            std::cout << "After push 1 to back:\n";
+            outfile << "After push 1 to back:\n";
             queue.Enqueue(1);
-            queue.Print();
-            std::cout << std::endl;
+            outfile << queue;
+            outfile << std::endl;
 
-            std::cout << "After push 2 to back:\n";
+            outfile << "After push 2 to back:\n";
             queue.Enqueue(2);
-            queue.Print();
-            std::cout << std::endl;
+            outfile << queue;
+            outfile << std::endl;
 
-            std::cout << "After removing the front node:\n";
+            outfile << "After removing the front node:\n";
             queue.Dequeue();
-            queue.Print();
-            std::cout << std::endl;
+            outfile << queue;
+            outfile << std::endl;
 
-            std::cout << "Front node: " << queue.Front() << std::endl
-                      << std::endl;
+            outfile << "Front node: " << queue.Front() << std::endl
+                    << std::endl;
 
-            std::cout << "After creating a copy and change the copy to "
-                      << "1 <-> 2 <-> 3 :\n";
+            outfile << "After creating a copy and change the copy to "
+                    << "1 <-> 2 <-> 3 :\n";
             Queue<int> copy = queue;
             copy.Clear();
             copy.Enqueue(1);
             copy.Enqueue(2);
             copy.Enqueue(3);
-            std::cout << "Original queue:\n";
-            queue.Print();
-            std::cout << "Copied queue:\n";
-            copy.Print();
-            std::cout << std::endl;
+            outfile << "Original queue:\n";
+            outfile << queue;
+            outfile << "Copied queue:\n";
+            outfile << copy;
+            outfile << std::endl;
 
-            std::cout << "After assigning copy queue to original queue:\n";
+            outfile << "After assigning copy queue to original queue:\n";
             queue = copy;
-            std::cout << "Original queue:\n";
-            queue.Print();
-            std::cout << "Copied queue:\n";
-            copy.Print();
-            std::cout << std::endl << std::endl;
+            outfile << "Original queue:\n";
+            outfile << queue;
+            outfile << "Copied queue:\n";
+            outfile << copy;
+            outfile << std::endl << std::endl;
         }
-
-        infile.close();
     } catch (const std::out_of_range& e) {
-        std::cout << e.what() << std::endl;
+        outfile << e.what() << std::endl;
     }
+
+    infile.close();
+    outfile.close();
 
     return 0;
 }

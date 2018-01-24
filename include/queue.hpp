@@ -118,23 +118,24 @@ public:
 
     // Prints under the following format:
     // Node1Data <-> Node2Data <-> Node3Data <-> ... <-> NodeNData
-    void Print(void) const {
-        if (IsEmpty()) {
-            std::cout << "The queue is empty." << std::endl;
-            return;
-        }
+    friend std::ostream& operator<<(std::ostream& out, const Queue& obj) {
+        if (obj.IsEmpty()) {
+            out << "The queue is empty." << std::endl;
+        } else {
+            // traverse through the queue
+            for (Queue::Node* trav = obj.head_->next;
+                 trav != obj.tail_;
+                 trav = trav->next) {
+                out << trav->data;
 
-        // traverse through the queue
-        for (Node* trav = head_->next; trav != tail_; trav = trav->next) {
-            std::cout << trav->data;
-
-            // print the separator if the current node is not the last
-            if (trav->next != tail_) {
-                std::cout << " <-> ";
+                // print the separator if the current node is not the last
+                if (trav->next != obj.tail_) out << " <-> ";
             }
+
+            out << "\nSize = " << obj.size_ << std::endl;
         }
 
-        std::cout << "\nSize = " << size_ << std::endl;
+        return out;
     }
 
 // PRIVATE HELPER METHODS

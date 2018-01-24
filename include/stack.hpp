@@ -115,23 +115,23 @@ public:
     // Prints under the following format:
     // Node1Data -> Node2Data -> Node3Data -> ... -> NodeNData
     // Size = size_
-    void Print(void) const {
-        if (IsEmpty()) {
-            std::cout << "The stack is empty." << std::endl;
-            return;
-        }
+    friend std::ostream& operator<<(std::ostream& out, const Stack& obj) {
+        if (obj.IsEmpty()) {
+            out << "The stack is empty." << std::endl;
+        } else {
+            // traverse through the stack
+            for (Stack::Node* trav = obj.head_->next;
+                 trav != nullptr;
+                 trav = trav->next) {
+                out << trav->data;
 
-        // traverse through the stack
-        for (Node* trav = head_->next; trav != nullptr; trav = trav->next) {
-            std::cout << trav->data;
-
-            // print the separator if the current node is not the last
-            if (trav->next != nullptr) {
-                std::cout << " -> ";
+                // print the separator if the current node is not the last
+                if (trav->next != nullptr) out << " -> ";
             }
+            out << "\nSize = " << obj.size_ << std::endl;
         }
 
-        std::cout << "\nSize = " << size_ << std::endl;
+        return out;
     }
 
 // PRIVATE HELPER METHODS

@@ -18,8 +18,8 @@
 #define ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
 
 #include <iostream>
-#include <string>
 #include <stdexcept>
+#include <string>
 
 template<class T>
 class BinarySearchTree {
@@ -94,8 +94,12 @@ public:
     // Removes all elements from the tree.
     void Clear(void) { Clear(root_); }
 
-    // Prints the tree on console. Child nodes are indented.
-    void Print(void) const { Print(root_); }
+    // Prints the tree to std::ostream. Child nodes are indented.
+    friend std::ostream& operator<<(std::ostream& out,
+                                    const BinarySearchTree& obj) {
+        obj.PrintTree(out, obj.root_);
+        return out;
+    }
 
 // PRIVATE RECURSIVE HELPER METHODS OF BinarySearchTree
 private:
@@ -213,50 +217,50 @@ private:
     // Internal method that prints all nodes of a subtree on console.
     // The direction of the tree is left to right (instead of up to down).
     // Source: https://stackoverflow.com/a/19484210/4048938
-    void Print(BinaryNode* tree) const {
+    void PrintTree(std::ostream& out, BinaryNode* tree) const {
         if (tree == nullptr) {
-            std::cout << "Tree is empty." << std::endl;
-            return;
+            out << "Tree is empty." << std::endl;
+        } else {
+            // print all the nodes to the right of the root of this subtree
+            if (tree->right != nullptr) PrintNode(out, tree->right, true, "");
+            // print the root of this subtree
+            out << tree->data << std::endl;
+            // print all the nodes to the left of the root of this subtree
+            if (tree->left != nullptr) PrintNode(out, tree->left, false, "");
         }
-
-        // print all the nodes to the right of the root of this subtree
-        if (tree->right != nullptr) Print(tree->right, true, "");
-        // print the root of this subtree
-        std::cout << tree->data << std::endl;
-        // print all the nodes to the left of the root of this subtree
-        if (tree->left != nullptr) Print(tree->left, false, "");
     }
 
     // Internal method that prints all nodes of a subtree on console.
     // The direction of the tree is left to right (instead of up to down).
     // Source: https://stackoverflow.com/a/19484210/4048938
-    void Print(BinaryNode* tree, bool is_right_node, std::string indent) const {
+    void PrintNode(std::ostream& out, BinaryNode* tree,
+                   bool is_right_node, std::string indent) const {
         // print the right nodes until the rightmost
         if (tree->right != nullptr) {
             if (is_right_node) {
-                Print(tree->right, true, indent + "        ");
+                PrintNode(out, tree->right, true, indent + "        ");
             } else {
-                Print(tree->right, true, indent + " |      ");
+                PrintNode(out, tree->right, true, indent + " |      ");
             }
         }
 
-        std::cout << indent;
+        out << indent;
 
         // different branching symbol for left and right nodes
         if (is_right_node) {
-            std::cout << " /";
+            out << " /";
         } else {
-            std::cout << " \\";
+            out << " \\";
         }
 
-        std::cout << "----- " << tree->data << std::endl;
+        out << "----- " << tree->data << std::endl;
 
         // print the left nodes until the leftmost
         if (tree->left != nullptr) {
             if (is_right_node) {
-                Print(tree->left, false, indent + " |      ");
+                PrintNode(out, tree->left, false, indent + " |      ");
             } else {
-                Print(tree->left, false, indent + "        ");
+                PrintNode(out, tree->left, false, indent + "        ");
             }
         }
     }

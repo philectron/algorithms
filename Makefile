@@ -2,6 +2,7 @@ CXX = g++
 
 INC_DIR = include
 SRC_DIR = src
+OUT_DIR = output
 LIBS = -lm
 
 CXXFLAGS = -g -std=c++11 -Wall -Wextra -I$(INC_DIR) $(LIBS)
@@ -32,4 +33,4 @@ stack: $(SRC_DIR)/stack_main.o
 .PHONY: clean
 
 clean:
-	rm -f $(ALL) $(SRC_DIR)/*.o
+	rm -f $(ALL) $(SRC_DIR)/*.o $(OUT_DIR)/*

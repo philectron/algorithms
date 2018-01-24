@@ -1,15 +1,15 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
-#include <iostream>
 #include <vector>
 #include "binary_search_tree.hpp"
 
 int main(void) {
-    std::ifstream infile("testcases/binary_search_tree_input.txt");
+    std::ifstream infile("input/binary_search_tree.txt");
+    std::ofstream outfile("output/binary_search_tree.txt");
 
-    if (!infile.is_open()) {
-        std::cerr << "Could not open file." << std::endl;
+    if (!infile.is_open() || !outfile.is_open()) {
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -18,20 +18,20 @@ int main(void) {
 
     for (int t = 0; t < num_test_cases; t++) {
         BinarySearchTree<int> tree;
-        tree.Print();
-        std::cout << "\nTry to find min/max in an empty tree:\n";
-        std::cout << "Min = ";
+        outfile << tree;
+        outfile << "\nTry to find min/max in an empty tree:\n";
+        outfile << "Min = ";
         try {
-            std::cout << tree.FindMin() << std::endl;
+            outfile << tree.FindMin() << std::endl;
         } catch (const std::out_of_range& e) {
-            std::cout << e.what() << std::endl;
+            outfile << e.what() << std::endl;
         };
 
-        std::cout << "Max = ";
+        outfile << "Max = ";
         try {
-            std::cout << tree.FindMax() << std::endl;
+            outfile << tree.FindMax() << std::endl;
         } catch (const std::out_of_range& e) {
-            std::cout << e.what() << std::endl;
+            outfile << e.what() << std::endl;
         };
 
         int size;
@@ -43,32 +43,32 @@ int main(void) {
             tree.Insert(values[i]);
         }
 
-        std::cout << "\nInitial:\n";
-        tree.Print();
+        outfile << "\nInitial:\n";
+        outfile << tree;
 
-        std::cout << "\nAfter removing a random node: ";
+        outfile << "\nAfter removing a random node: ";
         if (!values.empty()) {
             srand(static_cast<unsigned int>(time(nullptr)));
             int index = rand() % size;
             int target = values[index];
-            std::cout << "Removed " << target << std::endl;
+            outfile << "Removed " << target << std::endl;
             tree.Remove(target);
             values.erase(values.begin() + index);
-            tree.Print();
+            outfile << tree;
         }
 
         if (!values.empty()) {
-            std::cout << "\nMin = " << tree.FindMin() << std::endl;
-            std::cout << "Max = " << tree.FindMax() << std::endl;
+            outfile << "\nMin = " << tree.FindMin() << std::endl;
+            outfile << "Max = " << tree.FindMax() << std::endl;
             int find = values[rand() % size];
             if (tree.Contains(find)) {
-                std::cout << "\nTree contains " << find << std::endl;
+                outfile << "\nTree contains " << find << std::endl;
             } else {
-                std::cout << "\nTree does not have " << find << std::endl;
+                outfile << "\nTree does not have " << find << std::endl;
             }
         }
 
-        std::cout << "\n After copying the tree and changing the copy:\n";
+        outfile << "\nAfter copying the tree and changing the copy:\n";
         BinarySearchTree<int> copy = tree;
         copy.Clear();
         copy.Insert(-20);
@@ -76,20 +76,21 @@ int main(void) {
         copy.Insert(-18);
         copy.Insert(-1);
         copy.Insert(-50);
-        std::cout << "    Copied tree:\n";
-        copy.Print();
-        std::cout << "\n    Original tree:\n";
-        tree.Print();
+        outfile << "    Copied tree:\n";
+        outfile << copy;
+        outfile << "\n    Original tree:\n";
+        outfile << tree;
 
-        std::cout << "\n After assigning copied tree to original tree:\n";
+        outfile << "\nAfter assigning copied tree to original tree:\n";
         tree = copy;
-        std::cout << "    Original tree:\n";
-        tree.Print();
-        std::cout << "\n    Copied tree:\n";
-        copy.Print();
+        outfile << "    Original tree:\n";
+        outfile << tree;
+        outfile << "\n    Copied tree:\n";
+        outfile << copy;
     }
 
     infile.close();
+    outfile.close();
 
     return 0;
 }

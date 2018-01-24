@@ -1,12 +1,12 @@
 #include <fstream>
-#include <iostream>
 #include "stack.hpp"
 
 int main(void) {
-    std::ifstream infile("testcases/stack_input.txt");
+    std::ifstream infile("input/stack.txt");
+    std::ofstream outfile("output/stack.txt");
 
-    if (!infile.is_open()) {
-        std::cerr << "Could not open file." << std::endl;
+    if (!infile.is_open() || !outfile.is_open()) {
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -25,64 +25,65 @@ int main(void) {
                 stack.Push(value);
             }
 
-            std::cout << "Initial:\n";
-            stack.Print();
-            std::cout << std::endl;
+            outfile << "Initial:\n";
+            outfile << stack;
+            outfile << std::endl;
 
-            std::cout << "After push 0 to top:\n";
+            outfile << "After push 0 to top:\n";
             stack.Push(0);
-            stack.Print();
-            std::cout << std::endl;
+            outfile << stack;
+            outfile << std::endl;
 
-            std::cout << "After removing the top node:\n";
+            outfile << "After removing the top node:\n";
             stack.Pop();
-            stack.Print();
-            std::cout << std::endl;
+            outfile << stack;
+            outfile << std::endl;
 
-            std::cout << "After push 1 to top:\n";
+            outfile << "After push 1 to top:\n";
             stack.Push(1);
-            stack.Print();
-            std::cout << std::endl;
+            outfile << stack;
+            outfile << std::endl;
 
-            std::cout << "After push 2 to top:\n";
+            outfile << "After push 2 to top:\n";
             stack.Push(2);
-            stack.Print();
-            std::cout << std::endl;
+            outfile << stack;
+            outfile << std::endl;
 
-            std::cout << "After removing the top node:\n";
+            outfile << "After removing the top node:\n";
             stack.Pop();
-            stack.Print();
-            std::cout << std::endl;
+            outfile << stack;
+            outfile << std::endl;
 
-            std::cout << "Top node: " << stack.Top() << std::endl
-                      << std::endl;
+            outfile << "Top node: " << stack.Top() << std::endl
+                    << std::endl;
 
-            std::cout << "After creating a copy and change the copy to "
-                      << "1 -> 2 -> 3 :\n";
+            outfile << "After creating a copy and change the copy to "
+                    << "1 -> 2 -> 3 :\n";
             Stack<int> copy = stack;
             copy.Clear();
             copy.Push(3);
             copy.Push(2);
             copy.Push(1);
-            std::cout << "Original stack:\n";
-            stack.Print();
-            std::cout << "Copied stack:\n";
-            copy.Print();
-            std::cout << std::endl;
+            outfile << "Original stack:\n";
+            outfile << stack;
+            outfile << "Copied stack:\n";
+            outfile << copy;
+            outfile << std::endl;
 
-            std::cout << "After assigning copy stack to original stack:\n";
+            outfile << "After assigning copy stack to original stack:\n";
             stack = copy;
-            std::cout << "Original stack:\n";
-            stack.Print();
-            std::cout << "Copied stack:\n";
-            copy.Print();
-            std::cout << std::endl << std::endl;
+            outfile << "Original stack:\n";
+            outfile << stack;
+            outfile << "Copied stack:\n";
+            outfile << copy;
+            outfile << std::endl << std::endl;
         }
-
-        infile.close();
     } catch (const std::out_of_range& e) {
-        std::cout << e.what() << std::endl;
+        outfile << e.what() << std::endl;
     }
+
+    infile.close();
+    outfile.close();
 
     return 0;
 }

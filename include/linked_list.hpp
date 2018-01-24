@@ -311,24 +311,24 @@ public:
     // Prints under the following format:
     // Node1Data <-> Node2Data <-> Node3Data <-> ... <-> NodeNData
     // Size = size_
-    void Print(void) const {
-        if (IsEmpty()) {
-            std::cout << "List is empty." << std::endl;
-            return;
-        }
-
-        // iterate over this list
-        for (ConstIterator it = Begin(); it != End(); ++it) {
-            // print the value of each node
-            std::cout << *it;
-            // print the separator if the current node is not the back node
-            if (it.current_->next != tail_) {
-                std::cout << " <-> ";
+    friend std::ostream& operator<<(std::ostream& out, const LinkedList& obj) {
+        if (obj.IsEmpty()) {
+            out << "List is empty." << std::endl;
+        } else {
+            // iterate over this list
+            for (LinkedList::ConstIterator it = obj.Begin();
+                 it != obj.End();
+                 ++it) {
+                // print the value of each node
+                out << *it;
+                // print the separator if the current node is not the back node
+                if (it != obj.End() - 1) out << " <-> ";
             }
-        }
 
-        // print size on the next line and finish the line
-        std::cout << "\nSize = " << size_ << std::endl;
+            // print size on the next line and finish the line
+            out << "\nSize = " << obj.size_ << std::endl;
+        }
+        return out;
     }
 
 // PRIVATE HELPER METHODS
