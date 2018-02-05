@@ -14,7 +14,7 @@ ALL = \
 		stack
 
 all: $(ALL)
-	mkdir $(OUT_DIR)
+	mkdir -p $(OUT_DIR)
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@
