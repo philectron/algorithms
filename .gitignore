@@ -1,22 +1,4 @@
 # ==============================================================================
-# Custom files generated when compile and execute
-# ==============================================================================
-
-# Executables
-binary_search_tree
-bubble_sort
-insertion_sort
-linked_list
-merge_sort
-queue
-quick_sort
-selection_sort
-stack
-
-# Output folder containing output text files
-output/
-
-# ==============================================================================
 # C++
 # ==============================================================================
 
