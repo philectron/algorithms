@@ -5,7 +5,7 @@ SRC_DIR = src
 OUT_DIR = output
 LIBS = -lm
 
-CXXFLAGS = -g -std=c++11 -Wall -Wextra -I$(INC_DIR) $(LIBS)
+CXXFLAGS = -g -std=c++0x -Wall -Wextra -I$(INC_DIR) $(LIBS)
 
 ALL = \
 		binary_search_tree \
