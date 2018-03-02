@@ -2,10 +2,10 @@ CXX = g++
 
 INC_DIR = include
 SRC_DIR = src
-OUT_DIR = output
-LIBS = -lm
+OUT_DIR = bin
+OUTFILE_DIR = output
 
-CXXFLAGS = -g -std=c++0x -Wall -Wextra -I$(INC_DIR) $(LIBS)
+CXXFLAGS = -pipe -O3 -std=c++0x -Wall -Wextra -lm -I$(INC_DIR)
 
 ALL = \
 		binary_search_tree \
@@ -13,26 +13,31 @@ ALL = \
 		queue \
 		stack
 
-all: $(ALL)
+all: init $(ALL)
+
+init:
 	mkdir -p $(OUT_DIR)
+	mkdir -p $(OUTFILE_DIR)
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
+
 binary_search_tree: $(SRC_DIR)/binary_search_tree_main.o
-	$(CXX) $(CXXFLAGS) $? -o $@
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 linked_list: $(SRC_DIR)/linked_list_main.o
-	$(CXX) $(CXXFLAGS) $? -o $@
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 queue: $(SRC_DIR)/queue_main.o
-	$(CXX) $(CXXFLAGS) $? -o $@
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 stack: $(SRC_DIR)/stack_main.o
-	$(CXX) $(CXXFLAGS) $? -o $@
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
 
 .PHONY: clean
 
 clean:
-	rm -f $(ALL) $(SRC_DIR)/*.o
-	rm -rf $(OUT_DIR)
+	rm -f $(SRC_DIR)/*.o
+	rm -rf $(OUT_DIR) $(OUTFILE_DIR)
