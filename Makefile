@@ -23,16 +23,16 @@ $(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
 
-binary_search_tree: $(SRC_DIR)/binary_search_tree_main.o
+binary_search_tree: $(SRC_DIR)/binary_search_tree.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
-linked_list: $(SRC_DIR)/linked_list_main.o
+linked_list: $(SRC_DIR)/linked_list.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
-queue: $(SRC_DIR)/queue_main.o
+queue: $(SRC_DIR)/queue.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
-stack: $(SRC_DIR)/stack_main.o
+stack: $(SRC_DIR)/stack.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 
