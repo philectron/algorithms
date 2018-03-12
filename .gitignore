@@ -1,5 +1,6 @@
-# Directories containing executables
+# Directories containing executables and outputs
 bin/
+output/
 
 # ==============================================================================
 # C++
