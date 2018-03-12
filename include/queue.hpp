@@ -2,7 +2,7 @@
 // Author: Phi Luu
 // Created: December 20, 2017
 //
-// Data Structures: Queues in C++
+// Data Structures and Algorithms: Queues in C++
 //
 // This template class mimics the Standard Template Library std::queue of C++
 // and serves as a way to practice my data structure skills.

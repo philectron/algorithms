@@ -2,7 +2,7 @@
 // Author: Phi Luu
 // Created: December 19, 2017
 //
-// Data Structures: Stacks in C++
+// Data Structures and Algorithms: Stacks in C++
 //
 // This template class mimics the Standard Template Library std::stack of C++
 // and serves as a way to practice my data structure skills.

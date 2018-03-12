@@ -2,7 +2,7 @@
 // Author: Phi Luu
 // Created: December 27, 2017
 //
-// Data Structures: Binary Search Trees in C++
+// Data Structures and Algorithms: Binary Search Trees in C++
 //
 // This template class serves as a way to practice my data structure skills.
 // This class provides methods to interact with a binary search tree, including

@@ -2,7 +2,7 @@
 // Author: Phi Luu
 // Created: December 18, 2017
 //
-// Data Structures: Linked Lists in C++
+// Data Structures and Algorithms: Linked Lists in C++
 //
 // This template class mimics the Standard Template Library std::list of C++ and
 // serves as a way to practice my data structure skills.
