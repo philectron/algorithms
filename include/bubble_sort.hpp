@@ -1,6 +1,6 @@
-// File: bubble_sort.hpp
-// Author: Phi Luu
-// Created: March 12, 2018
+// bubble_sort.hpp
+//
+// Phi Luu
 //
 // Data Structures and Algorithms: Bubble Sort in C++
 //

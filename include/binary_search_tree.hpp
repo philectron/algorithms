@@ -1,6 +1,6 @@
-// File: binary_search_tree.hpp
-// Author: Phi Luu
-// Created: December 27, 2017
+// binary_search_tree.hpp
+//
+// Phi Luu
 //
 // Data Structures and Algorithms: Binary Search Trees in C++
 //

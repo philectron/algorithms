@@ -1,6 +1,6 @@
-// File: stack.hpp
-// Author: Phi Luu
-// Created: December 19, 2017
+// stack.hpp
+//
+// Phi Luu
 //
 // Data Structures and Algorithms: Stacks in C++
 //

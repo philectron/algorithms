@@ -1,6 +1,6 @@
-// File: queue.hpp
-// Author: Phi Luu
-// Created: December 20, 2017
+// queue.hpp
+//
+// Phi Luu
 //
 // Data Structures and Algorithms: Queues in C++
 //

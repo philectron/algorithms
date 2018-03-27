@@ -1,6 +1,6 @@
-// File: linked_list.hpp
-// Author: Phi Luu
-// Created: December 18, 2017
+// linked_list.hpp
+//
+// Phi Luu
 //
 // Data Structures and Algorithms: Linked Lists in C++
 //
