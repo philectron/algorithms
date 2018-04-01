@@ -1,12 +1,14 @@
 #include <fstream>
 #include "linked_list.hpp"
 
-int main(void) {
-    std::ifstream fin("../input/linked_list.txt");
-    std::ofstream fout("../output/linked_list.txt");
+using std::endl;
 
-    if (!fin.is_open() || !fout.is_open()) {
-        std::cerr << "Could not open file(s)." << std::endl;
+int main(void) {
+    std::ifstream fin("../input/linked_list.in");
+    std::ofstream fou("../output/linked_list.ou");
+
+    if (!fin.is_open() || !fou.is_open()) {
+        std::cerr << "Could not open file(s)." << endl;
         return 1;
     }
 
@@ -24,72 +26,72 @@ int main(void) {
             list.PushBack(value);
         }
 
-        fout << "Initial:\n";
-        fout << list;
-        fout << std::endl;
+        fou << "Initial:\n";
+        fou << list;
+        fou << endl;
 
-        fout << "After removing the front node:\n";
+        fou << "After removing the front node:\n";
         list.PopFront();
-        fout << list;
-        fout << std::endl;
+        fou << list;
+        fou << endl;
 
-        fout << "After removing the back node:\n";
+        fou << "After removing the back node:\n";
         list.PopBack();
-        fout << list;
-        fout << std::endl;
+        fou << list;
+        fou << endl;
 
-        fout << "After push 0 to the front:\n";
+        fou << "After push 0 to the front:\n";
         list.PushFront(0);
-        fout << list;
-        fout << std::endl;
+        fou << list;
+        fou << endl;
 
-        fout << "Front node: " << list.Front() << std::endl;
-        fout << "Back node: " << list.Back() << std::endl << std::endl;
+        fou << "Front node: " << list.Front() << endl;
+        fou << "Back node: " << list.Back() << endl << endl;
 
-        fout << "After insert 100 to index 5 "
-             << "(or at the back for smaller lists):\n";
+        fou << "After insert 100 to index 5 "
+            << "(or at the back for smaller lists):\n";
         if (list.Size() < 5) {
             list.PushBack(100);
         } else {
             list.Insert(list.Begin() + 5, 100);
         }
-        fout << list;
-        fout << std::endl;
+        fou << list;
+        fou << endl;
 
-        fout << "After erase index 5 "
-             << "(or at the back for smaller lists):\n";
+        fou << "After erase index 5 "
+            << "(or at the back for smaller lists):\n";
         if (list.Size() < 6) {
             list.PopBack();
         } else {
             list.Erase(list.Begin() + 5);
         }
-        fout << list;
-        fout << std::endl;
+        fou << list;
+        fou << endl;
 
-        fout << "After creating a copy and change the copy to "
-             << "1 <-> 2 <-> 3 :\n";
+        fou << "After creating a copy and change the copy to "
+            << "1 <-> 2 <-> 3 :\n";
         LinkedList<int> copy = list;
         copy.Clear();
         copy.PushBack(1);
         copy.PushBack(2);
         copy.PushBack(3);
-        fout << "Original list:\n";
-        fout << list;
-        fout << "Copied list:\n";
-        fout << copy;
-        fout << std::endl;
+        fou << "Original list:\n";
+        fou << list;
+        fou << "Copied list:\n";
+        fou << copy;
+        fou << endl;
 
-        fout << "After assigning copy list to original list:\n";
+        fou << "After assigning copy list to original list:\n";
         list = copy;
-        fout << "Original list:\n";
-        fout << list;
-        fout << "Copied list:\n";
-        fout << copy;
-        fout << std::endl << std::endl;
+        fou << "Original list:\n";
+        fou << list;
+        fou << "Copied list:\n";
+        fou << copy;
+        fou << endl << endl;
     }
 
     fin.close();
-    fout.close();
+    fou.close();
 
     return 0;
 }

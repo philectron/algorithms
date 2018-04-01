@@ -1,12 +1,14 @@
 #include <fstream>
 #include "stack.hpp"
 
-int main(void) {
-    std::ifstream fin("../input/stack.txt");
-    std::ofstream fout("../output/stack.txt");
+using std::endl;
 
-    if (!fin.is_open() || !fout.is_open()) {
-        std::cerr << "Could not open file(s)." << std::endl;
+int main(void) {
+    std::ifstream fin("../input/stack.in");
+    std::ofstream fou("../output/stack.ou");
+
+    if (!fin.is_open() || !fou.is_open()) {
+        std::cerr << "Could not open file(s)." << endl;
         return 1;
     }
 
@@ -25,65 +27,65 @@ int main(void) {
                 stack.Push(value);
             }
 
-            fout << "Initial:\n";
-            fout << stack;
-            fout << std::endl;
+            fou << "Initial:\n";
+            fou << stack;
+            fou << endl;
 
-            fout << "After push 0 to top:\n";
+            fou << "After push 0 to top:\n";
             stack.Push(0);
-            fout << stack;
-            fout << std::endl;
+            fou << stack;
+            fou << endl;
 
-            fout << "After removing the top node:\n";
+            fou << "After removing the top node:\n";
             stack.Pop();
-            fout << stack;
-            fout << std::endl;
+            fou << stack;
+            fou << endl;
 
-            fout << "After push 1 to top:\n";
+            fou << "After push 1 to top:\n";
             stack.Push(1);
-            fout << stack;
-            fout << std::endl;
+            fou << stack;
+            fou << endl;
 
-            fout << "After push 2 to top:\n";
+            fou << "After push 2 to top:\n";
             stack.Push(2);
-            fout << stack;
-            fout << std::endl;
+            fou << stack;
+            fou << endl;
 
-            fout << "After removing the top node:\n";
+            fou << "After removing the top node:\n";
             stack.Pop();
-            fout << stack;
-            fout << std::endl;
+            fou << stack;
+            fou << endl;
 
-            fout << "Top node: " << stack.Top() << std::endl
-                 << std::endl;
+            fou << "Top node: " << stack.Top() << endl
+                 << endl;
 
-            fout << "After creating a copy and change the copy to "
+            fou << "After creating a copy and change the copy to "
                  << "1 -> 2 -> 3 :\n";
             Stack<int> copy = stack;
             copy.Clear();
             copy.Push(3);
             copy.Push(2);
             copy.Push(1);
-            fout << "Original stack:\n";
-            fout << stack;
-            fout << "Copied stack:\n";
-            fout << copy;
-            fout << std::endl;
+            fou << "Original stack:\n";
+            fou << stack;
+            fou << "Copied stack:\n";
+            fou << copy;
+            fou << endl;
 
-            fout << "After assigning copy stack to original stack:\n";
+            fou << "After assigning copy stack to original stack:\n";
             stack = copy;
-            fout << "Original stack:\n";
-            fout << stack;
-            fout << "Copied stack:\n";
-            fout << copy;
-            fout << std::endl << std::endl;
+            fou << "Original stack:\n";
+            fou << stack;
+            fou << "Copied stack:\n";
+            fou << copy;
+            fou << endl << endl;
         }
     } catch (const std::out_of_range& e) {
-        fout << e.what() << std::endl;
+        fou << e.what() << endl;
     }
 
     fin.close();
-    fout.close();
+    fou.close();
 
     return 0;
 }

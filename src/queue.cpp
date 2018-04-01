@@ -1,12 +1,14 @@
 #include <fstream>
 #include "queue.hpp"
 
-int main(void) {
-    std::ifstream fin("../input/queue.txt");
-    std::ofstream fout("../output/queue.txt");
+using std::endl;
 
-    if (!fin.is_open() || !fout.is_open()) {
-        std::cerr << "Could not open file(s)." << std::endl;
+int main(void) {
+    std::ifstream fin("../input/queue.in");
+    std::ofstream fou("../output/queue.ou");
+
+    if (!fin.is_open() || !fou.is_open()) {
+        std::cerr << "Could not open file(s)." << endl;
         return 1;
     }
 
@@ -25,65 +27,65 @@ int main(void) {
                 queue.Enqueue(value);
             }
 
-            fout << "Initial:\n";
-            fout << queue;
-            fout << std::endl;
+            fou << "Initial:\n";
+            fou << queue;
+            fou << endl;
 
-            fout << "After push 0 to back:\n";
+            fou << "After push 0 to back:\n";
             queue.Enqueue(0);
-            fout << queue;
-            fout << std::endl;
+            fou << queue;
+            fou << endl;
 
-            fout << "After removing the front node:\n";
+            fou << "After removing the front node:\n";
             queue.Dequeue();
-            fout << queue;
-            fout << std::endl;
+            fou << queue;
+            fou << endl;
 
-            fout << "After push 1 to back:\n";
+            fou << "After push 1 to back:\n";
             queue.Enqueue(1);
-            fout << queue;
-            fout << std::endl;
+            fou << queue;
+            fou << endl;
 
-            fout << "After push 2 to back:\n";
+            fou << "After push 2 to back:\n";
             queue.Enqueue(2);
-            fout << queue;
-            fout << std::endl;
+            fou << queue;
+            fou << endl;
 
-            fout << "After removing the front node:\n";
+            fou << "After removing the front node:\n";
             queue.Dequeue();
-            fout << queue;
-            fout << std::endl;
+            fou << queue;
+            fou << endl;
 
-            fout << "Front node: " << queue.Front() << std::endl
-                 << std::endl;
+            fou << "Front node: " << queue.Front() << endl
+                 << endl;
 
-            fout << "After creating a copy and change the copy to "
+            fou << "After creating a copy and change the copy to "
                  << "1 <-> 2 <-> 3 :\n";
             Queue<int> copy = queue;
             copy.Clear();
             copy.Enqueue(1);
             copy.Enqueue(2);
             copy.Enqueue(3);
-            fout << "Original queue:\n";
-            fout << queue;
-            fout << "Copied queue:\n";
-            fout << copy;
-            fout << std::endl;
+            fou << "Original queue:\n";
+            fou << queue;
+            fou << "Copied queue:\n";
+            fou << copy;
+            fou << endl;
 
-            fout << "After assigning copy queue to original queue:\n";
+            fou << "After assigning copy queue to original queue:\n";
             queue = copy;
-            fout << "Original queue:\n";
-            fout << queue;
-            fout << "Copied queue:\n";
-            fout << copy;
-            fout << std::endl << std::endl;
+            fou << "Original queue:\n";
+            fou << queue;
+            fou << "Copied queue:\n";
+            fou << copy;
+            fou << endl << endl;
         }
     } catch (const std::out_of_range& e) {
-        fout << e.what() << std::endl;
+        fou << e.what() << endl;
     }
 
     fin.close();
-    fout.close();
+    fou.close();
 
     return 0;
 }

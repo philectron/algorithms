@@ -5,12 +5,14 @@
 #include <vector>
 #include "binary_search_tree.hpp"
 
-int main(void) {
-    std::ifstream fin("../input/binary_search_tree.txt");
-    std::ofstream fout("../output/binary_search_tree.txt");
+using std::endl;
 
-    if (!fin.is_open() || !fout.is_open()) {
-        std::cerr << "Could not open file(s)." << std::endl;
+int main(void) {
+    std::ifstream fin("../input/binary_search_tree.in");
+    std::ofstream fou("../output/binary_search_tree.ou");
+
+    if (!fin.is_open() || !fou.is_open()) {
+        std::cerr << "Could not open file(s)." << endl;
         return 1;
     }
 
@@ -19,20 +21,20 @@ int main(void) {
 
     for (int t = 0; t < num_test_cases; t++) {
         BinarySearchTree<int> tree;
-        fout << tree;
-        fout << "\nTry to find min/max in an empty tree:\n";
-        fout << "Min = ";
+        fou << tree;
+        fou << "\nTry to find min/max in an empty tree:\n";
+        fou << "Min = ";
         try {
-            fout << tree.FindMin() << std::endl;
+            fou << tree.FindMin() << endl;
         } catch (const std::out_of_range& e) {
-            fout << e.what() << std::endl;
+            fou << e.what() << endl;
         };
 
-        fout << "Max = ";
+        fou << "Max = ";
         try {
-            fout << tree.FindMax() << std::endl;
+            fou << tree.FindMax() << endl;
         } catch (const std::out_of_range& e) {
-            fout << e.what() << std::endl;
+            fou << e.what() << endl;
         };
 
         int size;
@@ -48,31 +50,31 @@ int main(void) {
             tree.Insert(values[i]);
         }
 
-        fout << "\nInitial:\n";
-        fout << tree;
+        fou << "\nInitial:\n";
+        fou << tree;
 
-        fout << "\nAfter removing a random node: ";
+        fou << "\nAfter removing a random node: ";
         if (!values.empty()) {
             int index = distr(gen);
             int target = values[index];
-            fout << "Removed " << target << std::endl;
+            fou << "Removed " << target << endl;
             tree.Remove(target);
             values.erase(values.begin() + index);
-            fout << tree;
+            fou << tree;
         }
 
         if (!values.empty()) {
-            fout << "\nMin = " << tree.FindMin() << std::endl;
-            fout << "Max = " << tree.FindMax() << std::endl;
+            fou << "\nMin = " << tree.FindMin() << endl;
+            fou << "Max = " << tree.FindMax() << endl;
             int find = values[distr(gen)];
             if (tree.Contains(find)) {
-                fout << "\nTree contains " << find << std::endl;
+                fou << "\nTree contains " << find << endl;
             } else {
-                fout << "\nTree does not have " << find << std::endl;
+                fou << "\nTree does not have " << find << endl;
             }
         }
 
-        fout << "\nAfter copying the tree and changing the copy:\n";
+        fou << "\nAfter copying the tree and changing the copy:\n";
         BinarySearchTree<int> copy = tree;
         copy.Clear();
         copy.Insert(-20);
@@ -80,21 +82,21 @@ int main(void) {
         copy.Insert(-18);
         copy.Insert(-1);
         copy.Insert(-50);
-        fout << "    Copied tree:\n";
-        fout << copy;
-        fout << "\n    Original tree:\n";
-        fout << tree;
+        fou << "    Copied tree:\n";
+        fou << copy;
+        fou << "\n    Original tree:\n";
+        fou << tree;
 
-        fout << "\nAfter assigning copied tree to original tree:\n";
+        fou << "\nAfter assigning copied tree to original tree:\n";
         tree = copy;
-        fout << "    Original tree:\n";
-        fout << tree;
-        fout << "\n    Copied tree:\n";
-        fout << copy;
+        fou << "    Original tree:\n";
+        fou << tree;
+        fou << "\n    Copied tree:\n";
+        fou << copy;
     }
 
     fin.close();
-    fout.close();
+    fou.close();
 
     return 0;
 }
