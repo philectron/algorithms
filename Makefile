@@ -5,7 +5,7 @@ SRC_DIR = src
 OUT_DIR = bin
 FOU_DIR = output
 
-CXXFLAGS = -pipe -O3 -std=c++0x -Wall -Wextra -lm -I$(INC_DIR)
+CXXFLAGS = -g -pipe -O3 -std=c++0x -Wall -Wextra -lm -I$(INC_DIR)
 
 ALL = \
 		binary_search_tree \
