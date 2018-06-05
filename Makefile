@@ -15,8 +15,6 @@ ALL = \
 		stack
 
 all: init $(ALL)
-	chmod 755 $(OUT_DIR) $(FOU_DIR) $(OUT_DIR)/*
-	chmod 644 $(SRC_DIR)/*.o
 
 init:
 	mkdir -p $(OUT_DIR)
