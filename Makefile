@@ -12,13 +12,13 @@ ALL = \
 		bubble_sort \
 		linked_list \
 		queue \
-		stack
+		stack \
+		vector
 
 all: init $(ALL)
 
 init:
-	mkdir -p $(OUT_DIR)
-	mkdir -p $(FOU_DIR)
+	mkdir -p $(OUT_DIR) $(FOU_DIR)
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@
@@ -37,6 +37,9 @@ queue: $(SRC_DIR)/queue.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 stack: $(SRC_DIR)/stack.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+vector: $(SRC_DIR)/vector.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 

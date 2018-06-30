@@ -19,7 +19,77 @@
 
 template <class T>
 class Vector {
+public:
+    explicit Vector(int size = 0) {
+        size_ = size;
+        capacity_ = size + SPARE_CAPACITY;
+        objects_ = new T[capacity_];
+    }
 
+    Vector(const Vector& rhs) {
+
+    }
+
+    Vector& operator=(const Vector& rhs) {
+
+    }
+
+    ~Vector() {
+
+    }
+
+    int Size() { return size_; }
+
+    bool IsEmpty() { return size_ == 0; }
+
+    T& operator[](int index) {
+
+    }
+
+    T& At(int index) {
+
+    }
+
+    T Front() { return objects_[0]; }
+    T Back() { return objects_[size_ - 1]; }
+
+    void PushBack() {
+
+    }
+
+    void PopBack() {
+
+    }
+
+    void Clear() {
+
+    }
+
+    void InsertAt(int index) {
+
+    }
+
+    void RemoveAt(int index) {
+
+    }
+
+    void Sort(bool ascending = true) {
+
+    }
+
+    void Find(T value) {
+
+    }
+
+    void Resize(int new_size) {
+
+    }
+
+    void Reserve(int new_capacity) {
+
+    }
+
+    static const int SPARE_CAPACITY = 16;
 
 private:
     T* objects_;
