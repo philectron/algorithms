@@ -39,15 +39,15 @@ private:
 public:
     class ConstIterator {
     public:
-        ConstIterator(void) { current_ = nullptr; }
+        ConstIterator() { current_ = nullptr; }
 
         // *iterator returns a constant reference to the data of the current
         // Node member of this object.
-        const T& operator*(void) const { return Retrieve(); }
+        const T& operator*() const { return Retrieve(); }
 
         // ++iterator sets the current Node to the next Node, then returns the
         // updated iterator.
-        ConstIterator& operator++(void) {
+        ConstIterator& operator++() {
             current_ = current_->next;
             return *this;
         }
@@ -75,7 +75,7 @@ public:
 
         // --iterator sets the current Node to the previous Node, then returns
         // the updated iterator.
-        ConstIterator& operator--(void) {
+        ConstIterator& operator--() {
             current_ = current_->prev;
             return *this;
         }
@@ -124,19 +124,19 @@ public:
 
     class Iterator : public ConstIterator {
     public:
-        Iterator(void) : ConstIterator() {}
+        Iterator() : ConstIterator() {}
 
         // *iterator returns a reference to the data of the current Node member
         // of this object.
-        T& operator*(void) { return ConstIterator::Retrieve(); }
+        T& operator*() { return ConstIterator::Retrieve(); }
 
         // *iterator returns a constant reference to the data of the current
         // Node member of this object.
-        const T& operator*(void) const { return ConstIterator::operator*(); }
+        const T& operator*() const { return ConstIterator::operator*(); }
 
         // ++iterator sets the current Node to the next Node, then returns the
         // updated iterator.
-        Iterator& operator++(void) {
+        Iterator& operator++() {
             this->current_ = this->current_->next;
             return *this;
         }
@@ -164,7 +164,7 @@ public:
 
         // --iterator sets the current Node to the previous Node, then returns
         // the updated iterator.
-        Iterator& operator--(void) {
+        Iterator& operator--() {
             this->current_ = this->current_->prev;
             return *this;
         }
@@ -199,7 +199,7 @@ public:
 
 // PUBLIC METHODS
 public:
-    LinkedList(void) { Init(); }
+    LinkedList() { Init(); }
 
     // Make a deep copy of the right-hand side list and constructs and new list.
     LinkedList(const LinkedList& rhs) {
@@ -226,51 +226,51 @@ public:
         return *this;
     }
 
-    ~LinkedList(void) {
+    ~LinkedList() {
         Clear();
         delete head_;
         delete tail_;
         size_ = 0;
     }
 
-    int Size(void) const { return size_; }
+    int Size() const { return size_; }
 
-    bool IsEmpty(void) const { return size_ == 0; }
+    bool IsEmpty() const { return size_ == 0; }
 
     // Returns an Iterator at the node after the sentinel head.
-    Iterator Begin(void) { return Iterator(head_->next); }
+    Iterator Begin() { return Iterator(head_->next); }
 
     // Returns a ConstIterator at the node after the sentinel head.
-    ConstIterator Begin(void) const { return ConstIterator(head_->next); }
+    ConstIterator Begin() const { return ConstIterator(head_->next); }
 
     // Returns an Iterator at the sentinel tail.
-    Iterator End(void) { return Iterator(tail_); }
+    Iterator End() { return Iterator(tail_); }
 
     // Returns a ConstIterator at the sentinel tail.
-    ConstIterator End(void) const { return ConstIterator(tail_); }
+    ConstIterator End() const { return ConstIterator(tail_); }
 
     // Returns a reference to the data of the first real node.
-    T& Front(void) { return *Begin(); }
+    T& Front() { return *Begin(); }
 
     // Returns a constant reference to the data of the first real node.
-    const T& Front(void) const { return *Begin(); }
+    const T& Front() const { return *Begin(); }
 
     // Returns a reference to the data of the last real node.
-    T& Back(void) { return *--End(); }
+    T& Back() { return *--End(); }
 
     // Returns a constant reference to the data of the last real node.
-    const T& Back(void) const { return *--End(); }
+    const T& Back() const { return *--End(); }
 
     void PushFront(const T& value) { Insert(Begin(), value); }
 
     void PushBack(const T& value) { Insert(End(), value); }
 
-    void PopFront(void) { Erase(Begin()); }
+    void PopFront() { Erase(Begin()); }
 
-    void PopBack(void) { Erase(--End()); }
+    void PopBack() { Erase(--End()); }
 
     // Deallocates all nodes except the two sentinel nodes.
-    void Clear(void) { while (!IsEmpty()) PopFront(); }
+    void Clear() { while (!IsEmpty()) PopFront(); }
 
     // Inserts a node with data = value to the position pos in the list.
     // Returns an Iterator at the new node.
@@ -334,7 +334,7 @@ public:
 // PRIVATE HELPER METHODS
 private:
     // Initializes an empty list with two sentinel nodes.
-    void Init(void) {
+    void Init() {
         head_ = new Node;
         tail_ = new Node;
         size_ = 0;

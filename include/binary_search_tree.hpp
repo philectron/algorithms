@@ -40,7 +40,7 @@ private:
 
 // PUBLIC METHODS OF BinarySearchTree
 public:
-    BinarySearchTree(void) { root_ = nullptr; }
+    BinarySearchTree() { root_ = nullptr; }
 
     // Makes a deep copy of the right-hand side tree and construct a new one.
     BinarySearchTree(const BinarySearchTree& rhs) { root_ = Clone(rhs.root_); }
@@ -59,11 +59,11 @@ public:
         return *this;
     }
 
-    ~BinarySearchTree(void) { Clear(); }
+    ~BinarySearchTree() { Clear(); }
 
     // Returns a constant reference to the value of the leftmost binary node.
     // Throws std::out_of_range exception if the tree is empty.
-    const T& FindMin(void) const {
+    const T& FindMin() const {
         if (IsEmpty()) throw std::out_of_range(
                       "BinarySearchTree::FindMin(): Tree is empty.");
 
@@ -72,7 +72,7 @@ public:
 
     // Returns a constant reference to the value of the rightmost binary node.
     // Throws std::out_of_range exception if the tree is empty.
-    const T& FindMax(void) const {
+    const T& FindMax() const {
         if (IsEmpty()) throw std::out_of_range(
                       "BinarySearchTree::FindMax(): Tree is empty.");
 
@@ -81,7 +81,7 @@ public:
 
     bool Contains(const T& value) const { return Contains(value, root_); }
 
-    bool IsEmpty(void) const { return root_ == nullptr; }
+    bool IsEmpty() const { return root_ == nullptr; }
 
     // Adds a new element to the right position in the tree.
     // Assumes that all elements have different values from each other.
@@ -92,7 +92,7 @@ public:
     void Remove(const T& value) { Remove(value, root_); }
 
     // Removes all elements from the tree.
-    void Clear(void) { Clear(root_); }
+    void Clear() { Clear(root_); }
 
     // Prints the tree to std::ostream. Child nodes are indented.
     friend std::ostream& operator<<(std::ostream& out,

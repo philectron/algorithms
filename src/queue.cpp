@@ -3,7 +3,7 @@
 
 using std::endl;
 
-int main(void) {
+int main() {
     std::ifstream fin("../input/queue.in");
     std::ofstream fou("../output/queue.ou");
 

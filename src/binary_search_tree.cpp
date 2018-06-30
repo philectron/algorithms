@@ -7,7 +7,7 @@
 
 using std::endl;
 
-int main(void) {
+int main() {
     std::ifstream fin("../input/binary_search_tree.in");
     std::ofstream fou("../output/binary_search_tree.ou");
 

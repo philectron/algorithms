@@ -5,7 +5,7 @@
 
 using std::endl;
 
-int main(void) {
+int main() {
     std::ifstream fin("../input/bubble_sort.in");
     std::ofstream fou("../output/bubble_sort.ou");
 

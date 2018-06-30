@@ -39,7 +39,7 @@ private:
 
 // PUBLIC METHODS
 public:
-    Queue(void) { Init(); }
+    Queue() { Init(); }
 
     // Makes a deep copy of the right-hand side queue and constructs a new one.
     Queue(const Queue& rhs) {
@@ -72,20 +72,20 @@ public:
         return *this;
     }
 
-    ~Queue(void) {
+    ~Queue() {
         Clear();
         delete head_;
         delete tail_;
         size_ = 0;
     }
 
-    int Size(void) const { return size_; }
+    int Size() const { return size_; }
 
-    bool IsEmpty(void) const { return size_ == 0; }
+    bool IsEmpty() const { return size_ == 0; }
 
     // Returns a reference to the data of the oldest element in the queue.
     // Throws std::out_of_range exception if the queue is empty.
-    T& Front(void) {
+    T& Front() {
         if (IsEmpty()) throw std::out_of_range("Queue::Front(): Queue is empty.");
         return head_->next->data;
     }
@@ -101,7 +101,7 @@ public:
 
     // Removes the oldest element from the queue.
     // Throws std::out_of_range exception if the queue is empty.
-    void Dequeue(void) {
+    void Dequeue() {
         if (IsEmpty()) throw std::out_of_range(
                       "Queue::Dequeue(): Queue is empty.");
 
@@ -114,7 +114,7 @@ public:
     }
 
     // Clears all nodes in the queue except the two sentinel nodes.
-    void Clear(void) { while (!IsEmpty()) Dequeue(); }
+    void Clear() { while (!IsEmpty()) Dequeue(); }
 
     // Prints under the following format:
     // Node1Data <-> Node2Data <-> Node3Data <-> ... <-> NodeNData
@@ -141,7 +141,7 @@ public:
 // PRIVATE HELPER METHODS
 private:
     // Initializes an empty queue with two sentinel nodes.
-    void Init(void) {
+    void Init() {
         head_ = new Node;
         tail_ = new Node;
         size_ = 0;

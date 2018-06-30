@@ -37,7 +37,7 @@ private:
 
 // PUBLIC METHODS
 public:
-    Stack(void) { Init(); }
+    Stack() { Init(); }
 
     // Make a deep copy of the right-hand side stack and constructs and new
     // stack.
@@ -73,19 +73,19 @@ public:
         return *this;
     }
 
-    ~Stack(void) {
+    ~Stack() {
         Clear();
         delete head_;
         size_ = 0;
     }
 
-    int Size(void) const { return size_; }
+    int Size() const { return size_; }
 
-    bool IsEmpty(void) const { return size_ == 0; }
+    bool IsEmpty() const { return size_ == 0; }
 
     // Returns a reference to the data of the top element in the stack.
     // Throws std::out_of_range exception if the stack is empty.
-    T& Top(void) {
+    T& Top() {
         if (IsEmpty()) throw std::out_of_range("Stack::Top(): Stack is empty.");
         return head_->next->data;
     }
@@ -100,7 +100,7 @@ public:
 
     // Removes the top element from the stack.
     // Throws std::out_of_range exception if the stack is empty.
-    void Pop(void) {
+    void Pop() {
         if (IsEmpty()) throw std::out_of_range("Stack::Pop(): Stack is empty.");
 
         Node* top_node = head_->next;
@@ -110,7 +110,7 @@ public:
     }
 
     // Deallocates all nodes except the sentinel head.
-    void Clear(void) { while (!IsEmpty()) Pop(); }
+    void Clear() { while (!IsEmpty()) Pop(); }
 
     // Prints under the following format:
     // Node1Data -> Node2Data -> Node3Data -> ... -> NodeNData
@@ -137,7 +137,7 @@ public:
 // PRIVATE HELPER METHODS
 private:
     // Initializes an empty stack with a sentinel head.
-    void Init(void) {
+    void Init() {
         head_ = new Node;
         size_ = 0;
     }

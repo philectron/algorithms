@@ -3,7 +3,7 @@
 
 using std::endl;
 
-int main(void) {
+int main() {
     std::ifstream fin("../input/linked_list.in");
     std::ofstream fou("../output/linked_list.ou");
 

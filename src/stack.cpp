@@ -3,7 +3,7 @@
 
 using std::endl;
 
-int main(void) {
+int main() {
     std::ifstream fin("../input/stack.in");
     std::ofstream fou("../output/stack.ou");
 
