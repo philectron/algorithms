@@ -31,34 +31,42 @@ public:
         objects_ = new T[capacity_];
     }
 
-    Vector(const Vector& rhs) : size_{rhs.size_}, capacity_{rhs.capacity_} {
+    Vector(const Vector& rhs) : size_{rhs.size_}, capacity_{rhs.capacity_},
+                                objects_{nullptr} {
         objects_ = new T[capacity_];
         for (int i = 0; i < size_; i++) objects_[i] = rhs.objects_[i];
     }
 
+    Vector(Vector&& rhs) : size_{rhs.size_}, capacity_{rhs.capacity_},
+                           objects_{rhs.objects_} {
+        rhs.objects_ = nullptr;
+        rhs.size_ = rhs.capacity_ = 0;
+    }
+
     Vector& operator=(const Vector& rhs) {
-        // Vector copy = rhs;
-        // std::swap(*this, copy);
-        // return *this;
+        Vector copy = rhs;
+        std::swap(*this, copy);
+        return *this;
+    }
 
-        // self-assignment check
-        if (this != &rhs) {
-            size_ = rhs.size_;
-            capacity_ = rhs.capacity_;
-            objects_ = new T[capacity_];
-            for (int i = 0; i < size_; i++) objects_[i] = rhs.objects_[i];
-        }
-
+    Vector& opeartor=(Vector&& rhs) {
+        std::swap(objects_, rhs.objects_);
+        std::swap(size_, rhs.size_);
+        std::swap(capacity_, rhs.capacity_);
         return *this;
     }
 
     ~Vector() { delete[] objects_; }
 
-    int Size() { return size_; }
+    int Size() const { return size_; }
+    
+    int Capacity() const { return capacity_; }
 
-    bool IsEmpty() { return size_ == 0; }
+    bool IsEmpty() const { return size_ == 0; }
 
     T& operator[](int index) { return objects_[index]; }
+    
+    const T& operator[](int index) const { return objects_[index]; }
 
     // Safer than [] accessor
     T& At(int index) {
@@ -69,8 +77,8 @@ public:
         return &objects_[index];
     }
 
-    T Front() { return objects_[0]; }
-    T Back() { return objects_[size_ - 1]; }
+    T Front() { return objects.At(0); }
+    T Back() { return objects.At(size_ - 1); }
 
     void PushBack(const T& object) {
         // if vector is full, increase the capacity
@@ -162,7 +170,7 @@ public:
     typedef const T* ConstIterator;
 
     // Used for debugging purposes
-    friend ostream& operator<<(ostream& out, Vector& vector) {
+    friend ostream& operator<<(ostream& out, const Vector& vector) {
         if (vector.IsEmpty()) {
             out << "Vector is empty" << endl;
         } else {
