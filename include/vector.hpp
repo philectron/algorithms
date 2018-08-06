@@ -17,8 +17,12 @@
 #ifndef ALGORITHMS_INCLUDE_VECTOR_HPP_
 #define ALGORITHMS_INCLUDE_VECTOR_HPP_
 
+#include <iostream>
 #include <stdexcept>
 #include <utility>
+
+using std::endl;
+using std::ostream;
 
 template <class T>
 class Vector {
@@ -29,14 +33,22 @@ public:
 
     Vector(const Vector& rhs) : size_{rhs.size_}, capacity_{rhs.capacity_} {
         objects_ = new T[capacity_];
-        
-        for (int i = 0; i < size_; i++)
-            objects_[i] = rhs.objects_[i];
+        for (int i = 0; i < size_; i++) objects_[i] = rhs.objects_[i];
     }
 
     Vector& operator=(const Vector& rhs) {
-        Vector copy = rhs;
-        std::swap(*this, copy);
+        // Vector copy = rhs;
+        // std::swap(*this, copy);
+        // return *this;
+
+        // self-assignment check
+        if (this != &rhs) {
+            size_ = rhs.size_;
+            capacity_ = rhs.capacity_;
+            objects_ = new T[capacity_];
+            for (int i = 0; i < size_; i++) objects_[i] = rhs.objects_[i];
+        }
+
         return *this;
     }
 
@@ -45,15 +57,15 @@ public:
     int Size() { return size_; }
 
     bool IsEmpty() { return size_ == 0; }
-    
+
     T& operator[](int index) { return objects_[index]; }
 
     // Safer than [] accessor
     T& At(int index) {
-        // throw an exception if the index is out of range
+        // ensure index is in range 
         if (index < 0 || index >= size_)
-            throw std::out_of_range("Index out of range");
-        // return otherwise
+            throw std::out_of_range("At(): Index out of range");
+
         return &objects_[index];
     }
 
@@ -62,19 +74,27 @@ public:
 
     void PushBack(const T& object) {
         // if vector is full, increase the capacity
-        if (size_ == capacity_) Reserve(capacity_ * 2 + 1);
+        if (size_ == capacity_) Reserve(capacity_ * 2);
+
         // insert new object at the back of the vector and update size
         objects_[size_++] = object;
     }
 
     void PushBack(T&& object) {
         // if vector is full, increase the capacity
-        if (size_ == capacity_) Reserve(capacity_ * 2 + 1);
+        if (size_ == capacity_) Reserve(capacity_ * 2);
+
         // insert new object at the back of the vector and update size
         objects_[size_++] = std::move(object);
     }
 
-    void PopBack() { size_--; }
+    void PopBack() {
+        // ensure vector is not empty
+        if (IsEmpty())
+            throw std::length_error("PopBack(): Empty vector");
+
+        size_--;
+    }
 
     void Clear() { size_ = 0; }
 
@@ -82,29 +102,26 @@ public:
     void InsertAt(int index, const T& object) {
         // ensure index is in range
         if (index < 0 || index > size_)
-            throw std::out_of_range("Index is out of range");
+            throw std::out_of_range("InsertAt(): Index out of range");
         // if vector is full, increase the capacity
-        if (size_ == capacity_) Reserve(capacity_ * 2 + 1);
+        if (size_ == capacity_) Reserve(capacity_ * 2);
 
         // shift all objects after index 1 slot to the right
-        for (int i = size_; i > index; i--)
-            objects_[i] = objects_[i - 1];
+        for (int i = size_; i > index; i--) objects_[i] = objects_[i - 1];
 
         // insert new object
-        objects_[index] = object;
-        size_++;
+        objects_[index] = object; size_++;
     }
 
     void InsertAt(int index, T&& object) {
         // ensure index is in range
         if (index < 0 || index > size_)
-            throw std::out_of_range("Index is out of range");
+            throw std::out_of_range("InsertAt(&&): Index out of range");
         // if vector is full, increase the capacity
-        if (size_ == capacity_) Reserve(capacity_ * 2 + 1);
+        if (size_ == capacity_) Reserve(capacity_ * 2);
 
         // shift all objects after index 1 slot to the right
-        for (int i = size_; i > index; i--)
-            objects_[i] = objects_[i - 1];
+        for (int i = size_; i > index; i--) objects_[i] = objects_[i - 1];
 
         // insert new object
         objects_[index] = std::move(object);
@@ -115,10 +132,9 @@ public:
     void RemoveAt(int index) {
         // ensure index is in range
         if (index < 0 || index >= size_)
-            throw std::out_of_range("Index is out of range");
-    
-        for (int i = index; i < size_ - 1; i ++)
-            objects_[i] = objects_[i + 1];
+            throw std::out_of_range("RemoveAt(): Index out of range");
+
+        for (int i = index; i < size_ - 1; i ++) objects_[i] = objects_[i + 1];
 
         size_--;
     }
@@ -144,6 +160,22 @@ public:
 
     typedef T* Iterator;
     typedef const T* ConstIterator;
+
+    // Used for debugging purposes
+    friend ostream& operator<<(ostream& out, Vector& vector) {
+        if (vector.IsEmpty()) {
+            out << "Vector is empty" << endl;
+        } else {
+            for (int i = 0; i < vector.size_; i++) {
+                out << vector[i];
+                if (i < vector.size_ - 1) out << ' ';
+            }
+            out << endl << "Size = " << vector.size_;
+            out << endl << "Capacity = " << vector.capacity_ << endl;
+        }
+
+        return out;
+    }
 
     static const int SPARE_CAPACITY = 16;
 

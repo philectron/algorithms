@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <random>
 #include "vector.hpp"
 
 using std::endl;
@@ -32,65 +31,83 @@ int main() {
         fou << vector;
         fou << endl;
 
-        fou << "After removing the front node:\n";
-        vector.RemoveAt(0);
-        fou << vector;
-        fou << endl;
+        try {
+            fou << "After removing the front node:\n";
+            vector.RemoveAt(0);
+            fou << vector << endl;
+        } catch (const std::logic_error& e) {
+            fou << "Could not remove the front node: " << e.what() << endl;
+        }
 
-        fou << "After removing the back node:\n";
-        vector.PopBack();
-        fou << vector;
-        fou << endl;
+        try {
+            fou << "After removing the back node:\n";
+            vector.PopBack();
+            fou << vector << endl;
+        } catch (const std::logic_error& e) {
+            fou << "Could not remove the back node: " << e.what() << endl;
+        }
 
         fou << "After push 0 to the front:\n";
-        vector.InsertAt(0);
-        fou << vector;
-        fou << endl;
+        vector.InsertAt(0, 0);
+        fou << vector << endl;
 
-        fou << "Front node: " << vector.Front() << endl;
-        fou << "Back node: " << vector.Back() << endl << endl;
-
-        fou << "After insert 100 to index 5 "
-            << "(or at the back for smaller vectors):\n";
-        if (vector.Size() < 5) {
-            vector.PushBack(100);
-        } else {
-            vector.Insert(vector.Begin() + 5, 100);
+        try {
+            fou << "Front node: " << vector.Front() << endl;
+        } catch (const std::logic_error& e) {
+            fou << "Could not access the front node: " << e.what() << endl;
         }
-        fou << vector;
-        fou << endl;
 
-        fou << "After erase index 5 "
-            << "(or at the back for smaller vectors):\n";
-        if (vector.Size() < 6) {
-            vector.PopBack();
-        } else {
-            vector.Erase(vector.Begin() + 5);
+        try {
+            fou << "Back node: " << vector.Back() << endl << endl;
+        } catch (const std::logic_error& e) {
+            fou << "Could not remove the back node: " << e.what() << endl;
         }
-        fou << vector;
-        fou << endl;
 
-        fou << "After creating a copy and change the copy to "
-            << "1 <-> 2 <-> 3 :\n";
-        Vector<int> copy = vector;
-        copy.Clear();
-        copy.PushBack(1);
-        copy.PushBack(2);
-        copy.PushBack(3);
-        fou << "Original vector:\n";
-        fou << vector;
-        fou << "Copied vector:\n";
-        fou << copy;
-        fou << endl;
+        // fou << "After insert 100 to index 5 "
+        //     << "(or at the back for smaller vectors):\n";
+        // if (vector.Size() < 5) {
+        //     vector.PushBack(100);
+        // } else {
+        //     vector.Insert(vector.Begin() + 5, 100);
+        // }
+        // fou << vector;
+        // fou << endl;
 
-        fou << "After assigning copy vector to original vector:\n";
-        vector = copy;
-        fou << "Original vector:\n";
-        fou << vector;
-        fou << "Copied vector:\n";
-        fou << copy;
-        fou << endl << endl;
- 
+        // fou << "After erase index 5 "
+        //     << "(or at the back for smaller vectors):\n";
+        // if (vector.Size() < 6) {
+        //     vector.PopBack();
+        // } else {
+        //     vector.Erase(vector.Begin() + 5);
+        // }
+        // fou << vector;
+        // fou << endl;
+
+        try {
+            fou << "After creating a copy and change the copy to 1 2 3 :\n";
+            Vector<int> copy = vector;
+            copy.Clear();
+            copy.PushBack(1);
+            copy.PushBack(2);
+            copy.PushBack(3);
+            fou << "Original vector:\n";
+            fou << vector;
+            fou << "Copied vector:\n";
+            fou << copy;
+            fou << endl;
+        } catch (const std::logic_error& e) {
+            fou << "Could not make a copy: " << e.what() << endl;
+        }
+
+        // fou << "After assigning copy vector to original vector:\n";
+        // vector = copy;
+        // fou << "Original vector:\n";
+        // fou << vector;
+        // fou << "Copied vector:\n";
+        // fou << copy;
+        // fou << endl << endl;
+
+        fou << "----------------------------------------" << endl << endl;
     }
 
     fin.close();
