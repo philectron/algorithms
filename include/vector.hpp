@@ -169,6 +169,14 @@ public:
     typedef T* Iterator;
     typedef const T* ConstIterator;
 
+    Iterator Begin() { return &objects_[0]; }
+
+    ConstIterator Begin() const { return &objects_[0]; }
+
+    Iterator End() { return &objects_[size_]; }
+
+    ConstIterator End() const { return &objects_[size_]; }
+
     // Used for debugging purposes
     friend ostream& operator<<(ostream& out, const Vector& vector) {
         if (vector.IsEmpty()) {
