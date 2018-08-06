@@ -27,29 +27,33 @@ using std::ostream;
 template <class T>
 class Vector {
 public:
-    explicit Vector(int size = 0) : size_{size}, capacity_{size + SPARE_CAPACITY} {
+    explicit Vector(int size = 0)
+            : size_{size}, capacity_{size + SPARE_CAPACITY} {
         objects_ = new T[capacity_];
     }
 
-    Vector(const Vector& rhs) : size_{rhs.size_}, capacity_{rhs.capacity_},
-                                objects_{nullptr} {
+    Vector(const Vector& rhs)
+            : objects_{nullptr}, size_{rhs.size_}, capacity_{rhs.capacity_} {
         objects_ = new T[capacity_];
         for (int i = 0; i < size_; i++) objects_[i] = rhs.objects_[i];
     }
 
-    Vector(Vector&& rhs) : size_{rhs.size_}, capacity_{rhs.capacity_},
-                           objects_{rhs.objects_} {
+    Vector(Vector&& rhs)
+            : objects_{rhs.objects_},
+            size_{rhs.size_},
+            capacity_{rhs.capacity_} {
         rhs.objects_ = nullptr;
         rhs.size_ = rhs.capacity_ = 0;
     }
 
     Vector& operator=(const Vector& rhs) {
         Vector copy = rhs;
+
         std::swap(*this, copy);
         return *this;
     }
 
-    Vector& opeartor=(Vector&& rhs) {
+    Vector& operator=(Vector && rhs) {
         std::swap(objects_, rhs.objects_);
         std::swap(size_, rhs.size_);
         std::swap(capacity_, rhs.capacity_);
@@ -59,26 +63,28 @@ public:
     ~Vector() { delete[] objects_; }
 
     int Size() const { return size_; }
-    
+
     int Capacity() const { return capacity_; }
 
     bool IsEmpty() const { return size_ == 0; }
 
     T& operator[](int index) { return objects_[index]; }
-    
+
     const T& operator[](int index) const { return objects_[index]; }
 
     // Safer than [] accessor
     T& At(int index) {
-        // ensure index is in range 
-        if (index < 0 || index >= size_)
+        // ensure index is in range
+        if (index < 0 || index >= size_) {
             throw std::out_of_range("At(): Index out of range");
+        }
 
         return &objects_[index];
     }
 
-    T Front() { return objects.At(0); }
-    T Back() { return objects.At(size_ - 1); }
+    T Front() { return objects_[0]; }
+
+    T Back() { return objects_[size_ - 1]; }
 
     void PushBack(const T& object) {
         // if vector is full, increase the capacity
@@ -98,8 +104,9 @@ public:
 
     void PopBack() {
         // ensure vector is not empty
-        if (IsEmpty())
+        if (IsEmpty()) {
             throw std::length_error("PopBack(): Empty vector");
+        }
 
         size_--;
     }
@@ -109,8 +116,9 @@ public:
     // Maintains the order of elements in the vector.
     void InsertAt(int index, const T& object) {
         // ensure index is in range
-        if (index < 0 || index > size_)
+        if (index < 0 || index > size_) {
             throw std::out_of_range("InsertAt(): Index out of range");
+        }
         // if vector is full, increase the capacity
         if (size_ == capacity_) Reserve(capacity_ * 2);
 
@@ -118,13 +126,16 @@ public:
         for (int i = size_; i > index; i--) objects_[i] = objects_[i - 1];
 
         // insert new object
-        objects_[index] = object; size_++;
+        objects_[index] = object;
+        size_++;
     }
 
     void InsertAt(int index, T&& object) {
         // ensure index is in range
-        if (index < 0 || index > size_)
+        if (index < 0 || index > size_) {
             throw std::out_of_range("InsertAt(&&): Index out of range");
+        }
+
         // if vector is full, increase the capacity
         if (size_ == capacity_) Reserve(capacity_ * 2);
 
@@ -139,10 +150,11 @@ public:
     // Maintains the order of elements in the vector.
     void RemoveAt(int index) {
         // ensure index is in range
-        if (index < 0 || index >= size_)
+        if (index < 0 || index >= size_) {
             throw std::out_of_range("RemoveAt(): Index out of range");
+        }
 
-        for (int i = index; i < size_ - 1; i ++) objects_[i] = objects_[i + 1];
+        for (int i = index; i < size_ - 1; i++) objects_[i] = objects_[i + 1];
 
         size_--;
     }

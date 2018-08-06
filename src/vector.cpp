@@ -63,26 +63,6 @@ int main() {
             fou << "Could not remove the back node: " << e.what() << endl;
         }
 
-        // fou << "After insert 100 to index 5 "
-        //     << "(or at the back for smaller vectors):\n";
-        // if (vector.Size() < 5) {
-        //     vector.PushBack(100);
-        // } else {
-        //     vector.Insert(vector.Begin() + 5, 100);
-        // }
-        // fou << vector;
-        // fou << endl;
-
-        // fou << "After erase index 5 "
-        //     << "(or at the back for smaller vectors):\n";
-        // if (vector.Size() < 6) {
-        //     vector.PopBack();
-        // } else {
-        //     vector.Erase(vector.Begin() + 5);
-        // }
-        // fou << vector;
-        // fou << endl;
-
         try {
             fou << "After creating a copy and change the copy to 1 2 3 :\n";
             Vector<int> copy = vector;
@@ -98,14 +78,6 @@ int main() {
         } catch (const std::logic_error& e) {
             fou << "Could not make a copy: " << e.what() << endl;
         }
-
-        // fou << "After assigning copy vector to original vector:\n";
-        // vector = copy;
-        // fou << "Original vector:\n";
-        // fou << vector;
-        // fou << "Copied vector:\n";
-        // fou << copy;
-        // fou << endl << endl;
 
         fou << "----------------------------------------" << endl << endl;
     }
