@@ -12,6 +12,7 @@ ALL = \
 		bubble_sort \
 		linked_list \
 		queue \
+		skip_list \
 		stack \
 		vector
 
@@ -34,6 +35,9 @@ linked_list: $(SRC_DIR)/linked_list.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 queue: $(SRC_DIR)/queue.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+skip_list: $(SRC_DIR)/skip_list.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 stack: $(SRC_DIR)/stack.o

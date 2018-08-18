@@ -4,6 +4,20 @@
 using std::endl;
 
 int main() {
+    // START OF QUICK TEST AREA
+
+    std::cout << "Skip list 1: " << endl;
+    SkipList<int> skiplist1;
+    skiplist1.TestCoinFlip(3000000);
+
+    std::cout << "Skip list 2: " << endl;
+    SkipList<int> skiplist2;
+    skiplist2.TestCoinFlip(3000000);
+
+    return 0;
+
+    // END OF QUICK TEST AREA
+
     std::ifstream fin("../input/skip_list.in");
     std::ofstream fou("../output/skip_list.ou");
 
