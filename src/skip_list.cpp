@@ -6,11 +6,11 @@ using std::endl;
 int main() {
     // START OF QUICK TEST AREA
 
-    std::cout << "Skip list 1: " << endl;
+    std::cout << "Skip list 1: ";
     SkipList<int> skiplist1;
     skiplist1.TestCoinFlip(3000000);
 
-    std::cout << "Skip list 2: " << endl;
+    std::cout << "\nSkip list 2: ";
     SkipList<int> skiplist2;
     skiplist2.TestCoinFlip(3000000);
 

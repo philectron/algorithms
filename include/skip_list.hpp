@@ -28,8 +28,9 @@ using std::ostream;
 template <class T>
 class SkipList {
 public:
-    SkipList() : size_{0} {
+    SkipList() : size_{0}, flipcoin_{std::uniform_int_distribution<>(0, 1)} {
         tophead_ = new Node;
+        rng_.seed(rd_());
     }
 
     SkipList(const SkipList& rhs) {
@@ -79,7 +80,8 @@ public:
     friend ostream& operator<<(const ostream& out, const SkipList& skiplist) {
 
     }
-
+    
+    // Test to see whether the RNG is truly uniformly distributed
     void TestCoinFlip(int t) {
         int numheads = 0, numtails = 0;
 
@@ -92,7 +94,8 @@ public:
         }
 
         std::cout << endl << "Number of heads = " << numheads;
-        std::cout << endl << "Number of tails = " << numtails << endl;
+        std::cout << endl << "Number of tails = " << numtails;
+        std::cout << endl << "Heads / Tails = " << (double)numheads / numtails << endl;
     }
 
 private:
@@ -105,19 +108,20 @@ private:
             : data{data}, next{next}, down{down} {}
     };
 
+    // Skip list's members
     Node* tophead_;
     int size_;
+   
+    // Use Mersenne Twister RNG to flip coins, used when inserting new nodes 
+    std::mt19937 rng_;
+    std::random_device rd_;
+    std::uniform_int_distribution<int> flipcoin_;
 
     // Private helpers
 
     // If coin flip gives head (1), return true.
     // If coin flip gives tail (0), return false.
-    bool CoinFlipGivesHead() {
-        std::mt19937 rng_;  // Mersenne Twister
-        std::uniform_int_distribution<uint32_t> dist1_(0, 1);
-        rng_.seed(std::random_device()());
-        return dist1_(rng_);
-    }
+    bool CoinFlipGivesHead() { return flipcoin_(rng_); }
 };
 
 #endif  // ALGORITHMS_INCLUDE_SKIPLIST_HPP_
