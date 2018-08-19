@@ -34,6 +34,7 @@ public:
     }
 
     SkipList(const SkipList& rhs) {
+
     }
 
     SkipList(SkipList&& rhs) {
@@ -79,23 +80,6 @@ public:
     // For debugging purposes
     friend ostream& operator<<(const ostream& out, const SkipList& skiplist) {
 
-    }
-    
-    // Test to see whether the RNG is truly uniformly distributed
-    void TestCoinFlip(int t) {
-        int numheads = 0, numtails = 0;
-
-        for (int i = 0; i < t; i++) {
-            if (CoinFlipGivesHead()) {
-                numheads++;
-            } else {
-                numtails++;
-            }
-        }
-
-        std::cout << endl << "Number of heads = " << numheads;
-        std::cout << endl << "Number of tails = " << numtails;
-        std::cout << endl << "Heads / Tails = " << (double)numheads / numtails << endl;
     }
 
 private:
