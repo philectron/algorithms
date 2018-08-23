@@ -1,11 +1,22 @@
 #include <fstream>
 #include "skip_list.hpp"
 
+using std::cout;
 using std::endl;
 
 int main() {
     // START OF QUICK TEST AREA
+    SkipList<int> s;
 
+    s.Insert(1);
+    s.Insert(55);
+    s.Insert(5);
+    s.Insert(10);
+    s.Insert(3);
+    s.Insert(15);
+    s.Insert(23);
+
+    cout << s << endl;
 
     return 0;
 

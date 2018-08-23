@@ -21,6 +21,7 @@
 #include <cassert>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 #include <random>
 #include <utility>
 
@@ -30,7 +31,7 @@ using std::ostream;
 template <class T>
 class SkipList {
 public:
-    SkipList() : size_{0}, flipcoin_{std::uniform_int_distribution<>(0, 1)} {
+    SkipList() : size_{0}, coinflip_{std::uniform_int_distribution<>(0, 1)} {
         top_head_ = new Node;
         rng_.seed(rd_());
     }
@@ -77,7 +78,7 @@ public:
     }
 
     bool Contains(const T& object) const {
-
+        return false;
     }
 
     void Remove(const T& object) {
@@ -89,8 +90,31 @@ public:
     }
 
     // For debugging purposes
-    friend ostream& operator<<(const ostream& out, const SkipList& skiplist) {
+    friend ostream& operator<<(ostream& out, const SkipList& skiplist) {
+        // if (skiplist.IsEmpty()) {
+        //     out << "Skip list is empty" << endl;
+        // } else {
+        //     Node* current_head = skiplist.top_head_;
+        //     while (current_head) {
+        //         out << "Head";
+        //         Node* current = current_head->next;
+        //         while (current) {
+        //             out << " -> " << current->data;
+        //             current = current->next;
+        //         }
+        //         out << endl;
+        //         current_head = current_head->down;
+        //     }
+        // }
+        // return out;
 
+        if (skiplist.IsEmpty()) {
+            out << "Skip list is empty" << endl;
+        } else {
+            skiplist.Print(out, skiplist.top_head_);
+        }
+
+        return out;
     }
 
 private:
@@ -110,13 +134,13 @@ private:
     // Use Mersenne Twister RNG to flip coins, used when inserting new nodes
     std::mt19937 rng_;
     std::random_device rd_;
-    std::uniform_int_distribution<int> flipcoin_;
+    std::uniform_int_distribution<int> coinflip_;
 
     // Private helpers
 
     // If coin flip gives head (1), returns true.
     // If coin flip gives tail (0), returns false.
-    bool CoinFlipGivesHead() { return flipcoin_(rng_); }
+    bool CoinFlipGivesHead() { return coinflip_(rng_); }
 
     // Traverses to the right until reaching nullptr or the input value.
     //
@@ -151,7 +175,7 @@ private:
     //
     // Returns
     // - pointer to the new Node if it makes to the highest row of the skip list
-    // - nullptr if the new Node doesn't make it to the highest row 
+    // - nullptr if the new Node doesn't make it to the highest row
     Node* InsertAfter(Node* current, const T& val) {
         // current  should not and must not be a nullptr
         assert(current);
@@ -171,10 +195,45 @@ private:
                 // make a new node on the current level
                 new_node = new Node(val, current->next, down_node);
                 current->next = new_node;
-            } 
+            }
         }
 
         return new_node;
+    }
+
+    void Print(ostream& out, Node* current_head) const {
+        // current_head  should not and must not be a nullptr
+        assert(current_head);
+
+        while (current_head) {
+            Node* current = current_head;
+            out << "Head";
+            while (current && current->next) {
+                PrintNode(out, current, current->next->data, "");
+                current = current->next;
+            }
+            current_head = current_head->down;
+            out << endl;
+        }
+    }
+
+    void PrintNode(ostream& out, Node* prev, const T& nextvalue, std::string space) const {
+        // prev  should not and must not be a nullptr
+        assert(prev);
+
+        if (!prev->down) {
+            Node* trav = prev->next;
+            while (trav && trav->data != nextvalue) {
+                std::string prefix_node = " -> " + std::to_string(trav->data);
+                space += prefix_node.length() * '-';
+                trav = trav->next;
+            }
+            space += "-> " + std::to_string(nextvalue);
+            space[0] = ' ';
+            out << space;
+        } else {
+            PrintNode(out, prev->down, nextvalue, space);
+        }
     }
 };
 
