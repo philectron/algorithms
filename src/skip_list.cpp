@@ -20,7 +20,7 @@ int main() {
     s.Insert(2);
     s.Insert(10);
 
-    s.Print();
+    // s.Print();
     cout << endl << s << endl;
 
     return 0;

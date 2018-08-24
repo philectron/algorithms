@@ -41,20 +41,24 @@ public:
 
     }
 
-    SkipList(SkipList&& rhs) {
-
-    }
-
     SkipList& operator=(const SkipList& rhs) {
 
     }
 
-    SkipList& operator=(SkipList&& rhs) {
-
-    }
-
     ~SkipList() {
-
+        // start from top head
+        while (top_head_) {
+            // save the top head for later deletion
+            Node* current = top_head_;
+            // go to the row beneath
+            top_head_ = top_head_->down;
+            // delete the old top row
+            while (current) {
+                Node* tmp = current;
+                current = current->next;
+                delete tmp;
+            }
+        }
     }
 
     int Size() const { return size_; }
