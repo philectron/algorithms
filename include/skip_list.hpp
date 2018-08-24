@@ -75,8 +75,109 @@ public:
         return false;
     }
 
+    // Removes one instance of  object  in the skip list.
+    // If there are multiple instance, deletes the first occurrence.
+    // If a row only consists of an instance of  object , deletes that row.
+    //
+    // For example,
+    // Given s1 =
+    //  Head -----------> 5
+    //  Head -> 1 ------> 5 ------> 9
+    //  Head -> 1 -> 3 -> 5 -> 7 -> 9
+    // Given s2 =
+    //  Head -----------> 5
+    //  Head -> 1 ------> 5 -----------> 9
+    //  Head -> 1 -> 3 -> 5 -> 5 -> 7 -> 9
+    //
+    // Then s1.Remove(5) will remove the only instance of 5 in s1
+    //      s2.Remove(5) will remove the first occurrence of 5 in s2
+    //
+    // Namely, the result will look like the following
+    // s1 =
+    //  Head -> 1 -----------> 9
+    //  Head -> 1 -> 3 -> 7 -> 9
+    // s2 =
+    //  Head -> 1 ----------------> 9
+    //  Head -> 1 -> 3 -> 5 -> 7 -> 9
     void Remove(const T& object) {
+        // start from the top head
+        Node* current = top_head_;
+        while (current) {
+            // slide right to the largest node smaller than  object
+            current = SlideRight(current, object);
 
+            // if the next node exists and matches  object , delete that node
+            if (current->next && current->next->data == object) {
+                Node* tmp = current->next;
+                current->next = tmp->next;
+                delete tmp;
+
+                // if at the bottom row, update size
+                if (!current->down) size_--;
+            }
+
+            // delete the top row if the node was the only node in the top row
+            if (!top_head_->next) {
+                Node* tmp = top_head_;
+                top_head_ = top_head_->down;
+                delete tmp;
+            }
+
+            // go down one level
+            current = current->down;
+        }
+    }
+
+    // Removes ALL instance of  object  in the skip list.
+    // If a row only consists of an instance of  object , deletes that row.
+    //
+    // For example,
+    // Given s1 =
+    //  Head -----------> 5
+    //  Head -> 1 ------> 5 ------> 9
+    //  Head -> 1 -> 3 -> 5 -> 7 -> 9
+    // Given s2 =
+    //  Head -----------> 5
+    //  Head -> 1 ------> 5 -----------> 9
+    //  Head -> 1 -> 3 -> 5 -> 5 -> 7 -> 9
+    //
+    // Then s1.Remove(5) will remove the only instance of 5 in s1
+    //      s2.Remove(5) will remove the both instances of 5 in s2
+    //
+    // Namely, the result will look like the following
+    // s1 =
+    //  Head -> 1 -----------> 9
+    //  Head -> 1 -> 3 -> 7 -> 9
+    // s2 =
+    //  Head -> 1 -----------> 9
+    //  Head -> 1 -> 3 -> 7 -> 9
+    void RemoveAll(const T& object) {
+        // start from the top head
+        Node* current = top_head_;
+        while (current) {
+            // slide right to the largest node smaller than  object
+            current = SlideRight(current, object);
+
+            // if the next node exists and matches  object , delete that node
+            while (current->next && current->next->data == object) {
+                Node* tmp = current->next;
+                current->next = tmp->next;
+                delete tmp;
+
+                // if at the bottom row, update size
+                if (!current->down) size_--;
+            }
+
+            // delete the top row if the node was the only node in the top row
+            if (!top_head_->next) {
+                Node* tmp = top_head_;
+                top_head_ = top_head_->down;
+                delete tmp;
+            }
+
+            // go down one level
+            current = current->down;
+        }
     }
 
     // Deletes all nodes, leaving only one sentinel head in the skip list.
