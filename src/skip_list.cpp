@@ -15,8 +15,13 @@ int main() {
     s.Insert(3);
     s.Insert(15);
     s.Insert(23);
+    s.Insert(14);
+    s.Insert(56);
+    s.Insert(2);
+    s.Insert(10);
 
-    cout << s << endl;
+    s.Print();
+    cout << endl << s << endl;
 
     return 0;
 

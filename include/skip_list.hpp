@@ -25,6 +25,7 @@
 #include <random>
 #include <utility>
 
+using std::cout;
 using std::endl;
 using std::ostream;
 
@@ -89,25 +90,26 @@ public:
 
     }
 
+    // void Print() {
+    //     if (IsEmpty()) {
+    //         cout << "Skip list is empty" << endl;
+    //     } else {
+    //         Node* current_head = top_head_;
+    //         while (current_head) {
+    //             cout << "Head";
+    //             Node* current = current_head->next;
+    //             while (current) {
+    //                 cout << " -> " << current->data;
+    //                 current = current->next;
+    //             }
+    //             cout << endl;
+    //             current_head = current_head->down;
+    //         }
+    //     }
+    // }
+
     // For debugging purposes
     friend ostream& operator<<(ostream& out, const SkipList& skiplist) {
-        // if (skiplist.IsEmpty()) {
-        //     out << "Skip list is empty" << endl;
-        // } else {
-        //     Node* current_head = skiplist.top_head_;
-        //     while (current_head) {
-        //         out << "Head";
-        //         Node* current = current_head->next;
-        //         while (current) {
-        //             out << " -> " << current->data;
-        //             current = current->next;
-        //         }
-        //         out << endl;
-        //         current_head = current_head->down;
-        //     }
-        // }
-        // return out;
-
         if (skiplist.IsEmpty()) {
             out << "Skip list is empty" << endl;
         } else {
@@ -201,6 +203,7 @@ private:
         return new_node;
     }
 
+    // Print the skip list prettily, starting from the current head.
     void Print(ostream& out, Node* current_head) const {
         // current_head  should not and must not be a nullptr
         assert(current_head);
@@ -209,7 +212,7 @@ private:
             Node* current = current_head;
             out << "Head";
             while (current && current->next) {
-                PrintNode(out, current, current->next->data, "");
+                PrintNode(out, current, current->next->data);
                 current = current->next;
             }
             current_head = current_head->down;
@@ -217,22 +220,26 @@ private:
         }
     }
 
-    void PrintNode(ostream& out, Node* prev, const T& nextvalue, std::string space) const {
+    // Recursively goes to the bottom row and figures out the space between the
+    // current node with the next node and add hyphens when needed.
+    void PrintNode(ostream& out, Node* prev, const T& nextvalue) const {
         // prev  should not and must not be a nullptr
         assert(prev);
 
         if (!prev->down) {
             Node* trav = prev->next;
+            std::string prefix;
             while (trav && trav->data != nextvalue) {
-                std::string prefix_node = " -> " + std::to_string(trav->data);
-                space += prefix_node.length() * '-';
+                prefix += " -> " + std::to_string(trav->data);
                 trav = trav->next;
             }
-            space += "-> " + std::to_string(nextvalue);
-            space[0] = ' ';
-            out << space;
+            prefix += " -> " + std::to_string(nextvalue);
+            for (unsigned int i = 1; i < prefix.length() - 4; i++) {
+                prefix[i] = '-';
+            }
+            out << prefix;
         } else {
-            PrintNode(out, prev->down, nextvalue, space);
+            PrintNode(out, prev->down, nextvalue);
         }
     }
 };
