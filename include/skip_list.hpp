@@ -46,19 +46,8 @@ public:
     }
 
     ~SkipList() {
-        // start from top head
-        while (top_head_) {
-            // save the top head for later deletion
-            Node* current = top_head_;
-            // go to the row beneath
-            top_head_ = top_head_->down;
-            // delete the old top row
-            while (current) {
-                Node* tmp = current;
-                current = current->next;
-                delete tmp;
-            }
-        }
+        Clear();
+        delete top_head_;
     }
 
     int Size() const { return size_; }
@@ -90,8 +79,31 @@ public:
 
     }
 
+    // Deletes all nodes, leaving only one sentinel head in the skip list.
     void Clear() {
+        // start from the top head
+        while (top_head_) {
+            // save the current top head for later deletion
+            Node* current = top_head_;
 
+            // if the current row is not the bottom row
+            if (top_head_->down) {
+                // move to the row beneath
+                top_head_ = top_head_->down;
+            } else {
+                // otherwise, not move down and let current be the next node
+                current = current->next;
+                // let top head point next to nullptr
+                top_head_->next = nullptr;
+            }
+
+            // delete everything on the old top row
+            while (current) {
+                Node* tmp = current;
+                current = current->next;
+                delete tmp;
+            }
+        }
     }
 
     // void Print() {
