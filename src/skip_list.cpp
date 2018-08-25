@@ -23,6 +23,18 @@ int main() {
     // s.Print();
     cout << endl << s << endl;
 
+    if (s.Contains(23)) {
+        cout << "Contains 23" << endl;
+    } else {
+        cout << "Not contain 23" << endl;
+    }
+
+    if (s.Contains(24)) {
+        cout << "Contains 24" << endl;
+    } else {
+        cout << "Not contain 24" << endl;
+    }
+
     return 0;
 
     // END OF QUICK TEST AREA

@@ -72,6 +72,18 @@ public:
     }
 
     bool Contains(const T& object) const {
+        // start from the top head
+        Node* current = top_head_;
+        while (current) {
+            // go to the largest node smaller than  object
+            current = SlideRight(current, object);
+            // if the next node of the current node matches  object, return true
+            if (current->next && current->next->data == object) return true;
+            // otherwise, go down
+            current = current->down;
+        }
+
+        // haven't found the object, return false
         return false;
     }
 
@@ -273,7 +285,7 @@ private:
     // For example: sentinel_head -> 1 -> 2 -> 3 -> 4 -> nullptr
     // - SlideRight(sentinel_head, 4) will return pointer to node with value 3.
     // - SlideRight(sentinel_head, 5) will return pointer to node with value 4.
-    Node* SlideRight(Node* current, const T& val) {
+    Node* SlideRight(Node* current, const T& val) const {
         // current  should not and must not be a nullptr
         assert(current);
 
