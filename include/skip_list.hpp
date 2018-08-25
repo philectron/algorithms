@@ -20,13 +20,11 @@
 
 #include <cassert>
 #include <iostream>
+#include <random>
 #include <stdexcept>
 #include <string>
-#include <random>
 #include <utility>
 
-using std::cout;
-using std::cin;
 using std::endl;
 using std::ostream;
 
@@ -324,17 +322,17 @@ public:
 
     // void Print() {
     //     if (IsEmpty()) {
-    //         cout << "Skip list is empty" << endl;
+    //         std::cout << "Skip list is empty" << endl;
     //     } else {
     //         Node* current_head = top_head_;
     //         while (current_head) {
-    //             cout << "Head";
+    //             std::cout << "Head";
     //             Node* current = current_head->next;
     //             while (current) {
-    //                 cout << " -> " << current->data;
+    //                 std::cout << " -> " << current->data;
     //                 current = current->next;
     //             }
-    //             cout << endl;
+    //             std::cout << endl;
     //             current_head = current_head->down;
     //         }
     //     }
