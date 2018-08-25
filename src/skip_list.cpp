@@ -9,51 +9,82 @@ int main() {
     SkipList<int> s;
 
     s.Insert(1);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(55);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(5);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(10);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(3);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(15);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(23);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(14);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(56);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(2);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     s.Insert(10);
-    cout << "Height = " << s.Height() << endl << s << endl;
+    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
+
+    cout << "Copy and print:" << endl;
+    SkipList<int> p = s;
+    cout << "P Height = " << p.Height() << ", P Size = " << p.Size() << endl << p << endl;
+    cout << "S Height = " << s.Height() << ", S Size = " << s.Size() << endl << s << endl;
+
+    cout << "Remove all 10's from P" << endl;
+    p.RemoveAll(10);
+    cout << "P Height = " << p.Height() << ", P Size = " << p.Size() << endl << p << endl;
+    cout << "S Height = " << s.Height() << ", S Size = " << s.Size() << endl << s << endl;
 
     // s.Print();
 
-    if (s.Contains(23)) {
-        cout << "Contains 23" << endl;
-    } else {
-        cout << "Not contain 23" << endl;
-    }
+    // if (s.Contains(23)) {
+    //     cout << "Contains 23" << endl << endl;
+    // } else {
+    //     cout << "Not contain 23" << endl << endl;
+    // }
 
-    if (s.Contains(24)) {
-        cout << "Contains 24" << endl;
-    } else {
-        cout << "Not contain 24" << endl;
-    }
+    // if (s.Contains(24)) {
+    //     cout << "Contains 24" << endl << endl;
+    // } else {
+    //     cout << "Not contain 24" << endl << endl;
+    // }
+
+    // s.Remove(5);
+    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
+
+    // s.RemoveAll(10);
+    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
+
+    // s.Insert(24);
+    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
+
+    // if (s.Contains(24)) {
+    //     cout << "Contains 24" << endl << endl;
+    // } else {
+    //     cout << "Not contain 24" << endl << endl;
+    // }
+
+    // s.RemoveAll(14);
+    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
+
+    // s.RemoveAll(15);
+    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
     return 0;
 

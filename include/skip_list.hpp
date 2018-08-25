@@ -26,19 +26,136 @@
 #include <utility>
 
 using std::cout;
+using std::cin;
 using std::endl;
 using std::ostream;
 
 template <class T>
 class SkipList {
 public:
-    SkipList() : size_{0}, height_{1}, coinflip_{std::uniform_int_distribution<>(0, 1)} {
+    SkipList()
+        : size_{0},
+          height_{1},
+          coinflip_{std::uniform_int_distribution<>(0, 1)} {
         top_head_ = new Node;
         rng_.seed(rd_());
     }
 
-    SkipList(const SkipList& rhs) {
+    SkipList(const SkipList& rhs)
+        : size_{rhs.size_},
+          height_{rhs.height_},
+          coinflip_{std::uniform_int_distribution<>(0, 1)} {
+        int bottom = height_ - 1;
+        // keep track of the current node on each of the rows of  rhs
+        Node* row_trav_rhs[height_];  // [0] = top, [height_ - 1] = bottom
+        // keep track of the current node on each of the rows of this skip list
+        Node* row_trav_lhs[height_];  // [0] = top, [height_ - 1] = bottom
 
+        // from top to bottom, save all rhs heads to  row_trav_rhs
+        Node* tmp = rhs.top_head_;
+        for (int i = 0; i < height_ && tmp; i++) {
+            row_trav_rhs[i] = tmp;
+            tmp = tmp->down;
+        }
+
+        // from bottom to top, create identical heads to  row_trav_lhs
+        top_head_ = nullptr;
+        for (int i = bottom; i >= 0; i--) {
+            // new top head identical to rhs
+            // point next to nullptr and down to old top head
+            top_head_ = new Node(row_trav_rhs[i]->data, nullptr, top_head_);
+            // save these heads to  row_trav_lhs
+            row_trav_lhs[i] = top_head_;
+        }
+
+        // while the traversal nodes of the bottom rows of both lists exist
+        // and while there is a node after the rhs traversal node
+        while (row_trav_rhs[bottom] && row_trav_lhs[bottom]
+               && row_trav_rhs[bottom]->next) {
+            char x;
+            // copy the next node of the bottom row from  rhs  to  lhs
+            row_trav_lhs[bottom]->next =
+                new Node(row_trav_rhs[bottom]->next->data);
+
+            // //////////////////////// DEBUG ////////////////////////
+            // cout << "in while(), before for()" << endl;
+            // cout << "row_trav_rhs[bottom]->data = " << row_trav_rhs[bottom]->data << endl;
+            // cin >> x;
+            // //////////////////////// END DEBUG ////////////////////////
+
+            // if the node takes multiple levels in  rhs , copy them too
+            Node* down_node = row_trav_lhs[bottom]->next;
+
+            // //////////////////////// DEBUG ////////////////////////
+            // cout << "in while(), before for()" << endl;
+            // cout << "down_node->data = " << down_node->data << endl;
+            // cin >> x;
+            // //////////////////////// END DEBUG ////////////////////////
+
+            for (int i = bottom - 1;
+                 i >= 0 && row_trav_rhs[i]->next
+                        && row_trav_rhs[i]->next->data == down_node->data;
+                 i--) {
+
+                // //////////////////////// DEBUG ////////////////////////
+                // cout << "in while(), in for()" << endl;
+                // cout << "i = " << i << endl;
+                // cout << "row_trav_rhs[i]->data = " << row_trav_rhs[i]->data << endl;
+                // cin >> x;
+                // //////////////////////// END DEBUG ////////////////////////
+
+                // //////////////////////// DEBUG ////////////////////////
+                // cout << "in while(), in for()" << endl;
+                // cout << "i = " << i << endl;
+                // cout << "row_trav_lhs[i]->data = " << row_trav_lhs[i]->data << endl;
+                // cin >> x;
+                // //////////////////////// END DEBUG ////////////////////////
+
+                // create the node one level above
+                down_node = new Node(down_node->data, nullptr, down_node);
+
+                // //////////////////////// DEBUG ////////////////////////
+                // cout << "in while(), in for()" << endl;
+                // cout << "i = " << i << endl;
+                // cout << "down_node->data = " << down_node->data << endl;
+                // cin >> x;
+                // //////////////////////// END DEBUG ////////////////////////
+
+                row_trav_lhs[i]->next = down_node;
+                // update the traversal pointers of the respective rows
+                row_trav_lhs[i] = row_trav_lhs[i]->next;
+                row_trav_rhs[i] = row_trav_rhs[i]->next;
+
+                // //////////////////////// DEBUG ////////////////////////
+                // cout << "in while(), in for()" << endl;
+                // cout << "i = " << i << endl;
+                // cout << "row_trav_rhs[i]->data = " << row_trav_rhs[i]->data << endl;
+                // cin >> x;
+                // //////////////////////// END DEBUG ////////////////////////
+
+                // //////////////////////// DEBUG ////////////////////////
+                // cout << "in while(), in for()" << endl;
+                // cout << "i = " << i << endl;
+                // cout << "row_trav_lhs[i]->data = " << row_trav_lhs[i]->data << endl;
+                // cin >> x;
+                // //////////////////////// END DEBUG ////////////////////////
+            }
+            // update the traversal pointers of the bottom rows of both lists
+            row_trav_lhs[bottom] = row_trav_lhs[bottom]->next;
+            row_trav_rhs[bottom] = row_trav_rhs[bottom]->next;
+
+            // //////////////////////// DEBUG ////////////////////////
+            // cout << "in while(), after for()" << endl;
+            // cout << "row_trav_rhs[bottom]->data = " << row_trav_rhs[bottom]->data << endl;
+            // cin >> x;
+            // //////////////////////// END DEBUG ////////////////////////
+
+            // //////////////////////// DEBUG ////////////////////////
+            // cout << "in while(), after for()" << endl;
+            // cout << "row_trav_lhs[bottom]->data = " << row_trav_lhs[bottom]->data << endl;
+            // cin >> x;
+            // //////////////////////// END DEBUG ////////////////////////
+        }
     }
 
     SkipList& operator=(const SkipList& rhs) {
@@ -216,7 +333,7 @@ public:
             }
         }
 
-        // otherwise, not move down and let current be the next node
+        // when reach the bottom row, delete everything except the head
         if (top_head_) {
             Node* current = top_head_->next;
             // let top head point next to nullptr
