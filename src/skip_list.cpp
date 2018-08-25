@@ -9,19 +9,39 @@ int main() {
     SkipList<int> s;
 
     s.Insert(1);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(55);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(5);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(10);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(3);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(15);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(23);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(14);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(56);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(2);
+    cout << "Height = " << s.Height() << endl << s << endl;
+
     s.Insert(10);
+    cout << "Height = " << s.Height() << endl << s << endl;
 
     // s.Print();
-    cout << endl << s << endl;
 
     if (s.Contains(23)) {
         cout << "Contains 23" << endl;

@@ -32,7 +32,7 @@ using std::ostream;
 template <class T>
 class SkipList {
 public:
-    SkipList() : size_{0}, coinflip_{std::uniform_int_distribution<>(0, 1)} {
+    SkipList() : size_{0}, height_{1}, coinflip_{std::uniform_int_distribution<>(0, 1)} {
         top_head_ = new Node;
         rng_.seed(rd_());
     }
@@ -52,6 +52,8 @@ public:
 
     int Size() const { return size_; }
 
+    int Height() const { return height_; }
+
     bool IsEmpty() const { return size_ == 0; }
 
     // Inserts a new object to the skip list in the right order.
@@ -65,6 +67,8 @@ public:
             Node* new_node = new Node(object, nullptr, down_node);
             // add a new top head on the new top row
             top_head_ = new Node({}, new_node, top_head_);
+            // update height
+            height_++;
         }
 
         // update skip list's size
@@ -133,6 +137,7 @@ public:
                 Node* tmp = top_head_;
                 top_head_ = top_head_->down;
                 delete tmp;
+                height_--;  // update height
             }
 
             // go down one level
@@ -185,6 +190,7 @@ public:
                 Node* tmp = top_head_;
                 top_head_ = top_head_->down;
                 delete tmp;
+                height_--;  // update height
             }
 
             // go down one level
@@ -195,22 +201,27 @@ public:
     // Deletes all nodes, leaving only one sentinel head in the skip list.
     void Clear() {
         // start from the top head
-        while (top_head_) {
+        while (top_head_ && top_head_->down) {
             // save the current top head for later deletion
             Node* current = top_head_;
 
-            // if the current row is not the bottom row
-            if (top_head_->down) {
-                // move to the row beneath
-                top_head_ = top_head_->down;
-            } else {
-                // otherwise, not move down and let current be the next node
-                current = current->next;
-                // let top head point next to nullptr
-                top_head_->next = nullptr;
-            }
+            // move to the row beneath
+            top_head_ = top_head_->down;
 
             // delete everything on the old top row
+            while (current) {
+                Node* tmp = current;
+                current = current->next;
+                delete tmp;
+            }
+        }
+
+        // otherwise, not move down and let current be the next node
+        if (top_head_) {
+            Node* current = top_head_->next;
+            // let top head point next to nullptr
+            top_head_->next = nullptr;
+            // delete everything on the bottom row except the head
             while (current) {
                 Node* tmp = current;
                 current = current->next;
@@ -261,6 +272,7 @@ private:
     // Skip list's members
     Node* top_head_;
     int size_;
+    int height_;
 
     // Use Mersenne Twister RNG to flip coins, used when inserting new nodes
     std::mt19937 rng_;
