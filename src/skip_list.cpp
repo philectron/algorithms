@@ -41,9 +41,15 @@ int main() {
     s.Insert(10);
     cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
 
-    cout << "Copy and print:" << endl;
+    cout << "Hard copy and print:" << endl;
     SkipList<int> p = s;
     cout << "P Height = " << p.Height() << ", P Size = " << p.Size() << endl << p << endl;
+    cout << "S Height = " << s.Height() << ", S Size = " << s.Size() << endl << s << endl;
+
+    cout << "Soft copy and print:" << endl;
+    SkipList<int> r;
+    s.SoftCopy(r);
+    cout << "R Height = " << r.Height() << ", R Size = " << r.Size() << endl << r << endl;
     cout << "S Height = " << s.Height() << ", S Size = " << s.Size() << endl << s << endl;
 
     cout << "Remove all 10's from P" << endl;

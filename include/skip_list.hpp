@@ -41,6 +41,13 @@ public:
         rng_.seed(rd_());
     }
 
+    // Makes a hard copy of the right-hand side skip list. EVERYTHING, including
+    // the skip list nodes and their levels, will be copied to the left-hand
+    // side skip list.
+    //
+    // To make a soft copy in which two lists will contain same objects and
+    // their occurrences but not necessarily have identical rows, see SoftCopy()
+    // method for more info.
     SkipList(const SkipList& rhs)
         : size_{rhs.size_},
           height_{rhs.height_},
@@ -96,10 +103,38 @@ public:
         }
     }
 
+    // Makes a hard copy of the right-hand side skip list. EVERYTHING, including
+    // the skip list nodes and their levels, will be copied to the left-hand
+    // side skip list.
+    //
+    // To make a soft copy in which two lists will contain same objects and
+    // their occurrences but not necessarily have identical rows, see SoftCopy()
+    // method for more info.
     SkipList& operator=(const SkipList& rhs) {
         SkipList copy = rhs;
         std::swap(copy, *this);
         return *this;
+    }
+
+    // Makes a soft copy of the right-hand side skip list. All elements of the
+    // right-hand side skip list will be inserted into the left-hand side list
+    // Two lists will have the same objects and their occurrences but not
+    // necessarily have identical skip list rows.
+    //
+    // To make a hard copy in which two lists will have EVERYTHING identical,
+    // see the Copy Constructor and operator=() methods for more info.
+    void SoftCopy(SkipList& destination) const {
+        // go to the bottom row of this skip list
+        Node* current = top_head_;
+        while (current && current->down) current = current->down;
+        // go to the first node of the bottom row
+        current = current->next;
+
+        // insert while going right
+        while (current) {
+            destination.Insert(current->data);
+            current = current->next;
+        }
     }
 
     ~SkipList() {
