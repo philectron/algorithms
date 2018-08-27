@@ -320,7 +320,7 @@ public:
         }
     }
 
-    // void Print() {
+    // void PrintUgly() {
     //     if (IsEmpty()) {
     //         std::cout << "Skip list is empty" << endl;
     //     } else {
@@ -434,22 +434,7 @@ private:
         return new_node;
     }
 
-    // TODO: Print() still fails on these cases so far:
-    // Something wrong with the second row?
-    //
-    // Head ---------------------------------------------> 23
-    // Head ---------------------------------------> 15 -> 23
-    // Head -----------> 3 ------> 10 -------> 15 -> 23 -------> 56
-    // Head ------> 2 -> 3 -> 5 -> 10 -> 14 -> 15 -> 23 -> 55 -> 56
-    // Head -> 1 -> 2 -> 3 -> 5 -> 10 -> 10 -> 14 -> 15 -> 23 -> 55 -> 56
-    //
-    // Height = 3, Size = 11
-    // Head ---------------------------------------------> 23 -------> 56
-    // Head ------> 2 -----------> 10 -------------> 23 -> 55 -> 56
-    // Head -> 1 -> 2 -> 3 -> 5 -> 10 -> 10 -> 14 -> 15 -> 23 -> 55 -> 56
-
-
-    // Print the skip list prettily, starting from the current head.
+    // Prints the skip list prettily, starting from the current head.
     void Print(ostream& out, Node* current_head) const {
         // current_head  should not and must not be a nullptr
         assert(current_head);
@@ -466,27 +451,33 @@ private:
         }
     }
 
-    // Recursively goes to the bottom row and figures out the space between the
-    // current node with the next node and add hyphens when needed.
+    // Goes to the bottom row and figures out the space between the current node
+    // with the next node and add hyphens when needed.
     void PrintNode(ostream& out, Node* prev, const T& nextvalue) const {
         // prev  should not and must not be a nullptr
         assert(prev);
 
-        if (!prev->down) {
-            Node* trav = prev->next;
-            std::string prefix;
-            while (trav && trav->data != nextvalue) {
-                prefix += " -> " + std::to_string(trav->data);
-                trav = trav->next;
-            }
-            prefix += " -> " + std::to_string(nextvalue);
-            for (unsigned int i = 1; i < prefix.length() - 4; i++) {
-                prefix[i] = '-';
-            }
-            out << prefix;
-        } else {
-            PrintNode(out, prev->down, nextvalue);
+        // go straight to the bottom row from the current node
+        Node* current = prev->next;
+        while (current && current->down) current = current->down;
+
+        // go straight to the bottom row from the previous node
+        while (prev->down) prev = prev->down;
+
+        Node* trav = prev->next;
+        std::string prefix;
+
+        // go right until address matches current's bottom & add necessary space
+        while (trav && trav != current) {
+            prefix += " -> " + std::to_string(trav->data);
+            trav = trav->next;
         }
+        prefix += " -> " + std::to_string(nextvalue);
+        for (unsigned int i = 1; i < prefix.length() - 4; i++) {
+            prefix[i] = '-';
+        }
+
+        out << prefix;
     }
 };
 
