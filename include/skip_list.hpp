@@ -8,12 +8,12 @@
 // and serves as a way to practice my data structure skills.
 // This class provides methods to interact with a skip list, including
 //     - Creating the list
-//     - Making a copy of the list
+//     - Making hard and soft copies of the list
 //     - Getting the size of the list
-//     - Accessing an element in the list
+//     - Getting the height of the list
 //     - Adding an element to the list
 //     - Removing an element from the list
-//     - Finding an element in the list
+//     - Checking whether the list contains an element or not 
 
 #ifndef ALGORITHMS_INCLUDE_SKIPLIST_HPP_
 #define ALGORITHMS_INCLUDE_SKIPLIST_HPP_
@@ -320,22 +320,26 @@ public:
         }
     }
 
-    // void PrintUgly() {
-    //     if (IsEmpty()) {
-    //         std::cout << "Skip list is empty" << endl;
+    // // Ugly prints, for debugging purposes
+    // friend ostream& operator<<(ostream& out, const SkipList& skiplist) {
+    //     if (skiplist.IsEmpty()) {
+    //         out << "Skip list is empty" << endl;
     //     } else {
-    //         Node* current_head = top_head_;
+    //         out << "Size = " << skiplist.Size()
+    //             << ", Height = " << skiplist.Height() << endl;
+    //         Node* current_head = skiplist.top_head_;
     //         while (current_head) {
-    //             std::cout << "Head";
+    //             out << "Head";
     //             Node* current = current_head->next;
     //             while (current) {
-    //                 std::cout << " -> " << current->data;
+    //                 out << " -> " << current->data;
     //                 current = current->next;
     //             }
-    //             std::cout << endl;
+    //             out << endl;
     //             current_head = current_head->down;
     //         }
     //     }
+    //     return out;
     // }
 
     // For debugging purposes
@@ -343,6 +347,8 @@ public:
         if (skiplist.IsEmpty()) {
             out << "Skip list is empty" << endl;
         } else {
+            out << "Size = " << skiplist.Size()
+                << ", Height = " << skiplist.Height() << endl;
             skiplist.Print(out, skiplist.top_head_);
         }
 
