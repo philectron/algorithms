@@ -479,7 +479,12 @@ private:
             trav = trav->next;
         }
         prefix += " -> " + std::to_string(nextvalue);
-        for (unsigned int i = 1; i < prefix.length() - 4; i++) {
+
+        // prefix will look like the following string:
+        // " -> 1 -> 2 -> 3 -> 100 -> 2000 -> nextvalue"
+        // find the last occurrence of the '>' character convert all characters
+        // of prefix from i = 1 to i = last_of('>')
+        for (int i = 1, arrow = prefix.find_last_of('>'); i < arrow; i++) {
             prefix[i] = '-';
         }
 
