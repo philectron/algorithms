@@ -1,101 +1,9 @@
 #include <fstream>
 #include "skip_list.hpp"
 
-using std::cout;
 using std::endl;
 
 int main() {
-    // START OF QUICK TEST AREA
-    SkipList<int> s;
-
-    s.Insert(1);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(55);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(5);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(10);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(3);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(15);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(23);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(14);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(56);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(2);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    s.Insert(10);
-    cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    cout << "Hard copy and print:" << endl;
-    SkipList<int> p = s;
-    cout << "P Height = " << p.Height() << ", P Size = " << p.Size() << endl << p << endl;
-    cout << "S Height = " << s.Height() << ", S Size = " << s.Size() << endl << s << endl;
-
-    cout << "Soft copy and print:" << endl;
-    SkipList<int> r;
-    s.SoftCopy(r);
-    cout << "R Height = " << r.Height() << ", R Size = " << r.Size() << endl << r << endl;
-    cout << "S Height = " << s.Height() << ", S Size = " << s.Size() << endl << s << endl;
-
-    cout << "Remove all 10's from P" << endl;
-    p.RemoveAll(10);
-    cout << "P Height = " << p.Height() << ", P Size = " << p.Size() << endl << p << endl;
-    cout << "S Height = " << s.Height() << ", S Size = " << s.Size() << endl << s << endl;
-
-    // s.Print();
-
-    // if (s.Contains(23)) {
-    //     cout << "Contains 23" << endl << endl;
-    // } else {
-    //     cout << "Not contain 23" << endl << endl;
-    // }
-
-    // if (s.Contains(24)) {
-    //     cout << "Contains 24" << endl << endl;
-    // } else {
-    //     cout << "Not contain 24" << endl << endl;
-    // }
-
-    // s.Remove(5);
-    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    // s.RemoveAll(10);
-    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    // s.Insert(24);
-    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    // if (s.Contains(24)) {
-    //     cout << "Contains 24" << endl << endl;
-    // } else {
-    //     cout << "Not contain 24" << endl << endl;
-    // }
-
-    // s.RemoveAll(14);
-    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    // s.RemoveAll(15);
-    // cout << "Height = " << s.Height() << ", Size = " << s.Size() << endl << s << endl;
-
-    return 0;
-
-    // END OF QUICK TEST AREA
-
     std::ifstream fin("../input/skip_list.in");
     std::ofstream fou("../output/skip_list.ou");
 
@@ -104,10 +12,127 @@ int main() {
         return 1;
     }
 
+    std::mt19937 rng;
+    std::random_device rd;
+    std::uniform_int_distribution<int> coinflip(std::uniform_int_distribution<>(0, 1));
+    std::uniform_int_distribution<int> rand_int_0_100(std::uniform_int_distribution<>(0, 100));
+
     int num_test_cases;
     fin >> num_test_cases;
 
-    for (int t = 0; t < num_test_cases; t++) {}
+    for (int t = 0; t < num_test_cases; t++) {
+        SkipList<int> skiplist;
+        int size;
+        int front_node = 0, back_node = 0, coinflip_node = 0;
+
+        rng.seed(rd());
+        fin >> size;
+        for (int i = 0; i < size; i++) {
+            int value;
+            fin >> value;
+            skiplist.Insert(value);
+
+            // save front and back nodes for later tests
+            if (i == 0) {
+                front_node = value;
+                back_node = value;
+            } else {
+                if (value < front_node) front_node = value;
+                if (value > back_node) back_node = value;
+            }
+
+            // save a random node, called the coin flip node
+            if (coinflip(rng)) coinflip_node = value;
+        }
+
+        fou << "Initial:\n" << skiplist << endl;
+
+        fou << "After removing the front node (" << front_node << "):\n";
+        skiplist.Remove(front_node);
+        fou << skiplist << endl;
+
+        fou << "After removing the back node (" << back_node << "):\n";
+        skiplist.Remove(back_node);
+        fou << skiplist << endl;
+
+        int random_insert_1 = rand_int_0_100(rng);
+        fou << "After inserting a random int from 0 to 100 ("
+            << random_insert_1 << "):\n";
+        skiplist.Insert(random_insert_1);
+        fou << skiplist << endl;
+
+        int random_insert_2 = rand_int_0_100(rng);
+        fou << "After inserting another random int from 0 to 100 ("
+            << random_insert_2 << "):\n";
+        skiplist.Insert(random_insert_2);
+        fou << skiplist << endl;
+
+        fou << "After removing the first occurrence of "
+            << coinflip_node << ":\n";
+        skiplist.Remove(coinflip_node);
+        fou << skiplist << endl;
+
+        fou << "Checking if " << coinflip_node << " is in the skip list:\n";
+        if (skiplist.Contains(coinflip_node)) {
+            fou << "Skip list contains " << coinflip_node << endl;
+        } else {
+            fou << "Skip list does not contain " << coinflip_node << endl;
+        }
+        fou << skiplist << endl;
+
+        fou << "After inserting " << coinflip_node << " twice:\n";
+        skiplist.Insert(coinflip_node);
+        skiplist.Insert(coinflip_node);
+        fou << skiplist << endl;
+
+        fou << "Checking if " << coinflip_node << " is in the skip list:\n";
+        if (skiplist.Contains(coinflip_node)) {
+            fou << "Skip list contains " << coinflip_node << endl;
+        } else {
+            fou << "Skip list does not contain " << coinflip_node << endl;
+        }
+        fou << skiplist << endl;
+
+        fou << "After removing all instances of " << coinflip_node << ":\n";
+        skiplist.RemoveAll(coinflip_node);
+        fou << skiplist << endl;
+
+        fou << "Checking if " << coinflip_node << " is in the skip list:\n";
+        if (skiplist.Contains(coinflip_node)) {
+            fou << "Skip list contains " << coinflip_node << endl;
+        } else {
+            fou << "Skip list does not contain " << coinflip_node << endl;
+        }
+        fou << skiplist << endl;
+
+        fou << "After creating a hard copy and a soft copy:\n";
+        SkipList<int> hardcopy = skiplist;
+        SkipList<int> softcopy;
+        skiplist.SoftCopy(softcopy);
+        fou << "  Original skip list:\n" << skiplist;
+        fou << "  Hard copied skip list:\n" << hardcopy;
+        fou << "  Soft copied skip list:\n" << softcopy << endl;
+
+        fou << "After changing the hard copied list to three random int "
+            << "from 0 to 100:\n";
+        hardcopy.Clear();
+        hardcopy.Insert(rand_int_0_100(rng));
+        hardcopy.Insert(rand_int_0_100(rng));
+        hardcopy.Insert(rand_int_0_100(rng));
+        fou << "  Original skip list:\n" << skiplist;
+        fou << "  Hard copied skip list:\n" << hardcopy << endl;
+
+        fou << "After trying to self-assign the original skip list:\n";
+        skiplist = skiplist;
+        fou << skiplist << endl;
+
+        fou << "After assigning the soft copy to the original:\n";
+        skiplist = softcopy;
+        fou << "  Original skip list (which should be changed):\n" << skiplist;
+        fou << "  Soft copied skip list:\n" << softcopy << endl;
+
+        fou << "==========END OF TEST CASE t = " << t << "==========\n\n";
+    }
 
     fin.close();
     fou.close();
