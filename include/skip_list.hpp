@@ -13,7 +13,7 @@
 //     - Getting the height of the list
 //     - Adding an element to the list
 //     - Removing an element from the list
-//     - Checking whether the list contains an element or not 
+//     - Checking whether the list contains an element or not
 
 #ifndef ALGORITHMS_INCLUDE_SKIPLIST_HPP_
 #define ALGORITHMS_INCLUDE_SKIPLIST_HPP_
@@ -50,55 +50,7 @@ public:
         : size_{rhs.size_},
           height_{rhs.height_},
           coinflip_{std::uniform_int_distribution<>(0, 1)} {
-        int bottom = height_ - 1;
-        // keep track of the current node on each of the rows of  rhs
-        Node* row_trav_rhs[height_];  // [0] = top, [height_ - 1] = bottom
-        // keep track of the current node on each of the rows of this skip list
-        Node* row_trav_lhs[height_];  // [0] = top, [height_ - 1] = bottom
-
-        // from top to bottom, save all rhs heads to  row_trav_rhs
-        Node* tmp = rhs.top_head_;
-        for (int i = 0; i < height_ && tmp; i++) {
-            row_trav_rhs[i] = tmp;
-            tmp = tmp->down;
-        }
-
-        // from bottom to top, create identical heads to  row_trav_lhs
-        top_head_ = nullptr;
-        for (int i = bottom; i >= 0; i--) {
-            // new top head identical to rhs
-            // point next to nullptr and down to old top head
-            top_head_ = new Node(row_trav_rhs[i]->data, nullptr, top_head_);
-            // save these heads to  row_trav_lhs
-            row_trav_lhs[i] = top_head_;
-        }
-
-        // while the traversal nodes of the bottom rows of both lists exist
-        // and while there is a node after the rhs traversal node
-        while (row_trav_rhs[bottom] && row_trav_lhs[bottom]
-               && row_trav_rhs[bottom]->next) {
-            // copy the next node of the bottom row from  rhs  to  lhs
-            row_trav_lhs[bottom]->next =
-                new Node(row_trav_rhs[bottom]->next->data);
-
-            // if the node takes multiple levels in  rhs , copy them too
-            Node* down_node = row_trav_lhs[bottom]->next;
-
-            for (int i = bottom - 1;
-                 i >= 0 && row_trav_rhs[i]->next
-                        && row_trav_rhs[i]->next->data == down_node->data;
-                 i--) {
-                // create the node one level above
-                down_node = new Node(down_node->data, nullptr, down_node);
-                row_trav_lhs[i]->next = down_node;
-                // update the traversal pointers of the respective rows
-                row_trav_lhs[i] = row_trav_lhs[i]->next;
-                row_trav_rhs[i] = row_trav_rhs[i]->next;
-            }
-            // update the traversal pointers of the bottom rows of both lists
-            row_trav_lhs[bottom] = row_trav_lhs[bottom]->next;
-            row_trav_rhs[bottom] = row_trav_rhs[bottom]->next;
-        }
+        HardCopy(rhs);
     }
 
     // Makes a hard copy of the right-hand side skip list. EVERYTHING, including
@@ -109,8 +61,12 @@ public:
     // their occurrences but not necessarily have identical rows, see SoftCopy()
     // method for more info.
     SkipList& operator=(const SkipList& rhs) {
-        SkipList copy = rhs;
-        std::swap(copy, *this);
+        if (this != &rhs) {
+            size_ = rhs.size_;
+            height_ = rhs.height_;
+            coinflip_ = std::uniform_int_distribution<>(0, 1);
+            HardCopy(rhs);
+        }
         return *this;
     }
 
@@ -122,16 +78,19 @@ public:
     // To make a hard copy in which two lists will have EVERYTHING identical,
     // see the Copy Constructor and operator=() methods for more info.
     void SoftCopy(SkipList& destination) const {
-        // go to the bottom row of this skip list
-        Node* current = top_head_;
-        while (current && current->down) current = current->down;
-        // go to the first node of the bottom row
-        current = current->next;
-
-        // insert while going right
-        while (current) {
-            destination.Insert(current->data);
+        // self assignment check - only copy if the destination != source
+        if (this != &destination) {
+            // go to the bottom row of this skip list
+            Node* current = top_head_;
+            while (current && current->down) current = current->down;
+            // go to the first node of the bottom row
             current = current->next;
+
+            // insert while going right
+            while (current) {
+                destination.Insert(current->data);
+                current = current->next;
+            }
         }
     }
 
@@ -438,6 +397,59 @@ private:
         }
 
         return new_node;
+    }
+
+    // Makes a hard copy of  rhs  to this skip list.
+    void HardCopy(const SkipList& rhs) {
+        int bottom = height_ - 1;
+        // keep track of the current node on each of the rows of  rhs
+        Node* row_trav_rhs[height_];  // [0] = top, [height_ - 1] = bottom
+        // keep track of the current node on each of the rows of this skip list
+        Node* row_trav_lhs[height_];  // [0] = top, [height_ - 1] = bottom
+
+        // from top to bottom, save all rhs heads to  row_trav_rhs
+        Node* tmp = rhs.top_head_;
+        for (int i = 0; i < height_ && tmp; i++) {
+            row_trav_rhs[i] = tmp;
+            tmp = tmp->down;
+        }
+
+        // from bottom to top, create identical heads to  row_trav_lhs
+        top_head_ = nullptr;
+        for (int i = bottom; i >= 0; i--) {
+            // new top head identical to rhs
+            // point next to nullptr and down to old top head
+            top_head_ = new Node(row_trav_rhs[i]->data, nullptr, top_head_);
+            // save these heads to  row_trav_lhs
+            row_trav_lhs[i] = top_head_;
+        }
+
+        // while the traversal nodes of the bottom rows of both lists exist
+        // and while there is a node after the rhs traversal node
+        while (row_trav_rhs[bottom] && row_trav_lhs[bottom]
+               && row_trav_rhs[bottom]->next) {
+            // copy the next node of the bottom row from  rhs  to  lhs
+            row_trav_lhs[bottom]->next =
+                new Node(row_trav_rhs[bottom]->next->data);
+
+            // if the node takes multiple levels in  rhs , copy them too
+            Node* down_node = row_trav_lhs[bottom]->next;
+
+            for (int i = bottom - 1;
+                 i >= 0 && row_trav_rhs[i]->next
+                        && row_trav_rhs[i]->next->data == down_node->data;
+                 i--) {
+                // create the node one level above
+                down_node = new Node(down_node->data, nullptr, down_node);
+                row_trav_lhs[i]->next = down_node;
+                // update the traversal pointers of the respective rows
+                row_trav_lhs[i] = row_trav_lhs[i]->next;
+                row_trav_rhs[i] = row_trav_rhs[i]->next;
+            }
+            // update the traversal pointers of the bottom rows of both lists
+            row_trav_lhs[bottom] = row_trav_lhs[bottom]->next;
+            row_trav_rhs[bottom] = row_trav_rhs[bottom]->next;
+        }
     }
 
     // Prints the skip list prettily, starting from the current head.
