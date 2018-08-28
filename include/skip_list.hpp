@@ -223,7 +223,7 @@ public:
             }
 
             // delete the top row if the node was the only node in the top row
-            if (!top_head_->next) {
+            if (!top_head_->next && top_head_->down) {
                 Node* tmp = top_head_;
                 top_head_ = top_head_->down;
                 delete tmp;
