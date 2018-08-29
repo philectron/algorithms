@@ -1,4 +1,5 @@
 #include <fstream>
+
 #include "stack.hpp"
 
 using std::endl;

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <random>
 #include <vector>
+
 #include "binary_search_tree.hpp"
 
 using std::endl;
