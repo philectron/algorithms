@@ -7,12 +7,12 @@
 // This template class is an implementation of the hash table abstract data type
 // and serves as a way to practice my data structure skills.
 // This class provides methods to interact with a hash table, including
-//     - Creating the table
-//     - Making a copy of the table
-//     - Getting the size of the table
-//     - Adding an element to the table
-//     - Removing an element from the table
-//     - Checking whether the table contains an element or not
+// - Creating the table
+// - Making a copy of the table
+// - Getting the size of the table
+// - Adding an element to the table
+// - Removing an element from the table
+// - Checking whether the table contains an element or not
 
 #ifndef ALGORITHMS_INCLUDE_HASHTABLE_HPP_
 #define ALGORITHMS_INCLUDE_HASHTABLE_HPP_
@@ -26,12 +26,19 @@
 using std::endl;
 using std::ostream;
 
+// Generic hash class declaration
+template <class Key>
+class Hash {
+public:
+    size_t operator()(const Key& k) const;
+};
+
 template <class HashedObj>
 class HashTable {
 public:
-    explicit HashTable(int size = DEFAULT_CAPACITY) {
-        // TODO
-    }
+    explicit HashTable(int size = DEFAULT_CAPACITY)
+        : lists_{std::vector<std::list<HashedObj>>(size)},
+        current_size_{0} {}
 
     HashTable(const HashTable& rhs) {
         // TODO
@@ -50,9 +57,9 @@ public:
         // TODO
     }
 
-    int Size() const { return size_; }
+    int Size() const { return current_size_; }
 
-    bool IsEmpty() const { return size_ == 0; }
+    bool IsEmpty() const { return current_size_ == 0; }
 
     bool Contains(const HashedObj& x) const {
         // TODO
@@ -85,7 +92,7 @@ public:
 private:
     // Private members
     std::vector<std::list<HashedObj>> lists_;
-    int size_;
+    int current_size_;
 
     // Private methods
 
@@ -98,13 +105,6 @@ private:
 
         return hashfunc(x) % lists_.size();
     }
-};
-
-// Generic hash class declaration
-template <class Key>
-class Hash {
-public:
-    size_t operator()(const Key& k) const;
 };
 
 // std::string is a valid type for the hash class

@@ -10,6 +10,7 @@ CXXFLAGS = -g -pipe -O3 -std=c++0x -Wall -Wextra -lm -I$(INC_DIR)
 ALL = \
 		binary_search_tree \
 		bubble_sort \
+		hash_table \
 		linked_list \
 		queue \
 		skip_list \
@@ -29,6 +30,9 @@ binary_search_tree: $(SRC_DIR)/binary_search_tree.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 bubble_sort: $(SRC_DIR)/bubble_sort.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+hash_table: $(SRC_DIR)/hash_table.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 linked_list: $(SRC_DIR)/linked_list.o
