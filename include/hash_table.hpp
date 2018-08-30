@@ -24,7 +24,10 @@
 #include <vector>
 
 using std::endl;
+using std::list;
 using std::ostream;
+using std::string;
+using std::vector;
 
 // Generic hash class declaration
 template <class Key>
@@ -36,28 +39,36 @@ public:
 template <class HashedObj>
 class HashTable {
 public:
-    explicit HashTable(int size = DEFAULT_CAPACITY)
-        : lists_{std::vector<std::list<HashedObj>>(size)},
-        current_size_{0} {}
+    explicit HashTable(int list_size = DEFAULT_CAPACITY)
+        : lists_{vector<list<HashedObj>>(list_size)}, current_size_{0} {}
 
-    HashTable(const HashTable& rhs) {
-        // TODO
-    }
+    HashTable(const HashTable& rhs)
+        : lists_{rhs.lists_}, current_size_{rhs.current_size_} {}
 
     HashTable& operator=(const HashTable& rhs) {
-        // TODO
+        // check for self-assignment
+        if (this != &rhs) {
+            lists_ = rhs.lists_;
+            current_size_ = rhs.current_size_;
+        }
+
         return *this;
     }
 
-    ~HashTable() {
-        // TODO
-    }
+    ~HashTable() { Clear(); }
 
+    // Removes everything from the hash table except the container.
     void Clear() {
-        // TODO
+        lists_.clear();
+        current_size_ = 0;
     }
 
-    int Size() const { return current_size_; }
+    // TEMPORARY================================================================
+    void SetCurrentSize(int size) { current_size_ = size; }
+
+    int CurrentSize() const { return current_size_; }
+
+    int ListSize() const { return lists_.size(); }
 
     bool IsEmpty() const { return current_size_ == 0; }
 
@@ -87,11 +98,11 @@ public:
         return out;
     }
 
-    static const int DEFAULT_CAPACITY = 128;
+    static const int DEFAULT_CAPACITY = 64;
 
 private:
     // Private members
-    std::vector<std::list<HashedObj>> lists_;
+    vector<list<HashedObj>> lists_;
     int current_size_;
 
     // Private methods
@@ -107,16 +118,16 @@ private:
     }
 };
 
-// std::string is a valid type for the hash class
+// string is a valid type for the hash class
 template <>
-class Hash<std::string> {
+class Hash<string> {
 public:
     // Uses Horner's rule to make an okay hash function.
-    // Takes in an std::string key and returns a size_t index.
+    // Takes in a string key and returns a size_t index.
     // Usage:
-    // Hash<std::string> hf;
+    // Hash<string> hf;
     // int index = hf(key);
-    size_t operator()(const std::string& key) {
+    size_t operator()(const string& key) {
         size_t hashval = 0;
 
         for (char ch : key) hashval += hashval * 37 + ch; // Horner's rule
