@@ -105,9 +105,10 @@ int main() {
 
 // Creates rows of random Student objects, and thus a row has the following
 // format:
-// Student_Fisrt_Name Student_Last_Name,Student_GPA,Student_Age
 //
-// Credits to http://random-name-generator.info/ for random names.
+// FirstName,LastName,GPA,Age
+//
+// Credits to http://random-name-generator.info/ for those random names.
 // First, go to the site and generate random names. Copy those names to the
 // infile first, then execute this function.
 void CreateCsvTestFile(std::ifstream& infile, std::ofstream& outfile) {
@@ -124,6 +125,10 @@ void CreateCsvTestFile(std::ifstream& infile, std::ofstream& outfile) {
     // read the lines one by one
     string name;
     while (std::getline(infile, name)) {
+        // replace space between first name and last name with a comma
+        for (char& ch : name)
+            if (ch == ' ') ch = ',';
+
         // output extra info (GPA and age) to  outfile
         outfile << name << ','
                 << round(rand_gpa(rng) * 100.0) / 100.0 << ','
