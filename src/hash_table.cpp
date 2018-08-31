@@ -6,46 +6,64 @@ class Student;
 int main() {
     // TODO
 
-    return 0;
-}
-
+// Use the class Student as an example
 class Student {
 public:
-    Student(std::string name = "", double gpa = 0.0, int age = 0)
-        : name_{name}, gpa_{gpa}, age_{age} {}
+    Student(string firstname = "", string lastname = "", double gpa = 0.0,
+            int age = 0)
+        : firstname_{firstname},
+          lastname_{lastname},
+          gpa_{gpa},
+          age_{age} {}
 
     // Must define equality to use the Hash class
 
     bool operator==(const Student& rhs) const {
-        return name_.compare(rhs.name_) == 0;
+        return firstname_.compare(rhs.firstname_) == 0
+               && lastname_.compare(rhs.lastname_) == 0;
     }
 
     bool operator!=(const Student& rhs) const { return !(*this == rhs); }
 
     // Getters
 
-    const std::string& GetName() const { return name_; }
+    string GetFirstName() const { return firstname_; }
 
-    std::string GetName() { return name_; }
+    string GetLastName() const { return lastname_; }
 
-    const double& GetGpa() const { return gpa_; }
+    string GetFullName() const { return GetFirstName() + ' ' + GetLastName(); }
 
-    double GetGpa() { return gpa_; }
+    // Rounds GPA to 2 decimal places.
+    double GetGpa() const { return round(gpa_ * 100.0) / 100.0; }
 
-    const int& GetAge() const { return age_; }
-
-    int GetAge() { return age_; }
+    int GetAge() const { return age_; }
 
     // Setters
 
-    void SetName(const std::string& new_name) { name_.assign(new_name); }
+    void SetFirstName(const string& firstname) { firstname_.assign(firstname); }
 
-    void SetGpa(const double& new_gpa) { gpa_ = new_gpa; }
+    void SetLastName(const string& lastname) { lastname_.assign(lastname); }
 
-    void SetAge(const int& new_age) { age_ = new_age; }
+    void SetFullName(const string& firstname, const string& lastname) {
+        SetFirstName(firstname);
+        SetLastName(lastname);
+    }
+
+    void SetGpa(const double& gpa) { gpa_ = gpa; }
+
+    void SetAge(const int& age) { age_ = age; }
+
+    // Print method - for debugging purposes
+    friend ostream& operator<<(ostream& out, const Student& student) {
+        out << "{ Name: " << student.GetFullName()
+            << ", GPA: " << student.GetGpa()
+            << ", Age: " << student.GetAge() << " }";
+        return out;
+    }
 
 private:
-    std::string name_;
+    string firstname_;
+    string lastname_;
     double gpa_;
     int age_;
 };
