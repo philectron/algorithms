@@ -1,10 +1,13 @@
 #include "hash_table.hpp"
 
-// Use the class Student as an example
-class Student;
+#include <cmath>
+#include <fstream>
+#include <random>
 
-int main() {
-    // TODO
+using std::cout;
+using std::endl;
+using std::ostream;
+using std::string;
 
 // Use the class Student as an example
 class Student {
@@ -73,9 +76,57 @@ template <>
 class Hash<Student> {
 public:
     // Hashes using student's name
-    size_t operator()(const Student& s) {
-        static Hash<std::string> hashfunc;
+    size_t operator()(const Student& student) {
+        static Hash<string> hashfunc;
 
-        return hashfunc(s.GetName());
+        return hashfunc(student.GetFullName());
+    }
+};
+
+void CreateCsvTestFile(std::ifstream& infile, std::ofstream& outfile);
+
+int main() {
+    std::ifstream fin("../input/hash_table.in");
+    std::ofstream fou("../output/hash_table.ou");
+
+    if (!fin.is_open() || !fou.is_open()) {
+        std::cerr << "Could not open file(s)." << endl;
+        return 1;
+    }
+
+
+
+
+    fin.close();
+    fou.close();
+
+    return 0;
+}
+
+// Creates rows of random Student objects, and thus a row has the following
+// format:
+// Student_Fisrt_Name Student_Last_Name,Student_GPA,Student_Age
+//
+// Credits to http://random-name-generator.info/ for random names.
+// First, go to the site and generate random names. Copy those names to the
+// infile first, then execute this function.
+void CreateCsvTestFile(std::ifstream& infile, std::ofstream& outfile) {
+    // quit right away if files aren't opened
+    if (!infile.is_open() || !outfile.is_open()) return;
+
+    std::mt19937 rng;
+    std::random_device rd;
+    std::uniform_real_distribution<double> rand_gpa(2.0, 4.0);
+    std::uniform_int_distribution<int> rand_age(15, 55);
+
+    rng.seed(rd());
+
+    // read the lines one by one
+    string name;
+    while (std::getline(infile, name)) {
+        // output extra info (GPA and age) to  outfile
+        outfile << name << ','
+                << round(rand_gpa(rng) * 100.0) / 100.0 << ','
+                << rand_age(rng) << endl;
     }
 }
