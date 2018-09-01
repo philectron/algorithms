@@ -97,7 +97,7 @@ public:
         // get the index of the object and push to the front
         lists_[GetHash(x)].push_front(x);
         // increase size; rehash to get a good table load ratio when needed
-        if (++current_size_ > lists_.size()) Rehash(); // 1:1 or less is good
+        if (++current_size_ > (int)lists_.size()) Rehash();
 
         return true;
     }
@@ -111,7 +111,7 @@ public:
         // get the index of the object and push to the front
         lists_[GetHash(x)].push_front(std::move(x));
         // increase size; rehash to get a good table load ratio when needed
-        if (++current_size_ > lists_.size()) Rehash(); // 1:1 or less is good
+        if (++current_size_ > (int)lists_.size()) Rehash(); // 1:1 or less is good
 
         return true;
     }
@@ -123,10 +123,12 @@ public:
         int hash_index = GetHash(x);
 
         // search through the list at index  hash_index  of the table
-        for (auto& object : lists_[hash_index]) {
+        for (auto it = lists_[hash_index].begin();
+             it != lists_[hash_index].end();
+             ++it) {
             // if reach the object, remove and return
-            if (object == x) {
-                lists_[hash_index].erase(object);
+            if (*it == x) {
+                lists_[hash_index].erase(it);
                 current_size_--;
                 return true;
             }
@@ -142,12 +144,17 @@ public:
         if (hashtable.IsEmpty()) {
             out << "Hash table is empty" << endl;
         } else {
+            // print sizes
+            out << "Current size = " << hashtable.CurrentSize() << endl
+                << "List size = " << hashtable.ListSize() << endl;
+
             // print the table row by row
             for (int i = 0, rows = hashtable.ListSize(); i < rows; i++) {
                 // print the row number with right alignment
                 string rows_string = std::to_string(rows);
                 string i_string = std::to_string(i);
                 int num_digit_diff = rows_string.length() - i_string.length();
+
                 for (int j = 0; j < num_digit_diff; j++) out << ' ';
                 out << i << ". ";
 
@@ -156,6 +163,7 @@ public:
                     out << object;
                     if (&object != &hashtable.lists_[i].back()) out << " -> ";
                 }
+                out << endl;
             }
         }
         return out;
