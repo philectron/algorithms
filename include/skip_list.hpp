@@ -320,8 +320,13 @@ private:
         struct Node* next;
         struct Node* down;
 
-        Node(const T& data = T {}, Node* next = nullptr, Node* down = nullptr)
-            : data{data}, next{next}, down{down} {}
+        Node(const T& node_data = T(), Node* next_node = nullptr,
+             Node* down_node = nullptr)
+            : data{node_data}, next{next_node}, down{down_node} {}
+
+        Node(T&& node_data, Node* next_node = nullptr,
+             Node* down_node = nullptr)
+            : data{std::move(node_data)}, next{next_node}, down{down_node} {}
     };
 
     // Skip list's members

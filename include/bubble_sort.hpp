@@ -15,7 +15,7 @@ template<class Comparable>
 void BubbleSort(Comparable* array, int size) {
     // flag to check swapped elements, first assuming the array is unsorted
     bool swapped = true;
-    Comparable tmp { 0 };
+    Comparable tmp(0);
 
     // keep sorting while there are unorder pairs
     while (swapped) {

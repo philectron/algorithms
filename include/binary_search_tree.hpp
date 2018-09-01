@@ -20,6 +20,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 template<class Comparable>
 class BinarySearchTree {
@@ -30,13 +31,15 @@ private:
         struct BinaryNode* left;
         struct BinaryNode* right;
 
-        BinaryNode(const Comparable& data = Comparable {},
-                   BinaryNode* left = nullptr,
-                   BinaryNode* right = nullptr) {
-            this->data = data;
-            this->left = left;
-            this->right = right;
-        }
+        BinaryNode(const Comparable& node_data = Comparable(),
+                   BinaryNode* left_node = nullptr,
+                   BinaryNode* right_node = nullptr)
+            : data{node_data}, left{left_node}, right{right_node} {}
+
+        BinaryNode(Comparable&& node_data,
+                   BinaryNode* left_node = nullptr,
+                   BinaryNode* right_node = nullptr)
+            : data{std::move(node_data)}, left{left_node}, right{right_node} {}
     };
 
 // PUBLIC METHODS OF BinarySearchTree

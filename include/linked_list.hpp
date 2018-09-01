@@ -18,6 +18,7 @@
 #define ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
 
 #include <iostream>
+#include <utility>
 
 template<class T>
 class LinkedList {
@@ -28,11 +29,13 @@ private:
         struct Node* prev;
         struct Node* next;
 
-        Node(const T& data = T {}, Node* prev = nullptr, Node* next = nullptr) {
-            this->data = data;
-            this->prev = prev;
-            this->next = next;
-        }
+        Node(const T& node_data = T(), Node* prev_node = nullptr,
+             Node* next_node = nullptr)
+            : data{node_data}, prev{prev_node}, next{next_node} {}
+
+        Node(T&& node_data, Node* prev_node = nullptr,
+             Node* next_node = nullptr)
+            : data{std::move(node_data)}, prev{prev_node}, next{next_node} {}
     };
 
 // A NOTION OF POSITION IN THE LIST

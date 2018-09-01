@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <utility>
 
 template<class T>
 class Stack {
@@ -29,10 +30,11 @@ private:
         T data;
         struct Node* next;
 
-        Node(const T& data = T {}, Node* next = nullptr) {
-            this->data = data;
-            this->next = next;
-        }
+        Node(const T& node_data = T(), Node* next_node = nullptr)
+            : data{node_data}, next{next_node} {}
+
+        Node(T&& node_data, Node* next_node = nullptr)
+            : data{std::move(node_data)}, next{next_node} {}
     };
 
 // PUBLIC METHODS
