@@ -1,10 +1,11 @@
 #include "hash_table.hpp"
 
+#include <cfloat>
 #include <cmath>
 #include <fstream>
 #include <random>
+#include <vector>
 
-using std::cout;
 using std::endl;
 using std::ostream;
 using std::string;
@@ -110,8 +111,85 @@ int main() {
         return 1;
     }
 
+    HashTable<Student> hashtable;
+    vector<Student> students;
 
+    // read the CSV in  fin  row by row
+    string line;
+    enum CSV_COLUMNS {FIRSTNAME, LASTNAME, GPA, AGE};
+    const int NUM_COLUMNS = 4;
+    int line_num = 0;
+    while (std::getline(fin, line)) {
+        // split the CSV lines
+        // format: FirstName,LastName,GPA,Age
+        string columns[NUM_COLUMNS];
+        int i = 0;
+        for (char ch : line) {
+            if (ch != ',') columns[i] += ch;
+            else i++;
+        }
+        // use the columns with the above order to instantiate Student objects
+        Student new_student(columns[FIRSTNAME], columns[LASTNAME],
+                            std::stod(columns[GPA]), std::stoi(columns[AGE]));
+        students.push_back(new_student);
+        bool success = hashtable.Insert(new_student);
+        if (!success) fou << "Failed to Insert() at line " << line_num << endl;
+        line_num++;
+    }
 
+    std::mt19937 rng;
+    std::random_device rd;
+    std::uniform_int_distribution<int> rand_student(0, students.size() - 1);
+    rng.seed(rd());
+
+    fou << "====Post-read print:" << endl << hashtable << endl;
+
+    fou << "====Checking if a random object is in the hash table:" << endl;
+    Student rand_student_from_list = students[rand_student(rng)];
+    if (hashtable.Contains(rand_student_from_list)) {
+        fou << "Hash table contains " << rand_student_from_list << endl;
+    } else {
+        fou << "Hash table does not contain " << rand_student_from_list << endl;
+    }
+    fou << endl;
+
+    fou << "====Removing this random object from the hash table:" << endl;
+    if (hashtable.Remove(rand_student_from_list)) {
+        fou << "Successfully removed " << rand_student_from_list << endl;
+    } else {
+        fou << "Failed to remove " << rand_student_from_list << endl;
+    }
+    fou << endl;
+
+    fou << "====Checking if this object is still in the hash table:" << endl;
+    if (hashtable.Contains(rand_student_from_list)) {
+        fou << "Hash table contains " << rand_student_from_list << endl;
+    } else {
+        fou << "Hash table does not contain " << rand_student_from_list << endl;
+    }
+    fou << endl;
+
+    Student new_custom_student("Phi", "Luu", 4.0, 20);
+    fou << "====Inserting a new object into the hash table:" << endl;
+    if (hashtable.Insert(new_custom_student)) {
+        fou << "Successfully inserted " << new_custom_student << endl;
+    } else {
+        fou << "Failed to insert " << new_custom_student << endl;
+    }
+    fou << endl;
+
+    fou << "====Checking if this object is in the hash table:" << endl;
+    if (hashtable.Contains(new_custom_student)) {
+        fou << "Hash table contains " << new_custom_student << endl;
+    } else {
+        fou << "Hash table does not contain " << new_custom_student << endl;
+    }
+    fou << endl;
+
+    fou << "====Post-modified print:" << endl;
+    fou << "Hash table should contain " << new_custom_student
+        << " and should not contain " << rand_student_from_list << endl
+        << hashtable << endl;
 
     fin.close();
     fou.close();
@@ -146,8 +224,7 @@ void CreateCsvTestFile(std::ifstream& infile, std::ofstream& outfile) {
             if (ch == ' ') ch = ',';
 
         // output extra info (GPA and age) to  outfile
-        outfile << name << ','
-                << round(rand_gpa(rng) * 100.0) / 100.0 << ','
+        outfile << name << ',' << round(rand_gpa(rng) * 100.0) / 100.0 << ','
                 << rand_age(rng) << endl;
     }
 }
