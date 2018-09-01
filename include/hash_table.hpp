@@ -203,7 +203,7 @@ private:
 
 // string is a valid type for the hash class
 template <>
-class Hash<string>{
+class Hash<string> {
 public:
     // Uses Horner's rule to make an okay hash function.
     // Takes in a string key and returns a size_t index.
