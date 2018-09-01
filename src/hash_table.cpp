@@ -19,11 +19,27 @@ public:
           gpa_{gpa},
           age_{age} {}
 
+    Student(const Student& rhs) : gpa_{rhs.gpa_}, age_{rhs.age_} {
+        SetFullName(rhs.firstname_, rhs.lastname_);
+    }
+
+    Student& operator=(const Student& rhs) {
+        if (this != &rhs) {
+            SetFullName(rhs.firstname_, rhs.lastname_);
+            SetGpa(rhs.gpa_);
+            SetAge(rhs.age_);
+        }
+        return *this;
+    }
+
     // Must define equality to use the Hash class
 
+    // Two Students equal if everything is the same.
     bool operator==(const Student& rhs) const {
         return firstname_.compare(rhs.firstname_) == 0
-               && lastname_.compare(rhs.lastname_) == 0;
+               && lastname_.compare(rhs.lastname_) == 0
+               && abs(gpa_ - rhs.gpa_) < DBL_EPSILON
+               && age_ == rhs.age_;
     }
 
     bool operator!=(const Student& rhs) const { return !(*this == rhs); }
@@ -59,8 +75,8 @@ public:
     // Print method - for debugging purposes
     friend ostream& operator<<(ostream& out, const Student& student) {
         out << "{ Name: " << student.GetFullName()
-            << ", GPA: " << student.GetGpa()
-            << ", Age: " << student.GetAge() << " }";
+            << ", GPA: " << student.GetGpa() << ", Age: " << student.GetAge()
+            << " }";
         return out;
     }
 
