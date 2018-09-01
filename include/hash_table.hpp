@@ -7,12 +7,12 @@
 // This template class is an implementation of the hash table abstract data type
 // and serves as a way to practice my data structure skills.
 // This class provides methods to interact with a hash table, including
-// - Creating the table
-// - Making a copy of the table
-// - Getting the size of the table
-// - Adding an element to the table
-// - Removing an element from the table
-// - Checking whether the table contains an element or not
+//     - Creating the table
+//     - Making a copy of the table
+//     - Getting the size of the table
+//     - Adding an element to the table
+//     - Removing an element from the table
+//     - Checking whether the table contains an element or not
 
 #ifndef ALGORITHMS_INCLUDE_HASHTABLE_HPP_
 #define ALGORITHMS_INCLUDE_HASHTABLE_HPP_
