@@ -11,11 +11,11 @@
 #define ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
 
 // A BubbleSort version used for normal arrays.
-template<class T>
-void BubbleSort(T* array, int size) {
+template<class Comparable>
+void BubbleSort(Comparable* array, int size) {
     // flag to check swapped elements, first assuming the array is unsorted
     bool swapped = true;
-    T tmp { 0 };
+    Comparable tmp { 0 };
 
     // keep sorting while there are unorder pairs
     while (swapped) {
@@ -41,8 +41,8 @@ void BubbleSort(T* array, int size) {
 }
 
 // A BubbleSort version used for smart arrays, such as vectors.
-template<class T>
-void BubbleSort(T& array) {
+template<class Comparable>
+void BubbleSort(Comparable& array) {
     // flag to check swapped elements, first assuming the array is unsorted
     bool swapped = true;
     size_t size = array.size();

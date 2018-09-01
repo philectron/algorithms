@@ -21,16 +21,17 @@
 #include <stdexcept>
 #include <string>
 
-template<class T>
+template<class Comparable>
 class BinarySearchTree {
 // BINARY SEARCH TREE NODE. LEFT NODE IS SMALLER. RIGHT NODE IS GREATER.
 private:
     struct BinaryNode {
-        T data;
+        Comparable data;
         struct BinaryNode* left;
         struct BinaryNode* right;
 
-        BinaryNode(const T& data = T {}, BinaryNode* left = nullptr,
+        BinaryNode(const Comparable& data = Comparable {},
+                   BinaryNode* left = nullptr,
                    BinaryNode* right = nullptr) {
             this->data = data;
             this->left = left;
@@ -63,7 +64,7 @@ public:
 
     // Returns a constant reference to the value of the leftmost binary node.
     // Throws std::out_of_range exception if the tree is empty.
-    const T& FindMin() const {
+    const Comparable& FindMin() const {
         if (IsEmpty()) throw std::out_of_range(
                       "BinarySearchTree::FindMin(): Tree is empty.");
 
@@ -72,24 +73,26 @@ public:
 
     // Returns a constant reference to the value of the rightmost binary node.
     // Throws std::out_of_range exception if the tree is empty.
-    const T& FindMax() const {
+    const Comparable& FindMax() const {
         if (IsEmpty()) throw std::out_of_range(
                       "BinarySearchTree::FindMax(): Tree is empty.");
 
         return FindMax(root_)->data;
     }
 
-    bool Contains(const T& value) const { return Contains(value, root_); }
+    bool Contains(const Comparable& value) const {
+        return Contains(value, root_);
+    }
 
     bool IsEmpty() const { return root_ == nullptr; }
 
     // Adds a new element to the right position in the tree.
     // Assumes that all elements have different values from each other.
-    void Insert(const T& value) { Insert(value, root_); }
+    void Insert(const Comparable& value) { Insert(value, root_); }
 
     // Removes an element from the tree and keeps the tree sorted.
     // Assumes that all elements have different values from each other.
-    void Remove(const T& value) { Remove(value, root_); }
+    void Remove(const Comparable& value) { Remove(value, root_); }
 
     // Removes all elements from the tree.
     void Clear() { Clear(root_); }
@@ -142,7 +145,7 @@ private:
 
     // Internal method that checks if a subtree has the specified binary node.
     // Assumes that all elements have different values from each other.
-    bool Contains(const T& value, BinaryNode* tree) const {
+    bool Contains(const Comparable& value, BinaryNode* tree) const {
         if (tree == nullptr) return false;
 
         if (value == tree->data) {
@@ -156,7 +159,7 @@ private:
 
     // Internal method that inserts a new binary node to a subtree in a correct
     // position.
-    void Insert(const T& value, BinaryNode*& tree) {
+    void Insert(const Comparable& value, BinaryNode*& tree) {
         if (tree == nullptr) {
             tree = new BinaryNode(value);
         } else if (value < tree->data) {
@@ -168,7 +171,7 @@ private:
 
     // Internal method that removes a binary node from a subtree and keeps
     // the order of that subtree.
-    void Remove(const T& value, BinaryNode*& tree) {
+    void Remove(const Comparable& value, BinaryNode*& tree) {
         if (tree == nullptr) return;
 
         if (value < tree->data) {
