@@ -90,14 +90,20 @@ private:
         int height;
 
         AvlNode(const Comparable& node_data = Comparable(),
-                AvlNode* left_node = nullptr, AvlNode* right_node = nullptr)
-            : data{node_data}, left{left_node}, right{right_node} {}
+                AvlNode* left_child = nullptr,
+                AvlNode* right_child = nullptr,
+                int node_height = 0)
+            : data{node_data},
+              left{left_child},
+              right{right_child},
+              height{node_height} {}
 
-        AvlNode(Comparable&& node_data, AvlNode* left_node = nullptr,
-                AvlNode* right_node = nullptr)
+        AvlNode(Comparable&& node_data, AvlNode* left_child = nullptr,
+                AvlNode* right_child = nullptr, int node_height = 0)
             : data{std::move(node_data)},
-              left{left_node},
-              right{right_node} {}
+              left{left_child},
+              right{right_child},
+              height{node_height} {}
     };
 
     // Private members
