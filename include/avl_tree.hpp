@@ -71,7 +71,9 @@ public:
 
     bool IsEmpty() const { return size_ == 0; }
 
-    bool Contains(const Comparable& object) const { return false; }
+    bool Contains(const Comparable& object) const {
+        return ContainsNode(object, root_);
+    }
 
     void Insert(const Comparable& object) {
         InsertNode(object, root_);
@@ -155,6 +157,21 @@ private:
             DeleteTree(root->right);
             delete root;
         }
+    }
+
+    // Internal recursive method
+    // Returns true if the subtree has the object and false otherwise.
+    // Works similar to binary search
+    bool ContainsNode(const Comparable& object, AvlNode* node) const {
+        // if traverse to a nullptr node, this means not found
+        if (!node) return false;
+
+        if (object == node->data)
+            return true;
+        else if (object < node->data)
+            return ContainsNode(object, node->left);
+        else
+            return ContainsNode(object, node->right);
     }
 
     // Internal recursive method
