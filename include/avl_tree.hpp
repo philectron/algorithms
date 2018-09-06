@@ -184,8 +184,8 @@ private:
         // if the object is less than current node, go left
         else if (object < node->data)
             InsertNode(object, node->left);
-        // if the object is more than current node, go right
-        else if (object > node->data)
+        // if the object is greater than or equal to current node, go right
+        else
             InsertNode(object, node->right);
 
         // balance the subtree from bottom to top
