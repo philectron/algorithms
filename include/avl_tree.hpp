@@ -17,6 +17,7 @@
 #ifndef ALGORITHMS_INCLUDE_AVLTREE_HPP_
 #define ALGORITHMS_INCLUDE_AVLTREE_HPP_
 
+#include <cassert>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -60,7 +61,7 @@ public:
     ~AvlTree() { Clear(); }
 
     void Clear() {
-        DeleteNode(root_);
+        DeleteTree(root_);
         size_ = height_ = 0;
     }
 
@@ -78,9 +79,21 @@ public:
         height_ = Height(root_) + 1;
     }
 
-    void Remove(const Comparable& object) {}
+    void Remove(const Comparable& object) {
+        if (Contains(object)) {
+            RemoveNode(object, root_);
+            size_--;
+            height_ = Height(root_) + 1;
+        }
+    }
 
-    void RemoveAll(const Comparable& object) {}
+    void RemoveAll(const Comparable& object) {
+        while (Contains(object)) {
+            RemoveNode(object, root_);
+            size_--;
+        }
+        height_ = Height(root_) + 1;
+    }
 
     friend ostream& operator<<(ostream& out, const AvlTree& avltree) {
         avltree.Print(out, avltree.root_);
@@ -134,13 +147,13 @@ private:
     }
 
     // Internal recursive method
-    // Deletes the subtree starting from  node  using postorder traversal.
+    // Deletes the subtree starting from  root  using postorder traversal.
     // In postorder traversal: left -> right -> parent.
-    void DeleteNode(AvlNode* node) {
-        if (node) {
-            DeleteNode(node->left);
-            DeleteNode(node->right);
-            delete node;
+    void DeleteTree(AvlNode* root) {
+        if (root) {
+            DeleteTree(root->left);
+            DeleteTree(root->right);
+            delete root;
         }
     }
 
@@ -196,6 +209,9 @@ private:
     // Internal method
     // Rotates subtree to the left and sets its new root.
     void RotateLeft(AvlNode*& node) {
+        // node  should not and must not be a nullptr
+        assert(node);
+
         AvlNode* new_root = node->right;
 
         node->right = new_root->left;
@@ -208,6 +224,9 @@ private:
     // Internal method
     // Rotates subtree to the right and sets its new root.
     void RotateRight(AvlNode*& node) {
+        // node  should not and must not be a nullptr
+        assert(node);
+
         AvlNode* new_root = node->left;
 
         node->left = new_root->right;
@@ -229,6 +248,9 @@ private:
     // Internal method
     // Sets the height of  node  when its children change.
     void SetHeight(AvlNode*& node) {
+        // node  should not and must not be a nullptr
+        assert(node);
+
         int left_height = Height(node->left);
         int right_height = Height(node->right);
 
@@ -238,18 +260,61 @@ private:
             node->height = right_height + 1;
     }
 
-    // // Internal recursive method
-    // // Out streams all nodes of an AVL tree (Ugly version) in preorder.
-    // // Node format: parentNodeVal_NodeVal
-    // void UglyPrint(ostream& out, AvlNode* node,
-    //                AvlNode* parent = nullptr) const {
-    //     if (!node) return;
+    // Internal recursive method
+    // Removes an existing object from the subtree with root  node .
+    void RemoveNode(const Comparable& object, AvlNode*& node) {
+        if (!node) return;
 
-    //     if (parent) out << parent->data << '_';
-    //     out << node->data << ' ';
-    //     UglyPrint(out, node->left, node);
-    //     UglyPrint(out, node->right, node);
-    // }
+        if (object < node->data) {
+            RemoveNode(object, node->left);
+        } else if (object > node->data) {
+            RemoveNode(object, node->right);
+        } else {
+            // if the target node has two children
+            if (node->left && node->right) {
+                // replace this node's data with the left-most node's data
+                // of that subtree
+                node->data = LeftMostData(node->right);
+                // remove that left most node starting from the right subtree
+                RemoveNode(node->data, node->right);
+            }
+            // if the target node has 1 child or 0 children
+            else {
+                AvlNode* tmp = node;
+                if (node->left)
+                    node = node->left;
+                else
+                    node = node->right;
+                delete tmp;
+            }
+        }
+        Balance(node);
+    }
+
+    // Internal method
+    // Returns the data of the left-most node of subtree with root  node .
+    Comparable LeftMostData(AvlNode* node) const {
+        // node  should not and must not be a nullptr
+        assert(node);
+
+        while (node->left) node = node->left;
+        return node->data;
+    }
+
+    /*
+    // Internal recursive method
+    // Out streams all nodes of an AVL tree (Ugly version) in preorder.
+    // Node format: parentNodeVal_NodeVal
+    void UglyPrint(ostream& out, AvlNode* node,
+                   AvlNode* parent = nullptr) const {
+        if (!node) return;
+
+        if (parent) out << parent->data << '_';
+        out << node->data << ' ';
+        UglyPrint(out, node->left, node);
+        UglyPrint(out, node->right, node);
+    }
+    */
 
     // Internal method
     // Out streams all nodes of an AVL tree.
