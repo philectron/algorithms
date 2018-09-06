@@ -93,11 +93,13 @@ public:
         while (Contains(object)) {
             RemoveNode(object, root_);
             size_--;
+            height_ = Height(root_) + 1;
         }
-        height_ = Height(root_) + 1;
     }
 
     friend ostream& operator<<(ostream& out, const AvlTree& avltree) {
+        out << "Size = " << avltree.Size() << ", Height = " << avltree.Height()
+            << endl;
         avltree.Print(out, avltree.root_);
         return out;
     }
@@ -339,7 +341,7 @@ private:
     // Credits: https://stackoverflow.com/a/19484210/4048938
     void Print(ostream& out, AvlNode* root) const {
         if (!root) {
-            out << "Tree is empty" << endl;
+            out << "AVL tree is empty" << endl;
         } else {
             // print all the nodes to the right of the root of this subtree
             if (root->right) PrintNode(out, root->right, true, "");
