@@ -9,6 +9,7 @@ CXXFLAGS = -g -pipe -O3 -std=c++0x -Wall -Wextra -lm -I$(INC_DIR)
 
 ALL = \
 		avl_tree \
+		binary_heap \
 		binary_search_tree \
 		bubble_sort \
 		hash_table \
@@ -28,6 +29,9 @@ $(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 
 avl_tree: $(SRC_DIR)/avl_tree.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+binary_heap: $(SRC_DIR)/binary_heap.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 binary_search_tree: $(SRC_DIR)/binary_search_tree.o

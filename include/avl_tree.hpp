@@ -8,7 +8,6 @@
 // This class provides methods to interact with an AVL tree, including
 //     - Creating the tree
 //     - Making a copy of the tree
-//     - Find maximum and minimum elements in the tree
 //     - Checking whether an element is in the tree
 //     - Adding an element to the tree
 //     - Removing an element from the tree
