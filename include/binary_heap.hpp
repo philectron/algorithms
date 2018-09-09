@@ -16,27 +16,54 @@
 #ifndef ALGORITHMS_INCLUDE_BINARYHEAP_HPP_
 #define ALGORITHMS_INCLUDE_BINARYHEAP_HPP_
 
+#include <cassert>
+#include <iostream>
+#include <stdexcept>
 #include <utility>
 #include <vector>
+
+using std::endl;
+using std::ostream;
 
 template <class Comparable>
 class BinaryHeap {
 public:
-    explicit BinaryHeap(int capacity = DEFAULT_CAPACITY) {}
+    explicit BinaryHeap(int capacity = DEFAULT_CAPACITY) : size_{0} {
+        array_.reserve(capacity);
+    }
 
-    explicit BinaryHeap(const std::vector<Comparable>& array) {}
+    explicit BinaryHeap(const std::vector<Comparable>& array)
+        : array_{array}, size_{(int)array.size()} {}
 
-    BinaryHeap(const BinaryHeap& rhs) {}
+    BinaryHeap(const BinaryHeap& rhs) : array_{rhs.array_}, size_{rhs.size_} {}
 
-    BinaryHeap& operator=(const BinaryHeap& rhs) {}
+    BinaryHeap& operator=(const BinaryHeap& rhs) {
+        if (this != &rhs) {
+            array_ = rhs.array_;
+            size_ = rhs.size_;
+        }
+        return *this;
+    }
 
-    ~BinaryHeap() {}
+    ~BinaryHeap() { Clear(); }
+
+    void Clear() {
+        array_.clear();
+        size_ = 0;
+    }
 
     int Size() const { return size_; }
 
     bool IsEmpty() const { return size_ == 0; }
 
-    const Comparable& FindMin() const { return array_.at(0); }
+    const Comparable& FindMin() const {
+        if (array_.IsEmpty()) throw std::length_error("FindMin(): Empty heap");
+        return array_.front();
+    }
+
+    std::vector<Comparable> ToVector() const {
+        return std::vector<Comparable>(array_);
+    }
 
     void Insert(const Comparable& object) {}
 
