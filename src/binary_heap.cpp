@@ -68,6 +68,31 @@ int main() {
     std::cout << "After RemoveMin" << endl << h << endl;
     std::cout << "Min item = " << min_item << endl;
 
+    h.RemoveMin(min_item);
+    std::cout << "After RemoveMin" << endl << h << endl;
+    std::cout << "Min item = " << min_item << endl;
+
+    h.RemoveMin(min_item);
+    std::cout << "After RemoveMin" << endl << h << endl;
+    std::cout << "Min item = " << min_item << endl;
+
+    std::vector<int> v;
+
+    v.push_back(5);
+    v.push_back(3);
+    v.push_back(6);
+    v.push_back(1);
+    v.push_back(4);
+    v.push_back(9);
+    v.push_back(7);
+    v.push_back(2);
+
+    std::cout << "Vector v =";
+    for (const auto& num : v) std::cout << ' ' << num;
+    std::cout << endl;
+    BinaryHeap<int> h1(v);
+    std::cout << "Heap h1 = v" << endl << h1 << endl;
+
     return 0;
     // </QUICK TEST>
     std::ifstream fin("../input/binary_heap.in");

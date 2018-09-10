@@ -34,7 +34,9 @@ public:
     }
 
     // Builds a heap from an arbitrary array of (unordered) items.
-    explicit BinaryHeap(const std::vector<Comparable>& array) {}
+    explicit BinaryHeap(const std::vector<Comparable>& array) : array_{array} {
+        BuildHeap();
+    }
 
     BinaryHeap(const BinaryHeap& rhs) : array_{rhs.array_} {}
 
@@ -83,30 +85,29 @@ public:
     void RemoveMin() {
         if (IsEmpty()) throw std::length_error("RemoveMin(): Empty heap");
 
-        // replace the front (min object) with the back (empty hole)
-        array_[0] = std::move(array_[array_.size()]);
-        // percolate the hole down, choose the smaller child
-        PercolateDown(0, array_.size());
+        // replace the front (the object) with the back (lowest priority object)
+        array_[0] = std::move(array_.back());
         // update size
         array_.resize(array_.size() - 1);
+        // percolate the hole down, choose the smaller child
+        PercolateDown(0, array_.size());
     }
 
     // Removes the object with the highest priority from the heap.
     // The object will be moved to  min_item .
     void RemoveMin(Comparable& min_item) {
         if (IsEmpty()) {
-            throw std::length_error(
-                "RemoveMin(Comparable& min_item): Empty heap");
+            throw std::length_error("RemoveMin(Comparable&): Empty heap");
         }
 
         // place the target object to the item
         min_item = std::move(array_[0]);
         // replace the front (min object) with the back (empty hole)
-        array_[0] = std::move(array_[array_.size()]);
-        // percolate the hole down, choose the smaller child
-        PercolateDown(0, array_.size());
+        array_[0] = std::move(array_.back());
         // update size
         array_.resize(array_.size() - 1);
+        // percolate the hole down, choose the smaller child
+        PercolateDown(0, array_.size());
     }
 
     static const int DEFAULT_CAPACITY = 32;
@@ -137,40 +138,46 @@ private:
 
     // Internal method
     // Builds a binary heap from an arbitrary array.
-    void BuildHeap() {}
+    void BuildHeap() {
+        // the leaves (from [size - 1] to [size / 2]) already form a valid heap
+        // so percolate every object in the first half down
+        for (int i = array_.size() / 2 - 1; i >= 0; i--)
+            PercolateDown(i, array_.size());
+    }
 
-    // Internal recursive method
+    // Internal method
     // Moves the hole in the heap downward until it's in the correct position.
     // Adjusts the heap in the range  [hole, end_index) . The smaller child will
     // become the parent.
     void PercolateDown(int hole, int end_index) {
-        int left_index = hole * 2 + 1, right_index = hole * 2 + 2;
+        // hole  should not and must not be out of range
+        assert(0 <= hole && hole < end_index);
 
-        // if there are two children
-        if (0 <= right_index && right_index < end_index) {
-            int min_index = MinIndex(left_index, right_index, end_index);
+        int child_index;
+        Comparable tmp = std::move(array_[hole]);
 
-            // move the smaller child up to the hole
-            array_[hole] = std::move(array_[min_index]);
-            // percolate the empty spot of the  min_index  child
-            PercolateDown(min_index, end_index);
+        // as long as the object at index  hole  has at least one child
+        while (hole * 2 + 1 < end_index) {
+            child_index = hole * 2 + 1;  // left child. right = left + 1
+
+            // if the right child is in range and smaller than the left child
+            if (child_index + 1 < end_index
+                && array_[child_index + 1] < array_[child_index]) {
+                // choose the right child, otherwise keep the index unchanged
+                child_index++;
+            }
+            // when the smaller child has been chosen, if it is smaller than the
+            // parent, then the parent becomes the smaller child
+            if (array_[child_index] < tmp)
+                array_[hole] = std::move(array_[child_index]);
+            else
+                break;
+
+            hole = child_index;
         }
-        // if there are only one child (aka left child only)
-        else if (0 <= left_index && left_index < end_index) {
-            // move the child up to the hole
-            array_[hole] = std::move(array_[left_index]);
-            // percolate the empty spot of the  left_index  child
-            PercolateDown(left_index, end_index);
-        }
-    }
 
-    // Returns the index in  array_  whose object is smaller the other one's.
-    int MinIndex(int i, int j, int end_index) {
-        // the indices should not and must not be out of range
-        assert(0 <= i && i < end_index && 0 <= j && j < end_index);
-
-        if (array_[i] < array_[j]) return i;
-        return j;
+        // when hole is at the correct position, bring back object to hole
+        array_[hole] = std::move(tmp);
     }
 
     // Internal recursive method
