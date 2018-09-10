@@ -28,36 +28,32 @@ using std::ostream;
 template <class Comparable>
 class BinaryHeap {
 public:
-    explicit BinaryHeap(int capacity = DEFAULT_CAPACITY) : size_{0} {
+    // Initializes the heap by reserving  capacity  memory slots for  array_ .
+    explicit BinaryHeap(int capacity = DEFAULT_CAPACITY) {
         array_.reserve(capacity);
     }
 
-    explicit BinaryHeap(const std::vector<Comparable>& array)
-        : array_{array}, size_{(int)array.size()} {}
+    // Builds a heap from an arbitrary array of (unordered) items.
+    explicit BinaryHeap(const std::vector<Comparable>& array) {}
 
-    BinaryHeap(const BinaryHeap& rhs) : array_{rhs.array_}, size_{rhs.size_} {}
+    BinaryHeap(const BinaryHeap& rhs) : array_{rhs.array_} {}
 
     BinaryHeap& operator=(const BinaryHeap& rhs) {
-        if (this != &rhs) {
-            array_ = rhs.array_;
-            size_ = rhs.size_;
-        }
+        if (this != &rhs) array_ = rhs.array_;
         return *this;
     }
 
     ~BinaryHeap() { Clear(); }
 
-    void Clear() {
-        array_.clear();
-        size_ = 0;
-    }
+    void Clear() { array_.clear(); }
 
-    int Size() const { return size_; }
+    int Size() const { return array_.size(); }
 
-    bool IsEmpty() const { return size_ == 0; }
+    bool IsEmpty() const { return array_.empty(); }
 
+    // Returns the value of the object with the highest priority.
     const Comparable& FindMin() const {
-        if (array_.IsEmpty()) throw std::length_error("FindMin(): Empty heap");
+        if (IsEmpty()) throw std::length_error("FindMin(): Empty heap");
         return array_.front();
     }
 
@@ -78,23 +74,24 @@ public:
         if (heap.IsEmpty()) {
             out << "Binary heap is empty" << endl;
         } else {
-            out << "Size = " << heap.Size() << endl;
+            out << "Size = " << heap.Size()
+                << ", Capacity = " << heap.array_.capacity() << endl;
             // print the right nodes. The smallest index of right nodes is 2
-            if (heap.size_ >= 3) heap.Print(out, heap.array_, 2, true, "");
+            if (heap.Size() >= 3) heap.Print(out, heap.array_, 2, true, "");
             // print the root of the heap (index 0)
             out << heap.array_.front() << endl;
             // print the left nodes. The smallest index of left nodes is 1
-            if (heap.size_ >= 2) heap.Print(out, heap.array_, 1, false, "");
+            if (heap.Size() >= 2) heap.Print(out, heap.array_, 1, false, "");
         }
 
         return out;
     }
 
 private:
-    // children at index  i  are stored at indices
+    // children of index  i  are stored at indices
     // 2i + 1  (left child) and  2i + 2  (right child)
-    std::vector<Comparable> array_;
-    int size_;
+    // parent of index  i  (i > 0) is stored at index  (i - 1) / 2
+    std::vector<Comparable> array_;  // start at 0
 
     void BuildHeap() {}
 
