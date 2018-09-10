@@ -8,28 +8,65 @@ using std::endl;
 
 int main() {
     // <QUICK TEST>
-    std::vector<int> vector;
-    vector.push_back(13);
-    vector.push_back(21);
-    vector.push_back(16);
-    vector.push_back(24);
-    vector.push_back(31);
-    vector.push_back(19);
-    vector.push_back(68);
-    vector.push_back(65);
-    vector.push_back(26);
-    vector.push_back(32);
-    BinaryHeap<int> heap(vector);
-    BinaryHeap<int> heap2;
-    BinaryHeap<int> heap3 = heap;
-    heap3 = heap3;
-    heap2 = heap3;
 
-    std::vector<int> v1 = heap2.ToVector();
-    for (const auto& object : v1) std::cout << object << ' ';
-    std::cout << endl;
+    // std::cout << "array_.size() = " << array_.size() << endl;
+    // std::cout << "array_.capacity() = " << array_.capacity() << endl;
+    // std::cout << "array_.empty() = " << array_.empty() << endl;
+    // if (!array_.empty()) {
+    //     for (const auto& object : array_) std::cout << object << ' ';
+    //     std::cout << endl;
+    // }
 
-    std::cout << heap2 << endl;
+    BinaryHeap<int> h(8);
+    std::cout << h << endl;
+
+    h.Insert(13);
+    std::cout << h << endl;
+
+    h.Insert(21);
+    std::cout << h << endl;
+
+    h.Insert(19);
+    std::cout << h << endl;
+
+    h.Insert(16);
+    std::cout << h << endl;
+
+    h.Insert(68);
+    std::cout << h << endl;
+
+    h.Insert(31);
+    std::cout << h << endl;
+
+    h.Insert(65);
+    std::cout << h << endl;
+
+    h.Insert(32);
+    std::cout << h << endl;
+
+    h.Insert(24);
+    std::cout << h << endl;
+
+    h.Insert(26);
+    std::cout << h << endl;
+
+    h.Insert(5);
+    std::cout << h << endl;
+
+    h.Insert(1);
+    std::cout << "Final Insert" << endl << h << endl;
+
+    int min_item = 0;
+
+    std::cout << "Before RemoveMin, Min item = " << min_item << endl;
+
+    h.RemoveMin(min_item);
+    std::cout << "After RemoveMin" << endl << h << endl;
+    std::cout << "Min item = " << min_item << endl;
+
+    h.RemoveMin(min_item);
+    std::cout << "After RemoveMin" << endl << h << endl;
+    std::cout << "Min item = " << min_item << endl;
 
     return 0;
     // </QUICK TEST>
