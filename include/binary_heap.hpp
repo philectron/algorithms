@@ -61,7 +61,21 @@ public:
         return std::vector<Comparable>(array_);
     }
 
-    void Insert(const Comparable& object) {}
+    void Insert(const Comparable& object) {
+        int hole = array_.size();
+
+        // create a hole at the back of the array
+        array_.resize(hole + 1);
+
+        // as long as children is smaller than parent
+        while (hole > 0 && object < array_[(hole - 1) / 2]) {
+            // percolate the hole up (move the parent down)
+            array_[hole] = std::move(array_[(hole - 1) / 2]);
+            hole = (hole - 1) / 2;
+        }
+
+        array_[hole] = object;
+    }
 
     void RemoveMin() {}
 
