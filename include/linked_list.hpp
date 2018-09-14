@@ -4,15 +4,22 @@
 //
 // Data Structures and Algorithms: Linked Lists in C++
 //
-// This template class mimics the Standard Template Library std::list of C++ and
-// serves as a way to practice my data structure skills.
-// This class provides methods to interact with a linked list, including
-//     - Creating the list
-//     - Making a copy of the list
-//     - Getting the size of the list
-//     - Accessing an element in the list
-//     - Adding an element to the list
-//     - Removing an element from the list
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  LinkedList  provides a few simple methods to interact with a
+// linked list, including
+// - Creating a linked list
+// - Cloning a linked list
+// - Assigning one linked list to another
+// - Accessing front and back of a linked list
+// - Accessing an arbitrary index of a linked list
+// - Checking if a linked list contains an element
+// - Inserting an element into the front and back of a linked list
+// - Inserting an element into an arbitrary index of a linked list
+// - Removing an element from the front and back of a linked list
+// - Removing an element from an arbitrary index of a linked list
+// - Clearing and destroying a linked list
 
 #ifndef ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
 #define ALGORITHMS_INCLUDE_LINKEDLIST_HPP_

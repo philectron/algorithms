@@ -2,16 +2,20 @@
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: AVL Trees in C++
+// Data Structures and Algorithms: Adelson-Velskii and Landis (AVL) Trees in C++
 //
-// This template class serves as a way to practice my data structure skills.
-// This class provides methods to interact with an AVL tree, including
-//     - Creating the tree
-//     - Making a copy of the tree
-//     - Checking whether an element is in the tree
-//     - Adding an element to the tree
-//     - Removing an element from the tree
-//     - Clearing the tree
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  AvlTree  provides a few simple methods to interact with an
+// AVL tree, including
+// - Creating an AVL tree
+// - Cloning an AVL tree
+// - Assigning one AVL tree to another
+// - Checking if an AVL tree contains an element
+// - Inserting an element into an AVL tree
+// - Removing an element from an AVL tree
+// - Clearing and destroying an AVL tree
 
 #ifndef ALGORITHMS_INCLUDE_AVLTREE_HPP_
 #define ALGORITHMS_INCLUDE_AVLTREE_HPP_

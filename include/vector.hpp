@@ -4,15 +4,21 @@
 //
 // Data Structures and Algorithms: Vectors in C++
 //
-// This template class mimics the Standard Template Library std::vector of C++
-// and serves as a way to practice my data structure skills. This class provides
-// methods to interact with a vector, including
-//     - Creating a vector
-//     - Making a copy of a vector
-//     - Getting the size of a vector
-//     - Accessing an element in a vector
-//     - Adding an element to a vector
-//     - Removing an element from a vector
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  Vector  provides a few simple methods to interact with a vector,
+// including
+// - Creating a vector
+// - Cloning a vector
+// - Assigning one vector to another
+// - Accessing elements at the front and back of a vector
+// - Accessing the element at an arbitrary index in a vector
+// - Inserting an element into the front and back of a vector
+// - Inserting an element into an arbitrary index of a vector
+// - Removing an element from the front and back of a vector
+// - Removing an element from an arbitrary index of a vector
+// - Clearing and destroying a vector
 
 #ifndef ALGORITHMS_INCLUDE_VECTOR_HPP_
 #define ALGORITHMS_INCLUDE_VECTOR_HPP_

@@ -4,16 +4,18 @@
 //
 // Data Structures and Algorithms: Skip Lists in C++
 //
-// This template class is an implementation of the skip list abstract data type
-// and serves as a way to practice my data structure skills.
-// This class provides methods to interact with a skip list, including
-//     - Creating the list
-//     - Making hard and soft copies of the list
-//     - Getting the size of the list
-//     - Getting the height of the list
-//     - Adding an element to the list
-//     - Removing an element from the list
-//     - Checking whether the list contains an element or not
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  SkipList  provides a few simple methods to interact with
+// a skip list, including
+// - Creating a skip list
+// - Making soft copies and hard copies of a skip list
+// - Assigning one skip list to another
+// - Checking if a skip list contains an element
+// - Inserting an element into a skip list
+// - Removing an element from a skip list
+// - Clearing and destroying a skip list
 
 #ifndef ALGORITHMS_INCLUDE_SKIPLIST_HPP_
 #define ALGORITHMS_INCLUDE_SKIPLIST_HPP_

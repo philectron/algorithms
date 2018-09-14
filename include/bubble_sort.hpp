@@ -4,8 +4,11 @@
 //
 // Data Structures and Algorithms: Bubble Sort in C++
 //
-// Sorts an array of integers by moving larger values to the right and smaller
-// values to the left (bubble sort).
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// Sorts an array by moving larger values to the right and smaller values to
+// the left (bubble sort).
 
 #ifndef ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
 #define ALGORITHMS_INCLUDE_BUBBLESORT_HPP_

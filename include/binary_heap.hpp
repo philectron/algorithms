@@ -4,14 +4,19 @@
 //
 // Data Structures and Algorithms: Binary Heaps (Priority Queues) in C++
 //
-// This template class serves as a way to practice my data structure skills.
-// This class provides methods to interact with a binary heap, including
-//     - Creating the heap
-//     - Making a copy of the heap
-//     - Finding the highest priority (minimum) element in the heap
-//     - Adding an element to the heap
-//     - Removing the highest priority (minimum) element from the heap
-//     - Clearing the heap
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  BinaryHeap  provides a few simple methods to interact with a heap,
+// including
+// - Creating a heap
+// - Cloning a heap
+// - Building a heap from an arbitrary array
+// - Assigning one heap to another
+// - Getting the highest priority element in a heap
+// - Inserting an element into a heap
+// - Removing the highest priority element from a heap
+// - Clearing and destroying a heap
 
 #ifndef ALGORITHMS_INCLUDE_BINARYHEAP_HPP_
 #define ALGORITHMS_INCLUDE_BINARYHEAP_HPP_

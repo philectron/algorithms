@@ -4,16 +4,19 @@
 //
 // Data Structures and Algorithms: Stacks in C++
 //
-// This template class mimics the Standard Template Library std::stack of C++
-// and serves as a way to practice my data structure skills.
-// This class provides methods to interact with a stack, including
-//     - Creating the stack
-//     - Making a copy of the stack
-//     - Getting the size of the stack
-//     - Accessing the top element of the stack
-//     - Adding an element to the top of the stack
-//     - Removing the top element from the stack
-//     - Clearing the stack
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  Stack  provides a few simple methods to interact with a stack,
+// including
+// - Creating a stack
+// - Cloning a stack
+// - Assigning one stack to another
+// - Accessing the element on the top of a stack
+// - Inserting an element into the top of a stack
+// - Removing an element from the top of a stack
+// - Clearing and destroying a stack
+
 
 #ifndef ALGORITHMS_INCLUDE_STACK_HPP_
 #define ALGORITHMS_INCLUDE_STACK_HPP_

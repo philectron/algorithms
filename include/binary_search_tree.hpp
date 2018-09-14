@@ -4,15 +4,18 @@
 //
 // Data Structures and Algorithms: Binary Search Trees in C++
 //
-// This template class serves as a way to practice my data structure skills.
-// This class provides methods to interact with a binary search tree, including
-//     - Creating the tree
-//     - Making a copy of the tree
-//     - Find maximum and minimum elements in the tree
-//     - Checking whether an element is in the tree
-//     - Adding an element to the tree
-//     - Removing an element from the tree
-//     - Clearing the tree
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  BinarySearchTree  provides a few simple methods to interact with a
+// binary search tree, including
+// - Creating a binary search tree
+// - Cloning a binary search tree
+// - Assigning one binary search tree to another
+// - Getting minimum and maximum elements in a binary search tree
+// - Inserting an element into a binary search tree
+// - Removing an element from a binary search tree
+// - Clearing and destroying a binary search tree
 
 #ifndef ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
 #define ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_

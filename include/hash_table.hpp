@@ -4,15 +4,18 @@
 //
 // Data Structures and Algorithms: Hash Tables in C++
 //
-// This template class is an implementation of the hash table abstract data type
-// and serves as a way to practice my data structure skills.
-// This class provides methods to interact with a hash table, including
-//     - Creating the table
-//     - Making a copy of the table
-//     - Getting the size of the table
-//     - Adding an element to the table
-//     - Removing an element from the table
-//     - Checking whether the table contains an element or not
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  HashTable  provides a few simple methods to interact with a
+// hash table, including
+// - Creating a hash table
+// - Cloning a hash table
+// - Assigning one hash table to another
+// - Checking if a hash table contains an element
+// - Inserting an element into a hash table
+// - Removing an element from a hash table
+// - Clearing and destroying a hash table
 
 #ifndef ALGORITHMS_INCLUDE_HASHTABLE_HPP_
 #define ALGORITHMS_INCLUDE_HASHTABLE_HPP_

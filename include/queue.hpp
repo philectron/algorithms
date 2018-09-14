@@ -4,16 +4,18 @@
 //
 // Data Structures and Algorithms: Queues in C++
 //
-// This template class mimics the Standard Template Library std::queue of C++
-// and serves as a way to practice my data structure skills.
-// This class provides methods to interact with a queue, including
-//     - Creating the queue
-//     - Making a copy of the queue
-//     - Getting the size of the queue
-//     - Accessing the top element of the queue
-//     - Adding an element to the top of the queue
-//     - Removing the top element from the queue
-//     - Clearing the queue
+// This implementation serves as one of many ways to refine skills in
+// data structures and algorithms.
+//
+// The class  Queue  provides a few simple methods to interact with a queue,
+// including
+// - Creating a queue
+// - Cloning a queue
+// - Assigning one queue to another
+// - Accessing front and back of a queue
+// - Inserting an element into the front and back of a queue
+// - Removing an element from the front and back of a queue
+// - Clearing and destroying a queue
 
 #ifndef ALGORITHMS_INCLUDE_QUEUE_HPP_
 #define ALGORITHMS_INCLUDE_QUEUE_HPP_
