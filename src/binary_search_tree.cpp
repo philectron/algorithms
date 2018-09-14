@@ -1,11 +1,12 @@
+#include "binary_search_tree.hpp"
+
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <random>
 #include <vector>
 
-#include "binary_search_tree.hpp"
-
+using datastructure::BinarySearchTree;
 using std::endl;
 
 int main() {

@@ -1,7 +1,8 @@
-#include <fstream>
-
 #include "stack.hpp"
 
+#include <fstream>
+
+using datastructure::Stack;
 using std::endl;
 
 int main() {

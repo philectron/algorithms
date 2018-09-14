@@ -29,6 +29,8 @@ using std::ostream;
 using std::string;
 using std::vector;
 
+namespace datastructure {
+
 // Generic hash class declaration
 template <class Key>
 class Hash {
@@ -217,5 +219,7 @@ public:
         return hashval;
     }
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_HASHTABLE_HPP_

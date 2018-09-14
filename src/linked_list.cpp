@@ -1,7 +1,8 @@
-#include <fstream>
-
 #include "linked_list.hpp"
 
+#include <fstream>
+
+using datastructure::LinkedList;
 using std::endl;
 
 int main() {

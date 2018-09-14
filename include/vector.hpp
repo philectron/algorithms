@@ -24,6 +24,8 @@
 using std::endl;
 using std::ostream;
 
+namespace datastructure {
+
 template <class T>
 class Vector {
 public:
@@ -212,5 +214,7 @@ private:
     int size_;
     int capacity_;
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_VECTOR_HPP_

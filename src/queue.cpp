@@ -1,7 +1,8 @@
-#include <fstream>
-
 #include "queue.hpp"
 
+#include <fstream>
+
+using datastructure::Queue;
 using std::endl;
 
 int main() {

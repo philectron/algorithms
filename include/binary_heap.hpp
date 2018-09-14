@@ -25,6 +25,8 @@
 using std::endl;
 using std::ostream;
 
+namespace datastructure {
+
 template <class Comparable>
 class BinaryHeap {
 public:
@@ -220,5 +222,7 @@ private:
         }
     }
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_BINARYHEAP_HPP_

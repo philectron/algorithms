@@ -5,6 +5,7 @@
 #include <random>
 #include <vector>
 
+using datastructure::AvlTree;
 using std::endl;
 
 int main() {

@@ -24,6 +24,8 @@
 using std::endl;
 using std::ostream;
 
+namespace datastructure {
+
 template <class Comparable>
 class AvlTree {
 public:
@@ -386,5 +388,7 @@ private:
         }
     }
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_AVLTREE_HPP_

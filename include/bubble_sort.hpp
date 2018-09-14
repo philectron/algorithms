@@ -10,6 +10,11 @@
 #ifndef ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
 #define ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
 
+#include <cstddef>
+#include <utility>
+
+namespace algorithm {
+
 // A BubbleSort version used for normal arrays.
 template<class Comparable>
 void BubbleSort(Comparable* array, int size) {
@@ -65,5 +70,7 @@ void BubbleSort(Comparable& array) {
         size--;
     }
 }
+
+}  // namespace algorithm
 
 #endif  // ifndef ALGORITHMS_INCLUDE_BUBBLESORT_HPP_

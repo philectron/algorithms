@@ -1,7 +1,8 @@
-#include <fstream>
-
 #include "skip_list.hpp"
 
+#include <fstream>
+
+using datastructure::SkipList;
 using std::endl;
 
 int main() {

@@ -22,6 +22,8 @@
 #include <stdexcept>
 #include <utility>
 
+namespace datastructure {
+
 template<class T>
 class Queue {
 // DOUBLY LINKED LIST NODE STRUCTURE
@@ -158,5 +160,7 @@ private:
     Node* tail_;
     int size_;
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_QUEUE_HPP_

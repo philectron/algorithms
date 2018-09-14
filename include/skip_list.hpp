@@ -28,6 +28,8 @@
 using std::endl;
 using std::ostream;
 
+namespace datastructure {
+
 template <class T>
 class SkipList {
 public:
@@ -508,5 +510,7 @@ private:
         out << prefix;
     }
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_SKIPLIST_HPP_

@@ -6,6 +6,7 @@
 #include <random>
 #include <vector>
 
+using datastructure::HashTable;
 using std::endl;
 using std::ostream;
 using std::string;
@@ -90,7 +91,7 @@ private:
 
 // Defines the hash function for the Student class
 template <>
-class Hash<Student> {
+class datastructure::Hash<Student> {
 public:
     // Hashes using student's name
     size_t operator()(const Student& student) {

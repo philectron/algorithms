@@ -22,6 +22,8 @@
 #include <string>
 #include <utility>
 
+namespace datastructure {
+
 template<class Comparable>
 class BinarySearchTree {
 // BINARY SEARCH TREE NODE. LEFT NODE IS SMALLER. RIGHT NODE IS GREATER.
@@ -275,5 +277,7 @@ private:
 private:
     BinaryNode* root_;
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_

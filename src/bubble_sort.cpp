@@ -1,9 +1,10 @@
+#include "bubble_sort.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <vector>
 
-#include "bubble_sort.hpp"
-
+using algorithm::BubbleSort;
 using std::endl;
 
 int main() {

@@ -22,6 +22,8 @@
 #include <stdexcept>
 #include <utility>
 
+namespace datastructure {
+
 template<class T>
 class Stack {
 // SINGLY LINKED LIST NODE STRUCTURE
@@ -164,5 +166,7 @@ private:
     Node* head_;
     int size_;
 };
+
+}  // namespace datastructure
 
 #endif  // ALGORITHMS_INCLUDE_STACK_HPP_

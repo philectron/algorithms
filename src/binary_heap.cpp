@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 
+using datastructure::BinaryHeap;
 using std::endl;
 
 int main() {

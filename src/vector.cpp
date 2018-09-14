@@ -1,8 +1,9 @@
+#include "vector.hpp"
+
 #include <fstream>
 #include <iostream>
 
-#include "vector.hpp"
-
+using datastructure::Vector;
 using std::endl;
 
 int main() {
