@@ -15,6 +15,7 @@ ALL = \
 		hash_table \
 		insertion_sort \
 		linked_list \
+		merge_sort \
 		queue \
 		selection_sort \
 		skip_list \
@@ -49,6 +50,9 @@ insertion_sort: $(SRC_DIR)/insertion_sort.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 linked_list: $(SRC_DIR)/linked_list.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+merge_sort: $(SRC_DIR)/merge_sort.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 queue: $(SRC_DIR)/queue.o
