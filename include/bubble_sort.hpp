@@ -18,7 +18,6 @@
 
 namespace algorithm {
 
-// A BubbleSort version used for normal arrays.
 template <class Comparable>
 void BubbleSort(Comparable* array, size_t size) {
     // flag to check swapped elements
@@ -43,7 +42,6 @@ void BubbleSort(Comparable* array, size_t size) {
     } while (swapped);
 }
 
-// A BubbleSort version used for smart arrays, such as vectors.
 template<class ArrayType>
 void BubbleSort(ArrayType& array) {
     // flag to check swapped elements
@@ -71,4 +69,4 @@ void BubbleSort(ArrayType& array) {
 
 }  // namespace algorithm
 
-#endif  // ifndef ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_BUBBLESORT_HPP_

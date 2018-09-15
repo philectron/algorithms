@@ -13,8 +13,10 @@ ALL = \
 		binary_search_tree \
 		bubble_sort \
 		hash_table \
+		insertion_sort \
 		linked_list \
 		queue \
+		selection_sort \
 		skip_list \
 		stack \
 		vector
@@ -43,10 +45,16 @@ bubble_sort: $(SRC_DIR)/bubble_sort.o
 hash_table: $(SRC_DIR)/hash_table.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
+insertion_sort: $(SRC_DIR)/insertion_sort.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
 linked_list: $(SRC_DIR)/linked_list.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 queue: $(SRC_DIR)/queue.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+selection_sort: $(SRC_DIR)/selection_sort.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 skip_list: $(SRC_DIR)/skip_list.o
