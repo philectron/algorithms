@@ -53,7 +53,8 @@ int main() {
 
         fou << endl << "After : ";
         for (const auto& value : array) fou << value << ' ';
-        fou << endl << endl;
+        fou << endl;
+        if (t < num_test_cases - 1) fou << endl;
     }
 
     fin.close();
