@@ -230,4 +230,4 @@ private:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_BINARYHEAP_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_BINARYHEAP_HPP_

@@ -395,4 +395,4 @@ private:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_AVLTREE_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_AVLTREE_HPP_

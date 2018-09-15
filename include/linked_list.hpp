@@ -363,4 +363,4 @@ private:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_LINKEDLIST_HPP_

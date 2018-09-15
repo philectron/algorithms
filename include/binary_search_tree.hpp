@@ -283,4 +283,4 @@ private:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_

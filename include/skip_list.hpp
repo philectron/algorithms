@@ -515,4 +515,4 @@ private:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_SKIPLIST_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_SKIPLIST_HPP_

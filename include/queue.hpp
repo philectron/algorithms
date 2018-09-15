@@ -165,4 +165,4 @@ private:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_QUEUE_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_QUEUE_HPP_

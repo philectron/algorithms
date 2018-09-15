@@ -223,4 +223,4 @@ private:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_VECTOR_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_VECTOR_HPP_

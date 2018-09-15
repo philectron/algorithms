@@ -225,4 +225,4 @@ public:
 
 }  // namespace datastructure
 
-#endif  // ALGORITHMS_INCLUDE_HASHTABLE_HPP_
+#endif  // #ifndef ALGORITHMS_INCLUDE_HASHTABLE_HPP_
