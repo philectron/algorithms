@@ -49,7 +49,7 @@ int main() {
         fou << "Before: ";
         for (const auto& value : array) fou << value << ' ';
 
-        BubbleSort<std::vector<int>>(array);
+        BubbleSort<int>(array);
 
         fou << endl << "After : ";
         for (const auto& value : array) fou << value << ' ';

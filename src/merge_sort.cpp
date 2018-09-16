@@ -49,7 +49,7 @@ int main() {
         fou << "Before:";
         for (const auto& value : array) fou << ' ' << value;
 
-        MergeSort<std::vector<int>>(array);
+        MergeSort<int>(array);
 
         fou << endl << "After :";
         for (const auto& value : array) fou << ' ' << value;

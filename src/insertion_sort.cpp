@@ -49,7 +49,7 @@ int main() {
         fou << "Before: ";
         for (const auto& value : array) fou << value << ' ';
 
-        InsertionSort<std::vector<int>>(array);
+        InsertionSort<int>(array);
 
         fou << endl << "After : ";
         for (const auto& value : array) fou << value << ' ';

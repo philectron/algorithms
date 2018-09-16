@@ -15,6 +15,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <vector>
 
 namespace algorithm {
 
@@ -31,8 +32,8 @@ void SelectionSort(Comparable* array, size_t size) {
     }
 }
 
-template <class ArrayType>
-void SelectionSort(ArrayType& array) {
+template <class Comparable>
+void SelectionSort(std::vector<Comparable>& array) {
     size_t size = array.size();
 
     // current back index of the sorted part

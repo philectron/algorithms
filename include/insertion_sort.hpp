@@ -16,6 +16,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <vector>
 
 namespace algorithm {
 
@@ -32,8 +33,8 @@ void InsertionSort(Comparable* array, size_t size) {
     }
 }
 
-template <class ArrayType>
-void InsertionSort(ArrayType& array) {
+template <class Comparable>
+void InsertionSort(std::vector<Comparable>& array) {
     size_t size = array.size();
 
     // keep track of the sorted part (the first element is already sorted)

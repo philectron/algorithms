@@ -15,6 +15,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <vector>
 
 namespace algorithm {
 
@@ -42,8 +43,8 @@ void BubbleSort(Comparable* array, size_t size) {
     } while (swapped);
 }
 
-template<class ArrayType>
-void BubbleSort(ArrayType& array) {
+template<class Comparable>
+void BubbleSort(std::vector<Comparable>& array) {
     // flag to check swapped elements
     bool swapped;
     size_t size = array.size();

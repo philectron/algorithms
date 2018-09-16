@@ -15,6 +15,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <vector>
 
 namespace algorithm {
 
@@ -51,9 +52,11 @@ void MergeSort(Comparable* array, size_t begin, size_t end) {
     Merge(array, begin, middle, end);
 }
 
-template <class ArrayType>
-void Merge(ArrayType& array, size_t begin, size_t middle, size_t end) {
-    ArrayType merged(end - begin);  // temporary array holding merged halves
+template <class Comparable>
+void Merge(std::vector<Comparable>& array, size_t begin, size_t middle,
+           size_t end) {
+    // temporary array holding merged halves
+    std::vector<Comparable> merged(end - begin);
     size_t i = begin, j = middle, k = 0;
 
     // put the smallest of the current elements of two halves first
@@ -72,8 +75,8 @@ void Merge(ArrayType& array, size_t begin, size_t middle, size_t end) {
     for (size_t t = 0; t < k; t++) array[t + begin] = std::move(merged[t]);
 }
 
-template <class ArrayType>
-void MergeSort(ArrayType& array, size_t begin, size_t end) {
+template <class Comparable>
+void MergeSort(std::vector<Comparable>& array, size_t begin, size_t end) {
     // array is already sorted if it has 1 element or 0 elements
     if (end - begin < 2) return;
 
@@ -89,8 +92,8 @@ void MergeSort(Comparable* array, size_t size) {
     MergeSort(array, 0, size);
 }
 
-template <class ArrayType>
-void MergeSort(ArrayType& array) {
+template <class Comparable>
+void MergeSort(std::vector<Comparable>& array) {
     MergeSort(array, 0, array.size());
 }
 
