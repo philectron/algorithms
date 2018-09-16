@@ -6,16 +6,11 @@
 #include <random>
 #include <vector>
 
-using datastructure::HashTable;
-using std::endl;
-using std::ostream;
-using std::string;
-
 // Use the class Student as an example
 class Student {
 public:
-    Student(string firstname = "", string lastname = "", double gpa = 0.0,
-            int age = 0)
+    Student(std::string firstname = "", std::string lastname = "",
+            double gpa = 0.0, int age = 0)
         : firstname_{firstname},
           lastname_{lastname},
           gpa_{gpa},
@@ -48,11 +43,13 @@ public:
 
     // Getters
 
-    string GetFirstName() const { return firstname_; }
+    std::string GetFirstName() const { return firstname_; }
 
-    string GetLastName() const { return lastname_; }
+    std::string GetLastName() const { return lastname_; }
 
-    string GetFullName() const { return GetFirstName() + ' ' + GetLastName(); }
+    std::string GetFullName() const {
+        return GetFirstName() + ' ' + GetLastName();
+    }
 
     // Rounds GPA to 2 decimal places.
     double GetGpa() const { return round(gpa_ * 100.0) / 100.0; }
@@ -61,11 +58,16 @@ public:
 
     // Setters
 
-    void SetFirstName(const string& firstname) { firstname_.assign(firstname); }
+    void SetFirstName(const std::string& firstname) {
+        firstname_.assign(firstname);
+    }
 
-    void SetLastName(const string& lastname) { lastname_.assign(lastname); }
+    void SetLastName(const std::string& lastname) {
+        lastname_.assign(lastname);
+    }
 
-    void SetFullName(const string& firstname, const string& lastname) {
+    void SetFullName(const std::string& firstname,
+                     const std::string& lastname) {
         SetFirstName(firstname);
         SetLastName(lastname);
     }
@@ -75,7 +77,7 @@ public:
     void SetAge(const int& age) { age_ = age; }
 
     // Print method - for debugging purposes
-    friend ostream& operator<<(ostream& out, const Student& student) {
+    friend std::ostream& operator<<(std::ostream& out, const Student& student) {
         out << "{ Name: " << student.GetFullName()
             << ", GPA: " << student.GetGpa() << ", Age: " << student.GetAge()
             << " }";
@@ -83,8 +85,8 @@ public:
     }
 
 private:
-    string firstname_;
-    string lastname_;
+    std::string firstname_;
+    std::string lastname_;
     double gpa_;
     int age_;
 };
@@ -95,7 +97,7 @@ class datastructure::Hash<Student> {
 public:
     // Hashes using student's name
     size_t operator()(const Student& student) {
-        static Hash<string> hashfunc;
+        static Hash<std::string> hashfunc;
 
         return hashfunc(student.GetFullName());
     }
@@ -108,22 +110,22 @@ int main() {
     std::ofstream fou("../output/hash_table.ou");
 
     if (!fin.is_open() || !fou.is_open()) {
-        std::cerr << "Could not open file(s)." << endl;
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
-    HashTable<Student> hashtable;
-    vector<Student> students;
+    datastructure::HashTable<Student> hashtable;
+    std::vector<Student> students;
 
     // read the CSV in  fin  row by row
-    string line;
+    std::string line;
     enum CSV_COLUMNS {FIRSTNAME, LASTNAME, GPA, AGE};
     const int NUM_COLUMNS = 4;
     int line_num = 0;
     while (std::getline(fin, line)) {
         // split the CSV lines
         // format: FirstName,LastName,GPA,Age
-        string columns[NUM_COLUMNS];
+        std::string columns[NUM_COLUMNS];
         int i = 0;
         for (char ch : line) {
             if (ch != ',') columns[i] += ch;
@@ -134,7 +136,7 @@ int main() {
                             std::stod(columns[GPA]), std::stoi(columns[AGE]));
         students.push_back(new_student);
         bool success = hashtable.Insert(new_student);
-        if (!success) fou << "Failed to Insert() at line " << line_num << endl;
+        if (!success) fou << "Failed to Insert() at line " << line_num << std::endl;
         line_num++;
     }
 
@@ -143,54 +145,54 @@ int main() {
     std::uniform_int_distribution<int> rand_student(0, students.size() - 1);
     rng.seed(rd());
 
-    fou << "====Post-read print:" << endl << hashtable << endl;
+    fou << "====Post-read print:" << std::endl << hashtable << std::endl;
 
-    fou << "====Checking if a random object is in the hash table:" << endl;
+    fou << "====Checking if a random object is in the hash table:" << std::endl;
     Student rand_student_from_list = students[rand_student(rng)];
     if (hashtable.Contains(rand_student_from_list)) {
-        fou << "Hash table contains " << rand_student_from_list << endl;
+        fou << "Hash table contains " << rand_student_from_list << std::endl;
     } else {
-        fou << "Hash table does not contain " << rand_student_from_list << endl;
+        fou << "Hash table does not contain " << rand_student_from_list << std::endl;
     }
-    fou << endl;
+    fou << std::endl;
 
-    fou << "====Removing this random object from the hash table:" << endl;
+    fou << "====Removing this random object from the hash table:" << std::endl;
     if (hashtable.Remove(rand_student_from_list)) {
-        fou << "Successfully removed " << rand_student_from_list << endl;
+        fou << "Successfully removed " << rand_student_from_list << std::endl;
     } else {
-        fou << "Failed to remove " << rand_student_from_list << endl;
+        fou << "Failed to remove " << rand_student_from_list << std::endl;
     }
-    fou << endl;
+    fou << std::endl;
 
-    fou << "====Checking if this object is still in the hash table:" << endl;
+    fou << "====Checking if this object is still in the hash table:" << std::endl;
     if (hashtable.Contains(rand_student_from_list)) {
-        fou << "Hash table contains " << rand_student_from_list << endl;
+        fou << "Hash table contains " << rand_student_from_list << std::endl;
     } else {
-        fou << "Hash table does not contain " << rand_student_from_list << endl;
+        fou << "Hash table does not contain " << rand_student_from_list << std::endl;
     }
-    fou << endl;
+    fou << std::endl;
 
     Student new_custom_student("Phi", "Luu", 4.0, 20);
-    fou << "====Inserting a new object into the hash table:" << endl;
+    fou << "====Inserting a new object into the hash table:" << std::endl;
     if (hashtable.Insert(new_custom_student)) {
-        fou << "Successfully inserted " << new_custom_student << endl;
+        fou << "Successfully inserted " << new_custom_student << std::endl;
     } else {
-        fou << "Failed to insert " << new_custom_student << endl;
+        fou << "Failed to insert " << new_custom_student << std::endl;
     }
-    fou << endl;
+    fou << std::endl;
 
-    fou << "====Checking if this object is in the hash table:" << endl;
+    fou << "====Checking if this object is in the hash table:" << std::endl;
     if (hashtable.Contains(new_custom_student)) {
-        fou << "Hash table contains " << new_custom_student << endl;
+        fou << "Hash table contains " << new_custom_student << std::endl;
     } else {
-        fou << "Hash table does not contain " << new_custom_student << endl;
+        fou << "Hash table does not contain " << new_custom_student << std::endl;
     }
-    fou << endl;
+    fou << std::endl;
 
-    fou << "====Post-modified print:" << endl;
+    fou << "====Post-modified print:" << std::endl;
     fou << "Hash table should contain " << new_custom_student
-        << " and should not contain " << rand_student_from_list << endl
-        << hashtable << endl;
+        << " and should not contain " << rand_student_from_list << std::endl
+        << hashtable << std::endl;
 
     fin.close();
     fou.close();
@@ -218,7 +220,7 @@ void CreateCsvTestFile(std::ifstream& infile, std::ofstream& outfile) {
     rng.seed(rd());
 
     // read the lines one by one
-    string name;
+    std::string name;
     while (std::getline(infile, name)) {
         // replace space between first name and last name with a comma
         for (char& ch : name)
@@ -226,6 +228,6 @@ void CreateCsvTestFile(std::ifstream& infile, std::ofstream& outfile) {
 
         // output extra info (GPA and age) to  outfile
         outfile << name << ',' << round(rand_gpa(rng) * 100.0) / 100.0 << ','
-                << rand_age(rng) << endl;
+                << rand_age(rng) << std::endl;
     }
 }

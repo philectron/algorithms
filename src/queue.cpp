@@ -2,15 +2,12 @@
 
 #include <fstream>
 
-using datastructure::Queue;
-using std::endl;
-
 int main() {
     std::ifstream fin("../input/queue.in");
     std::ofstream fou("../output/queue.ou");
 
     if (!fin.is_open() || !fou.is_open()) {
-        std::cerr << "Could not open file(s)." << endl;
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -19,7 +16,7 @@ int main() {
         fin >> num_test_cases;
 
         for (int t = 0; t < num_test_cases; t++) {
-            Queue<int> queue;
+            datastructure::Queue<int> queue;
             int size;
             fin >> size;
 
@@ -31,39 +28,39 @@ int main() {
 
             fou << "Initial:\n";
             fou << queue;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After push 0 to back:\n";
             queue.Enqueue(0);
             fou << queue;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After removing the front node:\n";
             queue.Dequeue();
             fou << queue;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After push 1 to back:\n";
             queue.Enqueue(1);
             fou << queue;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After push 2 to back:\n";
             queue.Enqueue(2);
             fou << queue;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After removing the front node:\n";
             queue.Dequeue();
             fou << queue;
-            fou << endl;
+            fou << std::endl;
 
-            fou << "Front node: " << queue.Front() << endl
-                 << endl;
+            fou << "Front node: " << queue.Front() << std::endl
+                 << std::endl;
 
             fou << "After creating a copy and change the copy to "
                  << "1 <-> 2 <-> 3 :\n";
-            Queue<int> copy = queue;
+            datastructure::Queue<int> copy = queue;
             copy.Clear();
             copy.Enqueue(1);
             copy.Enqueue(2);
@@ -72,7 +69,7 @@ int main() {
             fou << queue;
             fou << "Copied queue:\n";
             fou << copy;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After assigning copy queue to original queue:\n";
             queue = copy;
@@ -80,10 +77,10 @@ int main() {
             fou << queue;
             fou << "Copied queue:\n";
             fou << copy;
-            fou << endl << endl;
+            fou << std::endl << std::endl;
         }
     } catch (const std::out_of_range& e) {
-        fou << e.what() << endl;
+        fou << e.what() << std::endl;
     }
 
     fin.close();

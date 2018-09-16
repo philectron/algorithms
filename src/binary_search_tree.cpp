@@ -6,15 +6,12 @@
 #include <random>
 #include <vector>
 
-using datastructure::BinarySearchTree;
-using std::endl;
-
 int main() {
     std::ifstream fin("../input/binary_search_tree.in");
     std::ofstream fou("../output/binary_search_tree.ou");
 
     if (!fin.is_open() || !fou.is_open()) {
-        std::cerr << "Could not open file(s)." << endl;
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -22,21 +19,21 @@ int main() {
     fin >> num_test_cases;
 
     for (int t = 0; t < num_test_cases; t++) {
-        BinarySearchTree<int> tree;
+        datastructure::BinarySearchTree<int> tree;
         fou << tree;
         fou << "\nTry to find min/max in an empty tree:\n";
         fou << "Min = ";
         try {
-            fou << tree.FindMin() << endl;
+            fou << tree.FindMin() << std::endl;
         } catch (const std::out_of_range& e) {
-            fou << e.what() << endl;
+            fou << e.what() << std::endl;
         };
 
         fou << "Max = ";
         try {
-            fou << tree.FindMax() << endl;
+            fou << tree.FindMax() << std::endl;
         } catch (const std::out_of_range& e) {
-            fou << e.what() << endl;
+            fou << e.what() << std::endl;
         };
 
         int size;
@@ -59,25 +56,25 @@ int main() {
         if (!values.empty()) {
             int index = distr(gen);
             int target = values[index];
-            fou << "Removed " << target << endl;
+            fou << "Removed " << target << std::endl;
             tree.Remove(target);
             values.erase(values.begin() + index);
             fou << tree;
         }
 
         if (!values.empty()) {
-            fou << "\nMin = " << tree.FindMin() << endl;
-            fou << "Max = " << tree.FindMax() << endl;
+            fou << "\nMin = " << tree.FindMin() << std::endl;
+            fou << "Max = " << tree.FindMax() << std::endl;
             int find = values[distr(gen)];
             if (tree.Contains(find)) {
-                fou << "\nTree contains " << find << endl;
+                fou << "\nTree contains " << find << std::endl;
             } else {
-                fou << "\nTree does not have " << find << endl;
+                fou << "\nTree does not have " << find << std::endl;
             }
         }
 
         fou << "\nAfter copying the tree and changing the copy:\n";
-        BinarySearchTree<int> copy = tree;
+        datastructure::BinarySearchTree<int> copy = tree;
         copy.Clear();
         copy.Insert(-20);
         copy.Insert(-5);

@@ -27,9 +27,6 @@
 #include <string>
 #include <utility>
 
-using std::endl;
-using std::ostream;
-
 namespace datastructure {
 
 template <class T>
@@ -284,12 +281,13 @@ public:
     }
 
     // // Ugly prints, for debugging purposes
-    // friend ostream& operator<<(ostream& out, const SkipList& skiplist) {
+    // friend std::ostream& operator<<(std::ostream& out,
+    //                                 const SkipList& skiplist) {
     //     if (skiplist.IsEmpty()) {
-    //         out << "Skip list is empty" << endl;
+    //         out << "Skip list is empty" << std::endl;
     //     } else {
     //         out << "Size = " << skiplist.Size()
-    //             << ", Height = " << skiplist.Height() << endl;
+    //             << ", Height = " << skiplist.Height() << std::endl;
     //         Node* current_head = skiplist.top_head_;
     //         while (current_head) {
     //             out << "Head";
@@ -298,7 +296,7 @@ public:
     //                 out << " -> " << current->data;
     //                 current = current->next;
     //             }
-    //             out << endl;
+    //             out << std::endl;
     //             current_head = current_head->down;
     //         }
     //     }
@@ -306,12 +304,13 @@ public:
     // }
 
     // For debugging purposes
-    friend ostream& operator<<(ostream& out, const SkipList& skiplist) {
+    friend std::ostream& operator<<(std::ostream& out,
+                                    const SkipList& skiplist) {
         if (skiplist.IsEmpty()) {
-            out << "Skip list is empty" << endl;
+            out << "Skip list is empty" << std::endl;
         } else {
             out << "Size = " << skiplist.Size()
-                << ", Height = " << skiplist.Height() << endl;
+                << ", Height = " << skiplist.Height() << std::endl;
             skiplist.Print(out, skiplist.top_head_);
         }
 
@@ -462,7 +461,7 @@ private:
     }
 
     // Prints the skip list prettily, starting from the current head.
-    void Print(ostream& out, Node* current_head) const {
+    void Print(std::ostream& out, Node* current_head) const {
         // current_head  should not and must not be a nullptr
         assert(current_head);
 
@@ -474,13 +473,13 @@ private:
                 current = current->next;
             }
             current_head = current_head->down;
-            out << endl;
+            out << std::endl;
         }
     }
 
     // Goes to the bottom row and figures out the space between the current node
     // with the next node and add hyphens when needed.
-    void PrintNode(ostream& out, Node* prev, const T& nextvalue) const {
+    void PrintNode(std::ostream& out, Node* prev, const T& nextvalue) const {
         // prev  should not and must not be a nullptr
         assert(prev);
 

@@ -2,15 +2,12 @@
 
 #include <fstream>
 
-using datastructure::Stack;
-using std::endl;
-
 int main() {
     std::ifstream fin("../input/stack.in");
     std::ofstream fou("../output/stack.ou");
 
     if (!fin.is_open() || !fou.is_open()) {
-        std::cerr << "Could not open file(s)." << endl;
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -19,7 +16,7 @@ int main() {
         fin >> num_test_cases;
 
         for (int t = 0; t < num_test_cases; t++) {
-            Stack<int> stack;
+            datastructure::Stack<int> stack;
             int size;
             fin >> size;
 
@@ -31,39 +28,39 @@ int main() {
 
             fou << "Initial:\n";
             fou << stack;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After push 0 to top:\n";
             stack.Push(0);
             fou << stack;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After removing the top node:\n";
             stack.Pop();
             fou << stack;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After push 1 to top:\n";
             stack.Push(1);
             fou << stack;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After push 2 to top:\n";
             stack.Push(2);
             fou << stack;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After removing the top node:\n";
             stack.Pop();
             fou << stack;
-            fou << endl;
+            fou << std::endl;
 
-            fou << "Top node: " << stack.Top() << endl
-                 << endl;
+            fou << "Top node: " << stack.Top() << std::endl
+                 << std::endl;
 
             fou << "After creating a copy and change the copy to "
                  << "1 -> 2 -> 3 :\n";
-            Stack<int> copy = stack;
+            datastructure::Stack<int> copy = stack;
             copy.Clear();
             copy.Push(3);
             copy.Push(2);
@@ -72,7 +69,7 @@ int main() {
             fou << stack;
             fou << "Copied stack:\n";
             fou << copy;
-            fou << endl;
+            fou << std::endl;
 
             fou << "After assigning copy stack to original stack:\n";
             stack = copy;
@@ -80,10 +77,10 @@ int main() {
             fou << stack;
             fou << "Copied stack:\n";
             fou << copy;
-            fou << endl << endl;
+            fou << std::endl << std::endl;
         }
     } catch (const std::out_of_range& e) {
-        fou << e.what() << endl;
+        fou << e.what() << std::endl;
     }
 
     fin.close();

@@ -27,9 +27,6 @@
 #include <utility>
 #include <vector>
 
-using std::endl;
-using std::ostream;
-
 namespace datastructure {
 
 template <class Comparable>
@@ -120,16 +117,16 @@ public:
     static const int DEFAULT_CAPACITY = 32;
 
     // For debugging purposes
-    friend ostream& operator<<(ostream& out, const BinaryHeap& heap) {
+    friend std::ostream& operator<<(std::ostream& out, const BinaryHeap& heap) {
         if (heap.IsEmpty()) {
-            out << "Binary heap is empty" << endl;
+            out << "Binary heap is empty" << std::endl;
         } else {
             out << "Size = " << heap.Size()
-                << ", Capacity = " << heap.array_.capacity() << endl;
+                << ", Capacity = " << heap.array_.capacity() << std::endl;
             // print the right nodes. The smallest index of right nodes is 2
             if (heap.Size() >= 3) heap.Print(out, heap.array_, 2, true, "");
             // print the root of the heap (index 0)
-            out << heap.array_.front() << endl;
+            out << heap.array_.front() << std::endl;
             // print the left nodes. The smallest index of left nodes is 1
             if (heap.Size() >= 2) heap.Print(out, heap.array_, 1, false, "");
         }
@@ -192,7 +189,7 @@ private:
     // start_idx .
     // The direction of the heap is left to right (instead of up to down).
     // Credits: https://stackoverflow.com/a/19484210/4048938
-    void Print(ostream& out, const std::vector<Comparable>& array,
+    void Print(std::ostream& out, const std::vector<Comparable>& array,
                int start_idx, bool is_right_node, std::string indent) const {
         // start_idx  should be and must be greater than zero and less than
         // array's size
@@ -213,7 +210,7 @@ private:
         if (is_right_node) out << " /";
         else out << " \\";
 
-        out << "----- " << array[start_idx] << endl;
+        out << "----- " << array[start_idx] << std::endl;
 
         // print left children until the leftmost
         if (start_idx * 2 + 1 < (int)array.size()) {

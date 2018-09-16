@@ -27,9 +27,6 @@
 #include <stdexcept>
 #include <utility>
 
-using std::endl;
-using std::ostream;
-
 namespace datastructure {
 
 template <class T>
@@ -198,16 +195,16 @@ public:
     ConstIterator End() const { return &objects_[size_]; }
 
     // Used for debugging purposes
-    friend ostream& operator<<(ostream& out, const Vector& vector) {
+    friend std::ostream& operator<<(std::ostream& out, const Vector& vector) {
         if (vector.IsEmpty()) {
-            out << "Vector is empty" << endl;
+            out << "Vector is empty" << std::endl;
         } else {
             for (int i = 0; i < vector.size_; i++) {
                 out << vector[i];
                 if (i < vector.size_ - 1) out << ' ';
             }
-            out << endl << "Size = " << vector.size_;
-            out << endl << "Capacity = " << vector.capacity_ << endl;
+            out << std::endl << "Size = " << vector.size_;
+            out << std::endl << "Capacity = " << vector.capacity_ << std::endl;
         }
 
         return out;

@@ -25,9 +25,6 @@
 #include <string>
 #include <utility>
 
-using std::endl;
-using std::ostream;
-
 namespace datastructure {
 
 template <class Comparable>
@@ -102,9 +99,9 @@ public:
         }
     }
 
-    friend ostream& operator<<(ostream& out, const AvlTree& avltree) {
+    friend std::ostream& operator<<(std::ostream& out, const AvlTree& avltree) {
         out << "Size = " << avltree.Size() << ", Height = " << avltree.Height()
-            << endl;
+            << std::endl;
         avltree.Print(out, avltree.root_);
         return out;
     }
@@ -329,7 +326,7 @@ private:
     // Internal recursive method
     // Out streams all nodes of an AVL tree (Ugly version) in preorder.
     // Node format: parentNodeVal_NodeVal
-    void UglyPrint(ostream& out, AvlNode* node,
+    void UglyPrint(std::ostream& out, AvlNode* node,
                    AvlNode* parent = nullptr) const {
         if (!node) return;
 
@@ -344,14 +341,14 @@ private:
     // Out streams all nodes of an AVL tree.
     // The direction of the tree is left to right (instead of up to down).
     // Credits: https://stackoverflow.com/a/19484210/4048938
-    void Print(ostream& out, AvlNode* root) const {
+    void Print(std::ostream& out, AvlNode* root) const {
         if (!root) {
-            out << "AVL tree is empty" << endl;
+            out << "AVL tree is empty" << std::endl;
         } else {
             // print all the nodes to the right of the root of this subtree
             if (root->right) PrintNode(out, root->right, true, "");
             // print the root of this subtree
-            out << root->data << endl;
+            out << root->data << std::endl;
             // print all the nodes to the left of the root of this subtree
             if (root->left) PrintNode(out, root->left, false, "");
         }
@@ -361,7 +358,7 @@ private:
     // Out streams all nodes of a subtree with root  node .
     // The direction of the tree is left to right (instead of up to down).
     // Credits: https://stackoverflow.com/a/19484210/4048938
-    void PrintNode(ostream& out, AvlNode* node, bool is_right_node,
+    void PrintNode(std::ostream& out, AvlNode* node, bool is_right_node,
                    std::string indent) const {
         // print the right nodes until the rightmost
         if (node->right) {
@@ -380,7 +377,7 @@ private:
         else
             out << " \\";
 
-        out << "----- " << node->data << endl;
+        out << "----- " << node->data << std::endl;
 
         // print the left nodes until the leftmost
         if (node->left) {

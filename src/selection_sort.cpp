@@ -4,15 +4,12 @@
 #include <iostream>
 #include <vector>
 
-using algorithm::SelectionSort;
-using std::endl;
-
 int main() {
     std::ifstream fin("../input/selection_sort.in");
     std::ofstream fou("../output/selection_sort.ou");
 
     if (!fin.is_open() || !fou.is_open()) {
-        std::cerr << "Could not open file(s)." << endl;
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -21,7 +18,7 @@ int main() {
     fin >> num_test_cases;
 
     // sort half of the test cases in arrays
-    fou << "Performing selection sort on arrays" << endl << endl;
+    fou << "Performing selection sort on arrays" << std::endl << std::endl;
     for (int t = 1; t <= num_test_cases / 2; t++) {
         fin >> n;
         int array[n];
@@ -30,17 +27,17 @@ int main() {
         fou << "Before: ";
         for (int i = 0; i < n; i++) fou << array[i] << ' ';
 
-        SelectionSort<int>(array, n);
+        algorithm::SelectionSort<int>(array, n);
 
-        fou << endl << "After : ";
+        fou << std::endl << "After : ";
         for (int i = 0; i < n; i++) fou << array[i] << ' ';
-        fou << endl << endl;
+        fou << std::endl << std::endl;
     }
 
-    fou << "==============================" << endl << endl;
+    fou << "==============================" << std::endl << std::endl;
 
     // sort the remaining half of the test cases in vectors
-    fou << "Performing selection sort on std::vectors" << endl << endl;
+    fou << "Performing selection sort on std::vectors\n\n";
     for (int t = num_test_cases / 2 + 1; t <= num_test_cases; t++) {
         fin >> n;
         std::vector<int> array(n);
@@ -49,12 +46,12 @@ int main() {
         fou << "Before: ";
         for (const auto& value : array) fou << value << ' ';
 
-        SelectionSort<int>(array);
+        algorithm::SelectionSort<int>(array);
 
-        fou << endl << "After : ";
+        fou << std::endl << "After : ";
         for (const auto& value : array) fou << value << ' ';
-        fou << endl;
-        if (t < num_test_cases - 1) fou << endl;
+        fou << std::endl;
+        if (t < num_test_cases - 1) fou << std::endl;
     }
 
     fin.close();

@@ -26,12 +26,6 @@
 #include <utility>
 #include <vector>
 
-using std::endl;
-using std::list;
-using std::ostream;
-using std::string;
-using std::vector;
-
 namespace datastructure {
 
 // Generic hash class declaration
@@ -46,7 +40,8 @@ template <class HashedObj>
 class HashTable {
 public:
     explicit HashTable(int list_size = DEFAULT_CAPACITY)
-        : lists_{vector<list<HashedObj>>(list_size)}, current_size_{0} {}
+        : lists_{std::vector<std::list<HashedObj>>(list_size)},
+          current_size_{0} {}
 
     HashTable(const HashTable& rhs)
         : lists_{rhs.lists_}, current_size_{rhs.current_size_} {}
@@ -116,7 +111,8 @@ public:
         // get the index of the object and push to the front
         lists_[GetHash(x)].push_front(std::move(x));
         // increase size; rehash to get a good table load ratio when needed
-        if (++current_size_ > (int)lists_.size()) Rehash(); // 1:1 or less is good
+        // 1:1 or less is good
+        if (++current_size_ > (int)lists_.size()) Rehash();
 
         return true;
     }
@@ -145,19 +141,20 @@ public:
     // Used for debugging purposes
     // For this method to work,  HashedObj  needs to have an  operator<<()
     // method.
-    friend ostream& operator<<(ostream& out, const HashTable& hashtable) {
+    friend std::ostream& operator<<(std::ostream& out,
+                                    const HashTable& hashtable) {
         if (hashtable.IsEmpty()) {
-            out << "Hash table is empty" << endl;
+            out << "Hash table is empty" << std::endl;
         } else {
             // print sizes
-            out << "Current size = " << hashtable.CurrentSize() << endl
-                << "List size = " << hashtable.ListSize() << endl;
+            out << "Current size = " << hashtable.CurrentSize() << std::endl
+                << "List size = " << hashtable.ListSize() << std::endl;
 
             // print the table row by row
             for (int i = 0, rows = hashtable.ListSize(); i < rows; i++) {
                 // print the row number with right alignment
-                string rows_string = std::to_string(rows);
-                string i_string = std::to_string(i);
+                std::string rows_string = std::to_string(rows);
+                std::string i_string = std::to_string(i);
                 int num_digit_diff = rows_string.length() - i_string.length();
 
                 for (int j = 0; j < num_digit_diff; j++) out << ' ';
@@ -168,7 +165,7 @@ public:
                     out << object;
                     if (&object != &hashtable.lists_[i].back()) out << " -> ";
                 }
-                out << endl;
+                out << std::endl;
             }
         }
         return out;
@@ -178,7 +175,7 @@ public:
 
 private:
     // Private members
-    vector<list<HashedObj>> lists_;  // an array of lists
+    std::vector<std::list<HashedObj>> lists_;  // an array of lists
     int current_size_;  // the total number of hash links in the table
 
     // Private methods
@@ -188,7 +185,7 @@ private:
     // Builds another table that is twice as big and move the data there.
     void Rehash() {
         // save the current data
-        vector<list<HashedObj>> old_lists = lists_;
+        std::vector<std::list<HashedObj>> old_lists = lists_;
 
         // double the size of the table and clear all links in the lists
         lists_.resize(lists_.size() * 2);
@@ -208,14 +205,14 @@ private:
 
 // string is a valid type for the hash class
 template <>
-class Hash<string> {
+class Hash<std::string> {
 public:
     // Uses Horner's rule to make an okay hash function.
     // Takes in a string key and returns a size_t index.
     // Usage:
-    // Hash<string> hf;
+    // Hash<std::string> hf;
     // int index = hf(key);
-    size_t operator()(const string& key) {
+    size_t operator()(const std::string& key) {
         size_t hashval = 0;
 
         for (char ch : key) hashval += hashval * 37 + ch; // Horner's rule

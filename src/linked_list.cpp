@@ -2,15 +2,12 @@
 
 #include <fstream>
 
-using datastructure::LinkedList;
-using std::endl;
-
 int main() {
     std::ifstream fin("../input/linked_list.in");
     std::ofstream fou("../output/linked_list.ou");
 
     if (!fin.is_open() || !fou.is_open()) {
-        std::cerr << "Could not open file(s)." << endl;
+        std::cerr << "Could not open file(s)." << std::endl;
         return 1;
     }
 
@@ -18,7 +15,7 @@ int main() {
     fin >> num_test_cases;
 
     for (int t = 0; t < num_test_cases; t++) {
-        LinkedList<int> list;
+        datastructure::LinkedList<int> list;
         int size;
         fin >> size;
 
@@ -30,25 +27,25 @@ int main() {
 
         fou << "Initial:\n";
         fou << list;
-        fou << endl;
+        fou << std::endl;
 
         fou << "After removing the front node:\n";
         list.PopFront();
         fou << list;
-        fou << endl;
+        fou << std::endl;
 
         fou << "After removing the back node:\n";
         list.PopBack();
         fou << list;
-        fou << endl;
+        fou << std::endl;
 
         fou << "After push 0 to the front:\n";
         list.PushFront(0);
         fou << list;
-        fou << endl;
+        fou << std::endl;
 
-        fou << "Front node: " << list.Front() << endl;
-        fou << "Back node: " << list.Back() << endl << endl;
+        fou << "Front node: " << list.Front() << std::endl;
+        fou << "Back node: " << list.Back() << std::endl << std::endl;
 
         fou << "After insert 100 to index 5 "
             << "(or at the back for smaller lists):\n";
@@ -58,7 +55,7 @@ int main() {
             list.Insert(list.Begin() + 5, 100);
         }
         fou << list;
-        fou << endl;
+        fou << std::endl;
 
         fou << "After erase index 5 "
             << "(or at the back for smaller lists):\n";
@@ -68,11 +65,11 @@ int main() {
             list.Erase(list.Begin() + 5);
         }
         fou << list;
-        fou << endl;
+        fou << std::endl;
 
         fou << "After creating a copy and change the copy to "
             << "1 <-> 2 <-> 3 :\n";
-        LinkedList<int> copy = list;
+        datastructure::LinkedList<int> copy = list;
         copy.Clear();
         copy.PushBack(1);
         copy.PushBack(2);
@@ -81,7 +78,7 @@ int main() {
         fou << list;
         fou << "Copied list:\n";
         fou << copy;
-        fou << endl;
+        fou << std::endl;
 
         fou << "After assigning copy list to original list:\n";
         list = copy;
@@ -89,7 +86,7 @@ int main() {
         fou << list;
         fou << "Copied list:\n";
         fou << copy;
-        fou << endl << endl;
+        fou << std::endl << std::endl;
     }
 
     fin.close();
