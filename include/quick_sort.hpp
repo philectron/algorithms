@@ -127,4 +127,3 @@ void QuickSort(std::vector<Comparable>& array) {
 }  // namespace algorithm
 
 #endif  // #ifndef ALGORITHMS_INCLUDE_QUICKSORT_HPP_
-
