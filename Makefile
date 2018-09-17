@@ -17,6 +17,7 @@ ALL = \
 		linked_list \
 		merge_sort \
 		queue \
+		quick_sort \
 		selection_sort \
 		skip_list \
 		stack \
@@ -56,6 +57,9 @@ merge_sort: $(SRC_DIR)/merge_sort.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 queue: $(SRC_DIR)/queue.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+quick_sort: $(SRC_DIR)/quick_sort.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 selection_sort: $(SRC_DIR)/selection_sort.o
