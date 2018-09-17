@@ -50,8 +50,7 @@ int main() {
 
         fou << std::endl << "After : ";
         for (const auto& value : array) fou << value << ' ';
-        fou << std::endl;
-        if (t < num_test_cases - 1) fou << std::endl;
+        if (t < num_test_cases) fou << std::endl << std::endl;
     }
 
     fin.close();
