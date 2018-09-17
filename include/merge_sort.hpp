@@ -19,6 +19,10 @@
 
 namespace algorithm {
 
+// Internal helpers
+
+namespace {
+
 template <class Comparable>
 void Merge(Comparable* array, size_t begin, size_t middle, size_t end) {
     Comparable merged[end - begin];  // temporary array holding merged halves
@@ -86,6 +90,10 @@ void MergeSort(std::vector<Comparable>& array, size_t begin, size_t end) {
     MergeSort(array, middle, end);
     Merge(array, begin, middle, end);
 }
+
+}  // namespace
+
+// Interface
 
 template <class Comparable>
 void MergeSort(Comparable* array, size_t size) {
