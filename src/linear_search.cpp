@@ -16,7 +16,7 @@ int main() {
 
     std::mt19937 rng;
     std::random_device rd;
-    std::uniform_int_distribution<int> rand_int_0_100(0, 100);
+    std::uniform_int_distribution<int> rand_int_0_20(0, 20);
 
     int num_test_cases, n;
     fin >> num_test_cases;
@@ -51,8 +51,8 @@ int main() {
         }
         fou << std::endl;
 
-        int rand_object = rand_int_0_100(rng);
-        fou << "Searching for a random object from 0 to 100 ("
+        int rand_object = rand_int_0_20(rng);
+        fou << "Searching for a random object from 0 to 20 ("
             << rand_object << ")" << std::endl;
         search_result = algorithm::LinearSearch(rand_object, array, n);
         if (search_result != -1) {
@@ -95,8 +95,8 @@ int main() {
         }
         fou << std::endl;
 
-        int rand_object = rand_int_0_100(rng);
-        fou << "Searching for a random object from 0 to 100 ("
+        int rand_object = rand_int_0_20(rng);
+        fou << "Searching for a random object from 0 to 20 ("
             << rand_object << ")" << std::endl;
         search_result = algorithm::LinearSearch(rand_object, array);
         if (search_result != -1) {

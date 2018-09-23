@@ -28,7 +28,7 @@ int LinearSearch(const Comparable& key, Comparable* array, size_t size) {
 }
 
 template <class Comparable>
-int LinearSearch(const Comparable& key, std::vector<Comparable>& array) {
+int LinearSearch(const Comparable& key, const std::vector<Comparable>& array) {
     for (size_t i = 0, size = array.size(); i < size; i++)
         if (array[i] == key) return i;
 
