@@ -83,5 +83,3 @@ int BinarySearch(const Comparable& key, const std::vector<Comparable>& array) {
 }  // namespace algorithm
 
 #endif  // #ifndef ALGORITHMS_INCLUDE_BINARYSEARCH_HPP_
-
-
