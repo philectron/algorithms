@@ -14,6 +14,7 @@ ALL = \
 		bubble_sort \
 		hash_table \
 		insertion_sort \
+		linear_search \
 		linked_list \
 		merge_sort \
 		queue \
@@ -48,6 +49,9 @@ hash_table: $(SRC_DIR)/hash_table.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 insertion_sort: $(SRC_DIR)/insertion_sort.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+linear_search: $(SRC_DIR)/linear_search.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 linked_list: $(SRC_DIR)/linked_list.o
