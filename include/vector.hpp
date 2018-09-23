@@ -78,18 +78,25 @@ public:
     const T& operator[](int index) const { return objects_[index]; }
 
     // Safer than [] accessor
-    T& At(int index) {
+    T& At(int index) const {
         // ensure index is in range
-        if (index < 0 || index >= size_) {
+        if (index < 0 || index >= size_)
             throw std::out_of_range("At(): Index out of range");
-        }
 
         return &objects_[index];
     }
 
-    T Front() { return objects_[0]; }
+    T Front() const {
+        if (IsEmpty()) throw std::length_error("Front(): Empty vector");
 
-    T Back() { return objects_[size_ - 1]; }
+        return objects_[0];
+    }
+
+    T Back() const {
+        if (IsEmpty()) throw std::length_error("Back(): Empty vector");
+
+        return objects_[size_ - 1];
+    }
 
     void PushBack(const T& object) {
         // if vector is full, increase the capacity
