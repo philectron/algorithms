@@ -13,6 +13,7 @@ ALL = \
 		binary_search \
 		binary_search_tree \
 		bubble_sort \
+		deque \
 		hash_table \
 		insertion_sort \
 		linear_search \
@@ -47,6 +48,9 @@ binary_search_tree: $(SRC_DIR)/binary_search_tree.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 bubble_sort: $(SRC_DIR)/bubble_sort.o
+	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
+
+deque: $(SRC_DIR)/deque.o
 	$(CXX) $(CXXFLAGS) $? -o $(OUT_DIR)/$@
 
 hash_table: $(SRC_DIR)/hash_table.o
