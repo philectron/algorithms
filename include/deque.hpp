@@ -119,11 +119,20 @@ public:
     }
 
     void Resize(int new_size) {
-
+        if (new_size > capacity_) Reserve(new_size * 2);
+        size_ = new_size;
     }
 
     void Reserve(int new_capacity) {
+        if (new_capacity < size_) return;
 
+        // create a temporary array that holds the new capacity
+        T* new_objects = new T[new_capacity];
+        // move elements over to the new array
+        for (int i = 0; i < size_; i++) new_objects[i] = std::move(objects_[i]);
+        // swap two arrays and delete the temporary one
+        std::swap(objects_, new_objects);
+        delete[] new_objects;
     }
 
     // Used for debugging purposes
