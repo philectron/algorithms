@@ -44,6 +44,7 @@ public:
 
     AvlTree& operator=(const AvlTree& rhs) {
         if (this != &rhs) {
+            Clear();  // must deallocate before assignment
             root_ = CloneNode(rhs.root_);
             size_ = rhs.size_;
             height_ = rhs.height_;
@@ -56,6 +57,7 @@ public:
         std::swap(root_, rhs.root_);
         std::swap(size_, rhs.size_);
         std::swap(height_, rhs.height_);
+        rhs.Clear();  // clear the right-hand-side tree after assignment
 
         return *this;
     }
@@ -64,6 +66,7 @@ public:
 
     void Clear() {
         DeleteTree(root_);
+        root_ = nullptr;
         size_ = height_ = 0;
     }
 
