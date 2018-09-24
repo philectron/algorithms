@@ -95,19 +95,41 @@ public:
     }
 
     void PushFront(const T& object) {
+        if (size_ == capacity_) Reserve(capacity_ * 2);
 
+        // wrap around if necessary
+        start_--;
+        if (start_ < 0) start_ += capacity_;
+        // push to new front
+        objects_[start_] = object;
+        size_++;
     }
 
     void PushFront(T&& object) {
+        if (size_ == capacity_) Reserve(capacity_ * 2);
 
+        // wrap around if necessary
+        start_--;
+        if (start_ < 0) start_ += capacity_;
+        // push to new front
+        objects_[start_] = std::move(object);
+        size_++;
     }
 
     void PushBack(const T& object) {
+        if (size_ == capacity_) Reserve(capacity_ * 2);
 
+        // end index = index next to the back element of the deque
+        objects_[(start_ + size_) % capacity_] = object;
+        size_++;
     }
 
     void PushBack(T&& object) {
+        if (size_  == capacity_) Reserve(capacity_ * 2);
 
+        // end index = index next to the back element of the deque
+        objects_[(start_ + size_) % capacity_] = std::move(object);
+        size_++;
     }
 
     void PopFront() {
