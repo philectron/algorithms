@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <utility>
 
 namespace datastructure {
 
@@ -33,25 +34,41 @@ public:
         objects_ = new T[capacity_];
     }
 
-    Deque(const Deque& rhs) {
-
+    Deque(const Deque& rhs)
+        : size_{rhs.size_}, capacity_{rhs.capacity_}, start_{rhs.start_} {
+        objects_ = new T[capacity_];
+        for (int i = 0; i < size_; i++) objects_[i] = rhs.objects_[i];
     }
 
-    Deque(Deque&& rhs) {
-
+    Deque(Deque&& rhs)
+        : size_{std::move(rhs.size_)}, capacity_{std::move(rhs.capacity_)},
+          start_{std::move(rhs.start_)} {
+        std::swap(objects_, rhs.objects_);
     }
 
     Deque& operator=(const Deque& rhs) {
-
+        if (this != &rhs) {
+            size_ = rhs.size_;
+            capacity_ = rhs.capacity_;
+            start_ = rhs.start_;
+            objects_ = new T[capacity_];
+            for (int i = 0; i < size_; i++) objects_[i] = rhs.objects_[i];
+        }
+        return *this;
     }
 
     Deque& operator=(Deque&& rhs) {
-
+        std::swap(objects_, rhs.objects_);
+        std::swap(size_, rhs.size_);
+        std::swap(capacity_, rhs.capacity_);
+        std::swap(start_, rhs.start_);
+        delete[] rhs.objects_;
     }
 
     ~Deque() {
         Clear();
         delete[] objects_;
+        capacity_ = start_ = 0;
     }
 
     void Clear() {
