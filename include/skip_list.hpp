@@ -63,6 +63,11 @@ public:
     // method for more info.
     SkipList& operator=(const SkipList& rhs) {
         if (this != &rhs) {
+            // must clear everything in this list before assignment
+            Clear();
+            delete top_head_;
+            top_head_ = nullptr;
+
             size_ = rhs.size_;
             height_ = rhs.height_;
             coinflip_ = std::uniform_int_distribution<>(0, 1);
@@ -98,6 +103,7 @@ public:
     ~SkipList() {
         Clear();
         delete top_head_;
+        top_head_ = nullptr;
     }
 
     int Size() const { return size_; }
@@ -182,14 +188,6 @@ public:
                 if (!current->down) size_--;
             }
 
-            // delete the top row if the node was the only node in the top row
-            if (!top_head_->next && top_head_->down) {
-                Node* tmp = top_head_;
-                top_head_ = top_head_->down;
-                delete tmp;
-                height_--;  // update height
-            }
-
             // go down one level
             current = current->down;
         }
@@ -235,14 +233,6 @@ public:
                 if (!current->down) size_--;
             }
 
-            // delete the top row if the node was the only node in the top row
-            if (!top_head_->next) {
-                Node* tmp = top_head_;
-                top_head_ = top_head_->down;
-                delete tmp;
-                height_--;  // update height
-            }
-
             // go down one level
             current = current->down;
         }
@@ -278,6 +268,9 @@ public:
                 delete tmp;
             }
         }
+
+        size_ = 0;
+        height_ = 1;
     }
 
     // // Ugly prints, for debugging purposes
@@ -391,7 +384,7 @@ private:
 
         if (!current->down) {
             // base case, if reach bottom then make a new node
-            new_node = new Node(val, current->next, nullptr);
+            new_node = new Node(val, current->next);
             current->next = new_node;
         } else {
             // recursive case, let the newest node be the down node
