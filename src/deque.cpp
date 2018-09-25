@@ -27,12 +27,10 @@ int main() {
         for (int i = 0; i < size; i++) deque.PushBack(input_array[i]);
         for (int i = 0; i < size; i++) deque.PushFront(input_array[i]);
 
-        fou << "Initial:\n";
-        fou << deque;
-        fou << std::endl;
+        fou << "Initial:" << std::endl << deque << std::endl;
 
         try {
-            fou << "After removing the front node (" << deque.Front() << "):\n";
+            fou << "After removing the front node " << deque.Front() << "):\n";
             deque.PopFront();
             fou << deque << std::endl;
         } catch (const std::logic_error& e) {
@@ -40,7 +38,7 @@ int main() {
         }
 
         try {
-            fou << "After removing the back node (" << deque.Back() << "):\n";
+            fou << "After removing the back node " << deque.Back() << "):\n";
             deque.PopBack();
             fou << deque << std::endl;
         } catch (const std::logic_error& e) {
@@ -79,8 +77,8 @@ int main() {
             fou << "Could not make a copy: " << e.what() << std::endl;
         }
 
-        fou << "========================================" << std::endl;
-        if (t < num_test_cases - 1) fou << std::endl;
+        fou << "==========END OF TEST CASE t = " << t << "==========";
+        if (t < num_test_cases - 1) fou << std::endl << std::endl;
     }
 
     fin.close();
