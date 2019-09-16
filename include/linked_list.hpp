@@ -21,13 +21,13 @@
 // - Removing an element from an arbitrary index of a linked list
 // - Clearing and destroying a linked list
 
-#ifndef ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
-#define ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
+#ifndef INCLUDE_LINKEDLIST_HPP_
+#define INCLUDE_LINKEDLIST_HPP_
 
 #include <iostream>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template<class T>
 class LinkedList {
@@ -361,6 +361,6 @@ private:
     int size_;
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_LINKEDLIST_HPP_
+#endif  // #ifndef INCLUDE_LINKEDLIST_HPP_

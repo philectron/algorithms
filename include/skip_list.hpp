@@ -17,8 +17,8 @@
 // - Removing an element from a skip list
 // - Clearing and destroying a skip list
 
-#ifndef ALGORITHMS_INCLUDE_SKIPLIST_HPP_
-#define ALGORITHMS_INCLUDE_SKIPLIST_HPP_
+#ifndef INCLUDE_SKIPLIST_HPP_
+#define INCLUDE_SKIPLIST_HPP_
 
 #include <cassert>
 #include <iostream>
@@ -27,7 +27,7 @@
 #include <string>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template <class T>
 class SkipList {
@@ -505,6 +505,6 @@ private:
     }
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_SKIPLIST_HPP_
+#endif  // #ifndef INCLUDE_SKIPLIST_HPP_

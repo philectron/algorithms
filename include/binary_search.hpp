@@ -10,13 +10,13 @@
 // Finds an element in a sorted array by checking the left and right halves of
 // the array. Returns the index of the element if found. Returns -1 otherwise.
 
-#ifndef ALGORITHMS_INCLUDE_BINARYSEARCH_HPP_
-#define ALGORITHMS_INCLUDE_BINARYSEARCH_HPP_
+#ifndef INCLUDE_BINARYSEARCH_HPP_
+#define INCLUDE_BINARYSEARCH_HPP_
 
 #include <cstddef>
 #include <vector>
 
-namespace algorithm {
+namespace dsa {
 
 namespace {
 
@@ -80,6 +80,6 @@ int BinarySearch(const Comparable& key, const std::vector<Comparable>& array) {
     return BinarySearch(key, array, 0, array.size());
 }
 
-}  // namespace algorithm
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_BINARYSEARCH_HPP_
+#endif  // #ifndef INCLUDE_BINARYSEARCH_HPP_

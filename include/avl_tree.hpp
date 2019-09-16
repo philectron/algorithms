@@ -17,15 +17,15 @@
 // - Removing an element from an AVL tree
 // - Clearing and destroying an AVL tree
 
-#ifndef ALGORITHMS_INCLUDE_AVLTREE_HPP_
-#define ALGORITHMS_INCLUDE_AVLTREE_HPP_
+#ifndef INCLUDE_AVLTREE_HPP_
+#define INCLUDE_AVLTREE_HPP_
 
 #include <cassert>
 #include <iostream>
 #include <string>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template <class Comparable>
 class AvlTree {
@@ -393,6 +393,6 @@ private:
     }
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_AVLTREE_HPP_
+#endif  // #ifndef INCLUDE_AVLTREE_HPP_

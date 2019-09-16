@@ -11,15 +11,15 @@
 // the left and larger elements to the right of the pivot until the array is
 // sorted (quick sort).
 
-#ifndef ALGORITHMS_INCLUDE_QUICKSORT_HPP_
-#define ALGORITHMS_INCLUDE_QUICKSORT_HPP_
+#ifndef INCLUDE_QUICKSORT_HPP_
+#define INCLUDE_QUICKSORT_HPP_
 
 #include <cstddef>
 #include <random>
 #include <utility>
 #include <vector>
 
-namespace algorithm {
+namespace dsa {
 
 // Internal helpers
 
@@ -124,6 +124,6 @@ void QuickSort(std::vector<Comparable>& array) {
     QuickSort(array, 0, array.size());
 }
 
-}  // namespace algorithm
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_QUICKSORT_HPP_
+#endif  // #ifndef INCLUDE_QUICKSORT_HPP_

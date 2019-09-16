@@ -17,15 +17,15 @@
 // - Removing an element from a binary search tree
 // - Clearing and destroying a binary search tree
 
-#ifndef ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
-#define ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
+#ifndef INCLUDE_BINARYSEARCHTREE_HPP_
+#define INCLUDE_BINARYSEARCHTREE_HPP_
 
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template<class Comparable>
 class BinarySearchTree {
@@ -281,6 +281,6 @@ private:
     BinaryNode* root_;
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_BINARYSEARCHTREE_HPP_
+#endif  // #ifndef INCLUDE_BINARYSEARCHTREE_HPP_

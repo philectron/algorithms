@@ -17,14 +17,14 @@
 // - Removing elements from the front and back of a deque
 // - Clearing and destroying a deque
 
-#ifndef ALGORITHMS_INCLUDE_DEQUE_HPP_
-#define ALGORITHMS_INCLUDE_DEQUE_HPP_
+#ifndef INCLUDE_DEQUE_HPP_
+#define INCLUDE_DEQUE_HPP_
 
 #include <iostream>
 #include <stdexcept>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template <class T>
 class Deque {
@@ -235,6 +235,6 @@ private:
     int GetEndIndex() const { return (start_ + size_) % capacity_; }
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_DEQUE_HPP_
+#endif  // #ifndef INCLUDE_DEQUE_HPP_

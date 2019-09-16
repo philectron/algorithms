@@ -10,14 +10,14 @@
 // Sorts an array by moving larger values to the right and smaller values to
 // the left (bubble sort).
 
-#ifndef ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
-#define ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
+#ifndef INCLUDE_BUBBLESORT_HPP_
+#define INCLUDE_BUBBLESORT_HPP_
 
 #include <cstddef>
 #include <utility>
 #include <vector>
 
-namespace algorithm {
+namespace dsa {
 
 template <class Comparable>
 void BubbleSort(Comparable* array, size_t size) {
@@ -68,6 +68,6 @@ void BubbleSort(std::vector<Comparable>& array) {
     } while (swapped);
 }
 
-}  // namespace algorithm
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_BUBBLESORT_HPP_
+#endif  // #ifndef INCLUDE_BUBBLESORT_HPP_

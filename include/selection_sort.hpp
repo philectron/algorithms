@@ -10,14 +10,14 @@
 // Sorts an array by moving the smallest element of the unsorted part of
 // the array to the back of the sorted part of the array (selection sort).
 
-#ifndef ALGORITHMS_INCLUDE_SELECTIONSORT_HPP_
+#ifndef INCLUDE_SELECTIONSORT_HPP_
 #define ALGORIHTMS_INCLUDE_SELECTIONSORT_HPP_
 
 #include <cstddef>
 #include <utility>
 #include <vector>
 
-namespace algorithm {
+namespace dsa {
 
 template <class Comparable>
 void SelectionSort(Comparable* array, size_t size) {
@@ -47,6 +47,6 @@ void SelectionSort(std::vector<Comparable>& array) {
     }
 }
 
-}  // namespace algorithm
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_SELECTIONSORT_HPP_
+#endif  // #ifndef INCLUDE_SELECTIONSORT_HPP_

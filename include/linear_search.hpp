@@ -11,13 +11,13 @@
 // interval [begin, end). Returns the index of the element if it is in the array
 // or -1 if it is not.
 
-#ifndef ALGORITHMS_INCLUDE_LINEARSEARCH_HPP_
-#define ALGORITHMS_INCLUDE_LINEARSEARCH_HPP_
+#ifndef INCLUDE_LINEARSEARCH_HPP_
+#define INCLUDE_LINEARSEARCH_HPP_
 
 #include <cstddef>
 #include <vector>
 
-namespace algorithm {
+namespace dsa {
 
 template <class Comparable>
 int LinearSearch(const Comparable& key, Comparable* array, size_t size) {
@@ -35,6 +35,6 @@ int LinearSearch(const Comparable& key, const std::vector<Comparable>& array) {
     return -1;
 }
 
-}  // namespace algorithm
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_LINEARSEARCH_HPP_
+#endif  // #ifndef INCLUDE_LINEARSEARCH_HPP_

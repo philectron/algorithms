@@ -20,14 +20,14 @@
 // - Removing an element from an arbitrary index of a vector
 // - Clearing and destroying a vector
 
-#ifndef ALGORITHMS_INCLUDE_VECTOR_HPP_
-#define ALGORITHMS_INCLUDE_VECTOR_HPP_
+#ifndef INCLUDE_VECTOR_HPP_
+#define INCLUDE_VECTOR_HPP_
 
 #include <iostream>
 #include <stdexcept>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template <class T>
 class Vector {
@@ -225,6 +225,6 @@ private:
     int capacity_;
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_VECTOR_HPP_
+#endif  // #ifndef INCLUDE_VECTOR_HPP_

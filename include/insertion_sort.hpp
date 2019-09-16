@@ -11,14 +11,14 @@
 // inserting it into the correct position in the sorted part of the array
 // (insertion sort).
 
-#ifndef ALGORITHMS_INCLUDE_INSERTIONSORT_HPP_
-#define ALGORITHMS_INCLUDE_INSERTIONSORT_HPP_
+#ifndef INCLUDE_INSERTIONSORT_HPP_
+#define INCLUDE_INSERTIONSORT_HPP_
 
 #include <cstddef>
 #include <utility>
 #include <vector>
 
-namespace algorithm {
+namespace dsa {
 
 template <class Comparable>
 void InsertionSort(Comparable* array, size_t size) {
@@ -48,6 +48,6 @@ void InsertionSort(std::vector<Comparable>& array) {
     }
 }
 
-}  // namespace algorithm
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_INSERTIONSORT_HPP_
+#endif  // #ifndef INCLUDE_INSERTIONSORT_HPP_

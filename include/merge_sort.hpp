@@ -10,14 +10,14 @@
 // Sorts an array by dividing it into two halves and sorting each half, then
 // merging two halves back into a sorted array (merge sort).
 
-#ifndef ALGORITHMS_INCLUDE_MERGESORT_HPP_
-#define ALGORITHMS_INCLUDE_MERGESORT_HPP_
+#ifndef INCLUDE_MERGESORT_HPP_
+#define INCLUDE_MERGESORT_HPP_
 
 #include <cstddef>
 #include <utility>
 #include <vector>
 
-namespace algorithm {
+namespace dsa {
 
 // Internal helpers
 
@@ -105,6 +105,6 @@ void MergeSort(std::vector<Comparable>& array) {
     MergeSort(array, 0, array.size());
 }
 
-}  // namespace algorithm
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_MERGESORT_HPP_
+#endif  // #ifndef INCLUDE_MERGESORT_HPP_

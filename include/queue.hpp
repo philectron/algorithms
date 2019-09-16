@@ -17,14 +17,14 @@
 // - Removing an element from the front and back of a queue
 // - Clearing and destroying a queue
 
-#ifndef ALGORITHMS_INCLUDE_QUEUE_HPP_
-#define ALGORITHMS_INCLUDE_QUEUE_HPP_
+#ifndef INCLUDE_QUEUE_HPP_
+#define INCLUDE_QUEUE_HPP_
 
 #include <iostream>
 #include <stdexcept>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template<class T>
 class Queue {
@@ -163,6 +163,6 @@ private:
     int size_;
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_QUEUE_HPP_
+#endif  // #ifndef INCLUDE_QUEUE_HPP_

@@ -18,14 +18,14 @@
 // - Clearing and destroying a stack
 
 
-#ifndef ALGORITHMS_INCLUDE_STACK_HPP_
-#define ALGORITHMS_INCLUDE_STACK_HPP_
+#ifndef INCLUDE_STACK_HPP_
+#define INCLUDE_STACK_HPP_
 
 #include <iostream>
 #include <stdexcept>
 #include <utility>
 
-namespace datastructure {
+namespace dsa {
 
 template<class T>
 class Stack {
@@ -170,6 +170,6 @@ private:
     int size_;
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_STACK_HPP_
+#endif  // #ifndef INCLUDE_STACK_HPP_

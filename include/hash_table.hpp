@@ -17,8 +17,8 @@
 // - Removing an element from a hash table
 // - Clearing and destroying a hash table
 
-#ifndef ALGORITHMS_INCLUDE_HASHTABLE_HPP_
-#define ALGORITHMS_INCLUDE_HASHTABLE_HPP_
+#ifndef INCLUDE_HASHTABLE_HPP_
+#define INCLUDE_HASHTABLE_HPP_
 
 #include <iostream>
 #include <list>
@@ -26,7 +26,7 @@
 #include <utility>
 #include <vector>
 
-namespace datastructure {
+namespace dsa {
 
 // Generic hash class declaration
 template <class Key>
@@ -220,6 +220,6 @@ public:
     }
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_HASHTABLE_HPP_
+#endif  // #ifndef INCLUDE_HASHTABLE_HPP_

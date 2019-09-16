@@ -18,8 +18,8 @@
 // - Removing the highest priority element from a heap
 // - Clearing and destroying a heap
 
-#ifndef ALGORITHMS_INCLUDE_BINARYHEAP_HPP_
-#define ALGORITHMS_INCLUDE_BINARYHEAP_HPP_
+#ifndef INCLUDE_BINARYHEAP_HPP_
+#define INCLUDE_BINARYHEAP_HPP_
 
 #include <cassert>
 #include <iostream>
@@ -27,7 +27,7 @@
 #include <utility>
 #include <vector>
 
-namespace datastructure {
+namespace dsa {
 
 template <class Comparable>
 class BinaryHeap {
@@ -225,6 +225,6 @@ private:
     }
 };
 
-}  // namespace datastructure
+}  // namespace dsa
 
-#endif  // #ifndef ALGORITHMS_INCLUDE_BINARYHEAP_HPP_
+#endif  // #ifndef INCLUDE_BINARYHEAP_HPP_
