@@ -8,31 +8,12 @@ CXXFLAGS = -std=c++14 -Wall -I$(INCLUDE_DIR) -lgtest -lgtest_main -pthread
 
 ALL = linear_search_test
 
-# ALL = \
-# 		avl_tree_test \
-# 		binary_heap_test \
-# 		binary_search_test \
-# 		binary_search_tree_test \
-# 		bubble_sort_test \
-# 		deque_test \
-# 		hash_table_test \
-# 		insertion_sort_test \
-# 		linear_search_test \
-# 		linked_list_test \
-# 		merge_sort_test \
-# 		queue_test \
-# 		quick_sort_test \
-# 		selection_sort_test \
-# 		skip_list_test \
-# 		stack_test \
-# 		vector_test
-
 all: init $(ALL)
 
 init:
 	mkdir -p $(OUTPUT_DIR)
 
-$(TEST_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(TEST_DIR)/%.o: $(TEST_DIR)/%.cpp
 	$(CXX) $< -c $(CXXFLAGS) -o $@
 
 avl_tree_test: $(TEST_DIR)/avl_tree_test.o

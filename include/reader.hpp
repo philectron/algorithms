@@ -9,6 +9,7 @@
 #ifndef INCLUDE_READER_HPP_
 #define INCLUDE_READER_HPP_
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>

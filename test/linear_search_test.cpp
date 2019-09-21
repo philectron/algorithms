@@ -4,13 +4,18 @@
 //
 // Data Structures and Algorithms: Linear Search in C++
 //
-// Unit-tests the linear search algorithm implemented in this project.
+// Unit-tests the linear search algorithm implemented in this project using
+// the Google Test framework.
 
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <gtest/gtest.h>
 #include "linear_search.hpp"
+#include "reader.hpp"
 
+// Tests whether the linear search algorithm returns a correct value for
+// an empty array.
 TEST(LinearSearchUnitTests, EmptyArray) {
     int* arr = nullptr;
     EXPECT_EQ(-1, dsa::LinearSearch(-123, arr, 0));
@@ -18,75 +23,122 @@ TEST(LinearSearchUnitTests, EmptyArray) {
     EXPECT_EQ(-1, dsa::LinearSearch(123, arr, 0));
 }
 
+// Tests whether the linear search algorithm returns a correct value for
+// a key not in the array.
 TEST(LinearSearchUnitTests, NotInArray) {
-    int size = 5;
-    int arr[size] = {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    size_t size = reader.ReadNumString<int>(filename);
+    int array[size];
+    reader.ReadArray<int>(filename, array, size);
     int key = 6;
-    EXPECT_EQ(-1, dsa::LinearSearch(key, arr, size));
+    EXPECT_EQ(-1, dsa::LinearSearch(key, array, size));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key that is the first element of the array.
 TEST(LinearSearchUnitTests, FirstInArray) {
-    int size = 5;
-    int arr[size] = {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    size_t size = reader.ReadNumString<int>(filename);
+    int array[size];
+    reader.ReadArray<int>(filename, array, size);
     int key = 3;
-    EXPECT_EQ(0, dsa::LinearSearch(key, arr, size));
+    EXPECT_EQ(0, dsa::LinearSearch(key, array, size));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key somewhere in the array.
 TEST(LinearSearchUnitTests, WithinArray) {
-    int size = 5;
-    int arr[size] = {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    size_t size = reader.ReadNumString<int>(filename);
+    int array[size];
+    reader.ReadArray<int>(filename, array, size);
     int key = 9;
-    EXPECT_EQ(3, dsa::LinearSearch(key, arr, size));
+    EXPECT_EQ(3, dsa::LinearSearch(key, array, size));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key that is the last element of the array.
 TEST(LinearSearchUnitTests, LastInArray) {
-    int size = 5;
-    int arr[size] = {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    size_t size = reader.ReadNumString<int>(filename);
+    int array[size];
+    reader.ReadArray<int>(filename, array, size);
     int key = -5;
-    EXPECT_EQ(size - 1, dsa::LinearSearch(key, arr, size));
+    EXPECT_EQ(size - 1, dsa::LinearSearch(key, array, size));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key somewhere in a large array.
 TEST(LinearSearchUnitTests, LargeArray) {
-    int size = 100;
-    int arr[size] = {-442, 122, 318, 313, -473, 423, -126, -28, 384, 260, -312, -282, -440, -205, 130, 2, -480, 450, 331, 56, 402, 16, 335, 91, -494, -91, 408, -254, -48, -20, 433, 441, -183, 204, 461, 354, -173, -110, 165, 418, 272, -213, -51, -24, -321, -367, -307, 480, -200, 178, -146, 40, -305, -94, 155, -36, -143, -148, -120, -122, 463, 119, -365, -467, -26, 17, -224, 64, 168, -97, 206, 26, 107, -202, -50, -393, 216, 208, 336, -108, 232, 86, 470, 424, -79, 92, 306, 350, -21, -281, -459, 378, 449, -457, -309, -343, -72, -124, -478, -76};
+    std::string filename = "enumerable_large.txt";
+    Reader reader;
+    size_t size = reader.ReadNumString<int>(filename);
+    int array[size];
+    reader.ReadArray<int>(filename, array, size);
     int key = -305;
-    EXPECT_EQ(52, dsa::LinearSearch(key, arr, size));
+    EXPECT_EQ(52, dsa::LinearSearch(key, array, size));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// an empty vector.
 TEST(LinearSearchUnitTests, EmptyVector) {
     std::vector<int> vec;
     int key = 5;
     EXPECT_EQ(-1, dsa::LinearSearch(key, vec));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key not in the vector.
 TEST(LinearSearchUnitTests, NotInVector) {
-    std::vector<int> vec {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = 6;
-    EXPECT_EQ(-1, dsa::LinearSearch(key, vec));
+    EXPECT_EQ(-1, dsa::LinearSearch(key, vector));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key that is the first element of the vector.
 TEST(LinearSearchUnitTests, FirstInVector) {
-    std::vector<int> vec {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = 3;
-    EXPECT_EQ(0, dsa::LinearSearch(key, vec));
+    EXPECT_EQ(0, dsa::LinearSearch(key, vector));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key somewhere in the vector.
 TEST(LinearSearchUnitTests, WithinVector) {
-    std::vector<int> vec {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = 21;
-    EXPECT_EQ(2, dsa::LinearSearch(key, vec));
+    EXPECT_EQ(2, dsa::LinearSearch(key, vector));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key that is the last element of the vector.
 TEST(LinearSearchUnitTests, LastInVector) {
-    std::vector<int> vec {3, 23, 21, 9, -5};
+    std::string filename = "enumerable_small.txt";
+    Reader reader;
+    std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = -5;
-    EXPECT_EQ(vec.size() - 1, dsa::LinearSearch(key, vec));
+    EXPECT_EQ(vector.size() - 1, dsa::LinearSearch(key, vector));
 }
 
+// Tests whether the linear search algorithm returns the correct value for
+// a key somewhere in a large vector.
 TEST(LinearSearchUnitTests, LargeVector) {
-    std::vector<int> vec {-442, 122, 318, 313, -473, 423, -126, -28, 384, 260, -312, -282, -440, -205, 130, 2, -480, 450, 331, 56, 402, 16, 335, 91, -494, -91, 408, -254, -48, -20, 433, 441, -183, 204, 461, 354, -173, -110, 165, 418, 272, -213, -51, -24, -321, -367, -307, 480, -200, 178, -146, 40, -305, -94, 155, -36, -143, -148, -120, -122, 463, 119, -365, -467, -26, 17, -224, 64, 168, -97, 206, 26, 107, -202, -50, -393, 216, 208, 336, -108, 232, 86, 470, 424, -79, 92, 306, 350, -21, -281, -459, 378, 449, -457, -309, -343, -72, -124, -478, -76};
+    std::string filename = "enumerable_large.txt";
+    Reader reader;
+    std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = -305;
-    EXPECT_EQ(52, dsa::LinearSearch(key, vec));
+    EXPECT_EQ(52, dsa::LinearSearch(key, vector));
 }
 
 int main(int argc, char** argv) {
