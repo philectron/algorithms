@@ -1,8 +1,8 @@
-// binary_search.hpp
+// binary-search.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Binary Search in C++
+// Data Structures and Algorithms: Binary Search
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

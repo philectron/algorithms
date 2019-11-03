@@ -1,8 +1,8 @@
-// selection_sort.hpp
+// selection-sort.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Selection Sort in C++
+// Data Structures and Algorithms: Selection Sort
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

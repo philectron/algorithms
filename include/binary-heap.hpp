@@ -1,8 +1,8 @@
-// binary_heap.hpp
+// binary-heap.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Binary Heaps (Priority Queues) in C++
+// Data Structures and Algorithms: Binary Heaps (Priority Queues)
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

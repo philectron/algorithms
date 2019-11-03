@@ -1,6 +1,6 @@
 // reader.hpp
 //
-// Data Structures and Algorithms in C++
+// Data Structures and Algorithms
 //
 // This reader class reads the test data from the file system so the unit tests
 // don't have to initialize the data on their own. The reader can help avoid

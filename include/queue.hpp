@@ -2,7 +2,7 @@
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Queues in C++
+// Data Structures and Algorithms: Queues
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

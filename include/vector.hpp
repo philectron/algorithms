@@ -2,7 +2,7 @@
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Vectors in C++
+// Data Structures and Algorithms: Vectors
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

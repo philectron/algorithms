@@ -1,8 +1,8 @@
-// skip_list.hpp
+// skip-list.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Skip Lists in C++
+// Data Structures and Algorithms: Skip Lists
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

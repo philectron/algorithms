@@ -2,7 +2,7 @@
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Deques (Double-Ended Queues) in C++
+// Data Structures and Algorithms: Deques (Double-Ended Queues)
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

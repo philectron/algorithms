@@ -1,4 +1,4 @@
-// linear_search_test.cpp
+// linear-search-test.cpp
 //
 // Phi Luu
 //
@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <gtest/gtest.h>
-#include "linear_search.hpp"
+#include "linear-search.hpp"
 #include "reader.hpp"
 
 // Tests whether the linear search algorithm returns a correct value for
@@ -26,7 +26,7 @@ TEST(LinearSearchUnitTests, EmptyArray) {
 // Tests whether the linear search algorithm returns a correct value for
 // a key not in the array.
 TEST(LinearSearchUnitTests, NotInArray) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
     int array[size];
@@ -38,7 +38,7 @@ TEST(LinearSearchUnitTests, NotInArray) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the first element of the array.
 TEST(LinearSearchUnitTests, FirstInArray) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
     int array[size];
@@ -50,7 +50,7 @@ TEST(LinearSearchUnitTests, FirstInArray) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in the array.
 TEST(LinearSearchUnitTests, WithinArray) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
     int array[size];
@@ -62,7 +62,7 @@ TEST(LinearSearchUnitTests, WithinArray) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the last element of the array.
 TEST(LinearSearchUnitTests, LastInArray) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
     int array[size];
@@ -74,7 +74,7 @@ TEST(LinearSearchUnitTests, LastInArray) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in a large array.
 TEST(LinearSearchUnitTests, LargeArray) {
-    std::string filename = "enumerable_large.txt";
+    std::string filename = "array-large.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
     int array[size];
@@ -94,7 +94,7 @@ TEST(LinearSearchUnitTests, EmptyVector) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key not in the vector.
 TEST(LinearSearchUnitTests, NotInVector) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = 6;
@@ -104,7 +104,7 @@ TEST(LinearSearchUnitTests, NotInVector) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the first element of the vector.
 TEST(LinearSearchUnitTests, FirstInVector) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = 3;
@@ -114,7 +114,7 @@ TEST(LinearSearchUnitTests, FirstInVector) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in the vector.
 TEST(LinearSearchUnitTests, WithinVector) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = 21;
@@ -124,7 +124,7 @@ TEST(LinearSearchUnitTests, WithinVector) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the last element of the vector.
 TEST(LinearSearchUnitTests, LastInVector) {
-    std::string filename = "enumerable_small.txt";
+    std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = -5;
@@ -134,7 +134,7 @@ TEST(LinearSearchUnitTests, LastInVector) {
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in a large vector.
 TEST(LinearSearchUnitTests, LargeVector) {
-    std::string filename = "enumerable_large.txt";
+    std::string filename = "array-large.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
     int key = -305;

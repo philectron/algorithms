@@ -6,7 +6,7 @@ OUTPUT_DIR = bin
 
 CXXFLAGS = -std=c++14 -Wall -I$(INCLUDE_DIR) -lgtest -lgtest_main -pthread
 
-ALL = linear_search_test
+ALL = linear-search-test
 
 all: init $(ALL)
 
@@ -16,55 +16,55 @@ init:
 $(TEST_DIR)/%.o: $(TEST_DIR)/%.cpp
 	$(CXX) $< -c $(CXXFLAGS) -o $@
 
-avl_tree_test: $(TEST_DIR)/avl_tree_test.o
+avl-tree-test: $(TEST_DIR)/avl-tree-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-binary_heap_test: $(TEST_DIR)/binary_heap_test.o
+binary-heap-test: $(TEST_DIR)/binary-heap-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-binary_search_test: $(TEST_DIR)/binary_search_test.o
+binary-search-test: $(TEST_DIR)/binary-search-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-binary_search_tree_test: $(TEST_DIR)/binary_search_tree_test.o
+binary-search-tree-test: $(TEST_DIR)/binary-search-tree-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-bubble_sort_test: $(TEST_DIR)/bubble_sort_test.o
+bubble-sort-test: $(TEST_DIR)/bubble-sort-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-deque_test: $(TEST_DIR)/deque_test.o
+deque-test: $(TEST_DIR)/deque-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-hash_table_test: $(TEST_DIR)/hash_table_test.o
+hash-table-test: $(TEST_DIR)/hash-table-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-insertion_sort_test: $(TEST_DIR)/insertion_sort_test.o
+insertion-sort-test: $(TEST_DIR)/insertion-sort-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-linear_search_test: $(TEST_DIR)/linear_search_test.o
+linear-search-test: $(TEST_DIR)/linear-search-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-linked_list_test: $(TEST_DIR)/linked_list_test.o
+linked-list-test: $(TEST_DIR)/linked-list-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-merge_sort_test: $(TEST_DIR)/merge_sort_test.o
+merge-sort-test: $(TEST_DIR)/merge-sort-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-queue_test: $(TEST_DIR)/queue_test.o
+queue-test: $(TEST_DIR)/queue-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-quick_sort_test: $(TEST_DIR)/quick_sort_test.o
+quick-sort-test: $(TEST_DIR)/quick-sort-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-selection_sort_test: $(TEST_DIR)/selection_sort_test.o
+selection-sort-test: $(TEST_DIR)/selection-sort-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-skip_list_test: $(TEST_DIR)/skip_list_test.o
+skip-list-test: $(TEST_DIR)/skip-list-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-stack_test: $(TEST_DIR)/stack_test.o
+stack-test: $(TEST_DIR)/stack-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
-vector_test: $(TEST_DIR)/vector_test.o
+vector-test: $(TEST_DIR)/vector-test.o
 	$(CXX) $? $(CXXFLAGS) -o $(OUTPUT_DIR)/$@
 
 .PHONY: clean

@@ -1,8 +1,8 @@
-// linked_list.hpp
+// linked-list.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Linked Lists in C++
+// Data Structures and Algorithms: Linked Lists
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

@@ -1,8 +1,8 @@
-// avl_tree.hpp
+// avl-tree.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Adelson-Velskii and Landis (AVL) Trees in C++
+// Data Structures and Algorithms: Adelson-Velskii and Landis (AVL) Trees
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

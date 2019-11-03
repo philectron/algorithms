@@ -1,8 +1,8 @@
-// merge_sort.hpp
+// merge-sort.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Merge Sort in C++
+// Data Structures and Algorithms: Merge Sort
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.

@@ -1,8 +1,8 @@
-// binary_search_tree.hpp
+// binary-search-tree.hpp
 //
 // Phi Luu
 //
-// Data Structures and Algorithms: Binary Search Trees in C++
+// Data Structures and Algorithms: Binary Search Trees
 //
 // This implementation serves as one of many ways to refine skills in
 // data structures and algorithms.
