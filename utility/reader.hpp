@@ -1,5 +1,7 @@
 // reader.hpp
 //
+// Phi Luu
+//
 // Data Structures and Algorithms
 //
 // This reader class reads the test data from the file system so the unit tests
