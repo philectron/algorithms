@@ -5,7 +5,7 @@ UTILITY_DIR = utility
 TEST_DIR = test
 OUTPUT_DIR = bin
 
-CXXFLAGS = -std=c++14 -Wall -I$(INCLUDE_DIR) -I$(UTILITY_DIR) -lgtest -lgtest_main -pthread
+CXXFLAGS = -std=c++17 -Wall -I$(INCLUDE_DIR) -I$(UTILITY_DIR) -lgtest -lgtest_main -pthread
 
 ALL = linear-search-test
 
