@@ -7,7 +7,9 @@ OUTPUT_DIR = bin
 
 CXXFLAGS = -std=c++17 -Wall -I$(INCLUDE_DIR) -I$(UTILITY_DIR) -lgtest -lgtest_main -pthread
 
-ALL = linear-search-test
+ALL = \
+		insertion-sort-test \
+		linear-search-test
 
 all: init $(ALL)
 

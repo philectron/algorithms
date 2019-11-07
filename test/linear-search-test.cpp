@@ -16,7 +16,7 @@
 
 // Tests whether the linear search algorithm returns a correct value for
 // an empty array.
-TEST(LinearSearchUnitTests, EmptyArray) {
+TEST(LinearSearchTest, EmptyArray) {
     int* arr = nullptr;
     EXPECT_EQ(-1, dsa::LinearSearch(-123, arr, 0));
     EXPECT_EQ(-1, dsa::LinearSearch(0, arr, 0));
@@ -25,7 +25,7 @@ TEST(LinearSearchUnitTests, EmptyArray) {
 
 // Tests whether the linear search algorithm returns a correct value for
 // a key not in the array.
-TEST(LinearSearchUnitTests, NotInArray) {
+TEST(LinearSearchTest, NotInArray) {
     std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
@@ -37,7 +37,7 @@ TEST(LinearSearchUnitTests, NotInArray) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the first element of the array.
-TEST(LinearSearchUnitTests, FirstInArray) {
+TEST(LinearSearchTest, FirstInArray) {
     std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
@@ -49,7 +49,7 @@ TEST(LinearSearchUnitTests, FirstInArray) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in the array.
-TEST(LinearSearchUnitTests, WithinArray) {
+TEST(LinearSearchTest, WithinArray) {
     std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
@@ -61,7 +61,7 @@ TEST(LinearSearchUnitTests, WithinArray) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the last element of the array.
-TEST(LinearSearchUnitTests, LastInArray) {
+TEST(LinearSearchTest, LastInArray) {
     std::string filename = "array-small.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
@@ -73,7 +73,7 @@ TEST(LinearSearchUnitTests, LastInArray) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in a large array.
-TEST(LinearSearchUnitTests, LargeArray) {
+TEST(LinearSearchTest, LargeArray) {
     std::string filename = "array-large.txt";
     Reader reader;
     size_t size = reader.ReadNumString<int>(filename);
@@ -85,7 +85,7 @@ TEST(LinearSearchUnitTests, LargeArray) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // an empty vector.
-TEST(LinearSearchUnitTests, EmptyVector) {
+TEST(LinearSearchTest, EmptyVector) {
     std::vector<int> vec;
     int key = 5;
     EXPECT_EQ(-1, dsa::LinearSearch(key, vec));
@@ -93,7 +93,7 @@ TEST(LinearSearchUnitTests, EmptyVector) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key not in the vector.
-TEST(LinearSearchUnitTests, NotInVector) {
+TEST(LinearSearchTest, NotInVector) {
     std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
@@ -103,7 +103,7 @@ TEST(LinearSearchUnitTests, NotInVector) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the first element of the vector.
-TEST(LinearSearchUnitTests, FirstInVector) {
+TEST(LinearSearchTest, FirstInVector) {
     std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
@@ -113,7 +113,7 @@ TEST(LinearSearchUnitTests, FirstInVector) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in the vector.
-TEST(LinearSearchUnitTests, WithinVector) {
+TEST(LinearSearchTest, WithinVector) {
     std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
@@ -123,7 +123,7 @@ TEST(LinearSearchUnitTests, WithinVector) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key that is the last element of the vector.
-TEST(LinearSearchUnitTests, LastInVector) {
+TEST(LinearSearchTest, LastInVector) {
     std::string filename = "array-small.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
@@ -133,7 +133,7 @@ TEST(LinearSearchUnitTests, LastInVector) {
 
 // Tests whether the linear search algorithm returns the correct value for
 // a key somewhere in a large vector.
-TEST(LinearSearchUnitTests, LargeVector) {
+TEST(LinearSearchTest, LargeVector) {
     std::string filename = "array-large.txt";
     Reader reader;
     std::vector<int> vector = reader.ReadVector<int>(filename);
