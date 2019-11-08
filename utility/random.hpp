@@ -82,13 +82,10 @@ public:
     // Returns a string filled with random characters ranging
     // from  low  to  high  (inclusive).
     // The default range is from space to tilde.
-    std::string RandomString(size_t length_limit,
-                             char low = ' ',
-                             char high = '~') {
+    std::string RandomString(size_t length, char low = ' ', char high = '~') {
         std::string string;
 
-        std::uniform_int_distribution<size_t> randomize(0, length_limit);
-        for (size_t i = 0, len = randomize(rng_); i < len; i++)
+        for (size_t i = 0; i < length; i++)
             string += RandomCharacter(low, high);
 
         return string;
@@ -97,9 +94,9 @@ public:
     // Returns a vector filled with integers ranging
     // from  low  to  high  (inclusive).
     template <class T>
-    std::vector<T> RandomIntegerVector(size_t size_limit, T low, T high) {
-        std::vector<T> vector(RandomInteger<size_t>(0, size_limit));
-        for (size_t i = 0, size = vector.size(); i < size; i++)
+    std::vector<T> RandomIntegerVector(size_t size, T low, T high) {
+        std::vector<T> vector(size);
+        for (size_t i = 0; i < size; i++)
             vector[i] = RandomInteger<T>(low, high);
 
         return vector;
@@ -108,9 +105,9 @@ public:
     // Returns a vector filled with real numbers ranging
     // from  low  to  high  (inclusive).
     template <class T>
-    std::vector<T> RandomRealVector(size_t size_limit, T low, T high) {
-        std::vector<T> vector(RandomInteger<size_t>(0, size_limit));
-        for (size_t i = 0, size = vector.size(); i < size; i++)
+    std::vector<T> RandomRealVector(size_t size, T low, T high) {
+        std::vector<T> vector(size);
+        for (size_t i = 0; i < size; i++)
             vector[i] = RandomReal<T>(low, high);
 
         return vector;
@@ -119,13 +116,14 @@ public:
     // Returns a vector filled with string whose characters are randomized
     // ranging from  low  to  high  (inclusive).
     // The default range from is space to tilde.
-    std::vector<std::string> RandomStringVector(size_t size_limit,
+    std::vector<std::string> RandomStringVector(size_t size,
                                                 size_t length_limit,
                                                 char low = ' ',
                                                 char high = '~') {
-        std::vector<std::string> vector(RandomInteger<size_t>(0, size_limit));
-        for (size_t i = 0, size = vector.size(); i < size; i++) {
-            vector[i] = RandomString(length_limit, low, high);
+        std::vector<std::string> vector(size);
+        for (size_t i = 0; i < size; i++) {
+            size_t length = RandomInteger<size_t>(0, length_limit);
+            vector[i] = RandomString(length, low, high);
         }
 
         return vector;
