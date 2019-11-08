@@ -60,17 +60,40 @@ TEST(InsertionSortTest, EmptyArray) {
 // Tests whether insertion sort sorts an array consisted of one element.
 TEST(InsertSortTest, ArrayHasOneElement) {
     Random r;
-    int intArr[1] = {r.RandomInteger<int>(NUM_MIN, NUM_MAX)};
-    double doubleArr[1] = {r.RandomReal<double>(NUM_MIN, NUM_MAX)};
+    int int_arr[1] = {r.RandomInteger<int>(NUM_MIN, NUM_MAX)};
+    double double_arr[1] = {r.RandomReal<double>(NUM_MIN, NUM_MAX)};
+    char char_arr[1];
+    r.RandomString(char_arr, 1);
 
-    dsa::InsertionSort<int>(intArr, 1);
-    EXPECT_TRUE(IsSorted<int>(intArr, 1));
+    dsa::InsertionSort<int>(int_arr, 1);
+    EXPECT_TRUE(IsSorted<int>(int_arr, 1));
 
-    dsa::InsertionSort<double>(doubleArr, 1);
-    EXPECT_TRUE(IsSorted<double>(doubleArr, 1));
+    dsa::InsertionSort<double>(double_arr, 1);
+    EXPECT_TRUE(IsSorted<double>(double_arr, 1));
+
+    dsa::InsertionSort<char>(char_arr, 1);
+    EXPECT_TRUE(IsSorted<char>(char_arr, 1));
 }
 
-// TODO
+// Tests whether insertion sort sorts an array consisted of two elements.
+TEST(InsertionSortTest, ArrayHasTwoElements) {
+    Random r;
+    int int_arr[2];
+    r.RandomIntegerArray<int>(int_arr, 2, NUM_MIN, NUM_MAX);
+    double double_arr[2];
+    r.RandomRealArray<double>(double_arr, 2, NUM_MIN, NUM_MAX);
+    char char_arr[2];
+    r.RandomString(char_arr, 2);
+
+    dsa::InsertionSort<int>(int_arr, 2);
+    EXPECT_TRUE(IsSorted<int>(int_arr, 2));
+
+    dsa::InsertionSort<double>(double_arr, 2);
+    EXPECT_TRUE(IsSorted<double>(double_arr, 2));
+
+    dsa::InsertionSort<char>(char_arr, 2);
+    EXPECT_TRUE(IsSorted<char>(char_arr, 2));
+}
 
 // Tests whether insertion sort sorts an empty vector.
 TEST(InsertionSortTest, EmptyVector) {
@@ -84,16 +107,40 @@ TEST(InsertionSortTest, EmptyVector) {
 // Tests whether insertion sort sorts a vector consisted of one element.
 TEST(InsertSortTest, VectorHasOneElement) {
     Random r;
-    std::vector<int> intVec;
-    intVec.push_back(r.RandomInteger<int>(NUM_MIN, NUM_MAX));
-    std::vector<double> doubleVec;
-    doubleVec.push_back(r.RandomReal<double>(NUM_MIN, NUM_MAX));
+    std::vector<int> int_vec;
+    int_vec.push_back(r.RandomInteger<int>(NUM_MIN, NUM_MAX));
+    std::vector<double> double_vec;
+    double_vec.push_back(r.RandomReal<double>(NUM_MIN, NUM_MAX));
+    std::vector<char> char_vec;
+    char_vec.push_back(r.RandomCharacter());
 
-    dsa::InsertionSort<int>(intVec);
-    EXPECT_TRUE(IsSorted<int>(intVec));
+    dsa::InsertionSort<int>(int_vec);
+    EXPECT_TRUE(IsSorted<int>(int_vec));
 
-    dsa::InsertionSort<double>(doubleVec);
-    EXPECT_TRUE(IsSorted<double>(doubleVec));
+    dsa::InsertionSort<double>(double_vec);
+    EXPECT_TRUE(IsSorted<double>(double_vec));
+
+    dsa::InsertionSort<char>(char_vec);
+    EXPECT_TRUE(IsSorted<char>(char_vec));
+}
+
+// Tests whether insertion sort sorts a vector consisted of two elements.
+TEST(InsertionSortTest, VectorHasTwoElements) {
+    Random r;
+    std::vector<int> int_vec = r.RandomIntegerVector<int>(2, NUM_MIN, NUM_MAX);
+    std::vector<double> double_vec = r.RandomRealVector<double>(2, NUM_MIN, NUM_MAX);
+    std::vector<char> char_vec(2);
+    for (size_t i = 0, size = char_vec.size(); i < size; i++)
+        char_vec[i] = r.RandomCharacter();
+
+    dsa::InsertionSort<int>(int_vec);
+    EXPECT_TRUE(IsSorted<int>(int_vec));
+
+    dsa::InsertionSort<double>(double_vec);
+    EXPECT_TRUE(IsSorted<double>(double_vec));
+
+    dsa::InsertionSort<char>(char_vec);
+    EXPECT_TRUE(IsSorted<char>(char_vec));
 }
 
 int main(int argc, char** argv) {
