@@ -48,7 +48,7 @@ public:
     // array: The array to output the read data to
     // size: The size of the array
     template <class T>
-    void ReadArray(std::string filename, T* array, size_t size) {
+    void ReadArray(std::string filename, T* array, size_t& size) {
         file_.exceptions(FLAG_BITS_);
         file_.open(DATA_DIR_ + filename);
 
@@ -56,7 +56,8 @@ public:
         file_ >> size;
 
         // the second lines contains the elements of the array
-        for (size_t i = 0; i < size; i++) file_ >> array[i];
+        for (size_t i = 0; i < size; i++)
+            file_ >> array[i];
 
         file_.close();
     }
@@ -79,7 +80,8 @@ public:
 
         // the second lines contains the elements of the vector
         std::vector<T> vector(size);
-        for (size_t i = 0; i < size; i++) file_ >> vector[i];
+        for (size_t i = 0; i < size; i++)
+            file_ >> vector[i];
 
         file_.close();
         return vector;
