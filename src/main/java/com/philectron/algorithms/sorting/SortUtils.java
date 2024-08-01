@@ -2,8 +2,11 @@ package com.philectron.algorithms.sorting;
 
 import com.google.common.base.Preconditions;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SortUtils {
 
     public static void swap(@NonNull final int[] array, final int i, final int j) {
