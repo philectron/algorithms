@@ -15,6 +15,12 @@ public final class SortUtils {
                 "Index i = %d must be in range [0, %d]", i, array.length - 1);
         Preconditions.checkArgument(0 <= j && j < array.length,
                 "Index j = %d must be in range [0, %d]", j, array.length - 1);
+
+        // Don't swap if it's the same position.
+        if (i == j) {
+            return;
+        }
+
         final int tmp = array[i];
         array[i] = array[j];
         array[j] = tmp;

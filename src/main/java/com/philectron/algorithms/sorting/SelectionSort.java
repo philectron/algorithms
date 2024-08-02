@@ -15,9 +15,7 @@ public class SelectionSort implements SortingAlgorithm {
                 }
             }
 
-            if (iMin != i) {
-                SortUtils.swap(array, iMin, i);
-            }
+            SortUtils.swap(array, iMin, i);
         }
     }
 
