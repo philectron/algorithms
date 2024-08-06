@@ -1,5 +1,7 @@
 package com.philectron.algorithms.sorting;
 
+import java.util.Random;
+
 import com.google.common.base.Preconditions;
 
 import lombok.AccessLevel;
@@ -33,6 +35,12 @@ public final class SortUtils {
             }
         }
         return true;
+    }
+
+    public static void shuffle(@NonNull final int[] array, @NonNull final Random random) {
+        for (int i = 0, n = array.length; i < n; i++) {
+            swap(array, i, random.nextInt(n));
+        }
     }
 
 }
