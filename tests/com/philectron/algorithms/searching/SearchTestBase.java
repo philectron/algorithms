@@ -5,13 +5,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Arrays;
-
-import org.junit.jupiter.api.Test;
-
 import com.google.common.primitives.Ints;
-
+import java.util.Arrays;
 import lombok.Getter;
+import org.junit.jupiter.api.Test;
 
 public abstract class SearchTestBase {
 
@@ -87,8 +84,10 @@ public abstract class SearchTestBase {
         public ArrayTarget(final boolean isSortRequired) {
             uniqueTarget = 34;
             duplicateTarget = 30;
-            array = new int[] { 21, 37, 36, 19, duplicateTarget, 27, 25, 36, 32, 28, 13, 33,
-                    uniqueTarget, 20, duplicateTarget, 4, 15, 40, 5, 10 };
+            array = new int[] {
+                21, 37, 36, 19, duplicateTarget, 27, 25, 36, 32, 28, 13, 33, uniqueTarget, 20,
+                duplicateTarget, 4, 15, 40, 5, 10
+            };
             if (isSortRequired) {
                 Arrays.sort(array);
             }
