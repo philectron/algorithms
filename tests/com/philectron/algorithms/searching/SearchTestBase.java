@@ -2,7 +2,6 @@ package com.philectron.algorithms.searching;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.common.primitives.Ints;
@@ -22,72 +21,89 @@ public abstract class SearchTestBase {
 
     @Test
     public void search_nullArray_fails() {
-        assertThrows(RuntimeException.class, () -> searcher.search(null, 1));
+        assertThrows(RuntimeException.class, () -> searcher.findFirst(null, 1));
+        assertThrows(RuntimeException.class, () -> searcher.findLast(null, 1));
+        assertThrows(RuntimeException.class, () -> searcher.contains(null, 1));
     }
 
     @Test
     public void search_emptyArray_notFound() {
-        assertSearchNotFound(new int[0], 1);
+        assertNotFound(new int[0], 1);
     }
 
     @Test
     public void search_singletonArray() {
         final int[] array = new int[1];
-        assertSearchFound(array, array[0], 0);
-        assertSearchNotFound(array, array[0] + 1);
+        assertFindFirst(array, array[0], 0);
+        assertFindLast(array, array[0], 0);
+        assertContains(array, 0);
     }
 
     @Test
     public void search_nCopiesArray() {
-        final int[] array = { 1, 1, 1, 1, 1 };
-        assertSearchFound(array, array[array.length - 1], 0);
+        final int target = 1;
+        final int[] array = { target, target, target, target, target };
+        assertFindFirst(array, target, 0);
+        assertFindLast(array, target, array.length - 1);
+        assertContains(array, target);
     }
 
     @Test
     public void search_arbitraryArray_uniqueTarget() {
         final ArrayTarget arrayAndTargets = new ArrayTarget(isSortRequired);
         final int[] array = arrayAndTargets.getArray();
-        final int target = arrayAndTargets.getUniqueTarget();
-        assertSearchFound(array, target, Ints.indexOf(array, target));
+        final int target = arrayAndTargets.getUniqTarget();
+        assertFindFirst(array, target, Ints.indexOf(array, target));
+        assertFindLast(array, target, Ints.lastIndexOf(array, target));
+        assertContains(array, target);
     }
 
     @Test
     public void search_arbitraryArray_duplicateTargets() {
         final ArrayTarget arrayAndTargets = new ArrayTarget(isSortRequired);
         final int[] array = arrayAndTargets.getArray();
-        final int target = arrayAndTargets.getDuplicateTarget();
-        assertSearchFound(array, target, Ints.indexOf(array, target));
+        final int target = arrayAndTargets.getDupTarget();
+        assertFindFirst(array, target, Ints.indexOf(array, target));
+        assertFindLast(array, target, Ints.lastIndexOf(array, target));
+        assertContains(array, target);
     }
 
-    void assertSearchFound(final int[] array, final int target) {
-        assertThat(String.format("Target %d is in array %s", target, Arrays.toString(array)),
-                searcher.search(array, target), is(greaterThan(-1)));
+    void assertContains(final int[] array, final int target) {
+        assertThat(String.format("Target %d in array: %s", target, Arrays.toString(array)),
+                searcher.contains(array, target), is(true));
     }
 
-    void assertSearchFound(final int[] array, final int target, final int expectedIndex) {
+    void assertNotFound(final int[] array, final int target) {
+        assertFindFirst(array, target, -1);
+        assertFindLast(array, target, -1);
+        assertThat(String.format("Target %d in array: %s", target, Arrays.toString(array)),
+                searcher.contains(array, target), is(false));
+    }
+
+    private void assertFindFirst(final int[] array, final int target, final int expectedIndex) {
         assertThat(
-                String.format("Target %d is in array %s at index", target, Arrays.toString(array)),
-                searcher.search(array, target), is(expectedIndex));
+                String.format("First index of target %d in array: %s", target,
+                        Arrays.toString(array)),
+                searcher.findFirst(array, target), is(expectedIndex));
     }
 
-    void assertSearchNotFound(final int[] array, final int target) {
-        assertThat(String.format("Target %d is not in array: %s", target, Arrays.toString(array)),
-                searcher.search(array, target), is(-1));
+    private void assertFindLast(final int[] array, final int target, final int expectedIndex) {
+        assertThat(
+                String.format("Last index of target %d in array: %s", target,
+                        Arrays.toString(array)),
+                searcher.findLast(array, target), is(expectedIndex));
     }
 
     @Getter
     static class ArrayTarget {
         private final int[] array;
-        private final int uniqueTarget;
-        private final int duplicateTarget;
+        private final int uniqTarget;
+        private final int dupTarget;
 
         public ArrayTarget(final boolean isSortRequired) {
-            uniqueTarget = 34;
-            duplicateTarget = 30;
-            array = new int[] {
-                21, 37, 36, 19, duplicateTarget, 27, 25, 36, 32, 28, 13, 33, uniqueTarget, 20,
-                duplicateTarget, 4, 15, 40, 5, 10
-            };
+            uniqTarget = 2;
+            dupTarget = 5;
+            array = new int[] { dupTarget, uniqTarget, 8, 6, 4, 3, 5, 7, 1, dupTarget };
             if (isSortRequired) {
                 Arrays.sort(array);
             }
