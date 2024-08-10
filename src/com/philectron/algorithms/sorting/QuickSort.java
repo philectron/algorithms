@@ -2,17 +2,18 @@ package com.philectron.algorithms.sorting;
 
 import java.util.Random;
 
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-@AllArgsConstructor
 public class QuickSort implements SortingAlgorithm {
 
-    @NonNull
     private final Random random;
 
+    public QuickSort() {
+        random = new Random();
+    }
+
     @Override
-    public void sort(@NonNull final int[] array) {
+    public void sort(final @NonNull int[] array) {
         quicksort(array, 0, array.length);
     }
 

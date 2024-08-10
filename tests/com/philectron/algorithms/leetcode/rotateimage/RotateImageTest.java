@@ -20,11 +20,8 @@ public class RotateImageTest {
     public void rotateClockwiseExceptDiagonals_0x0() {
         final int n = 0;
         final int[][] expected = new int[0][0];
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -38,11 +35,8 @@ public class RotateImageTest {
     public void rotateClockwiseExceptDiagonals_1x1() {
         final int n = 1;
         final int[][] expected = { { 1 } };
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -62,11 +56,8 @@ public class RotateImageTest {
             { 1, 2 },
             { 3, 4 }
         };
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -88,11 +79,8 @@ public class RotateImageTest {
             { 8, 5, 2 },
             { 7, 6, 9 }
         };
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -115,11 +103,8 @@ public class RotateImageTest {
             { 15, 10, 11, 3 },
             { 13, 12, 8, 16 }
         };
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -145,11 +130,8 @@ public class RotateImageTest {
             { 24, 17, 14, 19, 4 },
             { 21, 20, 15, 10, 25 }
         };
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -177,11 +159,8 @@ public class RotateImageTest {
             { 35, 26, 23, 17, 29, 5 },
             { 31, 30, 24, 18, 12, 36 }
         };
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -211,11 +190,8 @@ public class RotateImageTest {
             { 48, 37, 34, 27, 20, 41, 6 },
             { 43, 42, 35, 28, 21, 14, 49 }
         };
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithIndexing(buildSquareMatrix(n)),
+        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
                 expected);
-        assertSquareMatricesEquals(
-                solution.rotateClockwiseExceptDiagonalsWithLooping(buildSquareMatrix(n)), expected);
     }
 
     private void assertSquareMatricesEquals(final int[][] actual, final int[][] expected) {
@@ -236,8 +212,8 @@ public class RotateImageTest {
         for (int i = 0, n = actual.length; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 assertThat(String.format(
-                        "Matrices must equal:\nActual matrix:\n%sExpected matrix:\n%sBut differ at index [%d][%d]",
-                        actualStr, expectedStr, i, j), actual[i][j], is(expected[i][j]));
+                        "Matrices must equal:\nExpected matrix:\n%sBut was:\n%sDiffer at index [%d][%d]",
+                        expectedStr, actualStr, i, j), actual[i][j], is(expected[i][j]));
             }
         }
     }

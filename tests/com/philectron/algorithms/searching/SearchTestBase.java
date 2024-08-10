@@ -21,9 +21,9 @@ public abstract class SearchTestBase {
 
     @Test
     public void search_nullArray_fails() {
-        assertThrows(RuntimeException.class, () -> searcher.findFirst(null, 1));
-        assertThrows(RuntimeException.class, () -> searcher.findLast(null, 1));
-        assertThrows(RuntimeException.class, () -> searcher.contains(null, 1));
+        assertThrows(IllegalArgumentException.class, () -> searcher.findFirst(null, 1));
+        assertThrows(IllegalArgumentException.class, () -> searcher.findLast(null, 1));
+        assertThrows(IllegalArgumentException.class, () -> searcher.contains(null, 1));
     }
 
     @Test

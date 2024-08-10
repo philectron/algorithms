@@ -5,7 +5,7 @@ import lombok.NonNull;
 public class MergeSort implements SortingAlgorithm {
 
     @Override
-    public void sort(@NonNull final int[] array) {
+    public void sort(final @NonNull int[] array) {
         mergeSort(array, 0, array.length);
     }
 

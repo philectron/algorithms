@@ -5,12 +5,12 @@ import lombok.NonNull;
 public class BinarySearch implements SearchingAlgorithm {
 
     @Override
-    public int findFirst(@NonNull final int[] sortedArray, final int target) {
+    public int findFirst(final @NonNull int[] sortedArray, final int target) {
         int low = 0;
         int high = sortedArray.length;
 
         while (low < high) {
-            final int mid = (low + high) / 2;
+            final int mid = low + (high - low) / 2;
 
             // Only return the mid index if the mid value does not have any duplicates before it.
             if (target == sortedArray[mid] && (mid == 0 || target > sortedArray[mid - 1])) {
@@ -30,13 +30,13 @@ public class BinarySearch implements SearchingAlgorithm {
     }
 
     @Override
-    public int findLast(@NonNull final int[] sortedArray, final int target) {
+    public int findLast(final @NonNull int[] sortedArray, final int target) {
         final int n = sortedArray.length;
         int low = 0;
         int high = sortedArray.length;
 
         while (low < high) {
-            final int mid = (low + high) / 2;
+            final int mid = low + (high - low) / 2;
 
             // Only return the mid index if the mid value does not have any duplicates after it.
             if (target == sortedArray[mid] && (mid == n - 1 || target < sortedArray[mid + 1])) {

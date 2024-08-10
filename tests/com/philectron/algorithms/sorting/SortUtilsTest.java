@@ -14,21 +14,21 @@ public class SortUtilsTest {
 
     @Test
     public void swap_nullArray_fails() {
-        assertThrows(RuntimeException.class, () -> SortUtils.swap(null, 0, 0));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.swap(null, 0, 0));
     }
 
     @Test
     public void swap_indexOutOfBound_fails() {
         final int[] array = new int[1];
-        assertThrows(RuntimeException.class, () -> SortUtils.swap(array, -1, 0));
-        assertThrows(RuntimeException.class, () -> SortUtils.swap(array, 1, 0));
-        assertThrows(RuntimeException.class, () -> SortUtils.swap(array, 0, -1));
-        assertThrows(RuntimeException.class, () -> SortUtils.swap(array, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.swap(array, -1, 0));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.swap(array, 1, 0));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.swap(array, 0, -1));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.swap(array, 0, 1));
     }
 
     @Test
     public void swap_emptyArray_fails() {
-        assertThrows(RuntimeException.class, () -> SortUtils.swap(new int[0], 0, 0));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.swap(new int[0], 0, 0));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class SortUtilsTest {
 
     @Test
     public void isSorted_nullArray_fails() {
-        assertThrows(RuntimeException.class, () -> SortUtils.isSorted(null));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.isSorted(null));
     }
 
     @Test
@@ -93,9 +93,9 @@ public class SortUtilsTest {
 
     @Test
     public void shuffle_nullArrayOrRandom_fails() {
-        assertThrows(RuntimeException.class, () -> SortUtils.shuffle(null, null));
-        assertThrows(RuntimeException.class, () -> SortUtils.shuffle(null, new Random()));
-        assertThrows(RuntimeException.class, () -> SortUtils.shuffle(new int[1], null));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.shuffle(null, null));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.shuffle(null, new Random()));
+        assertThrows(IllegalArgumentException.class, () -> SortUtils.shuffle(new int[1], null));
     }
 
     @Test

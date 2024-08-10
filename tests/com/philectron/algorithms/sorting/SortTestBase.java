@@ -17,7 +17,7 @@ public abstract class SortTestBase {
 
     @Test
     public void sort_nullArray_fails() {
-        assertThrows(RuntimeException.class, () -> sorter.sort(null));
+        assertThrows(IllegalArgumentException.class, () -> sorter.sort(null));
     }
 
     @Test

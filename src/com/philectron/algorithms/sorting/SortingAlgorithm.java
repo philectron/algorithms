@@ -4,6 +4,6 @@ import lombok.NonNull;
 
 public interface SortingAlgorithm {
 
-    public void sort(@NonNull final int[] array);
+    public void sort(final @NonNull int[] array);
 
 }
