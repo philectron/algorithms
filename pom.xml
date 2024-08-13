@@ -16,12 +16,7 @@
   <properties>
     <java.version>21</java.version>
     <maven.compiler.release>${java.version}</maven.compiler.release>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <src.dir>src</src.dir>
-    <tst.dir>tests</tst.dir>
-    <resources.dir>resources</resources.dir>
   </properties>
 
   <dependencyManagement>
@@ -81,18 +76,18 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>${src.dir}</sourceDirectory>
-    <testSourceDirectory>${tst.dir}</testSourceDirectory>
+    <sourceDirectory>${project.basedir}/src</sourceDirectory>
+    <testSourceDirectory>${project.basedir}/tests</testSourceDirectory>
 
     <resources>
       <resource>
-        <directory>${src.dir}/${resources.dir}</directory>
+        <directory>${project.build.sourceDirectory}/resources</directory>
       </resource>
     </resources>
 
     <testResources>
       <testResource>
-        <directory>${tst.dir}/${resources.dir}</directory>
+        <directory>${project.build.testSourceDirectory}/resources</directory>
       </testResource>
     </testResources>
 
@@ -154,6 +149,25 @@
         <version>3.6.2</version>
       </plugin>
 
+      <!-- Unit test report during test phase -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <outputDirectory>${project.reporting.outputDirectory}/surefire-report</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>surefire-report:report-only</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report-only</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- SpotBugs during test phase -->
       <plugin>
         <groupId>com.github.spotbugs</groupId>
@@ -164,7 +178,7 @@
         </configuration>
         <executions>
           <execution>
-            <id>spotbugs</id>
+            <id>spotbugs:spotbugs</id>
             <phase>test</phase>
             <goals>
               <goal>spotbugs</goal>
@@ -180,13 +194,13 @@
         <version>0.8.12</version>
         <executions>
           <execution>
-            <id>prepare-agent</id>
+            <id>jacoco:prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
           </execution>
           <execution>
-            <id>report</id>
+            <id>jacoco:report</id>
             <phase>test</phase>
             <goals>
               <goal>report</goal>
@@ -209,6 +223,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>3.3.1</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.4.0</version>
       </plugin>
 
       <plugin>
