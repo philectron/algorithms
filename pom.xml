@@ -155,7 +155,7 @@
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>3.3.1</version>
         <configuration>
-          <outputDirectory>${project.reporting.outputDirectory}/surefire-report</outputDirectory>
+          <outputDirectory>${project.build.directory}/surefire-reports</outputDirectory>
         </configuration>
         <executions>
           <execution>
@@ -175,6 +175,11 @@
         <version>4.8.6.2</version>
         <configuration>
           <htmlOutput>true</htmlOutput>
+          <xmlOutput>true</xmlOutput>
+          <sarifOutput>true</sarifOutput>
+          <outputDirectory>${project.build.directory}/spotbugs</outputDirectory>
+          <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
+          <sarifOutputDirectory>${project.build.directory}/spotbugs</sarifOutputDirectory>
         </configuration>
         <executions>
           <execution>
@@ -192,6 +197,9 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.12</version>
+        <configuration>
+          <outputDirectory>${project.build.directory}/jacoco</outputDirectory>
+        </configuration>
         <executions>
           <execution>
             <id>jacoco:prepare-agent</id>
