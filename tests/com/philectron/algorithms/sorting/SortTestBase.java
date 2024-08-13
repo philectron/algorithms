@@ -62,9 +62,8 @@ public abstract class SortTestBase {
 
     @Test
     public void sort_arbitraryArray() {
-        final int[] array = {
-            21, 37, 36, 19, 30, 27, 25, 36, 32, 28, 13, 33, 34, 20, 30, 4, 15, 40, 5, 10
-        };
+        final int[] array =
+                { 21, 37, 36, 19, 30, 27, 25, 36, 32, 28, 13, 33, 34, 20, 30, 4, 15, 40, 5, 10 };
 
         assertUnsorted(array);
         sorter.sort(array);

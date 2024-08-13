@@ -13,8 +13,8 @@ public abstract class SearchTestBase {
     private static final int UNIQUE_TARGET = 2;
     private static final int DUPLICATE_TARGET = 5;
     private static final int NON_TARGET = 10;
-    private static final int[] ARRAY = { DUPLICATE_TARGET, UNIQUE_TARGET, 8, 6, 4, 3, 5, 7, 1,
-            DUPLICATE_TARGET };
+    private static final int[] ARRAY =
+            { DUPLICATE_TARGET, UNIQUE_TARGET, 8, 6, 4, 3, 5, 7, 1, DUPLICATE_TARGET };
     private static final int[] SORTED_ARRAY = ARRAY.clone();
 
     static {

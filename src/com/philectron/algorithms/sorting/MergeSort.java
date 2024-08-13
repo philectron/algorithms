@@ -14,7 +14,7 @@ public class MergeSort implements SortingAlgorithm {
             return;
         }
 
-        final int mid = (low + high) / 2;
+        final int mid = low + (high - low) / 2;
 
         mergeSort(array, low, mid);
         mergeSort(array, mid, high);
@@ -40,7 +40,7 @@ public class MergeSort implements SortingAlgorithm {
         int j = 0;
         int nMerged = low;
 
-        // Copy the smallest of each sorted half to the original array until done with at least one half.
+        // Copy the smallest of each sorted half to the original array until done with one half.
         while (i < nLeft && j < nRight) {
             if (leftArray[i] < rightArray[j]) {
                 array[nMerged] = leftArray[i++];
