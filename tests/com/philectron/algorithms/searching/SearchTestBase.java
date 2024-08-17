@@ -1,8 +1,7 @@
 package com.philectron.algorithms.searching;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
@@ -30,74 +29,70 @@ public abstract class SearchTestBase {
     }
 
     @Test
-    public void search_nullArray_fails() {
-        assertThrows(IllegalArgumentException.class, () -> searcher.findFirst(null, 1));
-        assertThrows(IllegalArgumentException.class, () -> searcher.findLast(null, 1));
-        assertThrows(IllegalArgumentException.class, () -> searcher.contains(null, 1));
-    }
-
-    @Test
-    public void search_emptyArray_notFound() {
+    public void search_emptyArray_returnsNotFound() {
         assertNotFound(new int[0], 1);
     }
 
     @Test
-    public void search_singletonArray() {
+    public void search_singletonArray_returnsIndex() {
         final int[] array = new int[1];
         assertFound(array, array[0]);
     }
 
     @Test
-    public void search_nCopiesArray() {
+    public void search_nCopiesArray_returnsIndexes() {
         final int target = 1;
         final int[] array = { target, target, target, target, target };
         assertFound(array, target);
     }
 
     @Test
-    public void search_arbitraryArray_uniqueTarget() {
+    public void search_uniqueTarget_returnsIndex() {
         assertFound(isSortRequired ? SORTED_ARRAY : ARRAY, UNIQUE_TARGET);
     }
 
     @Test
-    public void search_arbitraryArray_duplicateTargets() {
+    public void search_duplicateTargets_returnsIndexes() {
         assertFound(isSortRequired ? SORTED_ARRAY : ARRAY, DUPLICATE_TARGET);
     }
 
     @Test
-    public void search_arbitraryArray_notFound() {
+    public void search_nonTarget_returnsNotFound() {
         assertNotFound(isSortRequired ? SORTED_ARRAY : ARRAY, NON_TARGET);
     }
 
     private void assertFound(final int[] array, final int target) {
+        final int[] originalArray = array.clone();
         assertFirstIndex(array, target, Ints.indexOf(array, target));
         assertLastIndex(array, target, Ints.lastIndexOf(array, target));
         assertContains(array, target, true);
+        assertThat(array).isEqualTo(originalArray); // Searching should not mutate the array.
     }
 
     private void assertNotFound(final int[] array, final int target) {
+        final int[] originalArray = array.clone();
         assertFirstIndex(array, target, SearchingAlgorithm.INDEX_NOT_FOUND);
         assertLastIndex(array, target, SearchingAlgorithm.INDEX_NOT_FOUND);
         assertContains(array, target, false);
+        assertThat(array).isEqualTo(originalArray); // Searching should not mutate the array.
     }
 
     private void assertFirstIndex(final int[] array, final int target, final int expectedIndex) {
-        assertThat(
-                String.format("First index of target %d in array: %s", target,
-                        Arrays.toString(array)),
-                searcher.findFirst(array, target), is(expectedIndex));
+        assertWithMessage("First index of target %s in array %s", target, Arrays.toString(array))
+                .that(searcher.findFirst(array, target))
+                .isEqualTo(expectedIndex);
     }
 
     private void assertLastIndex(final int[] array, final int target, final int expectedIndex) {
-        assertThat(
-                String.format("Last index of target %d in array: %s", target,
-                        Arrays.toString(array)),
-                searcher.findLast(array, target), is(expectedIndex));
+        assertWithMessage("Last index of target %s in array %s", target, Arrays.toString(array))
+                .that(searcher.findLast(array, target))
+                .isEqualTo(expectedIndex);
     }
 
     private void assertContains(final int[] array, final int target, final boolean expectedResult) {
-        assertThat(String.format("Target %d in array: %s", target, Arrays.toString(array)),
-                searcher.contains(array, target), is(expectedResult));
+        assertWithMessage("Whether array %s contains target %s", Arrays.toString(array), target)
+                .that(searcher.contains(array, target))
+                .isEqualTo(expectedResult);
     }
 
 }

@@ -1,8 +1,7 @@
 package com.philectron.algorithms.sorting;
 
+import com.google.common.base.Preconditions;
 import java.util.Random;
-
-import lombok.NonNull;
 
 public class QuickSort implements SortingAlgorithm {
 
@@ -13,7 +12,8 @@ public class QuickSort implements SortingAlgorithm {
     }
 
     @Override
-    public void sort(final @NonNull int[] array) {
+    public void sort(final int[] array) {
+        Preconditions.checkNotNull(array);
         quicksort(array, 0, array.length);
     }
 
@@ -32,7 +32,7 @@ public class QuickSort implements SortingAlgorithm {
 
     private int partition(final int[] array, final int low, final int high) {
         // Choose a random element as the pivot, then swap it with the last element.
-        final int pivotIndex = random.nextInt(high - low) + low;
+        final int pivotIndex = low + random.nextInt(high - low);
         final int pivot = array[pivotIndex];
         SortUtils.swap(array, pivotIndex, high - 1);
 

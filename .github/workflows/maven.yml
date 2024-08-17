@@ -10,34 +10,30 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
   pull_request:
-    branches: ["main"]
+    branches:
+      - "main"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out package
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: "21"
           distribution: "temurin"
           cache: maven
-          cache-dependency-path: "pom.xml"
-          check-latest: true
 
       - name: Build with Maven
+        shell: bash
         run: mvn verify --file pom.xml --batch-mode --update-snapshots
-
-      # Workaround for putting SpotBugs HTML in its plugin output directory,
-      # as the HTML report somehow is not put in this output directory.
-      - name: Copy SpotBugs HTML report
-        run: cp target/spotbugs.html target/spotbugs/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -45,6 +41,4 @@ jobs:
           name: Package
           path: |
             target/*.jar
-            target/spotbugs/
-            target/jacoco/
-            target/surefire-reports/
+            target/site/

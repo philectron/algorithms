@@ -1,7 +1,6 @@
 package com.philectron.algorithms.datastructures.linkedlist;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -18,15 +17,15 @@ public class SinglyLinkedListTest {
     @Test
     public void getNode_emptyList_fails() {
         final SinglyLinkedList list = new SinglyLinkedList();
-        assertThat(list.isEmpty(), is(true));
+        assertThat(list.isEmpty()).isTrue();
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
     }
 
     @Test
     public void getNode_indexOutOfBound_fails() {
         final SinglyLinkedList list = SinglyLinkedList.fromArray(VALUES);
-        assertThat(list.isEmpty(), is(false));
-        assertThat(list.size(), is(VALUES.length));
+        assertThat(list.isEmpty()).isFalse();
+        assertThat(list.size()).isEqualTo(VALUES.length);
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(VALUES.length));
     }
@@ -34,19 +33,19 @@ public class SinglyLinkedListTest {
     @Test
     public void getNode_indexInBound() {
         final SinglyLinkedList list = SinglyLinkedList.fromArray(VALUES);
-        assertThat(list.get(VALUES.length - 1), is(VALUES[VALUES.length - 1]));
+        assertThat(list.get(VALUES.length - 1)).isEqualTo(VALUES[VALUES.length - 1]);
     }
 
     @Test
     public void contains_emptyList() {
         final SinglyLinkedList list = new SinglyLinkedList();
-        assertThat(list.contains(1), is(false));
+        assertThat(list.contains(1)).isFalse();
     }
 
     @Test
     public void contains_existingList() {
         final SinglyLinkedList list = SinglyLinkedList.fromArray(VALUES);
-        assertThat(list.contains(VALUES[VALUES.length - 1]), is(true));
+        assertThat(list.contains(VALUES[VALUES.length - 1])).isTrue();
     }
 
     @Test
@@ -56,7 +55,7 @@ public class SinglyLinkedListTest {
 
         list.add(0, value);
 
-        assertThat(list.toArray(), is(new int[] { value }));
+        assertThat(list.toArray()).isEqualTo(new int[] { value });
     }
 
     @Test
@@ -73,7 +72,7 @@ public class SinglyLinkedListTest {
 
         list.addFront(value);
 
-        assertThat(list.toArray(), is(new int[] { value, 1, 2, 3, 4, 5 }));
+        assertThat(list.toArray()).isEqualTo(new int[] { value, 1, 2, 3, 4, 5 });
     }
 
     @Test
@@ -84,7 +83,7 @@ public class SinglyLinkedListTest {
 
         list.add(position, value);
 
-        assertThat(list.toArray(), is(new int[] { 1, 2, value, 3, 4, 5 }));
+        assertThat(list.toArray()).isEqualTo(new int[] { 1, 2, value, 3, 4, 5 });
     }
 
     @Test
@@ -94,7 +93,7 @@ public class SinglyLinkedListTest {
 
         list.addBack(value);
 
-        assertThat(list.toArray(), is(new int[] { 1, 2, 3, 4, 5, value }));
+        assertThat(list.toArray()).isEqualTo(new int[] { 1, 2, 3, 4, 5, value });
     }
 
     @Test
@@ -116,7 +115,7 @@ public class SinglyLinkedListTest {
 
         list.removeFront();
 
-        assertThat(list.toArray(), is(new int[] { 2, 3, 4, 5 }));
+        assertThat(list.toArray()).isEqualTo(new int[] { 2, 3, 4, 5 });
     }
 
     @Test
@@ -125,7 +124,7 @@ public class SinglyLinkedListTest {
 
         list.remove(VALUES.length / 2);
 
-        assertThat(list.toArray(), is(new int[] { 1, 2, 4, 5 }));
+        assertThat(list.toArray()).isEqualTo(new int[] { 1, 2, 4, 5 });
     }
 
     @Test
@@ -134,7 +133,7 @@ public class SinglyLinkedListTest {
 
         list.removeBack();
 
-        assertThat(list.toArray(), is(new int[] { 1, 2, 3, 4 }));
+        assertThat(list.toArray()).isEqualTo(new int[] { 1, 2, 3, 4 });
     }
 
     @Test
@@ -143,7 +142,7 @@ public class SinglyLinkedListTest {
 
         list.reverse();
 
-        assertThat(list.toArray(), is(new int[] { 5, 4, 3, 2, 1 }));
+        assertThat(list.toArray()).isEqualTo(new int[] { 5, 4, 3, 2, 1 });
     }
 
 }

@@ -1,11 +1,13 @@
 package com.philectron.algorithms.sorting;
 
-import lombok.NonNull;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Verify;
 
 public class MergeSort implements SortingAlgorithm {
 
     @Override
-    public void sort(final @NonNull int[] array) {
+    public void sort(final int[] array) {
+        Preconditions.checkNotNull(array);
         mergeSort(array, 0, array.length);
     }
 

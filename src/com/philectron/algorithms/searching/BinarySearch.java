@@ -1,11 +1,13 @@
 package com.philectron.algorithms.searching;
 
-import lombok.NonNull;
+import com.google.common.base.Preconditions;
 
 public class BinarySearch implements SearchingAlgorithm {
 
     @Override
-    public int findFirst(final @NonNull int[] sortedArray, final int target) {
+    public int findFirst(final int[] sortedArray, final int target) {
+        Preconditions.checkNotNull(sortedArray);
+
         int low = 0;
         int high = sortedArray.length;
 
@@ -30,7 +32,9 @@ public class BinarySearch implements SearchingAlgorithm {
     }
 
     @Override
-    public int findLast(final @NonNull int[] sortedArray, final int target) {
+    public int findLast(final int[] sortedArray, final int target) {
+        Preconditions.checkNotNull(sortedArray);
+
         final int n = sortedArray.length;
         int low = 0;
         int high = sortedArray.length;

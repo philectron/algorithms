@@ -1,9 +1,9 @@
 package com.philectron.algorithms.sorting;
 
-import lombok.NonNull;
+import javax.annotation.CheckForNull;
 
 public interface SortingAlgorithm {
 
-    public void sort(final @NonNull int[] array);
+    public void sort(final @CheckForNull int[] array);
 
 }

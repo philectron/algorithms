@@ -1,11 +1,13 @@
 package com.philectron.algorithms.sorting;
 
-import lombok.NonNull;
+import com.google.common.base.Preconditions;
 
 public class SelectionSort implements SortingAlgorithm {
 
     @Override
-    public void sort(final @NonNull int[] array) {
+    public void sort(final int[] array) {
+        Preconditions.checkNotNull(array);
+
         for (int i = 0, n = array.length; i < n - 1; i++) {
             int iMin = i;
 

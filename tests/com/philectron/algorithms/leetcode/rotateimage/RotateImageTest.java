@@ -1,7 +1,7 @@
 package com.philectron.algorithms.leetcode.rotateimage;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,30 +13,28 @@ public class RotateImageTest {
     public void rotateClockwise_0x0() {
         final int n = 0;
         final int[][] expected = new int[0][0];
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
     public void rotateClockwiseExceptDiagonals_0x0() {
         final int n = 0;
         final int[][] expected = new int[0][0];
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
     public void rotateClockwise_1x1() {
         final int n = 1;
         final int[][] expected = { { 1 } };
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
     public void rotateClockwiseExceptDiagonals_1x1() {
         final int n = 1;
         final int[][] expected = { { 1 } };
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class RotateImageTest {
             { 3, 1 },
             { 4, 2 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -56,8 +54,7 @@ public class RotateImageTest {
             { 1, 2 },
             { 3, 4 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -68,7 +65,7 @@ public class RotateImageTest {
             { 8, 5, 2 },
             { 9, 6, 3 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -79,8 +76,7 @@ public class RotateImageTest {
             { 8, 5, 2 },
             { 7, 6, 9 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -90,8 +86,9 @@ public class RotateImageTest {
             { 13, 9, 5, 1 },
             { 14, 10, 6, 2 },
             { 15, 11, 7, 3 },
-            { 16, 12, 8, 4 } };
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+            { 16, 12, 8, 4 }
+        };
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -103,8 +100,7 @@ public class RotateImageTest {
             { 15, 10, 11, 3 },
             { 13, 12, 8, 16 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -117,7 +113,7 @@ public class RotateImageTest {
             { 24, 19, 14, 9, 4 },
             { 25, 20, 15, 10, 5 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -130,8 +126,7 @@ public class RotateImageTest {
             { 24, 17, 14, 19, 4 },
             { 21, 20, 15, 10, 25 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -145,7 +140,7 @@ public class RotateImageTest {
             { 35, 29, 23, 17, 11, 5 },
             { 36, 30, 24, 18, 12, 6 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -159,8 +154,7 @@ public class RotateImageTest {
             { 35, 26, 23, 17, 29, 5 },
             { 31, 30, 24, 18, 12, 36 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -175,7 +169,7 @@ public class RotateImageTest {
             { 48, 41, 34, 27, 20, 13, 6 },
             { 49, 42, 35, 28, 21, 14, 7 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwise(buildSquareMatrix(n)), expected);
+        assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
@@ -190,32 +184,39 @@ public class RotateImageTest {
             { 48, 37, 34, 27, 20, 41, 6 },
             { 43, 42, 35, 28, 21, 14, 49 }
         };
-        assertSquareMatricesEquals(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)),
-                expected);
+        assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
-    private void assertSquareMatricesEquals(final int[][] actual, final int[][] expected) {
+    private void assertSquareMatrix(final int[][] actual, final int[][] expected) {
         if (expected.length == 0) {
-            assertThat("Matrix must be empty", actual.length, is(0));
+            assertThat(actual).isEmpty();
             return;
         }
 
         final String actualStr = matrixToString(actual);
         final String expectedStr = matrixToString(expected);
 
-        assertThat("Matrix must be square", actual.length, is(actual[0].length));
-        assertThat("Matrices must have the same number of rows", actual.length,
-                is(expected.length));
-        assertThat("Matrices must have the same number of columns", actual[0].length,
-                is(expected[0].length));
+        assertWithMessage(printMatrix(actualStr, expectedStr) + "Row size")
+                .that(actual.length)
+                .isEqualTo(expected.length);
+
+        for (int i = 0, n = actual.length; i < n; i++) {
+            assertWithMessage(printMatrix(actualStr, expectedStr) + "Column size on row %s", i)
+                    .that(actual[i])
+                    .hasLength(expected[i].length);
+        }
 
         for (int i = 0, n = actual.length; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                assertThat(String.format(
-                        "Matrices must equal:\nExpected matrix:\n%sBut was:\n%sDiffer at index [%d][%d]",
-                        expectedStr, actualStr, i, j), actual[i][j], is(expected[i][j]));
+                assertWithMessage(printMatrix(actualStr, expectedStr) + "Value at [%s][%s]", i, j)
+                        .that(actual[i][j])
+                        .isEqualTo(expected[i][j]);
             }
         }
+    }
+
+    private String printMatrix(final String actualStr, final String expectedStr) {
+        return String.format("Expected matrix:\n%sActual matrix:\n%s", expectedStr, actualStr);
     }
 
     private String matrixToString(final int[][] matrix) {
