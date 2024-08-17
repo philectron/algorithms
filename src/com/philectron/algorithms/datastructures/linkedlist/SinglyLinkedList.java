@@ -134,6 +134,12 @@ public class SinglyLinkedList<E> implements Iterable<E> {
         remove(size - 1);
     }
 
+    public void removeAll() {
+        while (head != null) {
+            removeFront();
+        }
+    }
+
     public boolean isEmpty() {
         return size == 0;
     }
@@ -167,29 +173,21 @@ public class SinglyLinkedList<E> implements Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new SinglyLinkedListIterator<>(this);
-    }
+        return new Iterator<>() {
+            private Node<E> current = head;
 
-    private static class SinglyLinkedListIterator<E> implements Iterator<E> {
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
 
-        private Node<E> current;
-
-        private SinglyLinkedListIterator(final SinglyLinkedList<E> list) {
-            current = list.head;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return current != null;
-        }
-
-        @Override
-        public E next() {
-            final E data = current.data;
-            current = current.next;
-            return data;
-        }
-
+            @Override
+            public E next() {
+                final E data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
     }
 
 }

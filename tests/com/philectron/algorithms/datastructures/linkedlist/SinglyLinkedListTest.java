@@ -133,6 +133,15 @@ public class SinglyLinkedListTest {
     }
 
     @Test
+    public void remove_allOfList() {
+        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+
+        list.removeAll();
+
+        assertThat(list.isEmpty()).isTrue();
+    }
+
+    @Test
     public void reverse() {
         final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
 
