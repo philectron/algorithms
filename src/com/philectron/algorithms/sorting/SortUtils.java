@@ -1,11 +1,10 @@
 package com.philectron.algorithms.sorting;
 
 import com.google.common.base.Preconditions;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SortUtils {
+
+    private SortUtils() {}
 
     public static void swap(final int[] array, final int i, final int j) {
         Preconditions.checkNotNull(array);
