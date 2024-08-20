@@ -1,32 +1,42 @@
-package com.philectron.algorithms.datastructures.linkedlist;
+package com.philectron.algorithms.datastructures.list;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Verify;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-public class SinglyLinkedList<E> implements Iterable<E> {
+public class SinglyLinkedList<E> implements List<E> {
 
     private static class Node<E> {
         private E data;
-        private Node<E> next; // Will only be null to terminate the list.
+        private Node<E> next; // will only be null to terminate the list
 
-        private Node(final E data) {
+        private Node(final E data, final Node<E> next) {
             this.data = data;
+            this.next = next;
         }
     }
 
-    private Node<E> head; // Will only be null if the list is empty.
+    private Node<E> head; // will only be null if the list is empty
     private int size;
 
     public SinglyLinkedList() {}
 
-    public SinglyLinkedList(final E[] array) {
+    public SinglyLinkedList(final java.util.List<E> list) {
         this();
-        addAll(array);
+        addAll(list);
     }
 
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
     public E get(final int index) {
         // Index should always be in the list's element range [0, n - 1]
         // because we are fetching an existing element from the list.
@@ -40,21 +50,29 @@ public class SinglyLinkedList<E> implements Iterable<E> {
         return Verify.verifyNotNull(node).data;
     }
 
-    public boolean contains(final E target) {
-        for (Node<E> node = head; node != null; node = node.next) {
-            if (node.data.equals(target)) {
-                return true;
-            }
+    @Override
+    public E set(final int index, final E element) {
+        // Index should always be in the list's element range [0, n - 1]
+        // because we are replacing an existing element in the list.
+        Preconditions.checkElementIndex(index, size);
+
+        Node<E> node = head;
+        for (int i = 0; i < index; i++) {
+            node = Verify.verifyNotNull(node).next;
         }
-        return false;
+
+        final E oldData = Verify.verifyNotNull(node).data;
+        node.data = element;
+        return oldData;
     }
 
-    public void add(final int position, final E value) {
+    @Override
+    public void add(final int position, final E element) {
         // Index should always be in the list's position range [0, n]
         // because we are inserting a new element into the list.
         Preconditions.checkPositionIndex(position, size);
 
-        final Node<E> newNode = new Node<>(value);
+        final Node<E> newNode = new Node<>(element, null);
 
         // If insert at the head, the new node becomes the head.
         if (position == 0) {
@@ -79,14 +97,17 @@ public class SinglyLinkedList<E> implements Iterable<E> {
         size++;
     }
 
-    public void addFront(final E value) {
-        add(0, value);
+    @Override
+    public void addFront(final E element) {
+        add(0, element);
     }
 
-    public void addBack(final E value) {
-        add(size, value);
+    @Override
+    public void addBack(final E element) {
+        add(size, element);
     }
 
+    @Override
     public void addAll(final E[] array) {
         Preconditions.checkNotNull(array);
         for (int i = array.length - 1; i >= 0; i--) {
@@ -94,7 +115,46 @@ public class SinglyLinkedList<E> implements Iterable<E> {
         }
     }
 
-    public void remove(final int index) {
+    @Override
+    public void addAll(final java.util.List<E> list) {
+        Preconditions.checkNotNull(list);
+        @SuppressWarnings("unchecked")
+        final E[] array = list.toArray((E[]) new Object[0]);
+        addAll(array);
+    }
+
+    @Override
+    public int indexOf(final E element) {
+        int firstIndex = 0;
+        for (Node<E> node = head; node != null; node = node.next) {
+            if (node.data.equals(element)) {
+                return firstIndex;
+            }
+            firstIndex++;
+        }
+        return -1;
+    }
+
+    @Override
+    public int lastIndexOf(final E element) {
+        int lastIndex = -1;
+        int currentIndex = 0;
+        for (Node<E> node = head; node != null; node = node.next) {
+            if (node.data.equals(element)) {
+                lastIndex = currentIndex;
+            }
+            currentIndex++;
+        }
+        return lastIndex;
+    }
+
+    @Override
+    public boolean contains(final E element) {
+        return indexOf(element) > -1;
+    }
+
+    @Override
+    public E remove(final int index) {
         // Index should always be in the list's element range [0, n - 1]
         // because we are removing an existing element from the list.
         Preconditions.checkElementIndex(index, size);
@@ -104,11 +164,12 @@ public class SinglyLinkedList<E> implements Iterable<E> {
             // From: N1 (head) -> N2 -> N3
             // To: N2 (head) -> N3
             final Node<E> newHead = Verify.verifyNotNull(head).next;
+            final E oldData = head.data;
             head.data = null;
             head.next = null;
             head = newHead;
             size--;
-            return;
+            return oldData;
         }
 
         // Traverse the list to the node right before the node to be removed.
@@ -120,43 +181,29 @@ public class SinglyLinkedList<E> implements Iterable<E> {
         // From: N1 (previous) -> N2 -> N3
         // To: N1 (previous) -> N3
         final Node<E> nodeToRemove = Verify.verifyNotNull(previous).next;
+        final E oldData = nodeToRemove.data;
         previous.next = Verify.verifyNotNull(nodeToRemove).next;
         nodeToRemove.data = null;
         nodeToRemove.next = null;
         size--;
+        return oldData;
     }
 
-    public void removeFront() {
-        remove(0);
+    @Override
+    public E removeFront() {
+        return remove(0);
     }
 
-    public void removeBack() {
-        remove(size - 1);
+    @Override
+    public E removeBack() {
+        return remove(size - 1);
     }
 
-    public void removeAll() {
-        while (head != null) {
+    @Override
+    public void clear() {
+        while (!isEmpty()) {
             removeFront();
         }
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public int size() {
-        return size;
-    }
-
-    public List<E> toList() {
-        final List<E> list = new ArrayList<>();
-
-        final Iterator<E> it = iterator();
-        while (it.hasNext()) {
-            list.add(it.next());
-        }
-
-        return list;
     }
 
     public void reverse() {
@@ -183,9 +230,9 @@ public class SinglyLinkedList<E> implements Iterable<E> {
 
             @Override
             public E next() {
-                final E data = current.data;
+                final E currentData = current.data;
                 current = current.next;
-                return data;
+                return currentData;
             }
         };
     }
