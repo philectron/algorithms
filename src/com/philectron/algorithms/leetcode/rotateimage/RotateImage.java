@@ -5,7 +5,7 @@ package com.philectron.algorithms.leetcode.rotateimage;
  */
 public class RotateImage {
 
-    public int[][] rotateClockwise(final int[][] matrix) {
+    public int[][] rotateClockwise(int[][] matrix) {
         for (int i = 0, n = matrix.length; i < n; i++) {
             for (int j = i; j < n - 1 - i; j++) {
                 rotateCellsClockwise(matrix, i, j);
@@ -14,7 +14,7 @@ public class RotateImage {
         return matrix;
     }
 
-    public int[][] rotateClockwiseExceptDiagonals(final int[][] matrix) {
+    public int[][] rotateClockwiseExceptDiagonals(int[][] matrix) {
         // This is a much shorter solution compared to using 4 different indices.
         // Loop over the top quarter only since we can get the indices of the corresponding cells
         // of the other quarters by rotating the top indices.
@@ -31,7 +31,7 @@ public class RotateImage {
         return matrix;
     }
 
-    private void rotateCellsClockwise(final int[][] matrix, final int i, final int j) {
+    private void rotateCellsClockwise(int[][] matrix, int i, int j) {
         final int n = matrix.length;
         // Temporarily save the top quarter's value.
         final int tmp = matrix[i][j];

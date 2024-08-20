@@ -12,12 +12,12 @@ public class QuickSort implements SortingAlgorithm {
     }
 
     @Override
-    public void sort(final int[] array) {
+    public void sort(int[] array) {
         Preconditions.checkNotNull(array);
         quicksort(array, 0, array.length);
     }
 
-    private void quicksort(final int[] array, final int low, final int high) {
+    private void quicksort(int[] array, int low, int high) {
         if (low >= high - 1) {
             return;
         }
@@ -30,7 +30,7 @@ public class QuickSort implements SortingAlgorithm {
         quicksort(array, pivotIndex + 1, high);
     }
 
-    private int partition(final int[] array, final int low, final int high) {
+    private int partition(int[] array, int low, int high) {
         // Choose a random element as the pivot, then swap it with the last element.
         final int pivotIndex = low + random.nextInt(high - low);
         final int pivot = array[pivotIndex];

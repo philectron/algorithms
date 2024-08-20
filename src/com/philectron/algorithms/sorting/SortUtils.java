@@ -6,7 +6,7 @@ public final class SortUtils {
 
     private SortUtils() {}
 
-    public static void swap(final int[] array, final int i, final int j) {
+    public static void swap(int[] array, int i, int j) {
         Preconditions.checkNotNull(array);
         Preconditions.checkElementIndex(i, array.length);
         Preconditions.checkElementIndex(j, array.length);

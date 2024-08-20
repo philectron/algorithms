@@ -7,13 +7,13 @@ public class WordSortVowelConsonant {
 
     private static List<Character> VOWELS = Arrays.asList('a', 'o', 'e', 'u', 'i');
 
-    public String sort(final String string) {
-        final List<String> words = Arrays.asList(string.split(" "));
+    public String sort(String string) {
+        List<String> words = Arrays.asList(string.split(" "));
         words.sort(this::compareByVcDiffThenAlphabetical);
         return String.join(" ", words);
     }
 
-    private int compareByVcDiffThenAlphabetical(final String lhs, final String rhs) {
+    private int compareByVcDiffThenAlphabetical(String lhs, String rhs) {
         final int vcDiffLhs = vowelConsonantDiff(lhs);
         final int vcDiffRhs = vowelConsonantDiff(rhs);
         if (vcDiffLhs == vcDiffRhs) {
@@ -22,11 +22,11 @@ public class WordSortVowelConsonant {
         return Integer.compare(vcDiffLhs, vcDiffRhs);
     }
 
-    private int vowelConsonantDiff(final String word) {
+    private int vowelConsonantDiff(String word) {
         return Math.abs(vowelCount(word) - consonantCount(word));
     }
 
-    private int vowelCount(final String word) {
+    private int vowelCount(String word) {
         return word.toLowerCase()
                 .chars()
                 .mapToObj(ch -> (char) ch)
@@ -35,7 +35,7 @@ public class WordSortVowelConsonant {
                 .size();
     }
 
-    private int consonantCount(final String word) {
+    private int consonantCount(String word) {
         return word.length() - vowelCount(word);
     }
 

@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 public class LinearSearch implements SearchingAlgorithm {
 
     @Override
-    public int findFirst(final int[] array, final int target) {
+    public int findFirst(int[] array, int target) {
         Preconditions.checkNotNull(array);
 
         for (int i = 0, n = array.length; i < n; i++) {
@@ -18,7 +18,7 @@ public class LinearSearch implements SearchingAlgorithm {
     }
 
     @Override
-    public int findLast(final int[] array, final int target) {
+    public int findLast(int[] array, int target) {
         Preconditions.checkNotNull(array);
 
         for (int n = array.length, i = n - 1; i >= 0; i--) {

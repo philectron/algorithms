@@ -14,14 +14,14 @@ public class SinglyLinkedListTest {
 
     @Test
     public void getNode_emptyList_fails() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         assertThat(list.isEmpty()).isTrue();
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
     }
 
     @Test
     public void getNode_indexOutOfBound_fails() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         assertThat(list.isEmpty()).isFalse();
         assertThat(list.size()).isEqualTo(VALUES.size());
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
@@ -30,20 +30,20 @@ public class SinglyLinkedListTest {
 
     @Test
     public void getNode_indexInBound() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         assertThat(list.get(VALUES.size() - 1)).isEqualTo(VALUES.get(VALUES.size() - 1));
     }
 
     @Test
     public void setNode_emptyList_fails() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         assertThat(list.isEmpty()).isTrue();
         assertThrows(IndexOutOfBoundsException.class, () -> list.set(0, 1));
     }
 
     @Test
     public void setNode_indexOutOfBound_fails() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         assertThat(list.isEmpty()).isFalse();
         assertThat(list.size()).isEqualTo(VALUES.size());
         assertThrows(IndexOutOfBoundsException.class, () -> list.set(-1, 1));
@@ -52,7 +52,7 @@ public class SinglyLinkedListTest {
 
     @Test
     public void setNode_indexInBound() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         final int setIndex = VALUES.size() - 1;
         final int expectedOldValue = list.get(setIndex);
         final int expectedNewValue = expectedOldValue + 1;
@@ -63,7 +63,7 @@ public class SinglyLinkedListTest {
 
     @Test
     public void add_emptyList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         final int value = VALUES.get(0);
 
         list.add(0, value);
@@ -73,16 +73,16 @@ public class SinglyLinkedListTest {
 
     @Test
     public void add_positionOutOfBound_fails() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         assertThrows(IndexOutOfBoundsException.class, () -> list.add(-1, 1));
         assertThrows(IndexOutOfBoundsException.class, () -> list.add(1, 1));
     }
 
     @Test
     public void add_startOfList_addFront() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         final int value = VALUES.get(0);
-        final java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.addFirst(value);
 
         list.addFront(value);
@@ -92,10 +92,10 @@ public class SinglyLinkedListTest {
 
     @Test
     public void add_middleOfList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         final int position = VALUES.size() / 2;
         final int value = VALUES.get(position);
-        final java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.add(position, value);
 
         list.add(position, value);
@@ -105,9 +105,9 @@ public class SinglyLinkedListTest {
 
     @Test
     public void add_endOfList_addBack() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         final int value = VALUES.get(VALUES.size() - 1);
-        final java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.addLast(value);
 
         list.addBack(value);
@@ -117,13 +117,13 @@ public class SinglyLinkedListTest {
 
     @Test
     public void indexOf_emptyList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         assertThat(list.indexOf(VALUES.get(0))).isEqualTo(-1);
     }
 
     @Test
     public void indexOf_existingList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         final int targetValue = VALUES.get(VALUES.size() - 1);
         final int initialFirstIndex = VALUES.indexOf(targetValue);
 
@@ -144,13 +144,13 @@ public class SinglyLinkedListTest {
 
     @Test
     public void lastIndexOf_emptyList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         assertThat(list.lastIndexOf(VALUES.get(0))).isEqualTo(-1);
     }
 
     @Test
     public void lastIndexOf_existingList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         final int targetValue = VALUES.get(0);
         final int initialLastIndex = VALUES.lastIndexOf(targetValue);
 
@@ -171,33 +171,33 @@ public class SinglyLinkedListTest {
 
     @Test
     public void contains_emptyList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         assertThat(list.contains(1)).isFalse();
     }
 
     @Test
     public void contains_existingList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         assertThat(list.contains(VALUES.get(0))).isTrue();
     }
 
     @Test
     public void remove_emptyList_fails() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(0));
     }
 
     @Test
     public void remove_indexOutOfBound_fails() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(VALUES.size()));
     }
 
     @Test
     public void remove_startOfList_removeFront() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
-        final java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.removeFirst();
 
         list.removeFront();
@@ -207,9 +207,9 @@ public class SinglyLinkedListTest {
 
     @Test
     public void remove_middleOfList() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
         final int removalIndex = VALUES.size() / 2;
-        final java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.remove(removalIndex);
 
         list.remove(removalIndex);
@@ -219,8 +219,8 @@ public class SinglyLinkedListTest {
 
     @Test
     public void remove_endOfList_removeBack() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
-        final java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.removeLast();
 
         list.removeBack();
@@ -230,7 +230,7 @@ public class SinglyLinkedListTest {
 
     @Test
     public void clear_removesEverything() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
 
         list.clear();
 
@@ -239,8 +239,8 @@ public class SinglyLinkedListTest {
 
     @Test
     public void reverse() {
-        final SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
-        final java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>(VALUES);
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         Collections.reverse(expectedList);
 
         list.reverse();

@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 public class InsertionSort implements SortingAlgorithm {
 
     @Override
-    public void sort(final int[] array) {
+    public void sort(int[] array) {
         Preconditions.checkNotNull(array);
 
         for (int nSorted = 1, n = array.length; nSorted < n; nSorted++) {

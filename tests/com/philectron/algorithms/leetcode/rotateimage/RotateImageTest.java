@@ -7,40 +7,40 @@ import org.junit.jupiter.api.Test;
 
 public class RotateImageTest {
 
-    private static final RotateImage solution = new RotateImage();
+    private static RotateImage solution = new RotateImage();
 
     @Test
     public void rotateClockwise_0x0() {
         final int n = 0;
-        final int[][] expected = new int[0][0];
+        int[][] expected = new int[0][0];
         assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
     public void rotateClockwiseExceptDiagonals_0x0() {
         final int n = 0;
-        final int[][] expected = new int[0][0];
+        int[][] expected = new int[0][0];
         assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
     public void rotateClockwise_1x1() {
         final int n = 1;
-        final int[][] expected = { { 1 } };
+        int[][] expected = { { 1 } };
         assertSquareMatrix(solution.rotateClockwise(buildSquareMatrix(n)), expected);
     }
 
     @Test
     public void rotateClockwiseExceptDiagonals_1x1() {
         final int n = 1;
-        final int[][] expected = { { 1 } };
+        int[][] expected = { { 1 } };
         assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
     @Test
     public void rotateClockwise_2x2() {
         final int n = 2;
-        final int[][] expected = {
+        int[][] expected = {
             { 3, 1 },
             { 4, 2 }
         };
@@ -50,7 +50,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwiseExceptDiagonals_2x2() {
         final int n = 2;
-        final int[][] expected = {
+        int[][] expected = {
             { 1, 2 },
             { 3, 4 }
         };
@@ -60,7 +60,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwise_3x3() {
         final int n = 3;
-        final int[][] expected = {
+        int[][] expected = {
             { 7, 4, 1 },
             { 8, 5, 2 },
             { 9, 6, 3 }
@@ -71,7 +71,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwiseExceptDiagonals_3x3() {
         final int n = 3;
-        final int[][] expected = {
+        int[][] expected = {
             { 1, 4, 3 },
             { 8, 5, 2 },
             { 7, 6, 9 }
@@ -82,7 +82,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwise_4x4() {
         final int n = 4;
-        final int[][] expected = {
+        int[][] expected = {
             { 13, 9, 5, 1 },
             { 14, 10, 6, 2 },
             { 15, 11, 7, 3 },
@@ -94,7 +94,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwiseExceptDiagonals_4x4() {
         final int n = 4;
-        final int[][] expected = {
+        int[][] expected = {
             { 1, 9, 5, 4 },
             { 14, 6, 7, 2 },
             { 15, 10, 11, 3 },
@@ -106,7 +106,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwise_5x5() {
         final int n = 5;
-        final int[][] expected = {
+        int[][] expected = {
             { 21, 16, 11, 6, 1 },
             { 22, 17, 12, 7, 2 },
             { 23, 18, 13, 8, 3 },
@@ -119,7 +119,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwiseExceptDiagonals_5x5() {
         final int n = 5;
-        final int[][] expected = {
+        int[][] expected = {
             { 1, 16, 11, 6, 5 },
             { 22, 7, 12, 9, 2 },
             { 23, 18, 13, 8, 3 },
@@ -132,7 +132,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwise_6x6() {
         final int n = 6;
-        final int[][] expected = {
+        int[][] expected = {
             { 31, 25, 19, 13, 7, 1 },
             { 32, 26, 20, 14, 8, 2 },
             { 33, 27, 21, 15, 9, 3 },
@@ -146,7 +146,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwiseExceptDiagonals_6x6() {
         final int n = 6;
-        final int[][] expected = {
+        int[][] expected = {
             { 1, 25, 19, 13, 7, 6 },
             { 32, 8, 20, 14, 11, 2 },
             { 33, 27, 15, 16, 9, 3 },
@@ -160,7 +160,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwise_7x7() {
         final int n = 7;
-        final int[][] expected = {
+        int[][] expected = {
             { 43, 36, 29, 22, 15, 8, 1 },
             { 44, 37, 30, 23, 16, 9, 2 },
             { 45, 38, 31, 24, 17, 10, 3 },
@@ -175,7 +175,7 @@ public class RotateImageTest {
     @Test
     public void rotateClockwiseExceptDiagonals_7x7() {
         final int n = 7;
-        final int[][] expected = {
+        int[][] expected = {
             { 1, 36, 29, 22, 15, 8, 7 },
             { 44, 9, 30, 23, 16, 13, 2 },
             { 45, 38, 17, 24, 19, 10, 3 },
@@ -187,14 +187,14 @@ public class RotateImageTest {
         assertSquareMatrix(solution.rotateClockwiseExceptDiagonals(buildSquareMatrix(n)), expected);
     }
 
-    private void assertSquareMatrix(final int[][] actual, final int[][] expected) {
+    private void assertSquareMatrix(int[][] actual, int[][] expected) {
         if (expected.length == 0) {
             assertThat(actual).isEmpty();
             return;
         }
 
-        final String actualStr = matrixToString(actual);
-        final String expectedStr = matrixToString(expected);
+        String actualStr = matrixToString(actual);
+        String expectedStr = matrixToString(expected);
 
         assertWithMessage(printMatrix(actualStr, expectedStr) + "Row size")
                 .that(actual.length)
@@ -215,12 +215,12 @@ public class RotateImageTest {
         }
     }
 
-    private String printMatrix(final String actualStr, final String expectedStr) {
+    private String printMatrix(String actualStr, String expectedStr) {
         return String.format("Expected matrix:\n%sActual matrix:\n%s", expectedStr, actualStr);
     }
 
-    private String matrixToString(final int[][] matrix) {
-        final StringBuilder sb = new StringBuilder();
+    private String matrixToString(int[][] matrix) {
+        StringBuilder sb = new StringBuilder();
         for (int[] row : matrix) {
             for (int value : row) {
                 sb.append(value + " ");
@@ -230,8 +230,8 @@ public class RotateImageTest {
         return sb.toString();
     }
 
-    private int[][] buildSquareMatrix(final int size) {
-        final int[][] matrix = new int[size][size];
+    private int[][] buildSquareMatrix(int size) {
+        int[][] matrix = new int[size][size];
         for (int i = 0, value = 1; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 matrix[i][j] = value++;

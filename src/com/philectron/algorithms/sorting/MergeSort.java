@@ -5,12 +5,12 @@ import com.google.common.base.Preconditions;
 public class MergeSort implements SortingAlgorithm {
 
     @Override
-    public void sort(final int[] array) {
+    public void sort(int[] array) {
         Preconditions.checkNotNull(array);
         mergeSort(array, 0, array.length);
     }
 
-    private void mergeSort(final int[] array, final int low, final int high) {
+    private void mergeSort(int[] array, int low, int high) {
         if (low >= high - 1) {
             return;
         }
@@ -23,11 +23,11 @@ public class MergeSort implements SortingAlgorithm {
         merge(array, low, mid, high);
     }
 
-    private void merge(final int[] array, final int low, final int mid, final int high) {
+    private void merge(int[] array, int low, int mid, int high) {
         final int nLeft = mid - low;
-        final int[] leftArray = new int[nLeft];
+        int[] leftArray = new int[nLeft];
         final int nRight = high - mid;
-        final int[] rightArray = new int[nRight];
+        int[] rightArray = new int[nRight];
 
         // Make a temporary copy array for each sorted half.
         for (int i = 0; i < nLeft; i++) {

@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 public class BinarySearch implements SearchingAlgorithm {
 
     @Override
-    public int findFirst(final int[] sortedArray, final int target) {
+    public int findFirst(int[] sortedArray, int target) {
         Preconditions.checkNotNull(sortedArray);
 
         int low = 0;
@@ -32,7 +32,7 @@ public class BinarySearch implements SearchingAlgorithm {
     }
 
     @Override
-    public int findLast(final int[] sortedArray, final int target) {
+    public int findLast(int[] sortedArray, int target) {
         Preconditions.checkNotNull(sortedArray);
 
         final int n = sortedArray.length;

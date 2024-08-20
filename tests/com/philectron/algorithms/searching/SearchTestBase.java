@@ -23,7 +23,7 @@ public abstract class SearchTestBase {
     private final SearchingAlgorithm searcher;
     private final boolean isSortRequired;
 
-    SearchTestBase(final SearchingAlgorithm searcher, final boolean isSortRequired) {
+    SearchTestBase(SearchingAlgorithm searcher, boolean isSortRequired) {
         this.searcher = searcher;
         this.isSortRequired = isSortRequired;
     }
@@ -35,14 +35,14 @@ public abstract class SearchTestBase {
 
     @Test
     public void search_singletonArray_returnsIndex() {
-        final int[] array = new int[1];
+        int[] array = new int[1];
         assertFound(array, array[0]);
     }
 
     @Test
     public void search_nCopiesArray_returnsIndexes() {
         final int target = 1;
-        final int[] array = { target, target, target, target, target };
+        int[] array = { target, target, target, target, target };
         assertFound(array, target);
     }
 
@@ -61,35 +61,35 @@ public abstract class SearchTestBase {
         assertNotFound(isSortRequired ? SORTED_ARRAY : ARRAY, NON_TARGET);
     }
 
-    private void assertFound(final int[] array, final int target) {
-        final int[] originalArray = array.clone();
+    private void assertFound(int[] array, int target) {
+        int[] originalArray = array.clone();
         assertFirstIndex(array, target, Ints.indexOf(array, target));
         assertLastIndex(array, target, Ints.lastIndexOf(array, target));
         assertContains(array, target, true);
         assertThat(array).isEqualTo(originalArray); // Searching should not mutate the array.
     }
 
-    private void assertNotFound(final int[] array, final int target) {
-        final int[] originalArray = array.clone();
+    private void assertNotFound(int[] array, int target) {
+        int[] originalArray = array.clone();
         assertFirstIndex(array, target, SearchingAlgorithm.INDEX_NOT_FOUND);
         assertLastIndex(array, target, SearchingAlgorithm.INDEX_NOT_FOUND);
         assertContains(array, target, false);
         assertThat(array).isEqualTo(originalArray); // Searching should not mutate the array.
     }
 
-    private void assertFirstIndex(final int[] array, final int target, final int expectedIndex) {
+    private void assertFirstIndex(int[] array, int target, int expectedIndex) {
         assertWithMessage("First index of target %s in array %s", target, Arrays.toString(array))
                 .that(searcher.findFirst(array, target))
                 .isEqualTo(expectedIndex);
     }
 
-    private void assertLastIndex(final int[] array, final int target, final int expectedIndex) {
+    private void assertLastIndex(int[] array, int target, int expectedIndex) {
         assertWithMessage("Last index of target %s in array %s", target, Arrays.toString(array))
                 .that(searcher.findLast(array, target))
                 .isEqualTo(expectedIndex);
     }
 
-    private void assertContains(final int[] array, final int target, final boolean expectedResult) {
+    private void assertContains(int[] array, int target, boolean expectedResult) {
         assertWithMessage("Whether array %s contains target %s", Arrays.toString(array), target)
                 .that(searcher.contains(array, target))
                 .isEqualTo(expectedResult);
