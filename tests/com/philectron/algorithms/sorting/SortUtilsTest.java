@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 public class SortUtilsTest {
 
     @Test
+    public void swap_emptyArray_fails() {
+        assertThrows(IndexOutOfBoundsException.class, () -> SortUtils.swap(new int[0], 0, 0));
+    }
+
+    @Test
     public void swap_indexOutOfBound_fails() {
         int[] array = new int[1];
         assertThrows(IndexOutOfBoundsException.class, () -> SortUtils.swap(array, -1, 0));
@@ -17,12 +22,7 @@ public class SortUtilsTest {
     }
 
     @Test
-    public void swap_emptyArray_fails() {
-        assertThrows(IndexOutOfBoundsException.class, () -> SortUtils.swap(new int[0], 0, 0));
-    }
-
-    @Test
-    public void swap_singletonArray_doesNothing() {
+    public void swap_sameIndices_doesNothing() {
         int[] actualArray = new int[1];
         int[] expectedArray = actualArray.clone();
         SortUtils.swap(actualArray, 0, 0);
@@ -30,7 +30,7 @@ public class SortUtilsTest {
     }
 
     @Test
-    public void swap_normalArray() {
+    public void swap_differentIndices_switchesElements() {
         int[] actualArray = { 1, 2, 3, 4, 5 };
         SortUtils.swap(actualArray, 1, 3);
         assertThat(actualArray).isEqualTo(new int[] { 1, 4, 3, 2, 5 });
