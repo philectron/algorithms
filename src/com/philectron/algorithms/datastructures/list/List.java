@@ -5,8 +5,19 @@ import java.util.Iterator;
 
 public interface List<E> extends Iterable<E> {
 
+    /**
+     * Retrieves the size of this list.
+     *
+     * @return the number of elements in this list
+     */
     int size();
 
+    /**
+     * Checks if this list is empty.
+     *
+     * @return {@code true} if there are no elements in this list (when {@link #size()} is zero), or
+     *         {@code false} otherwise
+     */
     boolean isEmpty();
 
     /**
@@ -17,7 +28,7 @@ public interface List<E> extends Iterable<E> {
      * @return the element at the specified index in this list
      *
      * @throws IndexOutOfBoundsException if the index is out of range ({@code index} < 0 or
-     *         {@code index} >= {@link List#size()})
+     *         {@code index} >= {@link #size()})
      */
     E get(int index);
 
@@ -25,12 +36,12 @@ public interface List<E> extends Iterable<E> {
      * Replaces the element at the specified index in this list with the specified element.
      *
      * @param index the index of the element to replace
-     * @param element the element to be stored at the specified index
+     * @param element the new element to be stored at the index
      *
      * @return the previous element at the specified index
      *
      * @throws IndexOutOfBoundsException if the index is out of range ({@code index} < 0 or
-     *         {@code index} >= {@link List#size()})
+     *         {@code index} >= {@link #size()})
      */
     E set(int index, E element);
 
@@ -43,10 +54,7 @@ public interface List<E> extends Iterable<E> {
      * @param element the element to be inserted
      *
      * @throws IndexOutOfBoundsException if the position index is out of range ({@code position} < 0
-     *         or {@code position} > {@link List#size()})
-     *
-     * @see List#addFront(E)
-     * @see List#addBack(E)
+     *         or {@code position} > {@link #size()})
      */
     void add(int position, E element);
 
@@ -56,7 +64,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @param element the element to be inserted
      *
-     * @see List#add(int, E)
+     * @see #add(int, E)
      */
     void addFront(E element);
 
@@ -65,7 +73,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @param element the element to be inserted
      *
-     * @see List#add(int, E)
+     * @see #add(int, E)
      */
     void addBack(E element);
 
@@ -79,11 +87,11 @@ public interface List<E> extends Iterable<E> {
     void addAll(E[] array);
 
     /**
-     * Inserts all elements in the specified Java {@link java.util.List} to the back of this list.
+     * Inserts all elements in the specified {@link java.util.List} to the back of this list.
      *
-     * @param list the list containing elements to be inserted
+     * @param list the Java list containing elements to be inserted
      *
-     * @throws NullPointerException if the specified list is {@code null}
+     * @throws NullPointerException if the specified Java list is {@code null}
      */
     void addAll(java.util.List<E> list);
 
@@ -94,8 +102,6 @@ public interface List<E> extends Iterable<E> {
      *
      * @return the first index of the specified element, or {@code -1} if this list does not contain
      *         the element
-     *
-     * @see List#lastIndexOf(E)
      */
     int indexOf(E element);
 
@@ -106,8 +112,6 @@ public interface List<E> extends Iterable<E> {
      *
      * @return the last index of the specified element, or {@code -1} if this list does not contain
      *         the element
-     *
-     * @see List#indexOf(E)
      */
     int lastIndexOf(E element);
 
@@ -118,8 +122,8 @@ public interface List<E> extends Iterable<E> {
      *
      * @return {@code true} if this list contains the specified element, or {@code false} otherwise
      *
-     * @see List#indexOf(E)
-     * @see List#lastIndexOf(E)
+     * @see #indexOf(E)
+     * @see #lastIndexOf(E)
      */
     boolean contains(E element);
 
@@ -132,10 +136,7 @@ public interface List<E> extends Iterable<E> {
      * @return the element previously at the specified index
      *
      * @throws IndexOutOfBoundsException if the index is out of range ({@code index} < 0 or
-     *         {@code index} >= {@link List#size()})
-     *
-     * @see List#removeFront()
-     * @see List#removeBack()
+     *         {@code index} >= {@link #size()})
      */
     E remove(int index);
 
@@ -147,7 +148,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @throws IndexOutOfBoundsException if the list is empty
      *
-     * @see List#remove(int)
+     * @see #remove(int)
      */
     E removeFront();
 
@@ -158,7 +159,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @throws IndexOutOfBoundsException if the list is empty
      *
-     * @see List#remove(int)
+     * @see #remove(int)
      */
     E removeBack();
 
@@ -168,7 +169,7 @@ public interface List<E> extends Iterable<E> {
     void clear();
 
     /**
-     * Copies all elements of this list to a new Java {@link java.util.List}.
+     * Copies all elements of this list to a new {@link java.util.List}.
      *
      * @return a new {@link ArrayList} containing the elements of this list
      */
