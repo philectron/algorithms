@@ -108,19 +108,23 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void addAll(E[] array) {
-        Preconditions.checkNotNull(array);
-        for (int i = array.length - 1; i >= 0; i--) {
-            addFront(array[i]);
-        }
-    }
-
-    @Override
     public void addAll(java.util.List<E> list) {
         Preconditions.checkNotNull(list);
-        @SuppressWarnings("unchecked")
-        E[] array = list.toArray((E[]) new Object[0]);
-        addAll(array);
+
+        // For singly linked list, naively appending each element of the input list to this list
+        // would be very expensive as each add would traverse the whole list, resulting in O(n * m).
+        // Adding elements to the front is cheaper as it is always O(1).
+
+        // So, we should reverse the current list first: O(n)
+        reverse();
+
+        // Then, add each element of the input list to the front of this list: O(m)
+        for (E element : list) {
+            addFront(element);
+        }
+
+        // And finally, reverse the final list: O(n)
+        reverse(); // O(max(n, m)) in total
     }
 
     @Override

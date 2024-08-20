@@ -78,15 +78,6 @@ public interface List<E> extends Iterable<E> {
     void addBack(E element);
 
     /**
-     * Inserts all elements in the specified array to the back of this list.
-     *
-     * @param array the array containing elements to be inserted
-     *
-     * @throws NullPointerException if the specified array is {@code null}
-     */
-    void addAll(E[] array);
-
-    /**
      * Inserts all elements in the specified {@link java.util.List} to the back of this list.
      *
      * @param list the Java list containing elements to be inserted

@@ -26,6 +26,18 @@ public abstract class ListTestBase {
     }
 
     @Test
+    public void size() {
+        assertThat(emptyList.size()).isEqualTo(0);
+        assertThat(list.size()).isEqualTo(VALUES.size());
+    }
+
+    @Test
+    public void isEmpty() {
+        assertThat(emptyList.isEmpty()).isTrue();
+        assertThat(list.isEmpty()).isFalse();
+    }
+
+    @Test
     public void get_emptyList_fails() {
         assertThat(emptyList.isEmpty()).isTrue();
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.get(0));
@@ -121,6 +133,22 @@ public abstract class ListTestBase {
     }
 
     @Test
+    public void addAll_intoEmptyList_buildsSameListAsInput() {
+        emptyList.addAll(VALUES);
+        assertThat(emptyList.toJavaList()).isEqualTo(VALUES);
+    }
+
+    @Test
+    public void addAll_intoExistingList_appendsInputList() {
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        expectedList.addAll(VALUES);
+
+        list.addAll(VALUES);
+
+        assertThat(list.toJavaList()).isEqualTo(expectedList);
+    }
+
+    @Test
     public void indexOf_emptyList_returnsNotFound() {
         assertThat(emptyList.indexOf(VALUES.get(0))).isEqualTo(-1);
     }
@@ -171,12 +199,8 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void contains_emptyList_returnsFalse() {
+    public void contains() {
         assertThat(emptyList.contains(1)).isFalse();
-    }
-
-    @Test
-    public void contains_searchesAndReturnsResult() {
         assertThat(list.contains(VALUES.get(0))).isTrue();
         assertThat(list.contains(Collections.max(VALUES) + 1)).isFalse();
     }
@@ -193,34 +217,36 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void remove_deletesValueAtIndex_shiftsListLeft() {
+    public void remove_shiftsListLeft_returnsDeletedValue() {
         final int index = VALUES.size() / 2;
+        final int valueToRemove = list.get(index);
 
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.remove(index);
 
-        list.remove(index);
-
+        assertThat(list.remove(index)).isEqualTo(valueToRemove);
         assertThat(list.toJavaList()).isEqualTo(expectedList);
     }
 
     @Test
-    public void removeFront_deletesValueFromFront_shiftsListLeft() {
+    public void removeFront_shiftsListLeft_returnsDeletedValue() {
+        final int valueToRemove = list.get(0);
+
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.removeFirst();
 
-        list.removeFront();
-
+        assertThat(list.removeFront()).isEqualTo(valueToRemove);
         assertThat(list.toJavaList()).isEqualTo(expectedList);
     }
 
     @Test
-    public void removeBack_deletesValueFromBack() {
+    public void removeBack_returnsDeletedValue() {
+        final int valueToRemove = list.get(list.size() - 1);
+
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.removeLast();
 
-        list.removeBack();
-
+        assertThat(list.removeBack()).isEqualTo(valueToRemove);
         assertThat(list.toJavaList()).isEqualTo(expectedList);
     }
 
