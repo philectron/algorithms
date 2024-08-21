@@ -21,7 +21,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
     public SinglyLinkedList() {}
 
-    public SinglyLinkedList(java.util.List<E> list) {
+    public SinglyLinkedList(java.util.List<? extends E> list) {
         this();
         addAll(list);
     }
@@ -32,14 +32,7 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
     public E get(int index) {
-        // Index should always be in the list's element range [0, n - 1]
-        // because we are fetching an existing element from the list.
         Preconditions.checkElementIndex(index, size);
 
         Node<E> node = head;
@@ -52,8 +45,6 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public E set(int index, E element) {
-        // Index should always be in the list's element range [0, n - 1]
-        // because we are replacing an existing element in the list.
         Preconditions.checkElementIndex(index, size);
 
         Node<E> node = head;
@@ -68,13 +59,11 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public void add(int position, E element) {
-        // Index should always be in the list's position range [0, n]
-        // because we are inserting a new element into the list.
         Preconditions.checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element, null);
 
-        // If insert at the head, the new node becomes the head.
+        // If insert at the head, the new node becomes the head. This branch handles empty list.
         if (position == 0) {
             // From: N1 (head) -> N2
             // To: newNode (head) -> N1 -> N2
@@ -84,7 +73,7 @@ public class SinglyLinkedList<E> implements List<E> {
             return;
         }
 
-        // Traverse the list to the node right before the insert position.
+        // For all other positions, traverse the list to the node right before the insert position.
         Node<E> previous = head;
         for (int i = 0; i < position - 1; i++) {
             previous = Verify.verifyNotNull(previous).next;
@@ -98,17 +87,7 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void addFront(E element) {
-        add(0, element);
-    }
-
-    @Override
-    public void addBack(E element) {
-        add(size, element);
-    }
-
-    @Override
-    public void addAll(java.util.List<E> list) {
+    public void addAll(java.util.List<? extends E> list) {
         Preconditions.checkNotNull(list);
 
         // For singly linked list, naively appending each element of the input list to this list
@@ -153,17 +132,10 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean contains(E element) {
-        return indexOf(element) > -1;
-    }
-
-    @Override
     public E remove(int index) {
-        // Index should always be in the list's element range [0, n - 1]
-        // because we are removing an existing element from the list.
         Preconditions.checkElementIndex(index, size);
 
-        // If remove the head, the next node becomes the head.
+        // If remove at the head, the next node becomes the head. This branch handles singleton list.
         if (index == 0) {
             // From: N1 (head) -> N2 -> N3
             // To: N2 (head) -> N3
@@ -176,7 +148,7 @@ public class SinglyLinkedList<E> implements List<E> {
             return oldData;
         }
 
-        // Traverse the list to the node right before the node to be removed.
+        // For all other indices, traverse the list to the node right before the node to be removed.
         Node<E> previous = head;
         for (int i = 0; i < index - 1; i++) {
             previous = Verify.verifyNotNull(previous).next;
@@ -185,22 +157,12 @@ public class SinglyLinkedList<E> implements List<E> {
         // From: N1 (previous) -> N2 -> N3
         // To: N1 (previous) -> N3
         Node<E> nodeToRemove = Verify.verifyNotNull(previous).next;
-        E oldData = nodeToRemove.data;
-        previous.next = Verify.verifyNotNull(nodeToRemove).next;
+        E oldData = Verify.verifyNotNull(nodeToRemove).data;
+        previous.next = nodeToRemove.next;
         nodeToRemove.data = null;
         nodeToRemove.next = null;
         size--;
         return oldData;
-    }
-
-    @Override
-    public E removeFront() {
-        return remove(0);
-    }
-
-    @Override
-    public E removeBack() {
-        return remove(size - 1);
     }
 
     @Override
@@ -234,6 +196,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
             @Override
             public E next() {
+                Preconditions.checkNotNull(current);
                 E currentData = current.data;
                 current = current.next;
                 return currentData;

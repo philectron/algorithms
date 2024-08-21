@@ -18,7 +18,9 @@ public interface List<E> extends Iterable<E> {
      * @return {@code true} if there are no elements in this list (when {@link #size()} is zero), or
      *         {@code false} otherwise
      */
-    boolean isEmpty();
+    default boolean isEmpty() {
+        return size() == 0;
+    }
 
     /**
      * Retrieves an element from the specified index in this list.
@@ -66,7 +68,9 @@ public interface List<E> extends Iterable<E> {
      *
      * @see #add(int, E)
      */
-    void addFront(E element);
+    default void addFront(E element) {
+        add(0, element);
+    }
 
     /**
      * Inserts the specified element to the back of this list.
@@ -75,7 +79,9 @@ public interface List<E> extends Iterable<E> {
      *
      * @see #add(int, E)
      */
-    void addBack(E element);
+    default void addBack(E element) {
+        add(size(), element);
+    }
 
     /**
      * Inserts all elements in the specified {@link java.util.List} to the back of this list.
@@ -84,7 +90,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @throws NullPointerException if the specified Java list is {@code null}
      */
-    void addAll(java.util.List<E> list);
+    void addAll(java.util.List<? extends E> list);
 
     /**
      * Finds the first index of the specified element in this list.
@@ -116,7 +122,9 @@ public interface List<E> extends Iterable<E> {
      * @see #indexOf(E)
      * @see #lastIndexOf(E)
      */
-    boolean contains(E element);
+    default boolean contains(E element) {
+        return indexOf(element) > -1;
+    }
 
     /**
      * Removes the element at the specified index in this list. Shifts any subsequent elements to
@@ -141,7 +149,9 @@ public interface List<E> extends Iterable<E> {
      *
      * @see #remove(int)
      */
-    E removeFront();
+    default E removeFront() {
+        return remove(0);
+    }
 
     /**
      * Removes the element at the back of this list.
@@ -152,7 +162,9 @@ public interface List<E> extends Iterable<E> {
      *
      * @see #remove(int)
      */
-    E removeBack();
+    default E removeBack() {
+        return remove(size() - 1);
+    }
 
     /**
      * Removes all elements from this list. The list will be empty after this method returns.
