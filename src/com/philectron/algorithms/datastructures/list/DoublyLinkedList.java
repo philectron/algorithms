@@ -66,34 +66,16 @@ public class DoublyLinkedList<E> implements List<E> {
 
         Node<E> newNode = new Node<>(element);
 
-        // If insert at the head, the new node becomes the head. This branch handles empty list.
+        // If insert at the head, the new node becomes the new head.
+        // This branch handles empty list.
         if (position == 0) {
-            // From: N1 (head) <-> N2
-            // To: newNode (head) <-> N1 <-> N2
-            newNode.next = head;
-
-            if (head != null) {
-                head.previous = newNode;
-            } else {
-                // If head is null, this list is empty, so the new node also becomes the tail.
-                tail = newNode;
-            }
-
-            head = newNode;
-            size++;
+            addHead(newNode);
             return;
         }
 
-        // If insert at the tail, the new node becomes the tail.
+        // If insert at the tail, the new node becomes the new tail.
         if (position == size) {
-            // From: N1 <-> N2 (tail)
-            // To: N1 <-> N2 <-> newNode (tail)
-            // Empty list is already handled above, so tail is never null here.
-            newNode.previous = Verify.verifyNotNull(tail);
-            tail.next = newNode;
-
-            tail = newNode;
-            size++;
+            addTail(newNode);
             return;
         }
 
@@ -103,13 +85,49 @@ public class DoublyLinkedList<E> implements List<E> {
             previousNode = Verify.verifyNotNull(previousNode.next);
         }
 
-        // From: N1 (previous) <-> N2 (next)
-        // To: N1 (previous) <-> newNode <-> N2 (next)
+        // From: N1 (previousNode) <-> N2 (nextNode)
+        // To: N1 (previousNode) <-> newNode <-> N2 (nextNode)
         // Next node is never null because the edge cases are already handled above.
         Node<E> nextNode = Verify.verifyNotNull(previousNode.next);
         newNode.previous = previousNode;
         newNode.next = nextNode;
-        previousNode.next = nextNode.previous = newNode;
+        nextNode.previous = previousNode.next = newNode;
+        size++;
+    }
+
+    /**
+     * Inserts the specified node as the new head of this list.
+     *
+     * @param newNode the node to be inserted and made the new head
+     */
+    private void addHead(Node<E> newNode) {
+        // From: N1 (head) <-> N2
+        // To: newNode (head) <-> N1 <-> N2
+        newNode.next = head;
+
+        if (head != null) {
+            head.previous = newNode;
+        } else {
+            // If head is null, list is empty. In this case, the new node also becomes the tail.
+            tail = newNode;
+        }
+
+        head = newNode;
+        size++;
+    }
+
+    /**
+     * Inserts the specified new node as the new tail of this list.
+     *
+     * @param newNode the new node to be inserted to the tail
+     */
+    private void addTail(Node<E> newNode) {
+        // From: N1 <-> N2 (tail)
+        // To: N1 <-> N2 <-> newNode (tail)
+        // Empty list is already handled above, so the tail is never null here.
+        newNode.previous = Verify.verifyNotNull(tail);
+        tail.next = newNode;
+        tail = newNode;
         size++;
     }
 
@@ -149,43 +167,15 @@ public class DoublyLinkedList<E> implements List<E> {
     public E remove(int index) {
         Preconditions.checkElementIndex(index, size);
 
-        // If remove at the head, the next node becomes the head. This branch handles singleton list.
+        // If remove at the head, the next node becomes the new head.
+        // This branch handles singleton list.
         if (index == 0) {
-            // From: N1 (head) <-> N2 <-> N3
-            // To: N2 (head) <-> N3
-            Node<E> nodeToRemove = Verify.verifyNotNull(head);
-            E oldData = nodeToRemove.data;
-            head = nodeToRemove.next;
-
-            if (head != null) {
-                head.previous = null;
-            } else {
-                // If the new head is null, this list has only one node, so the tail becomes null.
-                tail = null;
-            }
-
-            nodeToRemove.data = null;
-            nodeToRemove.next = nodeToRemove.previous = null;
-
-            size--;
-            return oldData;
+            return removeHead();
         }
 
-        // If remove at the tail, the previous node becomes the tail.
+        // If remove at the tail, the previous node becomes the new tail.
         if (index == size - 1) {
-            // From: N1 <-> N2 <-> N3 (tail)
-            // To: N1 <-> N2 (tail)
-            Node<E> nodeToRemove = Verify.verifyNotNull(tail);
-            E oldData = nodeToRemove.data;
-            // Singleton list is already handled above, so the new tail is never null here.
-            tail = Verify.verifyNotNull(nodeToRemove.previous);
-            tail.next = null;
-
-            nodeToRemove.data = null;
-            nodeToRemove.next = nodeToRemove.previous = null;
-
-            size--;
-            return oldData;
+            return removeTail();
         }
 
         // For all other indices, traverse the list to the node right before the node to be removed.
@@ -194,16 +184,69 @@ public class DoublyLinkedList<E> implements List<E> {
             previousNode = Verify.verifyNotNull(previousNode.next);
         }
 
-        // From: N1 (previous) <-> N2 <-> N3
-        // To: N1 (previous) <-> N3
+        // From: N1 (previousNode) <-> N2 (nodeToRemove) <-> N3 (nextNode)
+        // To: N1 (previousNode) <-> N3 (nextNode)
         Node<E> nodeToRemove = Verify.verifyNotNull(previousNode.next);
         E oldData = nodeToRemove.data;
         Node<E> nextNode = nodeToRemove.next;
         previousNode.next = nextNode;
         nextNode.previous = previousNode;
 
+        // Cleanup to help garbage collection.
         nodeToRemove.data = null;
-        nodeToRemove.next = nodeToRemove.previous = null;
+        nodeToRemove = nodeToRemove.next = nodeToRemove.previous = null;
+
+        size--;
+        return oldData;
+    }
+
+    /**
+     * Helper method for {@link #remove(int)} that removes the current head of this list and sets
+     * its next node as the new head.
+     *
+     * @return the data of the removed head
+     */
+    private E removeHead() {
+        // From: N1 (head, nodeToRemove) <-> N2 <-> N3
+        // To: N2 (head) <-> N3
+        // Empty list is already checked by the parent method, so the head is never null here.
+        Node<E> nodeToRemove = Verify.verifyNotNull(head);
+        E oldData = nodeToRemove.data;
+
+        head = nodeToRemove.next;
+        if (head != null) {
+            head.previous = null;
+        } else {
+            // If the new head is null, list has only one node. In this case, the tail becomes null.
+            tail = null;
+        }
+
+        nodeToRemove.data = null;
+        nodeToRemove = nodeToRemove.next = nodeToRemove.previous = null;
+
+        size--;
+        return oldData;
+    }
+
+    /**
+     * Helper method for {@link #remove(int)} that removes the current tail of this list and sets
+     * its previous node as the new tail.
+     *
+     * @return the data of the removed tail
+     */
+    private E removeTail() {
+        // From: N1 <-> N2 <-> N3 (tail, nodeToRemove)
+        // To: N1 <-> N2 (tail)
+        // Empty list is already checked by the parent method, so the tail is never null here.
+        Node<E> nodeToRemove = Verify.verifyNotNull(tail);
+        E oldData = nodeToRemove.data;
+
+        // Singleton list is already handled above, so the new tail is also never null here.
+        tail = Verify.verifyNotNull(nodeToRemove.previous);
+        tail.next = null;
+
+        nodeToRemove.data = null;
+        nodeToRemove = nodeToRemove.next = nodeToRemove.previous = null;
 
         size--;
         return oldData;
@@ -216,6 +259,10 @@ public class DoublyLinkedList<E> implements List<E> {
         }
     }
 
+    /**
+     * Reverses this list's order of elements. The head becomes the new tail, and the tail becomes
+     * the new head.
+     */
     public void reverse() {
         Node<E> node = head;
         while (node != null) {

@@ -19,13 +19,18 @@ public class SinglyLinkedListTest extends ListTestBase {
     }
 
     @Test
-    public void reverse() {
+    public void reverse_flipsListOrder() {
         SinglyLinkedList<Integer> singlyLinkedList = new SinglyLinkedList<>(VALUES);
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+
+        // Reverse the list and make sure the order is reversed.
         Collections.reverse(expectedList);
-
         singlyLinkedList.reverse();
+        assertThat(singlyLinkedList.toJavaList()).isEqualTo(expectedList);
 
+        // Reverse the list again and make sure the order is back to original.
+        Collections.reverse(expectedList);
+        singlyLinkedList.reverse();
         assertThat(singlyLinkedList.toJavaList()).isEqualTo(expectedList);
     }
 

@@ -26,13 +26,13 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void size() {
+    public void size_returnsNumberOfElements() {
         assertThat(emptyList.size()).isEqualTo(0);
         assertThat(list.size()).isEqualTo(VALUES.size());
     }
 
     @Test
-    public void isEmpty() {
+    public void isEmpty_checksListSize() {
         assertThat(emptyList.isEmpty()).isTrue();
         assertThat(list.isEmpty()).isFalse();
     }
@@ -199,15 +199,17 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void contains() {
+    public void contains_checksValueInList() {
         assertThat(emptyList.contains(1)).isFalse();
-        assertThat(list.contains(VALUES.get(0))).isTrue();
+        assertThat(list.contains(VALUES.get(VALUES.size() - 1))).isTrue();
         assertThat(list.contains(Collections.max(VALUES) + 1)).isFalse();
     }
 
     @Test
     public void remove_emptyList_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.remove(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeFront());
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeBack());
     }
 
     @Test
@@ -251,9 +253,17 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void clear_removesEverything() {
+    public void clear_removesAllElements() {
+        emptyList.clear();
+        assertThat(emptyList.isEmpty()).isTrue();
         list.clear();
         assertThat(list.isEmpty()).isTrue();
+    }
+
+    @Test
+    public void toJavaList_returnsEquivalentList() {
+        assertThat(emptyList.toJavaList()).isEqualTo(Collections.emptyList());
+        assertThat(list.toJavaList()).isEqualTo(VALUES);
     }
 
 }

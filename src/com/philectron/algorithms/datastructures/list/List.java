@@ -176,7 +176,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @return a new {@link ArrayList} containing the elements of this list
      */
-    default java.util.List<E> toJavaList() {
+    default java.util.List<? extends E> toJavaList() {
         java.util.List<E> list = new ArrayList<E>();
         Iterator<E> it = iterator();
         while (it.hasNext()) {

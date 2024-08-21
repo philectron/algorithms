@@ -8,15 +8,16 @@ public class SinglyLinkedList<E> implements List<E> {
 
     private static class Node<E> {
         private E data;
-        private Node<E> next; // will only be null to terminate the list
+        private Node<E> next;
 
-        private Node(E data, Node<E> next) {
+        private Node(E data) {
             this.data = data;
-            this.next = next;
+            this.next = null;
         }
     }
 
-    private Node<E> head; // will only be null if the list is empty
+    private Node<E> head;
+    private Node<E> tail;
     private int size;
 
     public SinglyLinkedList() {}
@@ -35,25 +36,26 @@ public class SinglyLinkedList<E> implements List<E> {
     public E get(int index) {
         Preconditions.checkElementIndex(index, size);
 
-        Node<E> node = head;
+        Node<E> node = Verify.verifyNotNull(head);
         for (int i = 0; i < index; i++) {
-            node = Verify.verifyNotNull(node).next;
+            node = Verify.verifyNotNull(node.next);
         }
 
-        return Verify.verifyNotNull(node).data;
+        return node.data;
     }
 
     @Override
     public E set(int index, E element) {
         Preconditions.checkElementIndex(index, size);
 
-        Node<E> node = head;
+        Node<E> node = Verify.verifyNotNull(head);
         for (int i = 0; i < index; i++) {
-            node = Verify.verifyNotNull(node).next;
+            node = Verify.verifyNotNull(node.next);
         }
 
-        E oldData = Verify.verifyNotNull(node).data;
+        E oldData = node.data;
         node.data = element;
+
         return oldData;
     }
 
@@ -61,49 +63,74 @@ public class SinglyLinkedList<E> implements List<E> {
     public void add(int position, E element) {
         Preconditions.checkPositionIndex(position, size);
 
-        Node<E> newNode = new Node<>(element, null);
+        Node<E> newNode = new Node<>(element);
 
-        // If insert at the head, the new node becomes the head. This branch handles empty list.
+        // If insert at the head, the new node becomes the new head.
+        // This branch handles empty list.
         if (position == 0) {
-            // From: N1 (head) -> N2
-            // To: newNode (head) -> N1 -> N2
-            newNode.next = head;
-            head = newNode;
-            size++;
+            addHead(newNode);
+            return;
+        }
+
+        // If insert at the tail, the new node becomes the new tail.
+        if (position == size) {
+            addTail(newNode);
             return;
         }
 
         // For all other positions, traverse the list to the node right before the insert position.
-        Node<E> previous = head;
+        Node<E> previousNode = Verify.verifyNotNull(head);
         for (int i = 0; i < position - 1; i++) {
-            previous = Verify.verifyNotNull(previous).next;
+            previousNode = Verify.verifyNotNull(previousNode.next);
         }
 
-        // From: N1 (previous) -> N2
-        // To: N1 (previous) -> newNode -> N2
-        newNode.next = Verify.verifyNotNull(previous).next;
-        previous.next = newNode;
+        // From: N1 (previousNode) -> N2
+        // To: N1 (previousNode) -> newNode -> N2
+        newNode.next = previousNode.next;
+        previousNode.next = newNode;
+        size++;
+    }
+
+    /**
+     * Inserts the specified node as the new head of this list.
+     *
+     * @param newNode the node to be inserted and made the new head
+     */
+    private void addHead(Node<E> newNode) {
+        // From: N1 (head) -> N2
+        // To: newNode (head) -> N1 -> N2
+        newNode.next = head;
+
+        // If head is null, list is empty. In this case, the new node also becomes the tail.
+        if (head == null) {
+            tail = newNode;
+        }
+
+        head = newNode;
+        size++;
+    }
+
+    /**
+     * Inserts the specified new node as the new tail of this list.
+     *
+     * @param newNode the new node to be inserted to the tail
+     */
+    private void addTail(Node<E> newNode) {
+        // From: N1 -> N2 (tail)
+        // To: N1 -> N2 -> newNode (tail)
+        // Empty list is already handled above, so the tail is never null here.
+        Verify.verifyNotNull(tail);
+        tail.next = newNode;
+        tail = newNode;
         size++;
     }
 
     @Override
     public void addAll(java.util.List<? extends E> list) {
         Preconditions.checkNotNull(list);
-
-        // For singly linked list, naively appending each element of the input list to this list
-        // would be very expensive as each add would traverse the whole list, resulting in O(n * m).
-        // Adding elements to the front is cheaper as it is always O(1).
-
-        // So, we should reverse the current list first: O(n)
-        reverse();
-
-        // Then, add each element of the input list to the front of this list: O(m)
         for (E element : list) {
-            addFront(element);
+            addBack(element);
         }
-
-        // And finally, reverse the final list: O(n)
-        reverse(); // O(max(n, m)) in total
     }
 
     @Override
@@ -135,32 +162,56 @@ public class SinglyLinkedList<E> implements List<E> {
     public E remove(int index) {
         Preconditions.checkElementIndex(index, size);
 
-        // If remove at the head, the next node becomes the head. This branch handles singleton list.
+        // If remove at the head, the next node becomes the new head.
+        // This branch handles singleton list.
         if (index == 0) {
-            // From: N1 (head) -> N2 -> N3
-            // To: N2 (head) -> N3
-            Node<E> newHead = Verify.verifyNotNull(head).next;
-            E oldData = head.data;
-            head.data = null;
-            head.next = null;
-            head = newHead;
-            size--;
-            return oldData;
+            return removeHead();
         }
 
         // For all other indices, traverse the list to the node right before the node to be removed.
-        Node<E> previous = head;
+        Node<E> previousNode = Verify.verifyNotNull(head);
         for (int i = 0; i < index - 1; i++) {
-            previous = Verify.verifyNotNull(previous).next;
+            previousNode = Verify.verifyNotNull(previousNode.next);
         }
 
-        // From: N1 (previous) -> N2 -> N3
-        // To: N1 (previous) -> N3
-        Node<E> nodeToRemove = Verify.verifyNotNull(previous).next;
-        E oldData = Verify.verifyNotNull(nodeToRemove).data;
-        previous.next = nodeToRemove.next;
+        // From: N1 (previousNode) -> N2 (nodeToRemove) -> N3
+        // To: N1 (previousNode) -> N3
+        Node<E> nodeToRemove = Verify.verifyNotNull(previousNode.next);
+        E oldData = nodeToRemove.data;
+        previousNode.next = nodeToRemove.next;
+        if (nodeToRemove == tail) {
+            tail = nodeToRemove.next;
+        }
+
+        // Cleanup to help garbage collection.
         nodeToRemove.data = null;
-        nodeToRemove.next = null;
+        nodeToRemove = nodeToRemove.next = null;
+
+        size--;
+        return oldData;
+    }
+
+    /**
+     * Helper method for {@link #remove(int)} that removes the current head of this list and sets
+     * its next node as the new head.
+     *
+     * @return the data of the removed head
+     */
+    private E removeHead() {
+        // From: N1 (head) -> N2 -> N3
+        // To: N2 (head) -> N3
+        Node<E> nodeToRemove = Verify.verifyNotNull(head);
+        E oldData = nodeToRemove.data;
+
+        // If the new head is null, list has only one node. In this case, the tail becomes null.
+        head = nodeToRemove.next;
+        if (head == null) {
+            tail = null;
+        }
+
+        nodeToRemove.data = null;
+        nodeToRemove = nodeToRemove.next = null;
+
         size--;
         return oldData;
     }
@@ -172,6 +223,10 @@ public class SinglyLinkedList<E> implements List<E> {
         }
     }
 
+    /**
+     * Reverses this list's order of elements. The head becomes the new tail, and the tail becomes
+     * the new head.
+     */
     public void reverse() {
         Node<E> previous = null;
         Node<E> node = head;

@@ -19,13 +19,18 @@ public class DoublyLinkedListTest extends ListTestBase {
     }
 
     @Test
-    public void reverse() {
+    public void reverse_flipsListOrder() {
         DoublyLinkedList<Integer> doublyLinkedList = new DoublyLinkedList<>(VALUES);
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+
+        // Reverse the list and make sure the order is reversed.
         Collections.reverse(expectedList);
-
         doublyLinkedList.reverse();
+        assertThat(doublyLinkedList.toJavaList()).isEqualTo(expectedList);
 
+        // Reverse the list again and make sure the order is back to original.
+        Collections.reverse(expectedList);
+        doublyLinkedList.reverse();
         assertThat(doublyLinkedList.toJavaList()).isEqualTo(expectedList);
     }
 
