@@ -172,6 +172,12 @@ public interface List<E> extends Iterable<E> {
     void clear();
 
     /**
+     * Reverses this list's order of elements. The list's order of elements will be reversed after
+     * this method returns.
+     */
+    void reverse();
+
+    /**
      * Copies all elements of this list to a new {@link java.util.List}.
      *
      * @return a new {@link ArrayList} containing the elements of this list

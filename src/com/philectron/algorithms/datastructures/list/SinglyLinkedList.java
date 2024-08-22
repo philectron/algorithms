@@ -223,10 +223,7 @@ public class SinglyLinkedList<E> implements List<E> {
         }
     }
 
-    /**
-     * Reverses this list's order of elements. The head becomes the new tail, and the tail becomes
-     * the new head.
-     */
+    @Override
     public void reverse() {
         Node<E> previous = null;
         Node<E> node = head;

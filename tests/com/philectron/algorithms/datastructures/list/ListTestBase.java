@@ -261,6 +261,25 @@ public abstract class ListTestBase {
     }
 
     @Test
+    public void reverse_emptyList_doesNothing() {
+        emptyList.reverse();
+        assertThat(emptyList.isEmpty()).isTrue();
+    }
+
+    @Test
+    public void reverse_listWithValues_flipsListOrder() {
+        // Reverse the list and make sure the order is reversed.
+        java.util.List<Integer> expectedReversedList = new ArrayList<>(VALUES);
+        Collections.reverse(expectedReversedList);
+        list.reverse();
+        assertThat(list.toJavaList()).isEqualTo(expectedReversedList);
+
+        // Reverse the list again and make sure the order is back to original.
+        list.reverse();
+        assertThat(list.toJavaList()).isEqualTo(VALUES);
+    }
+
+    @Test
     public void toJavaList_returnsEquivalentList() {
         assertThat(emptyList.toJavaList()).isEqualTo(Collections.emptyList());
         assertThat(list.toJavaList()).isEqualTo(VALUES);

@@ -259,10 +259,7 @@ public class DoublyLinkedList<E> implements List<E> {
         }
     }
 
-    /**
-     * Reverses this list's order of elements. The head becomes the new tail, and the tail becomes
-     * the new head.
-     */
+    @Override
     public void reverse() {
         Node<E> node = head;
         while (node != null) {
