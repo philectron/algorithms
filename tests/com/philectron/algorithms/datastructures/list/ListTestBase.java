@@ -154,6 +154,27 @@ public abstract class ListTestBase {
     }
 
     @Test
+    public void indexOf_nullValue_returnsFirstOccurrence() {
+        final Integer targetValue = null;
+        final int initialFirstIndex = VALUES.size() / 2;
+        list.set(initialFirstIndex, null);
+
+        assertThat(list.indexOf(targetValue)).isEqualTo(initialFirstIndex);
+
+        // Add a duplicate value to the back and make sure the first index stays the same.
+        list.addBack(targetValue);
+        int actualFirstIndex = list.indexOf(targetValue);
+        assertThat(actualFirstIndex).isNotEqualTo(list.size() - 1);
+        assertThat(actualFirstIndex).isEqualTo(initialFirstIndex);
+
+        // Add a duplicate value to the front and make sure the first index changes.
+        list.addFront(targetValue);
+        actualFirstIndex = list.indexOf(targetValue);
+        assertThat(actualFirstIndex).isNotEqualTo(initialFirstIndex);
+        assertThat(actualFirstIndex).isEqualTo(0);
+    }
+
+    @Test
     public void indexOf_valueWithDuplicates_returnsFirstOccurrence() {
         final int targetValue = VALUES.get(VALUES.size() - 1);
         final int initialFirstIndex = VALUES.indexOf(targetValue);
@@ -176,6 +197,27 @@ public abstract class ListTestBase {
     @Test
     public void lastIndexOf_emptyList_returnsNotFound() {
         assertThat(emptyList.lastIndexOf(VALUES.get(0))).isEqualTo(-1);
+    }
+
+    @Test
+    public void lastIndexOf_nullValue_returnsLastOccurrence() {
+        final Integer targetValue = null;
+        final int initialLastIndex = VALUES.size() / 2;
+        list.set(initialLastIndex, targetValue);
+
+        assertThat(list.lastIndexOf(targetValue)).isEqualTo(initialLastIndex);
+
+        // Add a duplicate value to the front and make sure the last index changes.
+        list.addFront(targetValue);
+        int actualLastIndex = list.lastIndexOf(targetValue);
+        assertThat(actualLastIndex).isNotEqualTo(0);
+        assertThat(actualLastIndex).isEqualTo(initialLastIndex + 1);
+
+        // Add a duplicate value to the back and make sure the last index changes.
+        list.addBack(targetValue);
+        actualLastIndex = list.lastIndexOf(targetValue);
+        assertThat(actualLastIndex).isNotEqualTo(initialLastIndex + 1);
+        assertThat(actualLastIndex).isEqualTo(list.size() - 1);
     }
 
     @Test

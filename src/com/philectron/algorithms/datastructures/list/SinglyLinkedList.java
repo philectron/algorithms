@@ -137,7 +137,7 @@ public class SinglyLinkedList<E> implements List<E> {
     public int indexOf(E element) {
         int firstIndex = 0;
         for (Node<E> node = head; node != null; node = node.next) {
-            if (node.data.equals(element)) {
+            if (element == null ? node.data == null : element.equals(node.data)) {
                 return firstIndex;
             }
             firstIndex++;
@@ -150,7 +150,7 @@ public class SinglyLinkedList<E> implements List<E> {
         int lastIndex = -1;
         int currentIndex = 0;
         for (Node<E> node = head; node != null; node = node.next) {
-            if (node.data.equals(element)) {
+            if (element == null ? node.data == null : element.equals(node.data)) {
                 lastIndex = currentIndex;
             }
             currentIndex++;

@@ -143,7 +143,7 @@ public class DoublyLinkedList<E> implements List<E> {
     public int indexOf(E element) {
         int firstIndex = 0;
         for (Node<E> node = head; node != null; node = node.next) {
-            if (node.data.equals(element)) {
+            if (element == null ? node.data == null : element.equals(node.data)) {
                 return firstIndex;
             }
             firstIndex++;
@@ -155,7 +155,7 @@ public class DoublyLinkedList<E> implements List<E> {
     public int lastIndexOf(E element) {
         int lastIndex = size - 1;
         for (Node<E> node = tail; node != null; node = node.previous) {
-            if (node.data.equals(element)) {
+            if (element == null ? node.data == null : element.equals(node.data)) {
                 return lastIndex;
             }
             lastIndex--;
