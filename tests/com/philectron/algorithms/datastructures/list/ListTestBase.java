@@ -153,6 +153,8 @@ public abstract class ListTestBase {
     @Test
     public void indexOf_emptyList_returnsNotFound() {
         assertThat(emptyList.indexOf(VALUES.get(0))).isEqualTo(-1);
+        // Searching should not mutate the list.
+        assertThat(emptyList.isEmpty()).isTrue();
     }
 
     @Test
@@ -160,8 +162,12 @@ public abstract class ListTestBase {
         final Integer targetValue = null;
         final int initialFirstIndex = VALUES.size() / 2;
         list.set(initialFirstIndex, null);
+        java.util.List<Integer> originalList = list.toJavaList();
 
         assertThat(list.indexOf(targetValue)).isEqualTo(initialFirstIndex);
+
+        // Searching should not mutate the list.
+        assertThat(list.toJavaList()).isEqualTo(originalList);
 
         // Add a duplicate value to the back and make sure the first index stays the same.
         list.addBack(targetValue);
@@ -180,8 +186,12 @@ public abstract class ListTestBase {
     public void indexOf_valueWithDuplicates_returnsFirstOccurrence() {
         final int targetValue = VALUES.get(VALUES.size() - 1);
         final int initialFirstIndex = VALUES.indexOf(targetValue);
+        java.util.List<Integer> originalList = list.toJavaList();
 
         assertThat(list.indexOf(targetValue)).isEqualTo(initialFirstIndex);
+
+        // Searching should not mutate the list.
+        assertThat(list.toJavaList()).isEqualTo(originalList);
 
         // Add a duplicate value to the back and make sure the first index stays the same.
         list.addBack(targetValue);
@@ -199,6 +209,8 @@ public abstract class ListTestBase {
     @Test
     public void lastIndexOf_emptyList_returnsNotFound() {
         assertThat(emptyList.lastIndexOf(VALUES.get(0))).isEqualTo(-1);
+        // Searching should not mutate the list.
+        assertThat(emptyList.isEmpty()).isTrue();
     }
 
     @Test
@@ -206,8 +218,12 @@ public abstract class ListTestBase {
         final Integer targetValue = null;
         final int initialLastIndex = VALUES.size() / 2;
         list.set(initialLastIndex, targetValue);
+        java.util.List<Integer> originalList = list.toJavaList();
 
         assertThat(list.lastIndexOf(targetValue)).isEqualTo(initialLastIndex);
+
+        // Searching should not mutate the list.
+        assertThat(list.toJavaList()).isEqualTo(originalList);
 
         // Add a duplicate value to the front and make sure the last index changes.
         list.addFront(targetValue);
@@ -226,8 +242,12 @@ public abstract class ListTestBase {
     public void lastIndexOf_valueWithDuplicates_returnsLastOccurrence() {
         final int targetValue = VALUES.get(0);
         final int initialLastIndex = VALUES.lastIndexOf(targetValue);
+        java.util.List<Integer> originalList = list.toJavaList();
 
         assertThat(list.lastIndexOf(targetValue)).isEqualTo(initialLastIndex);
+
+        // Searching should not mutate the list.
+        assertThat(list.toJavaList()).isEqualTo(originalList);
 
         // Add a duplicate value to the front and make sure the last index changes.
         list.addFront(targetValue);
@@ -244,9 +264,15 @@ public abstract class ListTestBase {
 
     @Test
     public void contains_checksValueInList() {
+        java.util.List<Integer> originalList = list.toJavaList();
+
         assertThat(emptyList.contains(1)).isFalse();
         assertThat(list.contains(VALUES.get(VALUES.size() - 1))).isTrue();
         assertThat(list.contains(Collections.max(VALUES) + 1)).isFalse();
+
+        // Searching should not mutate the list.
+        assertThat(emptyList.isEmpty()).isTrue();
+        assertThat(list.toJavaList()).isEqualTo(originalList);
     }
 
     @Test
