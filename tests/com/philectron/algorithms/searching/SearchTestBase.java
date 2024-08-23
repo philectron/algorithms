@@ -8,15 +8,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public abstract class SearchTestBase {
 
     private static final int UNIQUE_TARGET = 2;
     private static final int DUPLICATE_TARGET = 5;
-    private static final int NON_TARGET = 10;
+    private static final int NON_TARGET = 6;
     private static final List<Integer> LIST =
-            List.of(DUPLICATE_TARGET, UNIQUE_TARGET, 8, 6, 4, 3, 5, 7, 1, DUPLICATE_TARGET);
+            List.of(DUPLICATE_TARGET, UNIQUE_TARGET, 8, 7, 4, 3, 9, 7, 1, DUPLICATE_TARGET);
     private static final List<Integer> SORTED_LIST = LIST.stream().sorted().toList();
 
     private final SearchingAlgorithm searcher;
@@ -28,6 +29,11 @@ public abstract class SearchTestBase {
     SearchTestBase(SearchingAlgorithm searcher, boolean isSortRequired) {
         this.searcher = searcher;
         this.isSortRequired = isSortRequired;
+    }
+
+    @BeforeEach
+    public void setUp() {
+        list = isSortRequired ? SORTED_LIST : LIST;
     }
 
     @AfterEach
@@ -64,26 +70,58 @@ public abstract class SearchTestBase {
 
     @Test
     public void search_nCopiesArray() {
-        list = Collections.nCopies(3, target);
         target = 1;
+        list = Collections.nCopies(LIST.size(), target);
     }
 
     @Test
     public void search_uniqueTarget_returnsSingleIndex() {
-        list = isSortRequired ? SORTED_LIST : LIST;
         target = UNIQUE_TARGET;
     }
 
     @Test
     public void search_duplicateTargets() {
-        list = isSortRequired ? SORTED_LIST : LIST;
         target = DUPLICATE_TARGET;
     }
 
     @Test
+    public void search_targetIsMinValue() {
+        target = Collections.min(list);
+    }
+
+    @Test
+    public void search_targetIsMaxValue() {
+        target = Collections.max(list);
+    }
+
+    @Test
+    public void search_targetAtStartOfList() {
+        target = list.get(0);
+    }
+
+    @Test
+    public void search_targetAtMiddleOfList() {
+        target = list.get(list.size() / 2);
+    }
+
+    @Test
+    public void search_targetAtEndOfList() {
+        target = list.get(0);
+    }
+
+    @Test
     public void search_nonTarget_returnsNotFound() {
-        list = isSortRequired ? SORTED_LIST : LIST;
         target = NON_TARGET;
+    }
+
+    @Test
+    public void search_targetLessThanMin_returnsNotFound() {
+        target = Collections.min(list) - 1;
+    }
+
+    @Test
+    public void search_targetGreaterThanMax_returnsNotFound() {
+        target = Collections.max(list) + 1;
     }
 
 }
