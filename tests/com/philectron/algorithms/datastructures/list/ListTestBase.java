@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -273,6 +275,21 @@ public abstract class ListTestBase {
     }
 
     @Test
+    public void remove_thenAdd_resultsInSameList() {
+        final int index = VALUES.size() / 2;
+        final int value = list.get(index);
+
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        expectedList.remove(index);
+        expectedList.add(index, value);
+
+        list.add(index, list.remove(index));
+
+        assertThat(list.get(index)).isEqualTo(value);
+        assertThat(list.toJavaList()).isEqualTo(expectedList);
+    }
+
+    @Test
     public void removeFront_shiftsListLeft_returnsDeletedValue() {
         final int valueToRemove = list.get(0);
 
@@ -284,6 +301,20 @@ public abstract class ListTestBase {
     }
 
     @Test
+    public void removeFront_thenAddFront_resultsInSameList() {
+        final int value = list.get(0);
+
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        expectedList.removeFirst();
+        expectedList.addFirst(value);
+
+        list.addFront(list.removeFront());
+
+        assertThat(list.get(0)).isEqualTo(value);
+        assertThat(list.toJavaList()).isEqualTo(expectedList);
+    }
+
+    @Test
     public void removeBack_returnsDeletedValue() {
         final int valueToRemove = list.get(list.size() - 1);
 
@@ -291,6 +322,20 @@ public abstract class ListTestBase {
         expectedList.removeLast();
 
         assertThat(list.removeBack()).isEqualTo(valueToRemove);
+        assertThat(list.toJavaList()).isEqualTo(expectedList);
+    }
+
+    @Test
+    public void removeBack_thenAddBack_resultsInSameList() {
+        final int value = list.get(list.size() - 1);
+
+        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
+        expectedList.removeLast();
+        expectedList.addLast(value);
+
+        list.addBack(list.removeBack());
+
+        assertThat(list.get(list.size() - 1)).isEqualTo(value);
         assertThat(list.toJavaList()).isEqualTo(expectedList);
     }
 
@@ -325,6 +370,20 @@ public abstract class ListTestBase {
     public void toJavaList_returnsEquivalentList() {
         assertThat(emptyList.toJavaList()).isEqualTo(Collections.emptyList());
         assertThat(list.toJavaList()).isEqualTo(VALUES);
+    }
+
+    @Test
+    public void iterator_hasNext_returnsCurrentValueOnNext() {
+        Iterator<Integer> it = list.iterator();
+        assertThat(it.hasNext()).isTrue();
+        assertThat(it.next()).isEqualTo(list.get(0));
+    }
+
+    @Test
+    public void iterator_hasNoNext_failsOnNext() {
+        Iterator<Integer> it = emptyList.iterator();
+        assertThat(it.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> it.next());
     }
 
 }

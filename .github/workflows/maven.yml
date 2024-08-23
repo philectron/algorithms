@@ -35,6 +35,10 @@ jobs:
         shell: bash
         run: mvn verify --file pom.xml --batch-mode --update-snapshots
 
+      - name: Copy SpotBugs report
+        shell: bash
+        run: cp target/spotbugs.html target/site/
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:

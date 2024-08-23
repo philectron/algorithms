@@ -1,8 +1,13 @@
 package com.philectron.algorithms.datastructures.list;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Verify;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
+import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
+import static com.philectron.algorithms.logic.Assertion.assertNotNull;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> implements List<E> {
 
@@ -21,11 +26,21 @@ public class DoublyLinkedList<E> implements List<E> {
     private Node<E> tail;
     private int size;
 
+    /**
+     * Initializes an empty doubly linked list.
+     */
     public DoublyLinkedList() {}
 
+    /**
+     * Initializes a doubly linked list with all elements copied from the specified list.
+     *
+     * @param list a {@link java.util.List} whose elements are copied to this list
+     *
+     * @throws NullPointerException if the specified list is {@code null}
+     */
     public DoublyLinkedList(java.util.List<? extends E> list) {
         this();
-        addAll(list);
+        addAll(checkNotNull(list));
     }
 
     @Override
@@ -33,27 +48,42 @@ public class DoublyLinkedList<E> implements List<E> {
         return size;
     }
 
+    /**
+     * Traverses through the list more efficiently from whichever end of the list closer to the
+     * specified index.
+     *
+     * @param index the index at which the node will be returned after the traversal
+     *
+     * @return the corresponding node at the specified index, guaranteed to be non-null
+     */
+    private Node<E> nodeAt(int index) {
+        assertElementIndex(index, size);
+        Node<E> node = null;
+        if (index < size / 2) {
+            node = assertNotNull(head);
+            for (int i = 0; i < index; i++) {
+                node = assertNotNull(node.next);
+            }
+        } else {
+            node = assertNotNull(tail);
+            for (int i = size - 1; i > index; i--) {
+                node = assertNotNull(node.previous);
+            }
+        }
+        return node;
+    }
+
     @Override
     public E get(int index) {
-        Preconditions.checkElementIndex(index, size);
-
-        Node<E> node = Verify.verifyNotNull(head);
-        for (int i = 0; i < index; i++) {
-            node = Verify.verifyNotNull(node.next);
-        }
-
-        return node.data;
+        checkElementIndex(index, size);
+        return nodeAt(index).data;
     }
 
     @Override
     public E set(int index, E element) {
-        Preconditions.checkElementIndex(index, size);
+        checkElementIndex(index, size);
 
-        Node<E> node = Verify.verifyNotNull(head);
-        for (int i = 0; i < index; i++) {
-            node = Verify.verifyNotNull(node.next);
-        }
-
+        Node<E> node = nodeAt(index);
         E oldData = node.data;
         node.data = element;
 
@@ -62,7 +92,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public void add(int position, E element) {
-        Preconditions.checkPositionIndex(position, size);
+        checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
 
@@ -80,15 +110,12 @@ public class DoublyLinkedList<E> implements List<E> {
         }
 
         // For all other positions, traverse the list to the node right before the insert position.
-        Node<E> previousNode = Verify.verifyNotNull(head);
-        for (int i = 0; i < position - 1; i++) {
-            previousNode = Verify.verifyNotNull(previousNode.next);
-        }
+        Node<E> previousNode = nodeAt(position - 1);
 
         // From: N1 (previousNode) <-> N2 (nextNode)
         // To: N1 (previousNode) <-> newNode <-> N2 (nextNode)
         // Next node is never null because the edge cases are already handled above.
-        Node<E> nextNode = Verify.verifyNotNull(previousNode.next);
+        Node<E> nextNode = assertNotNull(previousNode.next);
         newNode.previous = previousNode;
         newNode.next = nextNode;
         nextNode.previous = previousNode.next = newNode;
@@ -96,11 +123,14 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Inserts the specified node as the new head of this list.
+     * Helper method for {@link #add(int, E)} that inserts the specified node as the new head of
+     * this list.
      *
      * @param newNode the node to be inserted and made the new head
      */
     private void addHead(Node<E> newNode) {
+        assertNotNull(newNode);
+
         // From: N1 (head) <-> N2
         // To: newNode (head) <-> N1 <-> N2
         newNode.next = head;
@@ -117,15 +147,18 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Inserts the specified new node as the new tail of this list.
+     * Helper method for {@link #add(int, E)} that inserts the specified new node as the new tail of
+     * this list.
      *
-     * @param newNode the new node to be inserted to the tail
+     * @param newNode the node to be inserted and made the new tail
      */
     private void addTail(Node<E> newNode) {
+        assertNotNull(newNode);
+
         // From: N1 <-> N2 (tail)
         // To: N1 <-> N2 <-> newNode (tail)
         // Empty list is already handled above, so the tail is never null here.
-        newNode.previous = Verify.verifyNotNull(tail);
+        newNode.previous = assertNotNull(tail);
         tail.next = newNode;
         tail = newNode;
         size++;
@@ -133,7 +166,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public void addAll(java.util.List<? extends E> list) {
-        Preconditions.checkNotNull(list);
+        checkNotNull(list);
         for (E element : list) {
             addBack(element);
         }
@@ -165,7 +198,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
-        Preconditions.checkElementIndex(index, size);
+        checkElementIndex(index, size);
 
         // If remove at the head, the next node becomes the new head.
         // This branch handles singleton list.
@@ -179,22 +212,20 @@ public class DoublyLinkedList<E> implements List<E> {
         }
 
         // For all other indices, traverse the list to the node right before the node to be removed.
-        Node<E> previousNode = Verify.verifyNotNull(head);
-        for (int i = 0; i < index - 1; i++) {
-            previousNode = Verify.verifyNotNull(previousNode.next);
-        }
+        Node<E> previousNode = nodeAt(index - 1);
 
         // From: N1 (previousNode) <-> N2 (nodeToRemove) <-> N3 (nextNode)
         // To: N1 (previousNode) <-> N3 (nextNode)
-        Node<E> nodeToRemove = Verify.verifyNotNull(previousNode.next);
+        Node<E> nodeToRemove = assertNotNull(previousNode.next);
         E oldData = nodeToRemove.data;
-        Node<E> nextNode = nodeToRemove.next;
+        // Next node is never null because the edge cases are already handled above.
+        Node<E> nextNode = assertNotNull(nodeToRemove.next);
         previousNode.next = nextNode;
         nextNode.previous = previousNode;
 
         // Cleanup to help garbage collection.
         nodeToRemove.data = null;
-        nodeToRemove = nodeToRemove.next = nodeToRemove.previous = null;
+        nodeToRemove.next = nodeToRemove.previous = null;
 
         size--;
         return oldData;
@@ -210,7 +241,7 @@ public class DoublyLinkedList<E> implements List<E> {
         // From: N1 (head, nodeToRemove) <-> N2 <-> N3
         // To: N2 (head) <-> N3
         // Empty list is already checked by the parent method, so the head is never null here.
-        Node<E> nodeToRemove = Verify.verifyNotNull(head);
+        Node<E> nodeToRemove = assertNotNull(head);
         E oldData = nodeToRemove.data;
 
         head = nodeToRemove.next;
@@ -222,7 +253,7 @@ public class DoublyLinkedList<E> implements List<E> {
         }
 
         nodeToRemove.data = null;
-        nodeToRemove = nodeToRemove.next = nodeToRemove.previous = null;
+        nodeToRemove.next = nodeToRemove.previous = null;
 
         size--;
         return oldData;
@@ -238,15 +269,15 @@ public class DoublyLinkedList<E> implements List<E> {
         // From: N1 <-> N2 <-> N3 (tail, nodeToRemove)
         // To: N1 <-> N2 (tail)
         // Empty list is already checked by the parent method, so the tail is never null here.
-        Node<E> nodeToRemove = Verify.verifyNotNull(tail);
+        Node<E> nodeToRemove = assertNotNull(tail);
         E oldData = nodeToRemove.data;
 
         // Singleton list is already handled above, so the new tail is also never null here.
-        tail = Verify.verifyNotNull(nodeToRemove.previous);
+        tail = assertNotNull(nodeToRemove.previous);
         tail.next = null;
 
         nodeToRemove.data = null;
-        nodeToRemove = nodeToRemove.next = nodeToRemove.previous = null;
+        nodeToRemove.next = nodeToRemove.previous = null;
 
         size--;
         return oldData;
@@ -286,7 +317,9 @@ public class DoublyLinkedList<E> implements List<E> {
 
             @Override
             public E next() {
-                Preconditions.checkNotNull(current);
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Iterator has no more elements");
+                }
                 E currentData = current.data;
                 current = current.next;
                 return currentData;
