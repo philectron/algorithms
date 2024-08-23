@@ -1,12 +1,12 @@
 package com.philectron.algorithms.sorting;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class BubbleSort implements SortingAlgorithm {
 
     @Override
     public void sort(int[] array) {
-        Preconditions.checkNotNull(array);
+        checkNotNull(array);
 
         for (int i = 0, n = array.length; i < n - 1; i++) {
             boolean swapped = false;

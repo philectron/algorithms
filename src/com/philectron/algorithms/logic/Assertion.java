@@ -1,21 +1,11 @@
 package com.philectron.algorithms.logic;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Verify;
-import com.google.common.base.VerifyException;
-
 public final class Assertion {
 
     private Assertion() {}
 
     /**
-     * Wraps {@link Verify#verifyNotNull(Object)} to throw {@link AssertionError} on failure.
-     *
-     * <p>
-     * This method is different from {@link Verify#verifyNotNull(Object)} in that it classifies the
-     * cause of failure as impossible conditions in the code (assertion failure) rather than by
-     * verification failures.
-     * </p>
+     * Ensures that {@code reference} is non-null.
      *
      * @param <T> any object type
      * @param reference the reference to be null-checked
@@ -23,41 +13,50 @@ public final class Assertion {
      * @return {@code reference}, guaranteed to be non-null, for convenience
      *
      * @throws AssertionError if {@code reference} is {@code null}
-     *
-     * @see https://github.com/google/guava/wiki/ConditionalFailuresExplained
      */
     public static <T> T assertNotNull(T reference) {
-        try {
-            return Verify.verifyNotNull(reference);
-        } catch (VerifyException e) {
-            throw new AssertionError(e.getMessage());
-        }
+        assert reference != null;
+        return reference;
     }
 
     /**
-     * Wraps {@link Preconditions#checkElementIndex(int, int)} to throw {@link AssertionError} on
-     * failure.
+     * Ensures that {@code index} specifies a valid <i>element</i> in an array, list, or string of
+     * size {@code size}. An element index may range from zero, inclusive, to {@code size},
+     * exclusive.
      *
-     * <p>
-     * This method is different from {@link Preconditions#checkElementIndex(int, int)} in that it
-     * classifies the cause of failure as impossible conditions in the code (assertion failure)
-     * rather than by precondition failures.
-     * </p>
-     *
-     * @param index a user-supplied index identifying an element of an array, list or string
-     * @param size the size of that array, list or string
+     * @param index the index identifying an element of an array, list, or string
+     * @param size the size of that array, list, or string
      *
      * @return the value of {@code index}, for convenience
      *
-     * @throws AssertionError if {@code index} is negative or is not less than {@code size}, or if
-     *         {@code size} is negative
+     * @throws AssertionError if {@code size} is negative, or if {@code index} is negative or is not
+     *         less than {@code size}
      */
     public static int assertElementIndex(int index, int size) {
-        try {
-            return Preconditions.checkElementIndex(index, size);
-        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
-            throw new AssertionError(e.getMessage());
-        }
+        assert size >= 0;
+        assert 0 <= index && index < size;
+        return index;
+    }
+
+    /**
+     * Ensures that {@code start} and {@code end} specify valid <i>elements</i> in an array, list,
+     * or string of size {@code size}, and are in order (can be equal). An element index may range
+     * from zero, inclusive, to {@code size}, exclusive.
+     *
+     * @param start the index identifying a starting element in an array, list, or string
+     * @param end the index identifying an ending element in an array, list, or string
+     * @param size the size of that array, list, or string
+     *
+     * @throws AssertionError if {@link #assertElementIndex(start, size)} fails, or if
+     *         {@link #assertElementIndex(end, size)} fails, or if {@code start} is greater than
+     *         {@code end}
+     *
+     * @see #assertElementIndex(int, int)
+     */
+    public static void assertElementIndexes(int start, int end, int size) {
+        assertElementIndex(start, size);
+        assertElementIndex(end, size);
+        assert start <= end;
     }
 
 }

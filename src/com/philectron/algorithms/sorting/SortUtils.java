@@ -1,15 +1,16 @@
 package com.philectron.algorithms.sorting;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class SortUtils {
 
     private SortUtils() {}
 
     public static void swap(int[] array, int i, int j) {
-        Preconditions.checkNotNull(array);
-        Preconditions.checkElementIndex(i, array.length);
-        Preconditions.checkElementIndex(j, array.length);
+        checkNotNull(array);
+        checkElementIndex(i, array.length);
+        checkElementIndex(j, array.length);
 
         // Don't swap if it's the same position.
         if (i == j) {
