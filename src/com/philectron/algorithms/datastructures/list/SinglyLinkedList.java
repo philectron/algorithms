@@ -31,11 +31,11 @@ public class SinglyLinkedList<E> implements List<E> {
     public SinglyLinkedList() {}
 
     /**
-     * Initializes a singly linked list with all elements copied from the specified list.
+     * Initializes a singly linked list with all elements copied from {@code list}.
      *
-     * @param list a {@link java.util.List} whose elements are copied to this list
+     * @param list the {@link java.util.List} whose elements are to be copied to this list
      *
-     * @throws NullPointerException if the specified list is {@code null}
+     * @throws NullPointerException if {@code list} is {@code null}
      */
     public SinglyLinkedList(java.util.List<? extends E> list) {
         this();
@@ -48,20 +48,17 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Traverses through the list to the specified index.
+     * Traverses through this list to the node at index {@code index}.
      *
-     * @param index the index at which the node will be returned after the traversal
+     * @param index the index whose node will be returned
      *
-     * @return the corresponding node at the specified index, guaranteed to be non-null
+     * @return the corresponding node at {@code index}, guaranteed to be non-null
      */
     private Node<E> nodeAt(int index) {
         assertElementIndex(index, size);
-
-        // Quickly return the tail if applicable.
         if (index == size - 1) {
             return assertNotNull(tail);
         }
-
         Node<E> node = assertNotNull(head);
         for (int i = 0; i < index; i++) {
             node = assertNotNull(node.next);
@@ -78,11 +75,9 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         checkElementIndex(index, size);
-
         Node<E> node = nodeAt(index);
         E oldData = node.data;
         node.data = element;
-
         return oldData;
     }
 
@@ -116,8 +111,8 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts the specified node as the new head of
-     * this list.
+     * Helper method for {@link #add(int, E)} that inserts {@code newNode} as the new head of this
+     * list.
      *
      * @param newNode the node to be inserted and made the new head
      */
@@ -138,7 +133,7 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts the specified new node as the new tail of
+     * Helper method for {@link #add(int, E)} that inserts the {@code newNode} as the new tail of
      * this list.
      *
      * @param newNode the node to be inserted and made the new tail

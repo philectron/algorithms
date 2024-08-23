@@ -32,11 +32,11 @@ public class DoublyLinkedList<E> implements List<E> {
     public DoublyLinkedList() {}
 
     /**
-     * Initializes a doubly linked list with all elements copied from the specified list.
+     * Initializes a doubly linked list with all elements copied from {@code list}.
      *
-     * @param list a {@link java.util.List} whose elements are copied to this list
+     * @param list the {@link java.util.List} whose elements are to be copied to this list
      *
-     * @throws NullPointerException if the specified list is {@code null}
+     * @throws NullPointerException if {@code list} is {@code null}
      */
     public DoublyLinkedList(java.util.List<? extends E> list) {
         this();
@@ -49,12 +49,12 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Traverses through the list more efficiently from whichever end of the list closer to the
-     * specified index.
+     * Traverses through this list, starting from {@link #head} or {@link #tail} (whichever is
+     * closer), to the node at index {@code index}.
      *
-     * @param index the index at which the node will be returned after the traversal
+     * @param index the index whose node will be returned
      *
-     * @return the corresponding node at the specified index, guaranteed to be non-null
+     * @return the corresponding node at {@code index}, guaranteed to be non-null
      */
     private Node<E> nodeAt(int index) {
         assertElementIndex(index, size);
@@ -82,11 +82,9 @@ public class DoublyLinkedList<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         checkElementIndex(index, size);
-
         Node<E> node = nodeAt(index);
         E oldData = node.data;
         node.data = element;
-
         return oldData;
     }
 
@@ -123,8 +121,8 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts the specified node as the new head of
-     * this list.
+     * Helper method for {@link #add(int, E)} that inserts {@code newNode} as the new head of this
+     * list.
      *
      * @param newNode the node to be inserted and made the new head
      */
@@ -147,7 +145,7 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts the specified new node as the new tail of
+     * Helper method for {@link #add(int, E)} that inserts the {@code newNode} as the new tail of
      * this list.
      *
      * @param newNode the node to be inserted and made the new tail

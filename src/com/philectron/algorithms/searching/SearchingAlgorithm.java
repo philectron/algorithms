@@ -1,49 +1,50 @@
 package com.philectron.algorithms.searching;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public interface SearchingAlgorithm {
 
     static final int INDEX_NOT_FOUND = -1;
 
     /**
-     * Finds the first occurrence of the specified target value in the specified array.
+     * Finds the first occurrence of {@code target} in {@code array}.
      *
-     * @param array the array to be searched for the target value
-     * @param target the target value whose first occurrence is to be searched
+     * @param array the array that may or may not contain {@code target}
+     * @param target the target value to be searched in {@code array}
      *
-     * @return the index of the first occurrence of the specified target value in the specified
-     *         array, or {@value #INDEX_NOT_FOUND} if the target is not in the array
+     * @return the index of the first occurrence of {@code target} in {@code array}, or {@code -1}
+     *         if {@code target} is not in {@code array}
      *
-     * @throws NullPointerException if the specified array is {@code null}
+     * @throws NullPointerException if {@code array} is {@code null}
      */
     int findFirst(int[] array, int target);
 
     /**
-     * Finds the last (final) occurrence of the specified target value in the specified array.
+     * Finds the last (final) occurrence of {@code target} in {@code array}.
      *
-     * @param array the array to be searched for the target value
-     * @param target the target value whose last (final) occurrence is to be searched
+     * @param array the array that may or may not contain {@code target}
+     * @param target the target value to be searched in {@code array}
      *
-     * @return the index of the last (final) occurrence of the specified target value in the
-     *         specified array, or {@value #INDEX_NOT_FOUND} if the target is not in the array
+     * @return the index of the last (final) occurrence of {@code target} in {@code array}, or
+     *         {@code -1} if {@code target} is not in {@code array}
      *
-     * @throws NullPointerException if the specified array is {@code null}
+     * @throws NullPointerException if {@code array} is {@code null}
      */
     int findLast(int[] array, int target);
 
     /**
-     * Checks if the specified array contains the specified target value. By default, this method
-     * uses {@link #findFirst(int[], int)} to search for the target in the array.
+     * Checks if {@code array} contains {@code target}.
      *
-     * @param array the array to be searched for the target value
-     * @param target the target value whose existence is to be checked in the array
+     * @param array the array that may or may not contain {@code target}
+     * @param target the target value to be searched in {@code array}
      *
-     * @return {@code true} if the specified array contains the specified target value, or
-     *         {@code false} otherwise
+     * @return {@code true} if {@code array} contains {@code target}, or {@code false} otherwise
      *
-     * @throws NullPointerException if the specified array is {@code null}
+     * @throws NullPointerException if {@code array} is {@code null}
      */
     default boolean contains(int[] array, int target) {
-        return findFirst(array, target) != INDEX_NOT_FOUND;
+        checkNotNull(array);
+        return findFirst(array, target) > INDEX_NOT_FOUND;
     }
 
 }

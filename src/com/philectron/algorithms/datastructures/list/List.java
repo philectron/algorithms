@@ -1,6 +1,5 @@
 package com.philectron.algorithms.datastructures.list;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public interface List<E> extends Iterable<E> {
@@ -23,46 +22,45 @@ public interface List<E> extends Iterable<E> {
     }
 
     /**
-     * Retrieves an element from the specified index in this list.
+     * Retrieves an element at index {@code index} of this list.
      *
      * @param index the index of the element to return
      *
-     * @return the element at the specified index in this list
+     * @return the element at {@code index}
      *
-     * @throws IndexOutOfBoundsException if the index is out of range ({@code index} < 0 or
-     *         {@code index} >= {@link #size()})
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
+     *         {@link #size()}
      */
     E get(int index);
 
     /**
-     * Replaces the element at the specified index in this list with the specified element.
+     * Replaces the element at index {@code index} of this list with {@code element}.
      *
      * @param index the index of the element to replace
-     * @param element the new element to be stored at the index
+     * @param element the new element to be stored at {@code index}
      *
-     * @return the previous element at the specified index
+     * @return the element previously at {@code index}
      *
-     * @throws IndexOutOfBoundsException if the index is out of range ({@code index} < 0 or
-     *         {@code index} >= {@link #size()})
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
+     *         {@link #size()}
      */
     E set(int index, E element);
 
     /**
-     * Inserts the specified element at the specified position in this list. Shifts the current
-     * element at that position (if any) and any subsequent elements to the right (adds 1 to their
-     * indices).
+     * Inserts {@code element} to index {@code position} of this list. Shifts the current element at
+     * that index (if any) and any subsequent elements to the right (adds 1 to their indices).
      *
      * @param position the position index at which the new element is to be inserted
-     * @param element the element to be inserted
+     * @param element the element to be inserted at {@code position}
      *
-     * @throws IndexOutOfBoundsException if the position index is out of range ({@code position} < 0
-     *         or {@code position} > {@link #size()})
+     * @throws IndexOutOfBoundsException if {@code position} is negative or is greater than
+     *         {@link #size()}
      */
     void add(int position, E element);
 
     /**
-     * Inserts the specified element to the front of this list. Shifts the current element at that
-     * position (if any) and any subsequent elements to the right (adds 1 to their indices).
+     * Inserts {@code element} to the front of this list. Shifts the current element at the front
+     * (if any) and any subsequent elements to the right (adds 1 to their indices).
      *
      * @param element the element to be inserted
      *
@@ -73,7 +71,7 @@ public interface List<E> extends Iterable<E> {
     }
 
     /**
-     * Inserts the specified element to the back of this list.
+     * Inserts {@code element} to the back of this list.
      *
      * @param element the element to be inserted
      *
@@ -84,40 +82,40 @@ public interface List<E> extends Iterable<E> {
     }
 
     /**
-     * Inserts all elements in the specified {@link java.util.List} to the back of this list.
+     * Inserts all elements from {@code list} to the back of this list.
      *
-     * @param list the Java list containing elements to be inserted
+     * @param list the {@link java.util.List} containing elements to be inserted
      *
-     * @throws NullPointerException if the specified Java list is {@code null}
+     * @throws NullPointerException if {@code list} is {@code null}
      */
     void addAll(java.util.List<? extends E> list);
 
     /**
-     * Finds the first index of the specified element in this list.
+     * Finds the first occurrence of {@code element} in this list.
      *
-     * @param element the element to be searched within this list
+     * @param element the element to be searched in this list
      *
-     * @return the first index of the specified element, or {@code -1} if this list does not contain
-     *         the element
+     * @return the index of the first occurrence of {@code element}, or {@code -1} if this list does
+     *         not contain {@code element}
      */
     int indexOf(E element);
 
     /**
-     * Finds the last index of the specified element in this list.
+     * Finds the last (final) occurrence of {@code element} in this list.
      *
-     * @param element the element to be searched within this list
+     * @param element the element to be searched in this list
      *
-     * @return the last index of the specified element, or {@code -1} if this list does not contain
-     *         the element
+     * @return the index of the last (final) occurrence of {@code element}, or {@code -1} if this
+     *         list does not contain {@code element}
      */
     int lastIndexOf(E element);
 
     /**
-     * Checks if this list contains the specified element.
+     * Checks if this list contains {@code element}.
      *
-     * @param element the element to be searched within this list
+     * @param element the element to be searched in this list
      *
-     * @return {@code true} if this list contains the specified element, or {@code false} otherwise
+     * @return {@code true} if this list contains {@code element}, or {@code false} otherwise
      *
      * @see #indexOf(E)
      * @see #lastIndexOf(E)
@@ -127,15 +125,15 @@ public interface List<E> extends Iterable<E> {
     }
 
     /**
-     * Removes the element at the specified index in this list. Shifts any subsequent elements to
+     * Removes the element at index {@code index} of this list. Shifts any subsequent elements to
      * the left (subtracts 1 from their indices).
      *
      * @param index the index of the element to be removed
      *
-     * @return the element previously at the specified index
+     * @return the element previously at {@code index}
      *
-     * @throws IndexOutOfBoundsException if the index is out of range ({@code index} < 0 or
-     *         {@code index} >= {@link #size()})
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
+     *         {@link #size()}
      */
     E remove(int index);
 
@@ -167,23 +165,22 @@ public interface List<E> extends Iterable<E> {
     }
 
     /**
-     * Removes all elements from this list. The list will be empty after this method returns.
+     * Removes all elements from this list. The list will be empty after this operation finishes.
      */
     void clear();
 
     /**
-     * Reverses this list's order of elements. The list's order of elements will be reversed after
-     * this method returns.
+     * Reverses this list's order of elements.
      */
     void reverse();
 
     /**
      * Copies all elements of this list to a new {@link java.util.List}.
      *
-     * @return a new {@link ArrayList} containing the elements of this list
+     * @return a new {@link java.util.ArrayList} containing the elements of this list
      */
     default java.util.List<? extends E> toJavaList() {
-        java.util.List<E> list = new ArrayList<E>();
+        java.util.List<E> list = new java.util.ArrayList<E>();
         Iterator<E> it = iterator();
         while (it.hasNext()) {
             list.add(it.next());
