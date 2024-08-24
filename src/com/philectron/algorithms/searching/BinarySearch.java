@@ -12,7 +12,7 @@ public class BinarySearch implements SearchingAlgorithm {
 
         // Fast return if the target value is not even in the sorted array's value range.
         if (n == 0 || target < sortedArray[0] || target > sortedArray[n - 1]) {
-            return INDEX_NOT_FOUND;
+            return -1;
         }
 
         // All indices are inclusive.
@@ -38,7 +38,7 @@ public class BinarySearch implements SearchingAlgorithm {
             }
         }
 
-        return INDEX_NOT_FOUND;
+        return -1;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class BinarySearch implements SearchingAlgorithm {
 
         // Fast return if the target value is not even in the sorted array's value range.
         if (n == 0 || target < sortedArray[0] || target > sortedArray[n - 1]) {
-            return INDEX_NOT_FOUND;
+            return -1;
         }
 
         // All indices are inclusive.
@@ -75,7 +75,7 @@ public class BinarySearch implements SearchingAlgorithm {
             }
         }
 
-        return INDEX_NOT_FOUND;
+        return -1;
     }
 
 }

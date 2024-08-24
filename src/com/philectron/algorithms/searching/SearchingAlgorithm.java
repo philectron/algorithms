@@ -4,8 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public interface SearchingAlgorithm {
 
-    static final int INDEX_NOT_FOUND = -1;
-
     /**
      * Finds the first occurrence of {@code target} in {@code array}.
      *
@@ -44,7 +42,7 @@ public interface SearchingAlgorithm {
      */
     default boolean contains(int[] array, int target) {
         checkNotNull(array);
-        return findFirst(array, target) > INDEX_NOT_FOUND;
+        return findFirst(array, target) > -1;
     }
 
 }

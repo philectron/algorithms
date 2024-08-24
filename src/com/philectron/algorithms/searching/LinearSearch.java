@@ -14,7 +14,7 @@ public class LinearSearch implements SearchingAlgorithm {
             }
         }
 
-        return INDEX_NOT_FOUND;
+        return -1;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class LinearSearch implements SearchingAlgorithm {
             }
         }
 
-        return INDEX_NOT_FOUND;
+        return -1;
     }
 
 }
