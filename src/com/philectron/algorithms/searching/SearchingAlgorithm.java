@@ -42,7 +42,7 @@ public interface SearchingAlgorithm {
      */
     default boolean contains(int[] array, int target) {
         checkNotNull(array);
-        return findFirst(array, target) > -1;
+        return findFirst(array, target) >= 0;
     }
 
 }

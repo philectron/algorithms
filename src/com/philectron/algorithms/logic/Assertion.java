@@ -20,6 +20,20 @@ public final class Assertion {
     }
 
     /**
+     * Ensures that {@code number} is a non-negative number.
+     *
+     * @param number the number to be checked
+     *
+     * @return {@code number}, guaranteed to be non-negative, for convenience
+     *
+     * @throws AssertionError if {@code number} is negative (less than zero)
+     */
+    public static int assertNotNegative(int number) {
+        assert number >= 0;
+        return number;
+    }
+
+    /**
      * Ensures that {@code index} specifies a valid <i>element</i> in an array, list, or string of
      * size {@code size}. An element index may range from zero, inclusive, to {@code size},
      * exclusive.
@@ -59,4 +73,22 @@ public final class Assertion {
         assert start <= end;
     }
 
+    /**
+     * Ensures that {@code position} specifies a valid <i>position</i> in an array, list, or string
+     * of size {@code size}. A position index may range from zero, inclusive, to {@code size},
+     * inclusive.
+     *
+     * @param position the index identifying a position in an array, list, or string
+     * @param size the size of that array, list, or string
+     *
+     * @return the value of {@code position}, for convenience
+     *
+     * @throws AssertionError if {@code size} is negative, or if {@code position} is negative or is
+     *         greater than {@code size}
+     */
+    public static int assertPositionIndex(int position, int size) {
+        assert size >= 0;
+        assert 0 <= position && position <= size;
+        return position;
+    }
 }

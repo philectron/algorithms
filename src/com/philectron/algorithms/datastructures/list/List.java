@@ -121,7 +121,7 @@ public interface List<E> extends Iterable<E> {
      * @see #lastIndexOf(E)
      */
     default boolean contains(E element) {
-        return indexOf(element) > -1;
+        return indexOf(element) >= 0;
     }
 
     /**

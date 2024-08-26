@@ -19,9 +19,19 @@ public class AssertionTest {
     }
 
     @Test
+    public void assertNotNegative_negativeNumber_fails() {
+        assertThrows(AssertionError.class, () -> Assertion.assertNotNegative(-1));
+    }
+
+    @Test
+    public void assertNotNegative_nonNegativeNumber_returnsNumber() {
+        assertThat(Assertion.assertNotNegative(0)).isEqualTo(0);
+        assertThat(Assertion.assertNotNegative(1)).isEqualTo(1);
+    }
+
+    @Test
     public void assertElementIndex_negativeSize_fails() {
         assertThrows(AssertionError.class, () -> Assertion.assertElementIndex(0, -1));
-
     }
 
     @Test
@@ -59,6 +69,23 @@ public class AssertionTest {
     public void assertElementIndexes_validIndexes_succeeds() {
         Assertion.assertElementIndexes(0, 0, 1);
         Assertion.assertElementIndexes(0, 1, 2);
+    }
+
+    @Test
+    public void assertPositionIndex_negativeSize_fails() {
+        assertThrows(AssertionError.class, () -> Assertion.assertPositionIndex(0, -1));
+    }
+
+    @Test
+    public void assertPositionIndex_outOfBoundIndex_fails() {
+        assertThrows(AssertionError.class, () -> Assertion.assertPositionIndex(1, 0));
+        assertThrows(AssertionError.class, () -> Assertion.assertPositionIndex(-1, 0));
+    }
+
+    @Test
+    public void assertPositionIndex_validIndex_returnsIndex() {
+        final int index = 1;
+        assertThat(Assertion.assertPositionIndex(index, index)).isEqualTo(index);
     }
 
 }
