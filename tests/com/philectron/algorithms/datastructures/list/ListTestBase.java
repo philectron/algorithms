@@ -399,17 +399,33 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void iterator_hasNext_returnsCurrentValueOnNext() {
+    public void iterator_returnsForwardIterator() {
         Iterator<Integer> it = list.iterator();
-        assertThat(it.hasNext()).isTrue();
-        assertThat(it.next()).isEqualTo(list.get(0));
+        for (int i = 0; i < list.size(); i++) {
+            assertThat(it.hasNext()).isTrue();
+            assertThat(it.next()).isEqualTo(VALUES.get(i));
+        }
+        assertThat(it.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> it.next());
+
+        Iterator<Integer> emptyIt = emptyList.iterator();
+        assertThat(emptyIt.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> emptyIt.next());
     }
 
     @Test
-    public void iterator_hasNoNext_failsOnNext() {
-        Iterator<Integer> it = emptyList.iterator();
-        assertThat(it.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> it.next());
+    public void reverseIterator_returnsBackwardIterator() {
+        Iterator<Integer> reverseIt = list.reverseIterator();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            assertThat(reverseIt.hasNext()).isTrue();
+            assertThat(reverseIt.next()).isEqualTo(VALUES.get(i));
+        }
+        assertThat(reverseIt.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> reverseIt.next());
+
+        Iterator<Integer> emptyReverseIt = emptyList.reverseIterator();
+        assertThat(emptyReverseIt.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> emptyReverseIt.next());
     }
 
 }

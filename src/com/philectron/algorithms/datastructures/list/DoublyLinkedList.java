@@ -29,7 +29,10 @@ public class DoublyLinkedList<E> implements List<E> {
     /**
      * Initializes an empty doubly linked list.
      */
-    public DoublyLinkedList() {}
+    public DoublyLinkedList() {
+        this.tail = this.head = null;
+        this.size = 0;
+    }
 
     /**
      * Initializes a doubly linked list with all elements copied from {@code list}.
@@ -290,27 +293,27 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public void reverse() {
-        Node<E> node = head;
-        while (node != null) {
-            Node<E> previousNode = node.previous;
-            Node<E> nextNode = node.next;
-            node.previous = nextNode;
-            node.next = previousNode;
-            node = nextNode;
+        Node<E> currentNode = head;
+        while (currentNode != null) {
+            Node<E> previousNode = currentNode.previous;
+            Node<E> nextNode = currentNode.next;
+            currentNode.previous = nextNode;
+            currentNode.next = previousNode;
+            currentNode = nextNode;
         }
-        node = head;
+        currentNode = head;
         head = tail;
-        tail = node;
+        tail = currentNode;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-            private Node<E> current = head;
+            private Node<E> currentNode = head;
 
             @Override
             public boolean hasNext() {
-                return current != null;
+                return currentNode != null;
             }
 
             @Override
@@ -318,8 +321,30 @@ public class DoublyLinkedList<E> implements List<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException("Iterator has no more elements");
                 }
-                E currentData = current.data;
-                current = current.next;
+                E currentData = currentNode.data;
+                currentNode = currentNode.next;
+                return currentData;
+            }
+        };
+    }
+
+    @Override
+    public Iterator<E> reverseIterator() {
+        return new Iterator<>() {
+            private Node<E> currentNode = tail;
+
+            @Override
+            public boolean hasNext() {
+                return currentNode != null;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Iterator has no more elements");
+                }
+                E currentData = currentNode.data;
+                currentNode = currentNode.previous;
                 return currentData;
             }
         };

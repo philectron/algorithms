@@ -28,8 +28,8 @@ public class CircularSinglyLinkedList<E> implements List<E> {
      * Initializes an empty circular singly linked list.
      */
     public CircularSinglyLinkedList() {
-        last = null;
-        size = 0;
+        this.last = null;
+        this.size = 0;
     }
 
     /**
@@ -254,6 +254,12 @@ public class CircularSinglyLinkedList<E> implements List<E> {
                 return currentData;
             }
         };
+    }
+
+    @Override
+    public Iterator<E> reverseIterator() {
+        throw new UnsupportedOperationException(
+                this.getClass().getSimpleName() + " does not support backward traversal");
     }
 
 }

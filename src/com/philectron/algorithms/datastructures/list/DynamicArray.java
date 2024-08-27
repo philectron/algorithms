@@ -3,6 +3,7 @@ package com.philectron.algorithms.datastructures.list;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
+import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
 import static com.philectron.algorithms.logic.Assertion.assertNotNegative;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 import static com.philectron.algorithms.logic.Assertion.assertPositionIndex;
@@ -38,7 +39,7 @@ public class DynamicArray<E> implements List<E> {
     }
 
     /**
-     * Allocates an array of size {@code capacity}.
+     * Allocates a new primitive array of length {@code capacity}.
      *
      * @param capacity the initial capacity to allocate memory for the array
      *
@@ -46,9 +47,7 @@ public class DynamicArray<E> implements List<E> {
      */
     @SuppressWarnings("unchecked")
     private E[] allocateArray(int capacity) {
-        assertNotNegative(capacity);
-        E[] array = (E[]) new Object[capacity];
-        return array;
+        return (E[]) new Object[assertNotNegative(capacity)];
     }
 
     @Override
@@ -157,6 +156,10 @@ public class DynamicArray<E> implements List<E> {
         return oldValue;
     }
 
+    /**
+     * Allocates a new array with half the capacity of the original array and copies all the
+     * elements there.
+     */
     private void shrinkArray() {
         E[] oldArray = assertNotNull(array);
         assertPositionIndex(size, oldArray.length);
@@ -191,8 +194,6 @@ public class DynamicArray<E> implements List<E> {
 
             @Override
             public boolean hasNext() {
-                assertPositionIndex(size, array.length);
-                assertPositionIndex(currentIndex, size);
                 return currentIndex < size;
             }
 
@@ -201,7 +202,31 @@ public class DynamicArray<E> implements List<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException("Iterator has no more elements");
                 }
+                assertPositionIndex(size, array.length);
+                assertElementIndex(currentIndex, size);
                 return array[currentIndex++];
+            }
+        };
+    }
+
+    @Override
+    public Iterator<E> reverseIterator() {
+        return new Iterator<>() {
+            private int currentIndex = size - 1;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex >= 0;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Iterator has no more elements");
+                }
+                assertPositionIndex(size, array.length);
+                assertElementIndex(currentIndex, size);
+                return array[currentIndex--];
             }
         };
     }

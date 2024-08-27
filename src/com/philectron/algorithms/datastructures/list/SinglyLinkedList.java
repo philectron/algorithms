@@ -28,7 +28,10 @@ public class SinglyLinkedList<E> implements List<E> {
     /**
      * Initializes an empty singly linked list.
      */
-    public SinglyLinkedList() {}
+    public SinglyLinkedList() {
+        this.tail = this.head = null;
+        this.size = 0;
+    }
 
     /**
      * Initializes a singly linked list with all elements copied from {@code list}.
@@ -247,25 +250,25 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public void reverse() {
-        Node<E> previous = null;
+        Node<E> previousNode = null;
         Node<E> node = head;
         while (node != null) {
-            Node<E> next = node.next;
-            node.next = previous;
-            previous = node;
-            node = next;
+            Node<E> nextNode = node.next;
+            node.next = previousNode;
+            previousNode = node;
+            node = nextNode;
         }
-        head = previous;
+        head = previousNode;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-            private Node<E> current = head;
+            private Node<E> currentNode = head;
 
             @Override
             public boolean hasNext() {
-                return current != null;
+                return currentNode != null;
             }
 
             @Override
@@ -273,11 +276,17 @@ public class SinglyLinkedList<E> implements List<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException("Iterator has no more elements");
                 }
-                E currentData = current.data;
-                current = current.next;
+                E currentData = currentNode.data;
+                currentNode = currentNode.next;
                 return currentData;
             }
         };
+    }
+
+    @Override
+    public Iterator<E> reverseIterator() {
+        throw new UnsupportedOperationException(
+                this.getClass().getSimpleName() + " does not support backward traversal");
     }
 
 }

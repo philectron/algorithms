@@ -188,4 +188,13 @@ public interface List<E> extends Iterable<E> {
         return list;
     }
 
+    /**
+     * Provides an {@link Iterator} in the reverse order of the normal {@link #iterator()}. This
+     * reverse iterator starts at the last (final) element of this list, and calling its
+     * {@code next()} will traverse this list backward.
+     *
+     * @return an iterator over the elements of this list in the reverse order
+     */
+    Iterator<E> reverseIterator();
+
 }
