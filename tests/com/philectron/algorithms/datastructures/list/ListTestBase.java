@@ -22,7 +22,7 @@ public abstract class ListTestBase {
     abstract List<Integer> createEmptyList();
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         list = createListWithValues();
         emptyList = createEmptyList();
     }
@@ -132,6 +132,11 @@ public abstract class ListTestBase {
         list.addBack(value);
 
         assertThat(list.toJavaList()).isEqualTo(expectedList);
+    }
+
+    @Test
+    public void addAll_fromNullList_fails() {
+        assertThrows(NullPointerException.class, () -> emptyList.addAll(null));
     }
 
     @Test

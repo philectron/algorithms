@@ -2,12 +2,12 @@ package com.philectron.algorithms.searching;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,12 +32,11 @@ public abstract class SearchTestBase {
     }
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         list = isSortRequired ? SORTED_LIST : LIST;
     }
 
-    @AfterEach
-    public void searchAndAssert() {
+    private void searchAndAssert() {
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
         int[] originalArray = array.clone();
 
@@ -57,71 +56,91 @@ public abstract class SearchTestBase {
     }
 
     @Test
+    public void search_nullArray_fails() {
+        assertThrows(NullPointerException.class, () -> searcher.findFirst(null, 0));
+        assertThrows(NullPointerException.class, () -> searcher.findLast(null, 0));
+        assertThrows(NullPointerException.class, () -> searcher.contains(null, 0));
+    }
+
+    @Test
     public void search_emptyArray_returnsNotFound() {
         list = Collections.emptyList();
         target = 1;
+        searchAndAssert();
     }
 
     @Test
     public void search_singletonArray_returnsSingleIndex() {
         list = Collections.singletonList(1);
         target = list.get(0);
+        searchAndAssert();
     }
 
     @Test
     public void search_nCopiesArray() {
         target = 1;
         list = Collections.nCopies(LIST.size(), target);
+        searchAndAssert();
     }
 
     @Test
     public void search_uniqueTarget_returnsSingleIndex() {
         target = UNIQUE_TARGET;
+        searchAndAssert();
     }
 
     @Test
     public void search_duplicateTargets() {
         target = DUPLICATE_TARGET;
+        searchAndAssert();
     }
 
     @Test
     public void search_targetIsMinValue() {
         target = Collections.min(list);
+        searchAndAssert();
     }
 
     @Test
     public void search_targetIsMaxValue() {
         target = Collections.max(list);
+        searchAndAssert();
     }
 
     @Test
     public void search_targetAtStartOfList() {
         target = list.get(0);
+        searchAndAssert();
     }
 
     @Test
     public void search_targetAtMiddleOfList() {
         target = list.get(list.size() / 2);
+        searchAndAssert();
     }
 
     @Test
     public void search_targetAtEndOfList() {
         target = list.get(0);
+        searchAndAssert();
     }
 
     @Test
     public void search_nonTarget_returnsNotFound() {
         target = NON_TARGET;
+        searchAndAssert();
     }
 
     @Test
     public void search_targetLessThanMin_returnsNotFound() {
         target = Collections.min(list) - 1;
+        searchAndAssert();
     }
 
     @Test
     public void search_targetGreaterThanMax_returnsNotFound() {
         target = Collections.max(list) + 1;
+        searchAndAssert();
     }
 
 }

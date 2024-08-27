@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 public class SortUtilsTest {
 
     @Test
+    public void swap_nullArray_fails() {
+        assertThrows(NullPointerException.class, () -> SortUtils.swap(null, 0, 0));
+    }
+
+    @Test
     public void swap_emptyArray_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> SortUtils.swap(new int[0], 0, 0));
     }
@@ -37,7 +42,7 @@ public class SortUtilsTest {
     }
 
     @Test
-    public void swap_nCopiesArray_retainsOrder() {
+    public void swap_nCopiesArray_retainsSameArray() {
         int[] actualArray = { 1, 1, 1, 1, 1 };
         int[] expectedArray = actualArray.clone();
         SortUtils.swap(actualArray, 0, actualArray.length - 1);
