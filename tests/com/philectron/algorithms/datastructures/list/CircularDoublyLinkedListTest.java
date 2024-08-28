@@ -5,21 +5,21 @@ import static com.google.common.truth.Truth.assertThat;
 import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 
-public class DynamicArrayTest extends ListTestBase {
+public class CircularDoublyLinkedListTest extends ListTestBase {
 
     @Override
     List<Integer> createListWithValues() {
-        return new DynamicArray<>(VALUES);
+        return new CircularDoublyLinkedList<>(VALUES);
     }
 
     @Override
     List<Integer> createEmptyList() {
-        return new DynamicArray<>();
+        return new CircularDoublyLinkedList<>();
     }
 
     @Test
     public void iteratorInList_reverseIteratorInReversedList_makesSameList() {
-        DynamicArray<Integer> list = new DynamicArray<>(VALUES);
+        CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>(VALUES);
         java.util.List<Integer> listJava = new java.util.ArrayList<>();
         Iterator<Integer> it = list.iterator();
         while (it.hasNext()) {

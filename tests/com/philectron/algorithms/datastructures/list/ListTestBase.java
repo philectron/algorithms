@@ -405,6 +405,10 @@ public abstract class ListTestBase {
 
     @Test
     public void iterator_returnsForwardIterator() {
+        Iterator<Integer> emptyIt = emptyList.iterator();
+        assertThat(emptyIt.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> emptyIt.next());
+
         Iterator<Integer> it = list.iterator();
         for (int i = 0; i < list.size(); i++) {
             assertThat(it.hasNext()).isTrue();
@@ -412,25 +416,21 @@ public abstract class ListTestBase {
         }
         assertThat(it.hasNext()).isFalse();
         assertThrows(NoSuchElementException.class, () -> it.next());
-
-        Iterator<Integer> emptyIt = emptyList.iterator();
-        assertThat(emptyIt.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> emptyIt.next());
     }
 
     @Test
     public void reverseIterator_returnsBackwardIterator() {
-        Iterator<Integer> reverseIt = list.reverseIterator();
-        for (int i = list.size() - 1; i >= 0; i--) {
-            assertThat(reverseIt.hasNext()).isTrue();
-            assertThat(reverseIt.next()).isEqualTo(VALUES.get(i));
-        }
-        assertThat(reverseIt.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> reverseIt.next());
+        Iterator<Integer> emptyRit = emptyList.reverseIterator();
+        assertThat(emptyRit.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> emptyRit.next());
 
-        Iterator<Integer> emptyReverseIt = emptyList.reverseIterator();
-        assertThat(emptyReverseIt.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> emptyReverseIt.next());
+        Iterator<Integer> rit = list.reverseIterator();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            assertThat(rit.hasNext()).isTrue();
+            assertThat(rit.next()).isEqualTo(VALUES.get(i));
+        }
+        assertThat(rit.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> rit.next());
     }
 
 }

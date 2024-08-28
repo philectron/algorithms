@@ -9,15 +9,16 @@ import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class CircularSinglyLinkedList<E> implements List<E> {
+public class CircularDoublyLinkedList<E> implements List<E> {
 
     private static class Node<E> {
         private E data;
+        private Node<E> previous;
         private Node<E> next;
 
         private Node(E data) {
             this.data = data;
-            this.next = null;
+            this.next = this.previous = null;
         }
     }
 
@@ -25,21 +26,21 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     private int size;
 
     /**
-     * Initializes an empty circular singly linked list.
+     * Initializes an empty circular doubly linked list.
      */
-    public CircularSinglyLinkedList() {
+    public CircularDoublyLinkedList() {
         this.last = null;
         this.size = 0;
     }
 
     /**
-     * Initializes a circular singly linked list with all elements copied from {@code list}.
+     * Initializes a circular doubly linked list with all elements copied from {@code list}.
      *
      * @param list the {@link java.util.List} whose elements are to be copied to this list
      *
      * @throws NullPointerException if {@code list} is {@code null}
      */
-    public CircularSinglyLinkedList(java.util.List<? extends E> list) {
+    public CircularDoublyLinkedList(java.util.List<? extends E> list) {
         this();
         addAll(checkNotNull(list));
     }
@@ -50,7 +51,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Traverses through this list to the node at index {@code index}.
+     * Traverses through this list to the node at {@code index}.
      *
      * @param index the index whose node will be returned
      *
@@ -58,18 +59,16 @@ public class CircularSinglyLinkedList<E> implements List<E> {
      */
     private Node<E> nodeAt(int index) {
         assertElementIndex(index, size);
-        assertNotNull(last);
-
-        // Quickly return the last node if the index points there.
-        if (index == size - 1) {
-            return last;
+        Node<E> node = assertNotNull(last);
+        if (index < size / 2) {
+            for (int i = -1; i < index; i++) {
+                node = assertNotNull(node.next);
+            }
+        } else {
+            for (int i = size - 1; i > index; i--) {
+                node = assertNotNull(node.previous);
+            }
         }
-
-        Node<E> node = last;
-        for (int i = -1; i < index; i++) {
-            node = assertNotNull(node.next);
-        }
-
         return node;
     }
 
@@ -108,10 +107,12 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         // For all other positions, traverse this list to the node right before the insert position.
         Node<E> previousNode = nodeAt(position - 1);
 
-        // From: N1 (previousNode) -> N2
-        // To: N1 (previousNode) -> newNode -> N2
-        newNode.next = previousNode.next;
-        previousNode.next = newNode;
+        // From: N1 (previousNode) <-> N2 (nextNode)
+        // To: N1 (previousNode) <-> newNode <-> N2 (nextNode)
+        Node<E> nextNode = assertNotNull(previousNode.next);
+        newNode.previous = previousNode;
+        newNode.next = nextNode;
+        nextNode.previous = previousNode.next = newNode;
         size++;
     }
 
@@ -124,14 +125,16 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     private void addAfterLast(Node<E> newNode) {
         assertNotNull(newNode);
         if (last != null) {
-            // From: Nx (last) -> N1 -> N2
-            // To: Nx (last) -> newNode -> N1 -> N2
-            newNode.next = last.next;
-            last.next = newNode;
+            // From: Nx (last) <-> N1 (nextNode) <-> N2
+            // To: Nx (last) <-> newNode <-> N1 (nextNode) <-> N2
+            Node<E> nextNode = assertNotNull(last.next);
+            newNode.previous = last;
+            newNode.next = nextNode;
+            nextNode.previous = last.next = newNode;
         } else {
             // If this list is empty, the new node points to itself.
             // Setting last node will be done outside of this method.
-            newNode.next = newNode;
+            newNode.next = newNode.previous = newNode;
         }
     }
 
@@ -161,19 +164,18 @@ public class CircularSinglyLinkedList<E> implements List<E> {
 
     @Override
     public int lastIndexOf(E element) {
-        int lastIndex = -1;
-        int currentIndex = 0;
+        int lastIndex = size - 1;
 
-        Iterator<E> it = iterator();
-        while (it.hasNext()) {
-            E currentData = it.next();
+        Iterator<E> rit = reverseIterator();
+        while (rit.hasNext()) {
+            E currentData = rit.next();
             if (element == null ? currentData == null : element.equals(currentData)) {
-                lastIndex = currentIndex;
+                return lastIndex;
             }
-            currentIndex++;
+            lastIndex--;
         }
 
-        return lastIndex;
+        return -1;
     }
 
     @Override
@@ -185,16 +187,18 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         Node<E> nodeToRemove = assertNotNull(previousNode.next);
         E oldData = nodeToRemove.data;
 
-        // From: N1 (previousNode) -> N2 (nodeToRemove) -> N3
-        // To: N1 (previousNode) -> N3
-        previousNode.next = nodeToRemove.next;
+        // From: N1 (previousNode) <-> N2 (nodeToRemove) <-> N3 (nextNode)
+        // To: N1 (previousNode) <-> N3 (nextNode)
+        Node<E> nextNode = assertNotNull(nodeToRemove.next);
+        previousNode.next = nextNode;
+        nextNode.previous = previousNode;
         if (index == size - 1) {
             last = previousNode;
         }
 
-        // Cleanup to help garbage collection.
+        // Cleanup to help with garbage collection
         nodeToRemove.data = null;
-        nodeToRemove.next = null;
+        nodeToRemove.next = nodeToRemove.previous = null;
 
         size--;
         return oldData;
@@ -213,19 +217,18 @@ public class CircularSinglyLinkedList<E> implements List<E> {
             return;
         }
 
-        Node<E> previousNode = last;
-        Node<E> currentNode = assertNotNull(previousNode.next);
+        Node<E> currentNode = last.next;
         boolean isLastIteration = false;
         while (!isLastIteration) {
             if (currentNode == last) {
                 isLastIteration = true;
             }
-            Node<E> nextNode = currentNode.next;
+            Node<E> previousNode = assertNotNull(currentNode.previous);
+            Node<E> nextNode = assertNotNull(currentNode.next);
+            currentNode.previous = nextNode;
             currentNode.next = previousNode;
-            previousNode = currentNode;
             currentNode = nextNode;
         }
-
         last = currentNode;
     }
 
@@ -245,13 +248,11 @@ public class CircularSinglyLinkedList<E> implements List<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException("Iterator has no more elements");
                 }
-
-                E currentData = assertNotNull(currentNode).data;
+                E currentData = currentNode.data;
                 if (currentNode == last) {
                     isLastIteration = true;
                 }
                 currentNode = currentNode.next;
-
                 return currentData;
             }
         };
@@ -259,8 +260,28 @@ public class CircularSinglyLinkedList<E> implements List<E> {
 
     @Override
     public Iterator<E> reverseIterator() {
-        throw new UnsupportedOperationException(
-                this.getClass().getSimpleName() + " does not support backward traversal");
+        return new Iterator<>() {
+            private Node<E> currentNode = last;
+            private boolean isLastIteration = false;
+
+            @Override
+            public boolean hasNext() {
+                return currentNode != null && !isLastIteration;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Iterator has no more elements");
+                }
+                E currentData = currentNode.data;
+                if (currentNode.previous == last) {
+                    isLastIteration = true;
+                }
+                currentNode = currentNode.previous;
+                return currentData;
+            }
+        };
     }
 
 }
