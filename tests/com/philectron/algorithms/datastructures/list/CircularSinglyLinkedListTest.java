@@ -7,18 +7,13 @@ import org.junit.jupiter.api.Test;
 public class CircularSinglyLinkedListTest extends ListTestBase {
 
     @Override
-    List<Integer> createListWithValues() {
-        return new CircularSinglyLinkedList<>(VALUES);
-    }
-
-    @Override
-    List<Integer> createEmptyList() {
-        return new CircularSinglyLinkedList<>();
+    List<Integer> createList(Iterable<Integer> iterable) {
+        return new CircularSinglyLinkedList<>(iterable);
     }
 
     @Override
     @Test
-    public void reverseIterator_returnsBackwardIterator() {
+    public void reverseIterator_traversesListBackward() {
         assertThrows(UnsupportedOperationException.class,
                 () -> new CircularSinglyLinkedList<>().reverseIterator());
     }

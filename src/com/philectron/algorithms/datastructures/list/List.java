@@ -1,5 +1,7 @@
 package com.philectron.algorithms.datastructures.list;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Iterator;
 
 public interface List<E> extends Iterable<E> {
@@ -82,13 +84,16 @@ public interface List<E> extends Iterable<E> {
     }
 
     /**
-     * Inserts all elements from {@code list} to the back of this list.
+     * Inserts all elements from {@code iterable} to the back of this list.
      *
-     * @param list the {@link java.util.List} containing elements to be inserted
+     * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @throws NullPointerException if {@code list} is {@code null}
+     * @throws NullPointerException if {@code iterable} is {@code null}
      */
-    void addAll(java.util.List<? extends E> list);
+    default void addAll(Iterable<? extends E> iterable) {
+        checkNotNull(iterable);
+        iterable.forEach(this::addBack);
+    }
 
     /**
      * Finds the first occurrence of {@code element} in this list.
@@ -181,10 +186,7 @@ public interface List<E> extends Iterable<E> {
      */
     default java.util.List<E> toJavaList() {
         java.util.List<E> list = new java.util.ArrayList<E>();
-        Iterator<E> it = iterator();
-        while (it.hasNext()) {
-            list.add(it.next());
-        }
+        this.forEach(list::add);
         return list;
     }
 

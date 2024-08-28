@@ -34,15 +34,15 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Initializes a singly linked list with all elements copied from {@code list}.
+     * Initializes a singly linked list with all elements copied from {@code iterable}.
      *
-     * @param list the {@link java.util.List} whose elements are to be copied to this list
+     * @param iterable the {@link Iterable} whose elements are to be copied to this list
      *
-     * @throws NullPointerException if {@code list} is {@code null}
+     * @throws NullPointerException if {@code iterable} is {@code null}
      */
-    public SinglyLinkedList(java.util.List<? extends E> list) {
+    public SinglyLinkedList(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(list));
+        addAll(checkNotNull(iterable));
     }
 
     @Override
@@ -151,14 +151,6 @@ public class SinglyLinkedList<E> implements List<E> {
         tail.next = newNode;
         tail = newNode;
         size++;
-    }
-
-    @Override
-    public void addAll(java.util.List<? extends E> list) {
-        checkNotNull(list);
-        for (E element : list) {
-            addBack(element);
-        }
     }
 
     @Override

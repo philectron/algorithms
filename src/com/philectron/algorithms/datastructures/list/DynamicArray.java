@@ -25,17 +25,15 @@ public class DynamicArray<E> implements List<E> {
     }
 
     /**
-     * Initializes a dynamic array with all elements copied from {@code list}.
+     * Initializes a dynamic array with all elements copied from {@code iterable}.
      *
-     * @param list the {@link java.util.List} whose elements are to be copied to this array
+     * @param iterable the {@link Iterable} whose elements are to be copied to this list
      *
-     * @throws NullPointerException if {@code list} is {@code null}
+     * @throws NullPointerException if {@code iterable} is {@code null}
      */
-    public DynamicArray(java.util.List<? extends E> list) {
-        checkNotNull(list);
-        this.size = 0;
-        this.array = allocateArray(list.size());
-        addAll(list);
+    public DynamicArray(Iterable<? extends E> iterable) {
+        this();
+        addAll(checkNotNull(iterable));
     }
 
     /**
@@ -100,14 +98,6 @@ public class DynamicArray<E> implements List<E> {
         for (int i = 0; i < oldArray.length; i++) {
             array[i] = oldArray[i];
             oldArray[i] = null; // to help with garbage collection
-        }
-    }
-
-    @Override
-    public void addAll(java.util.List<? extends E> list) {
-        checkNotNull(list);
-        for (E element : list) {
-            addBack(element);
         }
     }
 

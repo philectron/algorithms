@@ -7,18 +7,13 @@ import org.junit.jupiter.api.Test;
 public class SinglyLinkedListTest extends ListTestBase {
 
     @Override
-    List<Integer> createListWithValues() {
-        return new SinglyLinkedList<>(VALUES);
-    }
-
-    @Override
-    List<Integer> createEmptyList() {
-        return new SinglyLinkedList<>();
+    List<Integer> createList(Iterable<Integer> iterable) {
+        return new SinglyLinkedList<>(iterable);
     }
 
     @Override
     @Test
-    public void reverseIterator_returnsBackwardIterator() {
+    public void reverseIterator_traversesListBackward() {
         assertThrows(UnsupportedOperationException.class,
                 () -> new SinglyLinkedList<>().reverseIterator());
     }

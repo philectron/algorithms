@@ -34,15 +34,15 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Initializes a circular doubly linked list with all elements copied from {@code list}.
+     * Initializes a circular doubly linked list with all elements copied from {@code iterable}.
      *
-     * @param list the {@link java.util.List} whose elements are to be copied to this list
+     * @param iterable the {@link Iterable} whose elements are to be copied to this list
      *
-     * @throws NullPointerException if {@code list} is {@code null}
+     * @throws NullPointerException if {@code iterable} is {@code null}
      */
-    public CircularDoublyLinkedList(java.util.List<? extends E> list) {
+    public CircularDoublyLinkedList(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(list));
+        addAll(checkNotNull(iterable));
     }
 
     @Override
@@ -135,14 +135,6 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             // If this list is empty, the new node points to itself.
             // Setting last node will be done outside of this method.
             newNode.next = newNode.previous = newNode;
-        }
-    }
-
-    @Override
-    public void addAll(java.util.List<? extends E> list) {
-        checkNotNull(list);
-        for (E element : list) {
-            addBack(element);
         }
     }
 
