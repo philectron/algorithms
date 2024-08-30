@@ -180,17 +180,6 @@ public interface List<E> extends Iterable<E> {
     void reverse();
 
     /**
-     * Copies all elements of this list to a new {@link java.util.List}.
-     *
-     * @return a new {@link java.util.ArrayList} containing the elements of this list
-     */
-    default java.util.List<E> toJavaList() {
-        java.util.List<E> list = new java.util.ArrayList<E>();
-        this.forEach(list::add);
-        return list;
-    }
-
-    /**
      * Provides an {@link Iterator} in the reverse order of the normal {@link #iterator()}. This
      * reverse iterator starts at the last (final) element of this list, and calling its
      * {@code next()} will traverse this list backward.

@@ -372,12 +372,6 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void toJavaList_returnsEquivalentList() {
-        assertThat(emptyList.toJavaList()).isEqualTo(Collections.emptyList());
-        assertThat(list.toJavaList()).isEqualTo(VALUES);
-    }
-
-    @Test
     public void iterator_traversesListForward() {
         Iterator<Integer> emptyIt = emptyList.iterator();
         assertThat(emptyIt.hasNext()).isFalse();
