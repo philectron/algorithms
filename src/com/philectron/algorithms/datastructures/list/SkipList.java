@@ -13,9 +13,11 @@ import java.util.Random;
 
 public class SkipList<E extends Comparable<E>> implements SortedList<E> {
 
+    private static final int MAX_LEVEL = 4;
+
     private static class Node<E> {
         private E data;
-        private int level; // how "tall" this node is in the list
+        private int level; // how tall this node is in the list
         private java.util.List<Node<E>> forward; // the next node on level i
         private int[] width; // the number of bottom-level nodes being skipped on level i
 
@@ -23,7 +25,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
             this.data = data;
             this.level = level;
 
-            // Since we need to reference levels [0..level], we need to allocate +1 for the size.
+            // Since we need to reference levels [0..level], we need to init +1 for the size.
             this.forward = new ArrayList<>(Collections.nCopies(level + 1, null));
             this.width = new int[level + 1];
 
@@ -32,12 +34,10 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
         }
     }
 
-    private static final int MAX_LEVEL = 4;
-
     private final Random random;
 
     private Node<E> header; // sentinel node that does not hold actual list data
-    private int level; // the current level of this skip list
+    private int level; // the height of the tallest node in this list
     private int size;
 
     /**
@@ -70,8 +70,18 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     public E get(int index) {
         checkElementIndex(index, this.size);
 
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        int distanceFromHeader = 0;
+        int currentIndex = -1;
+        Node<E> node = assertNotNull(this.header);
+        for (int i = this.level; i >= 0 && currentIndex != index; i--) {
+            while (distanceFromHeader + node.width[i] - 1 <= index) {
+                currentIndex = distanceFromHeader + node.width[i] - 1;
+                distanceFromHeader += node.width[i];
+                node = assertNotNull(node.forward.get(i));
+            }
+        }
+
+        return assertNotNull(node.data);
     }
 
     @Override
@@ -229,10 +239,11 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
+            private Node<E> currentNode = assertNotNull(header).forward.get(0);
+
             @Override
             public boolean hasNext() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'hasNext'");
+                return currentNode != null;
             }
 
             @Override
@@ -240,8 +251,9 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException("Iterator has no more elements");
                 }
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'next'");
+                E currentData = assertNotNull(currentNode.data);
+                currentNode = currentNode.forward.get(0);
+                return currentData;
             }
         };
     }

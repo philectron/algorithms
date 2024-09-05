@@ -127,7 +127,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void addAll_fromNullList_fails() {
+    public void addAll_fromNullIterable_fails() {
         assertThrows(NullPointerException.class, () -> emptyList.addAll(null));
         assertThrows(NullPointerException.class, () -> list.addAll(null));
     }
@@ -135,7 +135,7 @@ public abstract class ListTestBase {
     @Test
     public void addAll_intoEmptyList_buildsSameListAsInput() {
         emptyList.addAll(VALUES);
-        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
+        assertThat(emptyList).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
