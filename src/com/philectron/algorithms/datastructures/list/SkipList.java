@@ -17,7 +17,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
 
     private static class Node<E> {
         private E data;
-        private int level; // how tall this node is in the list
+        private final int level; // how tall this node is in the list
         private java.util.List<Node<E>> forward; // the next node on level i
         private int[] width; // the number of bottom-level nodes being skipped on level i
 
@@ -70,14 +70,17 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     public E get(int index) {
         checkElementIndex(index, this.size);
 
-        int distanceFromHeader = 0;
-        int currentIndex = -1;
+        // Header has width of 1, which does not count, so the node at index i is always i + 1 units
+        // of width away from the header.
+        int remainingDistance = index + 1;
+
         Node<E> node = assertNotNull(this.header);
-        for (int i = this.level; i >= 0 && currentIndex != index; i--) {
-            while (distanceFromHeader + node.width[i] - 1 <= index) {
-                currentIndex = distanceFromHeader + node.width[i] - 1;
-                distanceFromHeader += node.width[i];
-                node = assertNotNull(node.forward.get(i));
+        for (int i = this.level; i >= 0; i--) {
+            // If the width of the current node is too large, then the step is too far.
+            while (node.width[i] <= remainingDistance) {
+                // For every step forward, update the remaining distance.
+                remainingDistance -= node.width[i];
+                node = node.forward.get(i);
             }
         }
 
@@ -85,14 +88,22 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     }
 
     @Override
-    public void add(E element) {
+    public boolean add(E element) {
         checkNotNull(element);
 
         // Create a new node for the element with a random level ranging from 0 to max level.
         Node<E> newNode = new Node<>(element, randomLevel());
 
-        // Find previous nodes and perform reference manipulation to put the new node in place.
-        java.util.List<Node<E>> previousNodes = findPreviousNodes(newNode);
+        java.util.List<Node<E>> previousNodes = findPreviousNodes(element);
+
+        // At level 0, if the previous node's next node has the same value as the one to be
+        // inserted, then this is a duplicate insertion, in which case we will fast-return.
+        if (previousNodes.get(0).forward.get(0) != null
+                && element.equals(previousNodes.get(0).forward.get(0).data)) {
+            return false; // list was unmodified
+        }
+
+        // Perform reference manipulation to put the new node in place.
         for (int i = 0; i <= newNode.level; i++) {
             newNode.forward.set(i, previousNodes.get(i).forward.get(i));
             previousNodes.get(i).forward.set(i, newNode);
@@ -108,6 +119,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
         this.level = Math.max(this.level, newNode.level);
 
         this.size++;
+        return true; // list was modified
     }
 
     /**
@@ -126,38 +138,37 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     }
 
     /**
-     * Traverses through this list to retrieve the node right before the insert position of the new
-     * node. In cases where the previous node does not exist (i.e. on the levels above the new
-     * node's level), the previous node is default to the header node.
+     * Traverses through this list to build a list of nodes, each of which is the reference to the
+     * largest node that is less than {@code value} (in other words, the immediate "previous node")
+     * on each of this list's levels.
      *
-     * @param newNode the new node to be inserted into its correct position in this list.
+     * <p>
+     * For the remaining levels between {@link #level} (exclusive) and {@link #MAX_LEVEL}
+     * (inclusive), if any, the previous node is default to {@link #header}.
+     * </p>
      *
-     * @return a list of existing nodes in this list that are right before the new node, for
-     *         reference manipulation and width update later
+     * @param value the value to be compared against the nodes on each level of this list
+     *
+     * @return a list of existing nodes of this list, where the {@code i}th element is the reference
+     *         to the largest node on level {@code i} that is less than {@code value}
      */
-    private java.util.List<Node<E>> findPreviousNodes(Node<E> newNode) {
-        E newElement = assertNotNull(assertNotNull(newNode).data);
+    private java.util.List<Node<E>> findPreviousNodes(E value) {
+        assertNotNull(value);
 
-        // Store the previous node for each level, default to header.
+        // Store the previous node for each level from 0 to max level, default to header.
         java.util.List<Node<E>> previousNodes =
                 new ArrayList<>(Collections.nCopies(MAX_LEVEL + 1, this.header));
 
         // Start at this list's level and the header node and traverse right then down.
-        // For each level, store to the node right before the insert position.
+        // For each level, store to the node right before the value.
         Node<E> node = assertNotNull(this.header);
         for (int i = this.level; i >= 0; i--) {
-            // Use element >= previousNode to ensure duplicates are added toward the back.
-            while (node.forward.get(i) != null
-                    && newElement.compareTo(node.forward.get(i).data) >= 0) {
+            while (node.forward.get(i) != null && value.compareTo(node.forward.get(i).data) > 0) {
                 node = node.forward.get(i);
             }
             previousNodes.set(i, node);
         }
 
-        // Any remaining references in the previous nodes list are default to the header node,
-        // so we don't need to set them to anything else (even when the new node's level is higher
-        // than this list's level, in which case the previous node for the extra levels will be the
-        // header node).
         return previousNodes;
     }
 
@@ -214,19 +225,44 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     }
 
     @Override
-    public int lastIndexOf(E element) {
-        checkNotNull(element);
-
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'lastIndexOf'");
-    }
-
-    @Override
     public E remove(int index) {
         checkElementIndex(index, this.size);
 
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
+    }
+
+    @Override
+    public boolean remove(E element) {
+        checkNotNull(element);
+
+        // Store the previous node for each level from 0 to max level, default to header.
+        java.util.List<Node<E>> previousNodes = findPreviousNodes(element);
+
+        // At level 0, if the previous node's next node is null or has a different value from the
+        // one to be removed, then the element does not exist in this list, in which case we will
+        // fast-return.
+        if (previousNodes.get(0).forward.get(0) == null
+                || !element.equals(previousNodes.get(0).forward.get(0).data)) {
+            return false; // list was unmodified
+        }
+
+        Node<E> nodeToRemove = previousNodes.get(0).forward.get(0);
+
+        // Perform reference manipulation to detach the node.
+        for (int i = 0; i <= nodeToRemove.level; i++) {
+            previousNodes.get(i).forward.set(i, nodeToRemove.forward.get(i));
+            // Combine its widths with the previous node, minus 1 because we are removing 1 node.
+            previousNodes.get(i).width[i] += nodeToRemove.width[i] - 1;
+        }
+
+        // For the remaining previous nodes on levels above the node, update their widths as well.
+        for (int i = nodeToRemove.level + 1; i <= MAX_LEVEL; i++) {
+            previousNodes.get(i).width[i]--;
+        }
+
+        this.size--;
+        return true; // list was modified
     }
 
     @Override

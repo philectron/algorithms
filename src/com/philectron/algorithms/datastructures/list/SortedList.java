@@ -39,21 +39,33 @@ public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param element the element to be inserted to this list
      *
+     * @return {@code true} if this list has been modified as a result of the insertion, or
+     *         {@code false} if {@code element} already exists in this list
+     *
      * @throws NullPointerException if {@code element} is {@code null}
      */
-    void add(E element);
+    boolean add(E element);
 
     /**
      * Inserts all elements from {@code iterable} to their correct positions in this list.
      *
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
+     * @return {@code true} if this list has been modified as a result of the insertions, or
+     *         {@code false} if all elements of {@code iterable} already exist in this list
+     *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
      *         {@code null}
      */
-    default void addAll(Iterable<? extends E> iterable) {
+    default boolean addAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
-        iterable.forEach(this::add);
+        boolean isListModified = false;
+        for (E element : iterable) {
+            if (add(element)) {
+                isListModified = true;
+            }
+        }
+        return isListModified;
     }
 
     /**
@@ -67,18 +79,6 @@ public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
      * @throws NullPointerException if {@code element} is {@code null}
      */
     int indexOf(E element);
-
-    /**
-     * Finds the last (final) occurrence of {@code element} in this list.
-     *
-     * @param element the element to be searched in this list
-     *
-     * @return the index of the last (final) occurrence of {@code element}, or {@code -1} if this
-     *         list does not contain {@code element}
-     *
-     * @throws NullPointerException if {@code element} is {@code null}
-     */
-    int lastIndexOf(E element);
 
     /**
      * Checks if this list contains {@code element}.
@@ -136,6 +136,19 @@ public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
     default E removeBack() {
         return remove(size() - 1);
     }
+
+    /**
+     * Removes {@code element}, if it exists, from this list. Shifts any subsequent elements to the
+     * left (subtracts 1 from their indices).
+     *
+     * @param element the element to be removed from this list, if it exists
+     *
+     * @return {@code true} if this list has been modified as a result of the removal, or
+     *         {@code false} if {@code element} does not exist in this list
+     *
+     * @throws NullPointerException if {@code element} is {@code null}
+     */
+    boolean remove(E element);
 
     /**
      * Removes all elements from this list. The list will be empty after this operation finishes.
