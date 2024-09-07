@@ -74,10 +74,10 @@ public abstract class SortedListTestBase {
     }
 
     @Test
-    public void add_uniqueValue_insertsToCorrectPosition_shiftsListRight() {
+    public void add_newValue_insertsToCorrectPosition_shiftsListRight() {
         // Plus or minus 1 to ensure no duplicates.
-        final int smallValue = Collections.min(VALUES_UNIQUE_SORTED) - 1;
-        final int largeValue = Collections.max(VALUES_UNIQUE_SORTED) + 1;
+        final int smallValue = VALUES_UNIQUE_SORTED.getFirst() - 1;
+        final int largeValue = VALUES_UNIQUE_SORTED.getLast() + 1;
         final int midValue = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2) + 1;
 
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
@@ -102,8 +102,8 @@ public abstract class SortedListTestBase {
     }
 
     @Test
-    public void add_duplicateValue_doesNothing() {
-        assertThat(list.add(VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() - 1))).isFalse();
+    public void add_alreadyExistingValue_doesNothing() {
+        assertThat(list.add(VALUES_UNIQUE_SORTED.getLast())).isFalse();
         assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
@@ -115,12 +115,12 @@ public abstract class SortedListTestBase {
 
     @Test
     public void addAll_intoEmptyList_buildsSameListAsInput() {
-        assertThat(emptyList.addAll(VALUES)).isTrue();
+        assertThat(emptyList.addAll(VALUES_UNIQUE_SORTED)).isTrue();
         assertThat(emptyList).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
-    public void addAll_intoExistingList_insertsUniqueElementsInOrder() {
+    public void addAll_intoExistingList_insertsNewValuesInOrder() {
         // The list to insert will contain some duplicate values and some new values.
         java.util.List<Integer> newValues = new ArrayList<>(VALUES);
         VALUES.forEach(value -> newValues.add(-value));
@@ -135,10 +135,10 @@ public abstract class SortedListTestBase {
     }
 
     @Test
-    public void addAll_fromIterableWithOnlyDuplicates_doesNothing() {
+    public void addAll_alreadyExistingValues_doesNothing() {
         // As long as the new values are all duplicates that already exist in the list, the list
         // will not add them.
-        assertThat(list.addAll(VALUES)).isFalse();
+        assertThat(list.addAll(VALUES_UNIQUE_SORTED)).isFalse();
         assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
@@ -158,17 +158,20 @@ public abstract class SortedListTestBase {
     @Test
     public void indexOf_valueInList_returnsIndex() {
         final int targetValue = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2);
-        final int initialExpectedFirstIndex = VALUES_UNIQUE_SORTED.indexOf(targetValue);
 
-        // Test the initial search.
-        assertThat(list.indexOf(targetValue)).isEqualTo(initialExpectedFirstIndex);
+        // Test the initial searches.
+        for (int i = 0; i < VALUES_UNIQUE_SORTED.size(); i++) {
+            assertThat(list.indexOf(VALUES_UNIQUE_SORTED.get(i))).isEqualTo(i);
+        }
 
         // Searching should not mutate the list.
         assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
 
         // Add a duplicate value and make sure the first index stays the same.
         assertThat(list.add(targetValue)).isFalse();
-        assertThat(list.indexOf(targetValue)).isEqualTo(initialExpectedFirstIndex);
+        for (int i = 0; i < VALUES_UNIQUE_SORTED.size(); i++) {
+            assertThat(list.indexOf(VALUES_UNIQUE_SORTED.get(i))).isEqualTo(i);
+        }
     }
 
     @Test
@@ -180,9 +183,9 @@ public abstract class SortedListTestBase {
     @Test
     public void contains_checksValueInList() {
         assertThat(emptyList.contains(1)).isFalse();
-        assertThat(list.contains(VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() - 1)))
-                .isTrue();
-        assertThat(list.contains(Collections.max(VALUES) + 1)).isFalse();
+        assertThat(list.contains(VALUES_UNIQUE_SORTED.getLast())).isTrue();
+        assertThat(list.contains(VALUES_UNIQUE_SORTED.getFirst() - 1)).isFalse();
+        assertThat(list.contains(VALUES_UNIQUE_SORTED.getLast() + 1)).isFalse();
 
         // Searching should not mutate the list.
         assertThat(emptyList).isEmpty();
@@ -232,7 +235,7 @@ public abstract class SortedListTestBase {
 
     @Test
     public void removeFront_shiftsListLeft_returnsDeletedValue() {
-        final int value = VALUES_UNIQUE_SORTED.get(0);
+        final int value = VALUES_UNIQUE_SORTED.getFirst();
 
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
         expectedList.removeFirst();
@@ -244,7 +247,7 @@ public abstract class SortedListTestBase {
 
     @Test
     public void removeFront_thenAdd_resultsInSameList() {
-        final int value = VALUES_UNIQUE_SORTED.get(0);
+        final int value = VALUES_UNIQUE_SORTED.getFirst();
 
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
         expectedList.removeFirst();
@@ -257,7 +260,7 @@ public abstract class SortedListTestBase {
 
     @Test
     public void removeBack_returnsDeletedValue() {
-        final int value = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() - 1);
+        final int value = VALUES_UNIQUE_SORTED.getLast();
 
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
         expectedList.removeLast();
@@ -269,7 +272,7 @@ public abstract class SortedListTestBase {
 
     @Test
     public void removeBack_thenAdd_resultsInSameList() {
-        final int value = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() - 1);
+        final int value = VALUES_UNIQUE_SORTED.getLast();
 
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
         expectedList.removeLast();
@@ -298,8 +301,8 @@ public abstract class SortedListTestBase {
         assertThat(emptyList.remove(Integer.valueOf(1))).isFalse();
         assertThat(emptyList).isEmpty();
 
-        final int value = Collections.max(VALUES_UNIQUE_SORTED) + 1;
-        assertThat(list.remove(Integer.valueOf(value))).isFalse();
+        assertThat(list.remove(Integer.valueOf(VALUES_UNIQUE_SORTED.getLast() + 1))).isFalse();
+        assertThat(list.remove(Integer.valueOf(VALUES_UNIQUE_SORTED.getFirst() + 1))).isFalse();
         assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
@@ -336,10 +339,10 @@ public abstract class SortedListTestBase {
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());
 
         Iterator<Integer> it = list.iterator();
-        for (int i = 0; i < VALUES_UNIQUE_SORTED.size(); i++) {
+        VALUES_UNIQUE_SORTED.forEach(value -> {
             assertThat(it.hasNext()).isTrue();
-            assertThat(it.next()).isEqualTo(VALUES.get(i));
-        }
+            assertThat(it.next()).isEqualTo(value);
+        });
         assertThat(it.hasNext()).isFalse();
         assertThrows(NoSuchElementException.class, () -> it.next());
     }
@@ -347,9 +350,7 @@ public abstract class SortedListTestBase {
     @Test
     public void toString_returnsStringContainingAllElements() {
         String listToString = list.toString();
-        for (Integer value : VALUES) {
-            assertThat(listToString).contains(value.toString());
-        }
+        VALUES_UNIQUE_SORTED.forEach(value -> assertThat(listToString).contains(value.toString()));
     }
 
 }

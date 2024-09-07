@@ -90,11 +90,9 @@ public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
      * @throws NullPointerException if {@code element} is {@code null}
      *
      * @see #indexOf(E)
-     * @see #lastIndexOf(E)
      */
     default boolean contains(E element) {
-        checkNotNull(element);
-        return indexOf(element) >= 0;
+        return indexOf(checkNotNull(element)) >= 0;
     }
 
     /**
@@ -107,6 +105,8 @@ public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
      *         {@link #size()}
+     *
+     * @see #remove(E)
      */
     E remove(int index);
 
@@ -147,6 +147,8 @@ public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
      *         {@code false} if {@code element} does not exist in this list
      *
      * @throws NullPointerException if {@code element} is {@code null}
+     *
+     * @see #remove(int)
      */
     boolean remove(E element);
 
