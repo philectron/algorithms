@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -80,25 +82,22 @@ public abstract class SortedListTestBase {
         final int largeValue = VALUES_UNIQUE_SORTED.getLast() + 1;
         final int midValue = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2) + 1;
 
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
+        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
 
         // Test with small value insertion.
-        expectedList.add(smallValue);
+        expectedSet.add(smallValue);
         assertThat(list.add(smallValue)).isTrue();
-        assertThat(list).isInOrder();
-        assertThat(list).containsExactlyElementsIn(expectedList);
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
 
         // Test with large value insertion.
-        expectedList.add(largeValue);
+        expectedSet.add(largeValue);
         assertThat(list.add(largeValue)).isTrue();
-        assertThat(list).isInOrder();
-        assertThat(list).containsExactlyElementsIn(expectedList);
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
 
         // Test with mid value insertion.
-        expectedList.add(midValue);
+        expectedSet.add(midValue);
         assertThat(list.add(midValue)).isTrue();
-        assertThat(list).isInOrder();
-        assertThat(list).containsExactlyElementsIn(expectedList);
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
     }
 
     @Test
@@ -125,13 +124,12 @@ public abstract class SortedListTestBase {
         java.util.List<Integer> newValues = new ArrayList<>(VALUES);
         VALUES.forEach(value -> newValues.add(-value));
 
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.addAll(newValues);
-        expectedList = expectedList.stream().distinct().sorted().toList();
+        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES);
+        expectedSet.addAll(newValues);
 
         assertThat(list.addAll(newValues)).isTrue();
 
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
     }
 
     @Test
@@ -211,89 +209,62 @@ public abstract class SortedListTestBase {
         final int index = VALUES_UNIQUE_SORTED.size() / 2;
         final int value = VALUES_UNIQUE_SORTED.get(index);
 
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.remove(index);
+        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
+        expectedSet.remove(value);
 
         assertThat(list.remove(index)).isEqualTo(value);
 
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
     }
 
     @Test
     public void remove_byIndex_thenAdd_resultsInSameList() {
-        final int index = VALUES_UNIQUE_SORTED.size() / 2;
-        final int value = VALUES_UNIQUE_SORTED.get(index);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.remove(index);
-        expectedList.add(index, value);
-
-        assertThat(list.add(list.remove(index))).isTrue();
-
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list.add(list.remove(VALUES_UNIQUE_SORTED.size() / 2))).isTrue();
+        assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
     public void removeFront_shiftsListLeft_returnsDeletedValue() {
-        final int value = VALUES_UNIQUE_SORTED.getFirst();
+        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
+        expectedSet.removeFirst();
 
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.removeFirst();
+        assertThat(list.removeFront()).isEqualTo(VALUES_UNIQUE_SORTED.getFirst());
 
-        assertThat(list.removeFront()).isEqualTo(value);
-
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
     }
 
     @Test
     public void removeFront_thenAdd_resultsInSameList() {
-        final int value = VALUES_UNIQUE_SORTED.getFirst();
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.removeFirst();
-        expectedList.addFirst(value);
-
         assertThat(list.add(list.removeFront())).isTrue();
-
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
     public void removeBack_returnsDeletedValue() {
-        final int value = VALUES_UNIQUE_SORTED.getLast();
+        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
+        expectedSet.removeLast();
 
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.removeLast();
+        assertThat(list.removeBack()).isEqualTo(VALUES_UNIQUE_SORTED.getLast());
 
-        assertThat(list.removeBack()).isEqualTo(value);
-
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
     }
 
     @Test
     public void removeBack_thenAdd_resultsInSameList() {
-        final int value = VALUES_UNIQUE_SORTED.getLast();
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.removeLast();
-        expectedList.addLast(value);
-
         assertThat(list.add(list.removeBack())).isTrue();
-
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
     public void remove_byValue_shiftsListLeft() {
-        final int index = VALUES_UNIQUE_SORTED.size() / 2;
-        final int value = VALUES_UNIQUE_SORTED.get(index);
+        final int value = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2);
 
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.remove(index);
+        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
+        expectedSet.remove(value);
 
         assertThat(list.remove(Integer.valueOf(value))).isTrue();
 
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(expectedSet).inOrder();
     }
 
     @Test
@@ -301,24 +272,19 @@ public abstract class SortedListTestBase {
         assertThat(emptyList.remove(Integer.valueOf(1))).isFalse();
         assertThat(emptyList).isEmpty();
 
-        assertThat(list.remove(Integer.valueOf(VALUES_UNIQUE_SORTED.getLast() + 1))).isFalse();
         assertThat(list.remove(Integer.valueOf(VALUES_UNIQUE_SORTED.getFirst() + 1))).isFalse();
+        assertThat(list.remove(Integer.valueOf(VALUES_UNIQUE_SORTED.getLast() + 1))).isFalse();
         assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
     public void remove_byValue_thenAdd_resultsInSameList() {
-        final int index = VALUES_UNIQUE_SORTED.size() / 2;
-        final int value = VALUES_UNIQUE_SORTED.get(index);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES_UNIQUE_SORTED);
-        expectedList.remove(index);
-        expectedList.add(index, value);
+        final int value = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2);
 
         assertThat(list.remove(Integer.valueOf(value))).isTrue();
         assertThat(list.add(value)).isTrue();
 
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+        assertThat(list).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
