@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.set;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
@@ -18,7 +19,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     private static class Node<E> {
         private final E data;
         private final int level; // how tall this node is in the list
-        private final java.util.List<Node<E>> forward; // the next node on level i
+        private final List<Node<E>> forward; // the next node on level i
         private final int[] width; // the number of bottom-level nodes being skipped on level i
 
         private Node(E data, int level) {
@@ -35,7 +36,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     }
 
     private final Random random;
-    private final Node<E> header; // sentinel node that does not hold actual list data
+    private final Node<E> head; // sentinel node that does not hold actual list data
     private int level; // the height of the tallest node in this list
     private int size;
 
@@ -44,7 +45,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
      */
     public SkipList() {
         this.random = new Random();
-        this.header = new Node<>(null, MAX_LEVEL);
+        this.head = new Node<>(null, MAX_LEVEL);
         this.level = 0;
         this.size = 0;
     }
@@ -63,19 +64,19 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
 
     @Override
     public int size() {
-        return this.size;
+        return size;
     }
 
     @Override
     public E get(int index) {
-        checkElementIndex(index, this.size);
+        checkElementIndex(index, size);
 
-        // Header has width of 1, which does not count, so the node at index i is always i + 1 units
-        // of width away from the header.
+        // Head has width of 1, which does not count, so the node at index i is always i + 1 units
+        // of width away from the head.
         int remainingDistance = index + 1;
 
-        Node<E> node = this.header;
-        for (int i = this.level; i >= 0; i--) {
+        Node<E> node = head;
+        for (int i = level; i >= 0; i--) {
             // If the width of the current node is too large, then the step is too far.
             while (node.width[i] <= remainingDistance) {
                 // For every step forward, update the remaining distance.
@@ -94,7 +95,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
         // Create a new node for the element with a random level ranging from 0 to max level.
         Node<E> newNode = new Node<>(element, randomLevel());
 
-        java.util.List<Node<E>> previousNodes = findPreviousNodes(element);
+        List<Node<E>> previousNodes = findPreviousNodes(element);
 
         // At level 0, if the previous node's next node has the same value as the one to be
         // inserted, then this is a duplicate insertion, in which case we will fast-return.
@@ -116,9 +117,9 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
         }
 
         // Update this list's level if needed.
-        this.level = Math.max(this.level, newNode.level);
+        level = Math.max(level, newNode.level);
 
-        this.size++;
+        size++;
         return true; // list was modified
     }
 
@@ -131,7 +132,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
      */
     private int randomLevel() {
         int nodeLevel = 0;
-        while (this.random.nextBoolean() && nodeLevel < MAX_LEVEL) {
+        while (random.nextBoolean() && nodeLevel < MAX_LEVEL) {
             nodeLevel++;
         }
         return nodeLevel;
@@ -144,7 +145,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
      *
      * <p>
      * For the remaining levels between {@link #level} (exclusive) and {@link #MAX_LEVEL}
-     * (inclusive), if any, the previous node is default to {@link #header}.
+     * (inclusive), if any, the previous node is default to {@link #head}.
      * </p>
      *
      * @param value the value to be compared against the nodes on each level of this list
@@ -152,17 +153,16 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
      * @return a list of existing nodes of this list, where the {@code i}-th element is the
      *         reference to the largest node on level {@code i} that is less than {@code value}
      */
-    private java.util.List<Node<E>> findPreviousNodes(E value) {
+    private List<Node<E>> findPreviousNodes(E value) {
         assertNotNull(value);
 
-        // Store the previous node for each level from 0 to max level, default to header.
-        java.util.List<Node<E>> previousNodes =
-                new ArrayList<>(Collections.nCopies(MAX_LEVEL + 1, this.header));
+        // Store the previous node for each level from 0 to max level, default to head.
+        List<Node<E>> previousNodes = new ArrayList<>(Collections.nCopies(MAX_LEVEL + 1, head));
 
-        // Start at this list's level and the header node and traverse right then down.
+        // Start at this list's level and the head node and traverse right then down.
         // For each level, store to the node right before the value.
-        Node<E> node = this.header;
-        for (int i = this.level; i >= 0; i--) {
+        Node<E> node = head;
+        for (int i = level; i >= 0; i--) {
             while (node.forward.get(i) != null && value.compareTo(node.forward.get(i).data) > 0) {
                 node = node.forward.get(i);
             }
@@ -220,12 +220,12 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     public int indexOf(E element) {
         checkNotNull(element);
 
-        Node<E> node = this.header;
+        Node<E> node = head;
         int index = -1;
-        for (int i = this.level; i >= 0; i--) {
+        for (int i = level; i >= 0; i--) {
             while (node.forward.get(i) != null
                     && element.compareTo(node.forward.get(i).data) >= 0) {
-                // For every step forward, update the distance from header.
+                // For every step forward, update the distance from head.
                 index += node.width[i];
                 node = node.forward.get(i);
                 if (element.equals(node.data)) {
@@ -239,20 +239,19 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
 
     @Override
     public E remove(int index) {
-        checkElementIndex(index, this.size);
+        checkElementIndex(index, size);
 
-        // Store the previous node for each level from 0 to max level, default to header.
-        java.util.List<Node<E>> previousNodes =
-                new ArrayList<>(Collections.nCopies(MAX_LEVEL + 1, this.header));
+        // Store the previous node for each level from 0 to max level, default to head.
+        List<Node<E>> previousNodes = new ArrayList<>(Collections.nCopies(MAX_LEVEL + 1, head));
 
-        // Header has width of 1, which does not count, so the node at index i is always i + 1 units
-        // of width away from the header.
+        // Head has width of 1, which does not count, so the node at index i is always i + 1 units
+        // of width away from the head.
         int remainingDistance = index + 1;
 
-        // Start at this list's level and the header node and traverse right then down.
+        // Start at this list's level and the head node and traverse right then down.
         // For each level, store to the node right before the value.
-        Node<E> node = this.header;
-        for (int i = this.level; i >= 0; i--) {
+        Node<E> node = head;
+        for (int i = level; i >= 0; i--) {
             // If the width of the current node is too large, then the step is too far.
             while (node.width[i] < remainingDistance) {
                 // For every step forward, update the remaining distance.
@@ -269,8 +268,8 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     public boolean remove(E element) {
         checkNotNull(element);
 
-        // Store the previous node for each level from 0 to max level, default to header.
-        java.util.List<Node<E>> previousNodes = findPreviousNodes(element);
+        // Store the previous node for each level from 0 to max level, default to head.
+        List<Node<E>> previousNodes = findPreviousNodes(element);
 
         // At level 0, if the previous node's next node is null or has a different value from the
         // one to be removed, then the element does not exist in this list, in which case we will
@@ -294,7 +293,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
      *
      * @return the value of the removed node
      */
-    private E removeAfter(java.util.List<Node<E>> previousNodes) {
+    private E removeAfter(List<Node<E>> previousNodes) {
         // The node to remove is always the next node after the previous node on level 0.
         Node<E> nodeToRemove = previousNodes.getFirst().forward.getFirst();
         E oldData = nodeToRemove.data;
@@ -311,7 +310,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
             previousNodes.get(i).width[i]--;
         }
 
-        this.size--;
+        size--;
         return oldData;
     }
 
@@ -325,7 +324,7 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            private Node<E> currentNode = SkipList.this.header.forward.getFirst();
+            private Node<E> currentNode = head.forward.getFirst();
 
             @Override
             public boolean hasNext() {
@@ -349,8 +348,8 @@ public class SkipList<E extends Comparable<E>> implements SortedList<E> {
         StringBuilder sb = new StringBuilder();
 
         for (int i = MAX_LEVEL; i >= 0; i--) {
-            for (Node<E> node = this.header; node != null; node = node.forward.get(i)) {
-                sb.append(node == this.header ? "H" : node.data.toString());
+            for (Node<E> node = head; node != null; node = node.forward.get(i)) {
+                sb.append(node == head ? "H" : node.data.toString());
                 sb.append("(" + node.width[i] + ")");
                 sb.append(String.join("", Collections.nCopies(node.width[i], "\t")));
             }

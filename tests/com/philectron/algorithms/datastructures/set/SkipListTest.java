@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.set;
 
 public class SkipListTest extends SortedListTestBase {
 

@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.set;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -14,9 +15,8 @@ import org.junit.jupiter.api.Test;
 
 public abstract class SortedListTestBase {
 
-    private static final java.util.List<Integer> VALUES =
-            java.util.List.of(100, 400, 700, 200, 500, 300, 600, 100);
-    private static final java.util.List<Integer> VALUES_UNIQUE_SORTED =
+    private static final List<Integer> VALUES = List.of(100, 400, 700, 200, 500, 300, 600, 100);
+    private static final List<Integer> VALUES_UNIQUE_SORTED =
             VALUES.stream().distinct().sorted().toList();
 
     private SortedList<Integer> list;
@@ -121,7 +121,7 @@ public abstract class SortedListTestBase {
     @Test
     public void addAll_intoExistingList_insertsNewValuesInOrder() {
         // The list to insert will contain some duplicate values and some new values.
-        java.util.List<Integer> newValues = new ArrayList<>(VALUES);
+        List<Integer> newValues = new ArrayList<>(VALUES);
         VALUES.forEach(value -> newValues.add(-value));
 
         SortedSet<Integer> expectedSet = new TreeSet<>(VALUES);

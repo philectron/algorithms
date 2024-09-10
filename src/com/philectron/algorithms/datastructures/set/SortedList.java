@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -59,13 +59,13 @@ public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
      */
     default boolean addAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
-        boolean isListModified = false;
+        boolean modified = false;
         for (E element : iterable) {
             if (add(element)) {
-                isListModified = true;
+                modified = true;
             }
         }
-        return isListModified;
+        return modified;
     }
 
     /**
