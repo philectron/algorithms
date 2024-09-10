@@ -1,4 +1,6 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.lists;
+
+import com.philectron.algorithms.datastructures.interfaces.List;
 
 public class DoublyLinkedListTest extends ListTestBase {
 

@@ -1,9 +1,10 @@
-package com.philectron.algorithms.datastructures.set;
+package com.philectron.algorithms.datastructures.sets;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
+import com.philectron.algorithms.datastructures.interfaces.OrderedSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-public class SkipList<E extends Comparable<E>> implements SortedList<E> {
+public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
 
     private static final int MAX_LEVEL = 4;
 

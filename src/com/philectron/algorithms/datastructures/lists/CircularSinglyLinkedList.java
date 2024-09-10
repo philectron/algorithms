@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.lists;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -6,6 +6,7 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
+import com.philectron.algorithms.datastructures.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

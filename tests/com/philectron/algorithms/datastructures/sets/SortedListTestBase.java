@@ -1,8 +1,9 @@
-package com.philectron.algorithms.datastructures.set;
+package com.philectron.algorithms.datastructures.sets;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.philectron.algorithms.datastructures.interfaces.OrderedSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -19,10 +20,10 @@ public abstract class SortedListTestBase {
     private static final List<Integer> VALUES_UNIQUE_SORTED =
             VALUES.stream().distinct().sorted().toList();
 
-    private SortedList<Integer> list;
-    private SortedList<Integer> emptyList;
+    private OrderedSet<Integer> list;
+    private OrderedSet<Integer> emptyList;
 
-    abstract SortedList<Integer> createSortedList(Iterable<Integer> iterable);
+    abstract OrderedSet<Integer> createSortedList(Iterable<Integer> iterable);
 
     @BeforeEach
     private void setUp() {

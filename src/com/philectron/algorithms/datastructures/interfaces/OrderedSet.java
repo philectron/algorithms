@@ -1,8 +1,8 @@
-package com.philectron.algorithms.datastructures.set;
+package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public interface SortedList<E extends Comparable<E>> extends Iterable<E> {
+public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
 
     /**
      * Retrieves the size of this list.

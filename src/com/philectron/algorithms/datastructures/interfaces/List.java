@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

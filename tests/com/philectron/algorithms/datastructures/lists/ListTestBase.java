@@ -1,8 +1,9 @@
-package com.philectron.algorithms.datastructures.list;
+package com.philectron.algorithms.datastructures.lists;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.philectron.algorithms.datastructures.interfaces.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
