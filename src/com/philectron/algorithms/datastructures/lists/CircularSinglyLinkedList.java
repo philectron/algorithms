@@ -18,7 +18,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
 
         private Node(E data) {
             this.data = data;
-            this.next = null;
+            next = null;
         }
     }
 
@@ -29,8 +29,8 @@ public class CircularSinglyLinkedList<E> implements List<E> {
      * Initializes an empty circular singly linked list.
      */
     public CircularSinglyLinkedList() {
-        this.last = null;
-        this.size = 0;
+        last = null;
+        size = 0;
     }
 
     /**
@@ -90,20 +90,14 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void add(int position, E element) {
+    public boolean add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
 
         // Since this list is circular, adding to the front is the same as adding to the back.
         if (position == 0 || position == size) {
-            addAfterLast(newNode);
-            // If adding to the back, the new node also becomes the last node.
-            if (position == size) {
-                last = newNode;
-            }
-            size++;
-            return;
+            return addAfterLast(newNode, position == size);
         }
 
         // For all other positions, traverse this list to the node right before the insert position.
@@ -113,7 +107,9 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         // To: N1 (previousNode) -> newNode -> N2
         newNode.next = previousNode.next;
         previousNode.next = newNode;
+
         size++;
+        return true;
     }
 
     /**
@@ -121,8 +117,11 @@ public class CircularSinglyLinkedList<E> implements List<E> {
      * this list.
      *
      * @param newNode the node to be inserted after {@link #last}
+     * @param isAddLast whether this insertion adds the new node as the first or the last node
+     *
+     * @return always {@code true}
      */
-    private void addAfterLast(Node<E> newNode) {
+    private boolean addAfterLast(Node<E> newNode, boolean isAddLast) {
         assertNotNull(newNode);
         if (last != null) {
             // From: Nx (last) -> N1 -> N2
@@ -134,6 +133,14 @@ public class CircularSinglyLinkedList<E> implements List<E> {
             // Setting last node will be done outside of this method.
             newNode.next = newNode;
         }
+
+        // If adding to the back, the new node also becomes the last node.
+        if (isAddLast) {
+            last = newNode;
+        }
+
+        size++;
+        return true;
     }
 
     @Override
@@ -196,7 +203,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFront();
+            removeFirst(); // more efficient than default
         }
     }
 
@@ -248,12 +255,6 @@ public class CircularSinglyLinkedList<E> implements List<E> {
                 return currentData;
             }
         };
-    }
-
-    @Override
-    public Iterator<E> reverseIterator() {
-        throw new UnsupportedOperationException(
-                this.getClass().getSimpleName() + " does not support backward traversal");
     }
 
 }

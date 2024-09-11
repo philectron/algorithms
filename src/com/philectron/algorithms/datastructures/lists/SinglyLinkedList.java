@@ -18,7 +18,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
         private Node(E data) {
             this.data = data;
-            this.next = null;
+            next = null;
         }
     }
 
@@ -30,8 +30,8 @@ public class SinglyLinkedList<E> implements List<E> {
      * Initializes an empty singly linked list.
      */
     public SinglyLinkedList() {
-        this.tail = this.head = null;
-        this.size = 0;
+        tail = head = null;
+        size = 0;
     }
 
     /**
@@ -86,7 +86,7 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void add(int position, E element) {
+    public boolean add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
@@ -94,14 +94,12 @@ public class SinglyLinkedList<E> implements List<E> {
         // If insert at the head, the new node becomes the new head.
         // This branch handles empty list.
         if (position == 0) {
-            addHead(newNode);
-            return;
+            return addHead(newNode);
         }
 
         // If insert at the tail, the new node becomes the new tail.
         if (position == size) {
-            addTail(newNode);
-            return;
+            return addTail(newNode);
         }
 
         // For all other positions, traverse the list to the node right before the insert position.
@@ -111,7 +109,9 @@ public class SinglyLinkedList<E> implements List<E> {
         // To: N1 (previousNode) -> newNode -> N2
         newNode.next = previousNode.next;
         previousNode.next = newNode;
+
         size++;
+        return true;
     }
 
     /**
@@ -119,8 +119,10 @@ public class SinglyLinkedList<E> implements List<E> {
      * list.
      *
      * @param newNode the node to be inserted and made the new head
+     *
+     * @return always {@code true}
      */
-    private void addHead(Node<E> newNode) {
+    private boolean addHead(Node<E> newNode) {
         assertNotNull(newNode);
 
         // From: N1 (head) -> N2
@@ -133,7 +135,9 @@ public class SinglyLinkedList<E> implements List<E> {
         }
 
         head = newNode;
+
         size++;
+        return true;
     }
 
     /**
@@ -141,8 +145,10 @@ public class SinglyLinkedList<E> implements List<E> {
      * this list.
      *
      * @param newNode the node to be inserted and made the new tail
+     *
+     * @return always {@code true}
      */
-    private void addTail(Node<E> newNode) {
+    private boolean addTail(Node<E> newNode) {
         assertNotNull(newNode);
 
         // From: N1 -> N2 (tail)
@@ -151,7 +157,9 @@ public class SinglyLinkedList<E> implements List<E> {
         assertNotNull(tail);
         tail.next = newNode;
         tail = newNode;
+
         size++;
+        return true;
     }
 
     @Override
@@ -237,7 +245,7 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFront();
+            removeFirst(); // more efficient than default
         }
     }
 
@@ -274,12 +282,6 @@ public class SinglyLinkedList<E> implements List<E> {
                 return currentData;
             }
         };
-    }
-
-    @Override
-    public Iterator<E> reverseIterator() {
-        throw new UnsupportedOperationException(
-                this.getClass().getSimpleName() + " does not support backward traversal");
     }
 
 }

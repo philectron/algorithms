@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test;
 
 public abstract class ListTestBase {
 
-    private static final java.util.List<Integer> VALUES = java.util.List.of(1, 2, 3, 4, 5, 6, 7);
+    private static final java.util.List<Integer> VALUES =
+            java.util.List.of(100, 400, 700, 200, 500, 300, 600, 100);
 
     private List<Integer> list;
     private List<Integer> emptyList;
@@ -110,7 +111,7 @@ public abstract class ListTestBase {
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.addFirst(value);
 
-        list.addFront(value);
+        list.addFirst(value);
 
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
     }
@@ -122,7 +123,7 @@ public abstract class ListTestBase {
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.addLast(value);
 
-        list.addBack(value);
+        list.addLast(value);
 
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
     }
@@ -181,13 +182,13 @@ public abstract class ListTestBase {
         assertThat(list).containsExactlyElementsIn(originalList).inOrder();
 
         // Add a duplicate value to the back and make sure the first index stays the same.
-        list.addBack(targetValue);
+        list.addLast(targetValue);
         int actualFirstIndex = list.indexOf(targetValue);
         assertThat(actualFirstIndex).isNotEqualTo(list.size() - 1);
         assertThat(actualFirstIndex).isEqualTo(initialExpectedFirstIndex);
 
         // Add a duplicate value to the front and make sure the first index changes.
-        list.addFront(targetValue);
+        list.addFirst(targetValue);
         actualFirstIndex = list.indexOf(targetValue);
         assertThat(actualFirstIndex).isNotEqualTo(initialExpectedFirstIndex);
         assertThat(actualFirstIndex).isEqualTo(0);
@@ -226,13 +227,13 @@ public abstract class ListTestBase {
         assertThat(list).containsExactlyElementsIn(originalList).inOrder();
 
         // Add a duplicate value to the front and make sure the last index shifts right by 1.
-        list.addFront(targetValue);
+        list.addFirst(targetValue);
         int actualLastIndex = list.lastIndexOf(targetValue);
         assertThat(actualLastIndex).isNotEqualTo(0);
         assertThat(actualLastIndex).isEqualTo(initialExpectedLastIndex + 1);
 
         // Add a duplicate value to the back and make sure the last index changes.
-        list.addBack(targetValue);
+        list.addLast(targetValue);
         actualLastIndex = list.lastIndexOf(targetValue);
         assertThat(actualLastIndex).isNotEqualTo(initialExpectedLastIndex + 1);
         assertThat(actualLastIndex).isEqualTo(list.size() - 1);
@@ -255,8 +256,8 @@ public abstract class ListTestBase {
     @Test
     public void remove_emptyList_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.remove(0));
-        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeFront());
-        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeBack());
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeFirst());
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeLast());
     }
 
     @Test
@@ -299,7 +300,7 @@ public abstract class ListTestBase {
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.removeFirst();
 
-        assertThat(list.removeFront()).isEqualTo(value);
+        assertThat(list.removeFirst()).isEqualTo(value);
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
     }
 
@@ -311,7 +312,7 @@ public abstract class ListTestBase {
         expectedList.removeFirst();
         expectedList.addFirst(value);
 
-        list.addFront(list.removeFront());
+        list.addFirst(list.removeFirst());
 
         assertThat(list.get(0)).isEqualTo(value);
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
@@ -324,7 +325,7 @@ public abstract class ListTestBase {
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.removeLast();
 
-        assertThat(list.removeBack()).isEqualTo(value);
+        assertThat(list.removeLast()).isEqualTo(value);
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
     }
 
@@ -336,7 +337,7 @@ public abstract class ListTestBase {
         expectedList.removeLast();
         expectedList.addLast(value);
 
-        list.addBack(list.removeBack());
+        list.addLast(list.removeLast());
 
         assertThat(list.get(list.size() - 1)).isEqualTo(value);
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
@@ -385,21 +386,6 @@ public abstract class ListTestBase {
         }
         assertThat(it.hasNext()).isFalse();
         assertThrows(NoSuchElementException.class, () -> it.next());
-    }
-
-    @Test
-    public void reverseIterator_traversesListBackward() {
-        Iterator<Integer> emptyRit = emptyList.reverseIterator();
-        assertThat(emptyRit.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> emptyRit.next());
-
-        Iterator<Integer> rit = list.reverseIterator();
-        for (int i = list.size() - 1; i >= 0; i--) {
-            assertThat(rit.hasNext()).isTrue();
-            assertThat(rit.next()).isEqualTo(VALUES.get(i));
-        }
-        assertThat(rit.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> rit.next());
     }
 
 }

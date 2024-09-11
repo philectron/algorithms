@@ -21,8 +21,8 @@ public class DynamicArray<E> implements List<E> {
      * Initializes an empty dynamic array with capacity of 1.
      */
     public DynamicArray() {
-        this.size = 0;
-        this.array = allocateArray(1);
+        size = 0;
+        array = allocateArray(1);
     }
 
     /**
@@ -71,7 +71,7 @@ public class DynamicArray<E> implements List<E> {
     }
 
     @Override
-    public void add(int position, E element) {
+    public boolean add(int position, E element) {
         assertPositionIndex(size, array.length);
         checkPositionIndex(position, size);
 
@@ -85,7 +85,9 @@ public class DynamicArray<E> implements List<E> {
         }
 
         array[position] = element;
+
         size++;
+        return true;
     }
 
     /**
@@ -162,13 +164,6 @@ public class DynamicArray<E> implements List<E> {
     }
 
     @Override
-    public void clear() {
-        while (!isEmpty()) {
-            removeBack();
-        }
-    }
-
-    @Override
     public void reverse() {
         assertPositionIndex(size, array.length);
         for (int i = 0, mid = size / 2; i < mid; i++) {
@@ -196,28 +191,6 @@ public class DynamicArray<E> implements List<E> {
                 assertPositionIndex(size, array.length);
                 assertElementIndex(currentIndex, size);
                 return array[currentIndex++];
-            }
-        };
-    }
-
-    @Override
-    public Iterator<E> reverseIterator() {
-        return new Iterator<>() {
-            private int currentIndex = size - 1;
-
-            @Override
-            public boolean hasNext() {
-                return currentIndex >= 0;
-            }
-
-            @Override
-            public E next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException("Iterator has no more elements");
-                }
-                assertPositionIndex(size, array.length);
-                assertElementIndex(currentIndex, size);
-                return array[currentIndex--];
             }
         };
     }

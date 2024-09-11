@@ -19,7 +19,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
 
         private Node(E data) {
             this.data = data;
-            this.next = this.previous = null;
+            next = previous = null;
         }
     }
 
@@ -30,8 +30,8 @@ public class CircularDoublyLinkedList<E> implements List<E> {
      * Initializes an empty circular doubly linked list.
      */
     public CircularDoublyLinkedList() {
-        this.last = null;
-        this.size = 0;
+        last = null;
+        size = 0;
     }
 
     /**
@@ -89,20 +89,14 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void add(int position, E element) {
+    public boolean add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
 
         // Since this list is circular, adding to the front is the same as adding to the back.
         if (position == 0 || position == size) {
-            addAfterLast(newNode);
-            // If adding to the back, the new node also becomes the last node.
-            if (position == size) {
-                last = newNode;
-            }
-            size++;
-            return;
+            return addAfterLast(newNode, position == size);
         }
 
         // For all other positions, traverse this list to the node right before the insert position.
@@ -114,7 +108,9 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         newNode.previous = previousNode;
         newNode.next = nextNode;
         nextNode.previous = previousNode.next = newNode;
+
         size++;
+        return true;
     }
 
     /**
@@ -122,8 +118,11 @@ public class CircularDoublyLinkedList<E> implements List<E> {
      * this list.
      *
      * @param newNode the node to be inserted after {@link #last}
+     * @param isAddLast whether this insertion adds the new node as the first or the last node
+     *
+     * @return always {@code true}
      */
-    private void addAfterLast(Node<E> newNode) {
+    private boolean addAfterLast(Node<E> newNode, boolean isAddLast) {
         assertNotNull(newNode);
         if (last != null) {
             // From: Nx (last) <-> N1 (nextNode) <-> N2
@@ -137,6 +136,14 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             // Setting last node will be done outside of this method.
             newNode.next = newNode.previous = newNode;
         }
+
+        // If adding to the back, the new node also becomes the last node.
+        if (isAddLast) {
+            last = newNode;
+        }
+
+        size++;
+        return true;
     }
 
     @Override
@@ -159,13 +166,17 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     public int lastIndexOf(E element) {
         int lastIndex = size - 1;
 
-        Iterator<E> rit = reverseIterator();
-        while (rit.hasNext()) {
-            E currentData = rit.next();
-            if (element == null ? currentData == null : element.equals(currentData)) {
+        boolean isLastIteration = false;
+        Node<E> currentNode = last;
+        while (currentNode != null && !isLastIteration) {
+            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
                 return lastIndex;
             }
             lastIndex--;
+            if (currentNode == last.next) {
+                isLastIteration = true;
+            }
+            currentNode = currentNode.previous;
         }
 
         return -1;
@@ -200,7 +211,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFront();
+            removeFirst(); // more efficient than default
         }
     }
 
@@ -246,32 +257,6 @@ public class CircularDoublyLinkedList<E> implements List<E> {
                     isLastIteration = true;
                 }
                 currentNode = currentNode.next;
-                return currentData;
-            }
-        };
-    }
-
-    @Override
-    public Iterator<E> reverseIterator() {
-        return new Iterator<>() {
-            private Node<E> currentNode = last;
-            private boolean isLastIteration = false;
-
-            @Override
-            public boolean hasNext() {
-                return currentNode != null && !isLastIteration;
-            }
-
-            @Override
-            public E next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException("Iterator has no more elements");
-                }
-                E currentData = currentNode.data;
-                if (currentNode.previous == last) {
-                    isLastIteration = true;
-                }
-                currentNode = currentNode.previous;
                 return currentData;
             }
         };

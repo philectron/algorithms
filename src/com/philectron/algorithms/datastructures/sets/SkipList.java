@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
+import com.philectron.algorithms.datastructures.interfaces.Indexable;
 import com.philectron.algorithms.datastructures.interfaces.OrderedSet;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
+public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedSet<E> {
 
     private static final int MAX_LEVEL = 4;
 
@@ -28,11 +29,11 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
             this.level = level;
 
             // Since we need to reference levels [0..level], we need to init +1 for the size.
-            this.forward = new ArrayList<>(Collections.nCopies(level + 1, null));
-            this.width = new int[level + 1];
+            forward = new ArrayList<>(Collections.nCopies(level + 1, null));
+            width = new int[level + 1];
 
             // By default, the widths should be 1.
-            Arrays.fill(this.width, 1);
+            Arrays.fill(width, 1);
         }
     }
 
@@ -45,10 +46,10 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * Initializes an empty skip list.
      */
     public SkipList() {
-        this.random = new Random();
-        this.head = new Node<>(null, MAX_LEVEL);
-        this.level = 0;
-        this.size = 0;
+        random = new Random();
+        head = new Node<>(null, MAX_LEVEL);
+        level = 0;
+        size = 0;
     }
 
     /**
@@ -236,6 +237,16 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         }
 
         return -1; // not found
+    }
+
+    @Override
+    public int lastIndexOf(E element) {
+        return indexOf(checkNotNull(element));
+    }
+
+    @Override
+    public boolean contains(E element) {
+        return indexOf(checkNotNull(element)) >= 0;
     }
 
     @Override

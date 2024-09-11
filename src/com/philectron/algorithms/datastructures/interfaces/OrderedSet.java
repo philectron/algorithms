@@ -5,16 +5,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
 
     /**
-     * Retrieves the size of this list.
+     * Retrieves the size of this set.
      *
-     * @return the number of elements in this list
+     * @return the number of elements in this set
      */
     int size();
 
     /**
-     * Checks if this list is empty.
+     * Checks if this set is empty.
      *
-     * @return {@code true} if there are no elements in this list (when {@link #size()} is zero), or
+     * @return {@code true} if there are no elements in this set (when {@link #size()} is zero), or
      *         {@code false} otherwise
      */
     default boolean isEmpty() {
@@ -22,37 +22,24 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     }
 
     /**
-     * Retrieves an element at index {@code index} of this list.
+     * Inserts {@code element} into its correct position in this set.
      *
-     * @param index the index of the element to return
+     * @param element the element to be inserted into this set
      *
-     * @return the element at {@code index}
-     *
-     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *         {@link #size()}
-     */
-    E get(int index);
-
-    /**
-     * Inserts {@code element} to its correct position in this list. Shifts the current element at
-     * that index (if any) and any subsequent elements to the right (adds 1 to their indices).
-     *
-     * @param element the element to be inserted to this list
-     *
-     * @return {@code true} if this list has been modified as a result of the insertion, or
-     *         {@code false} if {@code element} already exists in this list
+     * @return {@code true} if this set has been modified as a result of the insertion, or
+     *         {@code false} if {@code element} already exists in this set
      *
      * @throws NullPointerException if {@code element} is {@code null}
      */
     boolean add(E element);
 
     /**
-     * Inserts all elements from {@code iterable} to their correct positions in this list.
+     * Inserts all elements from {@code iterable} into their correct positions in this set.
      *
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if this list has been modified as a result of the insertions, or
-     *         {@code false} if all elements of {@code iterable} already exist in this list
+     * @return {@code true} if this set has been modified as a result of the insertions, or
+     *         {@code false} if all elements of {@code iterable} already exist in this set
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
      *         {@code null}
@@ -69,35 +56,19 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     }
 
     /**
-     * Finds the first occurrence of {@code element} in this list.
+     * Checks if this set contains {@code element}.
      *
-     * @param element the element to be searched in this list
+     * @param element the element to be searched in this set
      *
-     * @return the index of the first occurrence of {@code element}, or {@code -1} if this list does
-     *         not contain {@code element}
+     * @return {@code true} if this set contains {@code element}, or {@code false} otherwise
      *
      * @throws NullPointerException if {@code element} is {@code null}
      */
-    int indexOf(E element);
+    boolean contains(E element);
 
     /**
-     * Checks if this list contains {@code element}.
-     *
-     * @param element the element to be searched in this list
-     *
-     * @return {@code true} if this list contains {@code element}, or {@code false} otherwise
-     *
-     * @throws NullPointerException if {@code element} is {@code null}
-     *
-     * @see #indexOf(E)
-     */
-    default boolean contains(E element) {
-        return indexOf(checkNotNull(element)) >= 0;
-    }
-
-    /**
-     * Removes the element at index {@code index} of this list. Shifts any subsequent elements to
-     * the left (subtracts 1 from their indices).
+     * Removes the element at index {@code index} of this set. Shifts any subsequent elements to the
+     * left (subtracts 1 from their indices).
      *
      * @param index the index of the element to be removed
      *
@@ -111,12 +82,12 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     E remove(int index);
 
     /**
-     * Removes the element at the front of this list. Shifts any subsequent elements to the left
+     * Removes the element at the front of this set. Shifts any subsequent elements to the left
      * (subtracts 1 from their indices).
      *
-     * @return the element previously at the front of this list
+     * @return the element previously at the front of this set
      *
-     * @throws IndexOutOfBoundsException if the list is empty
+     * @throws IndexOutOfBoundsException if the set is empty
      *
      * @see #remove(int)
      */
@@ -125,11 +96,11 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     }
 
     /**
-     * Removes the element at the back of this list.
+     * Removes the element at the back of this set.
      *
-     * @return the element previously at the back of this list
+     * @return the element previously at the back of this set
      *
-     * @throws IndexOutOfBoundsException if the list is empty
+     * @throws IndexOutOfBoundsException if the set is empty
      *
      * @see #remove(int)
      */
@@ -138,13 +109,13 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     }
 
     /**
-     * Removes {@code element}, if it exists, from this list. Shifts any subsequent elements to the
+     * Removes {@code element}, if it exists, from this set. Shifts any subsequent elements to the
      * left (subtracts 1 from their indices).
      *
-     * @param element the element to be removed from this list, if it exists
+     * @param element the element to be removed from this set, if it exists
      *
-     * @return {@code true} if this list has been modified as a result of the removal, or
-     *         {@code false} if {@code element} does not exist in this list
+     * @return {@code true} if this set has been modified as a result of the removal, or
+     *         {@code false} if {@code element} does not exist in this set
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
@@ -153,7 +124,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     boolean remove(E element);
 
     /**
-     * Removes all elements from this list. The list will be empty after this operation finishes.
+     * Removes all elements from this set. The set will be empty after this operation finishes.
      */
     void clear();
 
