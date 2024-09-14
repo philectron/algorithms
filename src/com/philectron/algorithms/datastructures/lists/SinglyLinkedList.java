@@ -1,7 +1,6 @@
 package com.philectron.algorithms.datastructures.lists;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
@@ -43,12 +42,18 @@ public class SinglyLinkedList<E> implements List<E> {
      */
     public SinglyLinkedList(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(iterable));
+        addAll(iterable);
     }
 
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public E get(int index) {
+        checkElementIndex(index, size);
+        return nodeAt(index).data;
     }
 
     /**
@@ -60,20 +65,17 @@ public class SinglyLinkedList<E> implements List<E> {
      */
     private Node<E> nodeAt(int index) {
         assertElementIndex(index, size);
+
         if (index == size - 1) {
             return assertNotNull(tail);
         }
+
         Node<E> node = assertNotNull(head);
         for (int i = 0; i < index; i++) {
             node = assertNotNull(node.next);
         }
-        return node;
-    }
 
-    @Override
-    public E get(int index) {
-        checkElementIndex(index, size);
-        return nodeAt(index).data;
+        return node;
     }
 
     @Override
@@ -86,7 +88,7 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(int position, E element) {
+    public void add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
@@ -94,12 +96,14 @@ public class SinglyLinkedList<E> implements List<E> {
         // If insert at the head, the new node becomes the new head.
         // This branch handles empty list.
         if (position == 0) {
-            return addHead(newNode);
+            addHead(newNode);
+            return;
         }
 
         // If insert at the tail, the new node becomes the new tail.
         if (position == size) {
-            return addTail(newNode);
+            addTail(newNode);
+            return;
         }
 
         // For all other positions, traverse the list to the node right before the insert position.
@@ -111,18 +115,14 @@ public class SinglyLinkedList<E> implements List<E> {
         previousNode.next = newNode;
 
         size++;
-        return true;
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts {@code newNode} as the new head of this
-     * list.
+     * Inserts {@code newNode} as the new head of this list.
      *
      * @param newNode the node to be inserted and made the new head
-     *
-     * @return always {@code true}
      */
-    private boolean addHead(Node<E> newNode) {
+    private void addHead(Node<E> newNode) {
         assertNotNull(newNode);
 
         // From: N1 (head) -> N2
@@ -137,18 +137,14 @@ public class SinglyLinkedList<E> implements List<E> {
         head = newNode;
 
         size++;
-        return true;
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts the {@code newNode} as the new tail of
-     * this list.
+     * Inserts the {@code newNode} as the new tail of this list.
      *
      * @param newNode the node to be inserted and made the new tail
-     *
-     * @return always {@code true}
      */
-    private boolean addTail(Node<E> newNode) {
+    private void addTail(Node<E> newNode) {
         assertNotNull(newNode);
 
         // From: N1 -> N2 (tail)
@@ -159,7 +155,6 @@ public class SinglyLinkedList<E> implements List<E> {
         tail = newNode;
 
         size++;
-        return true;
     }
 
     @Override
@@ -171,12 +166,12 @@ public class SinglyLinkedList<E> implements List<E> {
             }
             firstIndex++;
         }
-        return -1;
+        return -1; // not found
     }
 
     @Override
     public int lastIndexOf(E element) {
-        int lastIndex = -1;
+        int lastIndex = -1; // not found by default
         int currentIndex = 0;
         for (Node<E> node = head; node != null; node = node.next) {
             if (element == null ? node.data == null : element.equals(node.data)) {
@@ -190,15 +185,41 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public E remove(int index) {
         checkElementIndex(index, size);
+        // The head does not have a previous node.
+        return removeAfterNode(index == 0 ? null : nodeAt(index - 1));
+    }
 
-        // If remove at the head, the next node becomes the new head.
-        // This branch handles singleton list.
-        if (index == 0) {
-            return removeHead();
+    @Override
+    public boolean remove(E element) {
+        Node<E> currentNode = head;
+        Node<E> previousNode = null;
+
+        while (currentNode != null) {
+            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+                removeAfterNode(previousNode);
+                return true; // element found, list was modified
+            }
+            previousNode = currentNode;
+            currentNode = currentNode.next;
         }
 
-        // For all other indices, traverse the list to the node right before the node to be removed.
-        Node<E> previousNode = nodeAt(index - 1);
+        return false; // element not found, list was unmodified
+    }
+
+    /**
+     * Removes the node after {@code previousNode} from this list and performs reference
+     * manipulation to connect its previous and next nodes.
+     *
+     * @param previousNode
+     *
+     * @return the data of the removed node
+     */
+    private E removeAfterNode(Node<E> previousNode) {
+        // If remove at the head (without previous node), the next node becomes the new head.
+        // This branch handles singleton list.
+        if (previousNode == null) {
+            return removeHead();
+        }
 
         // From: N1 (previousNode) -> N2 (nodeToRemove) -> N3
         // To: N1 (previousNode) -> N3
@@ -218,8 +239,7 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Helper method for {@link #remove(int)} that removes the current head of this list and sets
-     * its next node as the new head.
+     * Removes the current head of this list and sets its next node as the new head.
      *
      * @return the data of the removed head
      */
@@ -235,6 +255,7 @@ public class SinglyLinkedList<E> implements List<E> {
             tail = null;
         }
 
+        // Cleanup to help with garbage collection.
         nodeToRemove.data = null;
         nodeToRemove.next = null;
 
@@ -245,7 +266,7 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFirst(); // more efficient than default
+            removeFirst();
         }
     }
 
@@ -253,12 +274,14 @@ public class SinglyLinkedList<E> implements List<E> {
     public void reverse() {
         Node<E> previousNode = null;
         Node<E> node = head;
+
         while (node != null) {
             Node<E> nextNode = node.next;
             node.next = previousNode;
             previousNode = node;
             node = nextNode;
         }
+
         head = previousNode;
     }
 

@@ -44,44 +44,69 @@ public abstract class ListTestBase {
     @Test
     public void get_emptyList_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.get(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.getFirst());
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.getLast());
     }
 
     @Test
     public void get_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(list.size()));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(VALUES.size()));
     }
 
     @Test
-    public void get_returnsValue() {
-        assertThat(list.get(list.size() - 1)).isEqualTo(VALUES.get(VALUES.size() - 1));
+    public void get_returnsElementAtIndex() {
+        final int midIndex = VALUES.size() / 2;
+        assertThat(list.get(midIndex)).isEqualTo(VALUES.get(midIndex));
+        assertThat(list.getFirst()).isEqualTo(VALUES.getFirst());
+        assertThat(list.getLast()).isEqualTo(VALUES.getLast());
     }
 
     @Test
     public void set_emptyList_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.set(0, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.setFirst(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> emptyList.setLast(1));
     }
 
     @Test
     public void set_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> list.set(-1, 1));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.set(list.size(), 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.set(VALUES.size(), 1));
     }
 
     @Test
-    public void set_replacesValue_returnsOldValue() {
-        final int index = list.size() - 1;
-        final int expectedOldValue = list.get(index);
-        final int expectedNewValue = expectedOldValue + 1;
+    public void set_replacesElement_returnsOldElement() {
+        final int midIndex = VALUES.size() / 2;
+        final int newValue = Collections.max(VALUES) + 1;
 
-        assertThat(list.set(index, expectedNewValue)).isEqualTo(expectedOldValue);
-        assertThat(list.get(index)).isEqualTo(expectedNewValue);
+        assertThat(list.set(midIndex, newValue)).isEqualTo(VALUES.get(midIndex));
+        assertThat(list.get(midIndex)).isEqualTo(newValue);
+
+        assertThat(list.setFirst(newValue)).isEqualTo(VALUES.getFirst());
+        assertThat(list.getFirst()).isEqualTo(newValue);
+
+        assertThat(list.setLast(newValue)).isEqualTo(VALUES.getLast());
+        assertThat(list.getLast()).isEqualTo(newValue);
     }
 
     @Test
-    public void add_emptyList_insertsValue() {
-        final int value = VALUES.get(0);
+    public void add_emptyList_insertsElement() {
+        final int value = 1;
+
         emptyList.add(0, value);
+        assertThat(emptyList).containsExactlyElementsIn(Collections.singletonList(value)).inOrder();
+
+        emptyList = createList(Collections.emptyList());
+        emptyList.add(value);
+        assertThat(emptyList).containsExactlyElementsIn(Collections.singletonList(value)).inOrder();
+
+        emptyList = createList(Collections.emptyList());
+        emptyList.addFirst(value);
+        assertThat(emptyList).containsExactlyElementsIn(Collections.singletonList(value)).inOrder();
+
+        emptyList = createList(Collections.emptyList());
+        emptyList.addLast(value);
         assertThat(emptyList).containsExactlyElementsIn(Collections.singletonList(value)).inOrder();
     }
 
@@ -92,56 +117,50 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void add_insertsValueToPosition_shiftsListRight() {
-        final int position = list.size() / 2;
-        final int value = list.get(position);
-
+    public void add_insertsElementToPosition_shiftsListRight() {
+        final int midPosition = VALUES.size() / 2;
+        final int newValue = Collections.max(VALUES) + 1;
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.add(position, value);
 
-        list.add(position, value);
+        expectedList.add(midPosition, newValue);
+        list.add(midPosition, newValue);
+        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
 
+        expectedList.add(newValue);
+        list.add(newValue);
+        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+
+        expectedList.addFirst(newValue);
+        list.addFirst(newValue);
+        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+
+        expectedList.addLast(newValue);
+        list.addLast(newValue);
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
     }
 
     @Test
-    public void addFront_insertsValueToFront_shiftsListRight() {
-        final int value = list.get(0);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.addFirst(value);
-
-        list.addFirst(value);
-
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
-    }
-
-    @Test
-    public void addBack_insertsValueToBack() {
-        final int value = list.get(list.size() - 1);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.addLast(value);
-
-        list.addLast(value);
-
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
-    }
-
-    @Test
-    public void addAll_fromNullIterable_fails() {
+    public void addAll_fromNullInput_fails() {
         assertThrows(NullPointerException.class, () -> emptyList.addAll(null));
         assertThrows(NullPointerException.class, () -> list.addAll(null));
     }
 
     @Test
-    public void addAll_intoEmptyList_buildsSameListAsInput() {
+    public void addAll_fromEmptyInput_doesNothing() {
+        emptyList.addAll(Collections.emptyList());
+        assertThat(emptyList).isEmpty();
+        list.addAll(Collections.emptyList());
+        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
+    }
+
+    @Test
+    public void addAll_intoEmptyList_buildsSameList() {
         emptyList.addAll(VALUES);
         assertThat(emptyList).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void addAll_intoExistingList_appendsInputList() {
+    public void addAll_intoExistingList_appendsToList() {
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.addAll(VALUES);
 
@@ -152,22 +171,25 @@ public abstract class ListTestBase {
 
     @Test
     public void indexOf_emptyList_returnsNotFound() {
-        assertThat(emptyList.indexOf(VALUES.get(0))).isEqualTo(-1);
+        assertThat(emptyList.indexOf(1)).isEqualTo(-1);
         // Searching should not mutate the list.
         assertThat(emptyList).isEmpty();
     }
 
     @Test
-    public void indexOf_nullValue_returnsFirstOccurrence() {
+    public void indexOf_nullElement_returnsFirstOccurrence() {
+        // Before adding or setting null values, make sure this list does not have any.
+        assertThat(list.indexOf(null)).isEqualTo(-1);
+
         // Choose the middle element of the list and make it null.
-        final int initialExpectedFirstIndex = list.size() / 2;
+        final int initialExpectedFirstIndex = VALUES.size() / 2;
         list.set(initialExpectedFirstIndex, null);
         assertFirstIndexSearch(null, initialExpectedFirstIndex);
     }
 
     @Test
-    public void indexOf_valueWithDuplicates_returnsFirstOccurrence() {
-        final int targetValue = list.get(list.size() / 2);
+    public void indexOf_returnsFirstOccurrence() {
+        final int targetValue = VALUES.get(VALUES.size() / 2);
         assertFirstIndexSearch(targetValue, VALUES.indexOf(targetValue));
     }
 
@@ -196,22 +218,25 @@ public abstract class ListTestBase {
 
     @Test
     public void lastIndexOf_emptyList_returnsNotFound() {
-        assertThat(emptyList.lastIndexOf(VALUES.get(0))).isEqualTo(-1);
+        assertThat(emptyList.lastIndexOf(1)).isEqualTo(-1);
         // Searching should not mutate the list.
         assertThat(emptyList).isEmpty();
     }
 
     @Test
-    public void lastIndexOf_nullValue_returnsLastOccurrence() {
+    public void lastIndexOf_nullElement_returnsLastOccurrence() {
+        // Before adding or setting null values, make sure this list does not have any.
+        assertThat(list.lastIndexOf(null)).isEqualTo(-1);
+
         // Choose the middle element of the list and make it null.
-        final int initialExpectedLastIndex = list.size() / 2;
+        final int initialExpectedLastIndex = VALUES.size() / 2;
         list.set(initialExpectedLastIndex, null);
         assertLastIndexSearch(null, initialExpectedLastIndex);
     }
 
     @Test
-    public void lastIndexOf_valueWithDuplicates_returnsLastOccurrence() {
-        final int targetValue = list.get(list.size() / 2);
+    public void lastIndexOf_returnsLastOccurrence() {
+        final int targetValue = VALUES.get(VALUES.size() / 2);
         assertLastIndexSearch(targetValue, VALUES.lastIndexOf(targetValue));
 
     }
@@ -240,12 +265,12 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void contains_checksValueInList() {
+    public void contains_checksElementInList() {
         List<Integer> originalList = createList(list);
 
         assertThat(emptyList.contains(1)).isFalse();
         assertThat(emptyList.contains(null)).isFalse();
-        assertThat(list.contains(list.get(list.size() - 1))).isTrue();
+        assertThat(list.contains(VALUES.getLast())).isTrue();
         assertThat(list.contains(Collections.max(VALUES) + 1)).isFalse();
 
         // Searching should not mutate the list.
@@ -254,93 +279,93 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void remove_emptyList_fails() {
+    public void remove_emptyList_failsOrDoesNothing() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.remove(0));
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeFirst());
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeLast());
+        assertThat(emptyList.remove(Integer.valueOf(0))).isFalse();
+        assertThat(emptyList).isEmpty();
     }
 
     @Test
     public void remove_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.remove(list.size()));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.remove(VALUES.size()));
     }
 
     @Test
-    public void remove_shiftsListLeft_returnsDeletedValue() {
-        final int index = list.size() / 2;
-        final int value = list.get(index);
-
+    public void remove_shiftsListLeft_returnsDeletedElement() {
+        final int midIndex = VALUES.size() / 2;
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.remove(index);
 
-        assertThat(list.remove(index)).isEqualTo(value);
+        assertThat(list.remove(midIndex)).isEqualTo(expectedList.remove(midIndex));
+        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+
+        int oldValue = Collections.max(expectedList);
+        expectedList.remove(Integer.valueOf(oldValue));
+        assertThat(list.remove(Integer.valueOf(oldValue))).isTrue();
+        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+
+        assertThat(list.removeFirst()).isEqualTo(expectedList.removeFirst());
+        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+
+        assertThat(list.removeLast()).isEqualTo(expectedList.removeLast());
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
     }
 
     @Test
-    public void remove_thenAdd_resultsInSameList() {
-        final int index = list.size() / 2;
-        final int value = list.get(index);
+    public void remove_thenAddSameElement_resultsInSameList() {
+        final int midIndex = VALUES.size() / 2;
 
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.remove(index);
-        expectedList.add(index, value);
+        list.add(midIndex, list.remove(midIndex));
+        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
 
-        list.add(index, list.remove(index));
-
-        assertThat(list.get(index)).isEqualTo(value);
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
-    }
-
-    @Test
-    public void removeFront_shiftsListLeft_returnsDeletedValue() {
-        final int value = list.get(0);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.removeFirst();
-
-        assertThat(list.removeFirst()).isEqualTo(value);
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
-    }
-
-    @Test
-    public void removeFront_thenAddFront_resultsInSameList() {
-        final int value = list.get(0);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.removeFirst();
-        expectedList.addFirst(value);
+        int maxValue = Collections.max(VALUES);
+        assertThat(list.remove(Integer.valueOf(maxValue))).isTrue();
+        list.add(VALUES.indexOf(maxValue), maxValue);
+        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
 
         list.addFirst(list.removeFirst());
-
-        assertThat(list.get(0)).isEqualTo(value);
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
-    }
-
-    @Test
-    public void removeBack_returnsDeletedValue() {
-        final int value = list.get(list.size() - 1);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.removeLast();
-
-        assertThat(list.removeLast()).isEqualTo(value);
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
-    }
-
-    @Test
-    public void removeBack_thenAddBack_resultsInSameList() {
-        final int value = list.get(list.size() - 1);
-
-        java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
-        expectedList.removeLast();
-        expectedList.addLast(value);
+        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
 
         list.addLast(list.removeLast());
+        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
+    }
 
-        assertThat(list.get(list.size() - 1)).isEqualTo(value);
-        assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
+    @Test
+    public void removeAll_fromNullInput_fails() {
+        assertThrows(NullPointerException.class, () -> emptyList.removeAll(null));
+        assertThrows(NullPointerException.class, () -> list.removeAll(null));
+    }
+
+    @Test
+    public void removeAll_fromEmptyInput_doesNothing() {
+        assertThat(emptyList.removeAll(Collections.emptyList())).isFalse();
+        assertThat(emptyList).isEmpty();
+        assertThat(list.removeAll(Collections.emptyList())).isFalse();
+        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
+    }
+
+    @Test
+    public void removeAll_noCommonElements_doesNothing() {
+        // Test for both null and non-null values.
+        java.util.List<Integer> noCommonValues = new ArrayList<>();
+        VALUES.forEach(value -> noCommonValues.add(-value));
+        noCommonValues.add(null);
+
+        assertThat(list.removeAll(noCommonValues)).isFalse();
+        assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
+    }
+
+    @Test
+    public void removeAll_deletesAllCommonElements() {
+        // Test for both null and non-null values.
+        java.util.List<Integer> valuesToRemove = new ArrayList<>(VALUES);
+        valuesToRemove.add(null);
+
+        list.addAll(Collections.nCopies(VALUES.size(), null));
+        assertThat(list.removeAll(valuesToRemove)).isTrue();
+        assertThat(list).isEmpty();
     }
 
     @Test

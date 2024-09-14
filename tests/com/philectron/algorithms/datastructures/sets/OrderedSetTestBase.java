@@ -16,9 +16,8 @@ import org.junit.jupiter.api.Test;
 
 public abstract class OrderedSetTestBase {
 
-    private static final List<Integer> VALUES = List.of(100, 400, 700, 200, 500, 300, 600, 100);
-    private static final List<Integer> VALUES_UNIQUE_SORTED =
-            VALUES.stream().distinct().sorted().toList();
+    static final List<Integer> VALUES = List.of(100, 400, 700, 200, 500, 300, 600, 100);
+    static final List<Integer> VALUES_UNIQUE_SORTED = VALUES.stream().distinct().sorted().toList();
 
     private OrderedSet<Integer> set;
     private OrderedSet<Integer> emptySet;
@@ -46,20 +45,38 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
-    public void add_nullValue_fails() {
+    public void get_emptySet_fails() {
+        assertThrows(NoSuchElementException.class, () -> emptySet.getFirst());
+        assertThrows(NoSuchElementException.class, () -> emptySet.getLast());
+    }
+
+    @Test
+    public void get_returnsElement() {
+        assertThat(set.getFirst()).isEqualTo(VALUES_UNIQUE_SORTED.getFirst());
+        assertThat(set.getLast()).isEqualTo(VALUES_UNIQUE_SORTED.getLast());
+    }
+
+    @Test
+    public void add_nullElement_fails() {
         assertThrows(NullPointerException.class, () -> emptySet.add(null));
         assertThrows(NullPointerException.class, () -> set.add(null));
     }
 
     @Test
-    public void add_emptySet_insertsValue() {
+    public void add_emptySet_insertsElement() {
         final int value = 1;
         assertThat(emptySet.add(value)).isTrue();
         assertThat(emptySet).containsExactlyElementsIn(Collections.singletonList(value)).inOrder();
     }
 
     @Test
-    public void add_newValue_insertsToCorrectPosition() {
+    public void add_duplicateElement_doesNothing() {
+        assertThat(set.add(VALUES_UNIQUE_SORTED.getLast())).isFalse();
+        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
+    }
+
+    @Test
+    public void add_newElement_insertsToCorrectPosition() {
         // Plus or minus 1 to ensure no duplicates.
         final int smallValue = VALUES_UNIQUE_SORTED.getFirst() - 1;
         final int largeValue = VALUES_UNIQUE_SORTED.getLast() + 1;
@@ -84,25 +101,27 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
-    public void add_alreadyExistingValue_doesNothing() {
-        assertThat(set.add(VALUES_UNIQUE_SORTED.getLast())).isFalse();
-        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
-    }
-
-    @Test
-    public void addAll_fromNullIterable_fails() {
+    public void addAll_fromNullInput_fails() {
         assertThrows(NullPointerException.class, () -> emptySet.addAll(null));
         assertThrows(NullPointerException.class, () -> set.addAll(null));
     }
 
     @Test
-    public void addAll_intoEmptySet_buildsSameSetAsInput() {
+    public void addAll_fromEmptyInput_doesNothing() {
+        assertThat(emptySet.addAll(Collections.emptyList())).isFalse();
+        assertThat(emptySet).isEmpty();
+        assertThat(set.addAll(Collections.emptyList())).isFalse();
+        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
+    }
+
+    @Test
+    public void addAll_intoEmptySet_buildsSameSet() {
         assertThat(emptySet.addAll(VALUES_UNIQUE_SORTED)).isTrue();
         assertThat(emptySet).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
-    public void addAll_intoExistingSet_insertsNewValuesInOrder() {
+    public void addAll_intoExistingSet_insertsNewElementsInOrder() {
         // The list to insert will contain some duplicate values and some new values.
         List<Integer> newValues = new ArrayList<>(VALUES);
         VALUES.forEach(value -> newValues.add(-value));
@@ -116,7 +135,7 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
-    public void addAll_alreadyExistingValues_doesNothing() {
+    public void addAll_withSameElements_doesNothing() {
         // As long as the new values are all duplicates that already exist in the list, the list
         // will not add them.
         assertThat(set.addAll(VALUES_UNIQUE_SORTED)).isFalse();
@@ -124,13 +143,13 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
-    public void contains_nullValue_fails() {
+    public void contains_nullElement_fails() {
         assertThrows(NullPointerException.class, () -> emptySet.contains(null));
         assertThrows(NullPointerException.class, () -> set.contains(null));
     }
 
     @Test
-    public void contains_checksValueInSet() {
+    public void contains_checksElementInSet() {
         assertThat(emptySet.contains(1)).isFalse();
         assertThat(set.contains(VALUES_UNIQUE_SORTED.getLast())).isTrue();
         assertThat(set.contains(VALUES_UNIQUE_SORTED.getFirst() - 1)).isFalse();
@@ -142,100 +161,71 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
-    public void remove_byIndex_emptySet_fails() {
-        assertThrows(IndexOutOfBoundsException.class, () -> emptySet.remove(0));
-        assertThrows(IndexOutOfBoundsException.class, () -> emptySet.removeFront());
-        assertThrows(IndexOutOfBoundsException.class, () -> emptySet.removeBack());
-    }
-
-    @Test
-    public void remove_byIndex_indexOutOfBound_fails() {
-        assertThrows(IndexOutOfBoundsException.class, () -> set.remove(-1));
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> set.remove(VALUES_UNIQUE_SORTED.size()));
-    }
-
-    @Test
-    public void remove_byIndex_returnsDeletedValue() {
-        final int index = VALUES_UNIQUE_SORTED.size() / 2;
-        final int value = VALUES_UNIQUE_SORTED.get(index);
-
-        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
-        expectedSet.remove(value);
-
-        assertThat(set.remove(index)).isEqualTo(value);
-
-        assertThat(set).containsExactlyElementsIn(expectedSet).inOrder();
-    }
-
-    @Test
-    public void remove_byIndex_thenAdd_resultsInSameSet() {
-        assertThat(set.add(set.remove(VALUES_UNIQUE_SORTED.size() / 2))).isTrue();
-        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
-    }
-
-    @Test
-    public void removeFront_returnsDeletedValue() {
-        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
-        expectedSet.removeFirst();
-
-        assertThat(set.removeFront()).isEqualTo(VALUES_UNIQUE_SORTED.getFirst());
-
-        assertThat(set).containsExactlyElementsIn(expectedSet).inOrder();
-    }
-
-    @Test
-    public void removeFront_thenAdd_resultsInSameSet() {
-        assertThat(set.add(set.removeFront())).isTrue();
-        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
-    }
-
-    @Test
-    public void removeBack_returnsDeletedValue() {
-        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
-        expectedSet.removeLast();
-
-        assertThat(set.removeBack()).isEqualTo(VALUES_UNIQUE_SORTED.getLast());
-
-        assertThat(set).containsExactlyElementsIn(expectedSet).inOrder();
-    }
-
-    @Test
-    public void removeBack_thenAdd_resultsInSameSet() {
-        assertThat(set.add(set.removeBack())).isTrue();
-        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
-    }
-
-    @Test
-    public void remove_byValue() {
-        final int value = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2);
-
-        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
-        expectedSet.remove(value);
-
-        assertThat(set.remove(Integer.valueOf(value))).isTrue();
-
-        assertThat(set).containsExactlyElementsIn(expectedSet).inOrder();
-    }
-
-    @Test
-    public void remove_byValue_valueNotExist_doesNothing() {
-        assertThat(emptySet.remove(Integer.valueOf(1))).isFalse();
+    public void remove_emptySet_doesNothing() {
+        assertThat(emptySet.remove(1)).isFalse();
         assertThat(emptySet).isEmpty();
+    }
 
-        assertThat(set.remove(Integer.valueOf(VALUES_UNIQUE_SORTED.getFirst() + 1))).isFalse();
-        assertThat(set.remove(Integer.valueOf(VALUES_UNIQUE_SORTED.getLast() + 1))).isFalse();
+    @Test
+    public void remove_nonExistingElement_doesNothing() {
+        assertThat(set.remove(VALUES_UNIQUE_SORTED.getFirst() + 1)).isFalse();
+        assertThat(set.remove(VALUES_UNIQUE_SORTED.getLast() + 1)).isFalse();
         assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
     }
 
     @Test
-    public void remove_byValue_thenAdd_resultsInSameSet() {
+    public void remove_returnsDeletedElement() {
+        final int oldValue = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2);
+
+        SortedSet<Integer> expectedSet = new TreeSet<>(VALUES_UNIQUE_SORTED);
+        expectedSet.remove(oldValue);
+
+        assertThat(set.remove(oldValue)).isTrue();
+
+        assertThat(set).containsExactlyElementsIn(expectedSet).inOrder();
+    }
+
+    @Test
+    public void remove_thenAddSameElement_resultsInSameSet() {
         final int value = VALUES_UNIQUE_SORTED.get(VALUES_UNIQUE_SORTED.size() / 2);
-
-        assertThat(set.remove(Integer.valueOf(value))).isTrue();
+        assertThat(set.remove(value)).isTrue();
         assertThat(set.add(value)).isTrue();
-
         assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
+    }
+
+    @Test
+    public void removeAll_fromNullInput_fails() {
+        assertThrows(NullPointerException.class, () -> emptySet.removeAll(null));
+        assertThrows(NullPointerException.class, () -> set.removeAll(null));
+    }
+
+    @Test
+    public void removeAll_fromInputWithNullElements_fails() {
+        assertThrows(NullPointerException.class,
+                () -> emptySet.removeAll(Collections.singletonList(null)));
+        assertThrows(NullPointerException.class,
+                () -> set.removeAll(Collections.singletonList(null)));
+    }
+
+    @Test
+    public void removeAll_fromEmptyInput_doesNothing() {
+        assertThat(emptySet.removeAll(Collections.emptyList())).isFalse();
+        assertThat(emptySet).isEmpty();
+        assertThat(set.removeAll(Collections.emptyList())).isFalse();
+        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
+    }
+
+    @Test
+    public void removeAll_noCommonElements_doesNothing() {
+        List<Integer> noCommonValues = VALUES.stream().map(value -> -value).toList();
+        assertThat(set.removeAll(noCommonValues)).isFalse();
+        assertThat(set).containsExactlyElementsIn(VALUES_UNIQUE_SORTED).inOrder();
+    }
+
+    @Test
+    public void removeAll_deletesAllCommonElements() {
+        assertThat(set.removeAll(VALUES)).isTrue();
+        assertThat(set).isEmpty();
     }
 
     @Test

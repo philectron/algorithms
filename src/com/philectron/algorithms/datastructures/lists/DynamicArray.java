@@ -1,7 +1,6 @@
 package com.philectron.algorithms.datastructures.lists;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
 import static com.philectron.algorithms.logic.Assertion.assertNotNegative;
@@ -34,7 +33,7 @@ public class DynamicArray<E> implements List<E> {
      */
     public DynamicArray(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(iterable));
+        addAll(iterable);
     }
 
     /**
@@ -71,7 +70,7 @@ public class DynamicArray<E> implements List<E> {
     }
 
     @Override
-    public boolean add(int position, E element) {
+    public void add(int position, E element) {
         assertPositionIndex(size, array.length);
         checkPositionIndex(position, size);
 
@@ -87,7 +86,6 @@ public class DynamicArray<E> implements List<E> {
         array[position] = element;
 
         size++;
-        return true;
     }
 
     /**
@@ -114,7 +112,7 @@ public class DynamicArray<E> implements List<E> {
             }
             firstIndex++;
         }
-        return -1;
+        return -1; // not found
     }
 
     @Override
@@ -127,7 +125,7 @@ public class DynamicArray<E> implements List<E> {
             }
             lastIndex--;
         }
-        return -1;
+        return -1; // not found
     }
 
     @Override
@@ -146,7 +144,22 @@ public class DynamicArray<E> implements List<E> {
         if (size == array.length / 2) {
             shrinkArray();
         }
+
         return oldValue;
+    }
+
+    @Override
+    public boolean remove(E element) {
+        assertPositionIndex(size, array.length);
+
+        final int index = indexOf(element);
+        if (index == -1) {
+            return false; // element not found, array was unmodified
+        }
+
+        remove(index);
+
+        return true; // element found, array was modified
     }
 
     /**
@@ -160,6 +173,13 @@ public class DynamicArray<E> implements List<E> {
         for (int i = 0; i < size; i++) {
             array[i] = oldArray[i];
             oldArray[i] = null; // to help with garbage collection
+        }
+    }
+
+    @Override
+    public void clear() {
+        while (!isEmpty()) {
+            removeLast();
         }
     }
 

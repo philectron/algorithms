@@ -1,7 +1,6 @@
 package com.philectron.algorithms.datastructures.lists;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
@@ -42,12 +41,18 @@ public class CircularSinglyLinkedList<E> implements List<E> {
      */
     public CircularSinglyLinkedList(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(iterable));
+        addAll(iterable);
     }
 
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public E get(int index) {
+        checkElementIndex(index, size);
+        return nodeAt(index).data;
     }
 
     /**
@@ -75,12 +80,6 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E get(int index) {
-        checkElementIndex(index, size);
-        return nodeAt(index).data;
-    }
-
-    @Override
     public E set(int index, E element) {
         checkElementIndex(index, size);
         Node<E> node = nodeAt(index);
@@ -90,14 +89,15 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(int position, E element) {
+    public void add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
 
-        // Since this list is circular, adding to the front is the same as adding to the back.
+        // Since this list is circular, adding to the start is the same as adding to the end.
         if (position == 0 || position == size) {
-            return addAfterLast(newNode, position == size);
+            addAfterLast(newNode, position == size);
+            return;
         }
 
         // For all other positions, traverse this list to the node right before the insert position.
@@ -109,38 +109,33 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         previousNode.next = newNode;
 
         size++;
-        return true;
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts {@code newNode} after the last node of
-     * this list.
+     * Inserts {@code newNode} after the last node of this list.
      *
      * @param newNode the node to be inserted after {@link #last}
      * @param isAddLast whether this insertion adds the new node as the first or the last node
-     *
-     * @return always {@code true}
      */
-    private boolean addAfterLast(Node<E> newNode, boolean isAddLast) {
+    private void addAfterLast(Node<E> newNode, boolean isAddLast) {
         assertNotNull(newNode);
+
         if (last != null) {
             // From: Nx (last) -> N1 -> N2
             // To: Nx (last) -> newNode -> N1 -> N2
             newNode.next = last.next;
             last.next = newNode;
         } else {
-            // If this list is empty, the new node points to itself.
-            // Setting last node will be done outside of this method.
+            // If this list is empty, the new node points next to itself.
             newNode.next = newNode;
         }
 
-        // If adding to the back, the new node also becomes the last node.
+        // If adding to the end, the new node also becomes the last node.
         if (isAddLast) {
             last = newNode;
         }
 
         size++;
-        return true;
     }
 
     @Override
@@ -179,17 +174,59 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     @Override
     public E remove(int index) {
         checkElementIndex(index, size);
-
-        // If remove at the front, the last node is the previous node.
+        // If remove at the start, the last node is the previous node.
         Node<E> previousNode = index == 0 ? assertNotNull(last) : nodeAt(index - 1);
+        return removeAfterNode(previousNode);
+    }
+
+    @Override
+    public boolean remove(E element) {
+        Node<E> previousNode = last;
+        boolean isLastIteration = false;
+
+        while (previousNode != null && !isLastIteration) {
+            Node<E> currentNode = assertNotNull(previousNode.next);
+
+            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+                removeAfterNode(previousNode);
+                return true; // element found, list was modified
+            }
+
+            if (currentNode == last) {
+                isLastIteration = true;
+            }
+            previousNode = currentNode;
+        }
+
+        return false; // element not found, list unmodified
+    }
+
+    /**
+     * Removes the node after {@code previousNode} from this list and performs reference
+     * manipulation to connect its previous and next nodes.
+     *
+     * @param previousNode the node preceding the node to be removed
+     *
+     * @return the data of the removed node
+     */
+    private E removeAfterNode(Node<E> previousNode) {
+        assertNotNull(previousNode);
+
         Node<E> nodeToRemove = assertNotNull(previousNode.next);
         E oldData = nodeToRemove.data;
 
         // From: N1 (previousNode) -> N2 (nodeToRemove) -> N3
         // To: N1 (previousNode) -> N3
         previousNode.next = nodeToRemove.next;
-        if (index == size - 1) {
-            last = previousNode;
+
+        // If removing the last node, update this list's last pointer.
+        if (nodeToRemove == last) {
+            // If this is the final remaining element in the list, list becomes empty.
+            if (size == 1) {
+                last = null;
+            } else {
+                last = previousNode;
+            }
         }
 
         // Cleanup to help garbage collection.
@@ -203,7 +240,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFirst(); // more efficient than default
+            removeFirst();
         }
     }
 
@@ -216,6 +253,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         Node<E> previousNode = last;
         Node<E> currentNode = assertNotNull(previousNode.next);
         boolean isLastIteration = false;
+
         while (!isLastIteration) {
             if (currentNode == last) {
                 isLastIteration = true;

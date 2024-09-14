@@ -2,20 +2,21 @@ package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public interface List<E> extends Indexable<E> {
+import java.util.stream.StreamSupport;
+
+public interface List<E> extends Iterable<E> {
 
     /**
      * Retrieves the size of this list.
      *
      * @return the number of elements in this list
      */
-    @Override
     int size();
 
     /**
      * Checks if this list is empty.
      *
-     * @return {@code true} if there are no elements in this list (when {@link #size()} is zero), or
+     * @return {@code true} if this list has no elements (when {@link #size()} is zero), or
      *         {@code false} otherwise
      */
     default boolean isEmpty() {
@@ -35,8 +36,35 @@ public interface List<E> extends Indexable<E> {
      * @see #getFirst()
      * @see #getLast()
      */
-    @Override
     E get(int index);
+
+    /**
+     * Retrieves the first element of this list.
+     *
+     * @return the element at the first index of this list
+     *
+     * @throws IndexOutOfBoundsException if this list is empty
+     *
+     * @see #get(int)
+     * @see #getLast()
+     */
+    default E getFirst() {
+        return get(0);
+    }
+
+    /**
+     * Retrieves the last element of this list.
+     *
+     * @return the element at the last index of this list
+     *
+     * @throws IndexOutOfBoundsException if this list is empty
+     *
+     * @see #get(int)
+     * @see #getFirst()
+     */
+    default E getLast() {
+        return get(size() - 1);
+    }
 
     /**
      * Replaces the element at index {@code index} of this list with {@code element}.
@@ -93,82 +121,83 @@ public interface List<E> extends Indexable<E> {
     }
 
     /**
-     * Inserts {@code element} at index {@code position} of this list. Shifts the current element at
-     * that index (if any) and any subsequent elements to the right (adds 1 to their indices).
+     * Inserts {@code element} into this list at index {@code position}. Shifts the current element
+     * at that index (if any) and any subsequent elements to the right (adds 1 to their indices).
      *
      * @param position the position index at which the new element is to be inserted
      * @param element the element to be inserted at {@code position}
-     *
-     * @return {@code true} if this list is modified as a result of the insertion, or {@code false}
-     *         otherwise
      *
      * @throws IndexOutOfBoundsException if {@code position} is negative or is greater than
      *         {@link #size()}
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
      *
+     * @see #add(E)
      * @see #addFirst(E)
      * @see #addLast(E)
      */
-    boolean add(int position, E element);
+    void add(int position, E element);
+
+    /**
+     * Appends {@code element} to the end of this list.
+     *
+     * @param element the element to be appended
+     *
+     * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
+     *         null elements
+     *
+     * @see #add(int, E)
+     * @see #addFirst(E)
+     * @see #addLast(E)
+     */
+    default void add(E element) {
+        add(size(), element);
+    }
 
     /**
      * Inserts {@code element} as the first element of this list. Shifts the current first element
      * (if any) and any subsequent elements to the right (adds 1 to their indices).
      *
-     * @param element the element to be inserted
-     *
-     * @return {@code true} if this list is modified as a result of the insertion, or {@code false}
-     *         otherwise
+     * @param element the element to be inserted as the first element
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
      *
      * @see #add(int, E)
+     * @see #add(E)
      * @see #addLast(E)
      */
-    default boolean addFirst(E element) {
-        return add(0, element);
+    default void addFirst(E element) {
+        add(0, element);
     }
 
     /**
      * Inserts {@code element} as the last element of this list.
      *
-     * @param element the element to be inserted
-     *
-     * @return {@code true} if this list is modified as a result of the insertion, or {@code false}
-     *         otherwise
+     * @param element the element to be inserted as the last element
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
      *
      * @see #add(int, E)
+     * @see #add(E)
      * @see #addFirst(E)
      */
-    default boolean addLast(E element) {
-        return add(size(), element);
+    default void addLast(E element) {
+        add(size(), element);
     }
 
     /**
-     * Appends all elements from {@code iterable} to this list.
+     * Appends all elements from {@code iterable} to the end of this list.
      *
      * @param iterable the {@link Iterable} containing the elements to be appended
-     *
-     * @return {@code true} if this list is modified as a result of the insertions, or {@code false}
-     *         otherwise
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
      *         in {@code iterable} is {@code null} and this list does not permit null elements
      */
-    default boolean addAll(Iterable<? extends E> iterable) {
+    default void addAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
-        boolean modified = false;
-        for (E element : iterable) {
-            if (addLast(element)) {
-                modified = true;
-            }
-        }
-        return modified;
+        iterable.forEach(this::add);
     }
 
     /**
@@ -185,7 +214,6 @@ public interface List<E> extends Indexable<E> {
      * @see #lastIndexOf(E)
      * @see #contains(E)
      */
-    @Override
     int indexOf(E element);
 
     /**
@@ -202,7 +230,6 @@ public interface List<E> extends Indexable<E> {
      * @see #indexOf(E)
      * @see #contains(E)
      */
-    @Override
     int lastIndexOf(E element);
 
     /**
@@ -223,7 +250,7 @@ public interface List<E> extends Indexable<E> {
     }
 
     /**
-     * Removes the element at index {@code index} of this list. Shifts any subsequent elements to
+     * Removes the element at index {@code index} from this list. Shifts any subsequent elements to
      * the left (subtracts 1 from their indices).
      *
      * @param index the index of the element to be removed
@@ -237,6 +264,17 @@ public interface List<E> extends Indexable<E> {
      * @see #removeLast()
      */
     E remove(int index);
+
+    /**
+     * Removes the first occurrence of {@code element}, if it exists, from this list. Shifts any
+     * subsequent elements to the left (subtracts 1 from their indices).
+     *
+     * @param element the element to be removed if exists
+     *
+     * @return {@code true} if this list is modified as a result of the removal, or {@code false}
+     *         otherwise
+     */
+    boolean remove(E element);
 
     /**
      * Removes the first element from this list. Shifts any subsequent elements to the left
@@ -268,37 +306,39 @@ public interface List<E> extends Indexable<E> {
     }
 
     /**
-     * Removes from this list all element that are contained in {@code iterable}.
+     * Removes from this list all elements that are contained in {@code iterable}.
      *
      * @param iterable the {@link Iterable} containing the elements to be removed from this list
      *
      * @return {@code true} if this list is modified as a result of the removals, or {@code false}
-     *         if there are no common elements in this list and {@code iterable}
+     *         otherwise
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
      *         in {@code iterable} is {@code null} and this list does not permit null elements
      */
     default boolean removeAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
-        boolean modified = false;
-        for (E element : iterable) {
-            int index = indexOf(element);
-            if (index >= 0) {
-                remove(index);
-                modified = true;
-            }
-        }
-        return modified;
+        // For each distinct element of the iterable, remove it from this list until it no longer
+        // exists, then return the final result as true if any of the removals modified the list.
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .distinct()
+                .map(element -> {
+                    var wrapper = new Object() {
+                        boolean modified = false;
+                    };
+                    while (remove(element)) {
+                        wrapper.modified = true;
+                    }
+                    return wrapper.modified;
+                })
+                .reduce(Boolean::logicalOr)
+                .orElse(false);
     }
 
     /**
      * Removes all elements from this list. The list will be empty after this operation finishes.
      */
-    default void clear() {
-        while (!isEmpty()) {
-            removeLast();
-        }
-    }
+    void clear();
 
     /**
      * Reverses this list's order of elements.

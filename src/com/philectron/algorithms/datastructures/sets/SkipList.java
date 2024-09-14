@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
-import com.philectron.algorithms.datastructures.interfaces.Indexable;
 import com.philectron.algorithms.datastructures.interfaces.OrderedSet;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedSet<E> {
+public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
 
     private static final int MAX_LEVEL = 4;
 
@@ -61,7 +60,7 @@ public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedS
      */
     public SkipList(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(iterable));
+        addAll(iterable);
     }
 
     @Override
@@ -69,7 +68,19 @@ public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedS
         return size;
     }
 
-    @Override
+    /**
+     * Retrieves the element at index {@code index} of this skip list.
+     *
+     * @param index the index of the element to return
+     *
+     * @return the element at {@code index}
+     *
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
+     *         {@link #size()}, or if this skip list {@link #isEmpty()}
+     *
+     * @see #getFirst()
+     * @see #getLast()
+     */
     public E get(int index) {
         checkElementIndex(index, size);
 
@@ -88,6 +99,22 @@ public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedS
         }
 
         return node.data;
+    }
+
+    @Override
+    public E getFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Skip list is empty");
+        }
+        return get(0);
+    }
+
+    @Override
+    public E getLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Skip list is empty");
+        }
+        return get(size - 1);
     }
 
     @Override
@@ -218,7 +245,6 @@ public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedS
         newNode.width[currentLevel] = oldPreviousWidth - newPreviousWidth + 1;
     }
 
-    @Override
     public int indexOf(E element) {
         checkNotNull(element);
 
@@ -239,17 +265,28 @@ public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedS
         return -1; // not found
     }
 
-    @Override
     public int lastIndexOf(E element) {
-        return indexOf(checkNotNull(element));
+        return indexOf(element);
     }
 
     @Override
     public boolean contains(E element) {
-        return indexOf(checkNotNull(element)) >= 0;
+        return indexOf(element) >= 0;
     }
 
-    @Override
+    /**
+     * Removes the element at index {@code index} of this set. Shifts any subsequent elements to the
+     * left (subtracts 1 from their indices).
+     *
+     * @param index the index of the element to be removed
+     *
+     * @return the element previously at {@code index}
+     *
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
+     *         {@link #size()}
+     *
+     * @see #remove(E)
+     */
     public E remove(int index) {
         checkElementIndex(index, size);
 
@@ -274,6 +311,33 @@ public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedS
         }
 
         return removeAfter(previousNodes);
+    }
+
+    /**
+     * Removes the element at the front of this set. Shifts any subsequent elements to the left
+     * (subtracts 1 from their indices).
+     *
+     * @return the element previously at the front of this set
+     *
+     * @throws IndexOutOfBoundsException if the set is empty
+     *
+     * @see #remove(int)
+     */
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    /**
+     * Removes the element at the back of this set.
+     *
+     * @return the element previously at the back of this set
+     *
+     * @throws IndexOutOfBoundsException if the set is empty
+     *
+     * @see #remove(int)
+     */
+    public E removeLast() {
+        return remove(size() - 1);
     }
 
     @Override
@@ -329,7 +393,7 @@ public class SkipList<E extends Comparable<E>> implements Indexable<E>, OrderedS
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFront();
+            removeFirst();
         }
     }
 

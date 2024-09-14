@@ -1,7 +1,6 @@
 package com.philectron.algorithms.datastructures.lists;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
@@ -43,12 +42,18 @@ public class CircularDoublyLinkedList<E> implements List<E> {
      */
     public CircularDoublyLinkedList(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(iterable));
+        addAll(iterable);
     }
 
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public E get(int index) {
+        checkElementIndex(index, size);
+        return nodeAt(index).data;
     }
 
     /**
@@ -60,6 +65,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
      */
     private Node<E> nodeAt(int index) {
         assertElementIndex(index, size);
+
         Node<E> node = assertNotNull(last);
         if (index < size / 2) {
             for (int i = -1; i < index; i++) {
@@ -70,13 +76,8 @@ public class CircularDoublyLinkedList<E> implements List<E> {
                 node = assertNotNull(node.previous);
             }
         }
-        return node;
-    }
 
-    @Override
-    public E get(int index) {
-        checkElementIndex(index, size);
-        return nodeAt(index).data;
+        return node;
     }
 
     @Override
@@ -89,14 +90,15 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(int position, E element) {
+    public void add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
 
-        // Since this list is circular, adding to the front is the same as adding to the back.
+        // Since this list is circular, adding to the start is the same as adding to the end.
         if (position == 0 || position == size) {
-            return addAfterLast(newNode, position == size);
+            addAfterLast(newNode, position == size);
+            return;
         }
 
         // For all other positions, traverse this list to the node right before the insert position.
@@ -110,20 +112,17 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         nextNode.previous = previousNode.next = newNode;
 
         size++;
-        return true;
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts {@code newNode} after the last node of
-     * this list.
+     * Inserts {@code newNode} after the last node of this list.
      *
      * @param newNode the node to be inserted after {@link #last}
      * @param isAddLast whether this insertion adds the new node as the first or the last node
-     *
-     * @return always {@code true}
      */
-    private boolean addAfterLast(Node<E> newNode, boolean isAddLast) {
+    private void addAfterLast(Node<E> newNode, boolean isAddLast) {
         assertNotNull(newNode);
+
         if (last != null) {
             // From: Nx (last) <-> N1 (nextNode) <-> N2
             // To: Nx (last) <-> newNode <-> N1 (nextNode) <-> N2
@@ -132,18 +131,16 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             newNode.next = nextNode;
             nextNode.previous = last.next = newNode;
         } else {
-            // If this list is empty, the new node points to itself.
-            // Setting last node will be done outside of this method.
+            // If this list is empty, the new node points next and previous to itself.
             newNode.next = newNode.previous = newNode;
         }
 
-        // If adding to the back, the new node also becomes the last node.
+        // If adding to the end, the new node also becomes the last node.
         if (isAddLast) {
             last = newNode;
         }
 
         size++;
-        return true;
     }
 
     @Override
@@ -159,7 +156,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             firstIndex++;
         }
 
-        return -1;
+        return -1; // not found
     }
 
     @Override
@@ -179,24 +176,57 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             currentNode = currentNode.previous;
         }
 
-        return -1;
+        return -1; // not found
     }
 
     @Override
     public E remove(int index) {
         checkElementIndex(index, size);
+        return removeNode(nodeAt(index));
+    }
 
-        // If remove at the front, the last node is the previous node.
-        Node<E> previousNode = index == 0 ? assertNotNull(last) : nodeAt(index - 1);
-        Node<E> nodeToRemove = assertNotNull(previousNode.next);
+    @Override
+    public boolean remove(E element) {
+        Node<E> currentNode = last != null ? last.next : null;
+        boolean isLastIteration = false;
+
+        while (currentNode != null && !isLastIteration) {
+            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+                removeNode(currentNode);
+                return true; // element found, list was modified
+            }
+
+            if (currentNode == last) {
+                isLastIteration = true;
+            }
+            currentNode = currentNode.next;
+        }
+
+        return false; // element not found, list was unmodified
+    }
+
+    /**
+     * Removes {@code nodeToRemove} from this list and performs reference manipulation to connect
+     * its previous and next nodes.
+     *
+     * @param nodeToRemove the node to be removed from this list
+     *
+     * @return the data of the removed node
+     */
+    private E removeNode(Node<E> nodeToRemove) {
+        assertNotNull(nodeToRemove);
+
         E oldData = nodeToRemove.data;
 
         // From: N1 (previousNode) <-> N2 (nodeToRemove) <-> N3 (nextNode)
         // To: N1 (previousNode) <-> N3 (nextNode)
+        Node<E> previousNode = assertNotNull(nodeToRemove.previous);
         Node<E> nextNode = assertNotNull(nodeToRemove.next);
         previousNode.next = nextNode;
         nextNode.previous = previousNode;
-        if (index == size - 1) {
+
+        // Update the last node reference if needed.
+        if (nodeToRemove == last) {
             last = previousNode;
         }
 
@@ -211,7 +241,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFirst(); // more efficient than default
+            removeFirst();
         }
     }
 
@@ -223,6 +253,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
 
         Node<E> currentNode = last.next;
         boolean isLastIteration = false;
+
         while (!isLastIteration) {
             if (currentNode == last) {
                 isLastIteration = true;
@@ -233,6 +264,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             currentNode.next = previousNode;
             currentNode = nextNode;
         }
+
         last = currentNode;
     }
 

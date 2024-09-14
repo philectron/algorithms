@@ -1,7 +1,6 @@
 package com.philectron.algorithms.datastructures.lists;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndex;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
@@ -44,12 +43,18 @@ public class DoublyLinkedList<E> implements List<E> {
      */
     public DoublyLinkedList(Iterable<? extends E> iterable) {
         this();
-        addAll(checkNotNull(iterable));
+        addAll(iterable);
     }
 
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public E get(int index) {
+        checkElementIndex(index, size);
+        return nodeAt(index).data;
     }
 
     /**
@@ -62,6 +67,7 @@ public class DoublyLinkedList<E> implements List<E> {
      */
     private Node<E> nodeAt(int index) {
         assertElementIndex(index, size);
+
         Node<E> node = null;
         if (index < size / 2) {
             node = assertNotNull(head);
@@ -74,13 +80,8 @@ public class DoublyLinkedList<E> implements List<E> {
                 node = assertNotNull(node.previous);
             }
         }
-        return node;
-    }
 
-    @Override
-    public E get(int index) {
-        checkElementIndex(index, size);
-        return nodeAt(index).data;
+        return node;
     }
 
     @Override
@@ -93,7 +94,7 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(int position, E element) {
+    public void add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
@@ -101,12 +102,14 @@ public class DoublyLinkedList<E> implements List<E> {
         // If insert at the head, the new node becomes the new head.
         // This branch handles empty list.
         if (position == 0) {
-            return addHead(newNode);
+            addHead(newNode);
+            return;
         }
 
         // If insert at the tail, the new node becomes the new tail.
         if (position == size) {
-            return addTail(newNode);
+            addTail(newNode);
+            return;
         }
 
         // For all other positions, traverse the list to the node right before the insert position.
@@ -121,18 +124,14 @@ public class DoublyLinkedList<E> implements List<E> {
         nextNode.previous = previousNode.next = newNode;
 
         size++;
-        return true;
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts {@code newNode} as the new head of this
-     * list.
+     * Inserts {@code newNode} as the new head of this list.
      *
      * @param newNode the node to be inserted and made the new head
-     *
-     * @return always {@code true}
      */
-    private boolean addHead(Node<E> newNode) {
+    private void addHead(Node<E> newNode) {
         assertNotNull(newNode);
 
         // From: N1 (head) <-> N2
@@ -149,18 +148,14 @@ public class DoublyLinkedList<E> implements List<E> {
         head = newNode;
 
         size++;
-        return true;
     }
 
     /**
-     * Helper method for {@link #add(int, E)} that inserts the {@code newNode} as the new tail of
-     * this list.
+     * Inserts the {@code newNode} as the new tail of this list.
      *
      * @param newNode the node to be inserted and made the new tail
-     *
-     * @return always {@code true}
      */
-    private boolean addTail(Node<E> newNode) {
+    private void addTail(Node<E> newNode) {
         assertNotNull(newNode);
 
         // From: N1 <-> N2 (tail)
@@ -171,7 +166,6 @@ public class DoublyLinkedList<E> implements List<E> {
         tail = newNode;
 
         size++;
-        return true;
     }
 
     @Override
@@ -183,7 +177,7 @@ public class DoublyLinkedList<E> implements List<E> {
             }
             firstIndex++;
         }
-        return -1;
+        return -1; // not found
     }
 
     @Override
@@ -195,32 +189,56 @@ public class DoublyLinkedList<E> implements List<E> {
             }
             lastIndex--;
         }
-        return -1;
+        return -1; // not found
     }
 
     @Override
     public E remove(int index) {
         checkElementIndex(index, size);
+        return removeNode(nodeAt(index));
+    }
+
+    @Override
+    public boolean remove(E element) {
+        Node<E> currentNode = head;
+        while (currentNode != null) {
+            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+                removeNode(currentNode);
+                return true; // element found, list was modified
+            }
+            currentNode = currentNode.next;
+        }
+        return false; // element not found, list was unmodified
+    }
+
+    /**
+     * Removes {@code nodeToRemove} from this list and performs reference manipulation to connect
+     * its previous and next nodes.
+     *
+     * @param nodeToRemove the node to be removed from this list
+     *
+     * @return the data of the removed node
+     */
+    private E removeNode(Node<E> nodeToRemove) {
+        assertNotNull(nodeToRemove);
 
         // If remove at the head, the next node becomes the new head.
         // This branch handles singleton list.
-        if (index == 0) {
+        if (nodeToRemove == head) {
             return removeHead();
         }
 
         // If remove at the tail, the previous node becomes the new tail.
-        if (index == size - 1) {
+        if (nodeToRemove == tail) {
             return removeTail();
         }
 
-        // For all other indices, traverse the list to the node right before the node to be removed.
-        Node<E> previousNode = nodeAt(index - 1);
+        E oldData = nodeToRemove.data;
 
         // From: N1 (previousNode) <-> N2 (nodeToRemove) <-> N3 (nextNode)
         // To: N1 (previousNode) <-> N3 (nextNode)
-        Node<E> nodeToRemove = assertNotNull(previousNode.next);
-        E oldData = nodeToRemove.data;
-        // Next node is never null because the edge cases are already handled above.
+        // Previous and next nodes are never null because the edge cases are already handled above.
+        Node<E> previousNode = assertNotNull(nodeToRemove.previous);
         Node<E> nextNode = assertNotNull(nodeToRemove.next);
         previousNode.next = nextNode;
         nextNode.previous = previousNode;
@@ -234,8 +252,7 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Helper method for {@link #remove(int)} that removes the current head of this list and sets
-     * its next node as the new head.
+     * Removes the current head of this list and sets its next node as the new head.
      *
      * @return the data of the removed head
      */
@@ -262,8 +279,7 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     /**
-     * Helper method for {@link #remove(int)} that removes the current tail of this list and sets
-     * its previous node as the new tail.
+     * Removes the current tail of this list and sets its previous node as the new tail.
      *
      * @return the data of the removed tail
      */
@@ -288,13 +304,14 @@ public class DoublyLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFirst(); // more efficient than default
+            removeFirst();
         }
     }
 
     @Override
     public void reverse() {
         Node<E> currentNode = head;
+
         while (currentNode != null) {
             Node<E> previousNode = currentNode.previous;
             Node<E> nextNode = currentNode.next;
@@ -302,6 +319,7 @@ public class DoublyLinkedList<E> implements List<E> {
             currentNode.next = previousNode;
             currentNode = nextNode;
         }
+
         currentNode = head;
         head = tail;
         tail = currentNode;
