@@ -405,7 +405,7 @@ public abstract class ListTestBase {
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());
 
         Iterator<Integer> it = list.iterator();
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < VALUES.size(); i++) {
             assertThat(it.hasNext()).isTrue();
             assertThat(it.next()).isEqualTo(VALUES.get(i));
         }

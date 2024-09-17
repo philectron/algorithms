@@ -107,6 +107,13 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
+    public void addAll_fromInputWithNull_fails() {
+        assertThrows(NullPointerException.class,
+                () -> emptySet.addAll(Collections.singletonList(null)));
+        assertThrows(NullPointerException.class, () -> set.addAll(Collections.singletonList(null)));
+    }
+
+    @Test
     public void addAll_fromEmptyInput_doesNothing() {
         assertThat(emptySet.addAll(Collections.emptyList())).isFalse();
         assertThat(emptySet).isEmpty();

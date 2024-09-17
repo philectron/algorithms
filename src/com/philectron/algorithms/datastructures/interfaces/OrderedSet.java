@@ -146,7 +146,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     }
 
     /**
-     * Removes all elements from this set. The set will be empty after this operation finishes.
+     * Removes all elements from this set. The set will be empty after this call.
      */
     void clear();
 
