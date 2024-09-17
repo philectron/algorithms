@@ -98,7 +98,7 @@ public abstract class ListTestBase {
         assertThat(emptyList).containsExactlyElementsIn(Collections.singletonList(value)).inOrder();
 
         emptyList = createList(Collections.emptyList());
-        emptyList.add(value);
+        assertThat(emptyList.add(value)).isTrue();
         assertThat(emptyList).containsExactlyElementsIn(Collections.singletonList(value)).inOrder();
 
         emptyList = createList(Collections.emptyList());
@@ -127,7 +127,7 @@ public abstract class ListTestBase {
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
 
         expectedList.add(newValue);
-        list.add(newValue);
+        assertThat(list.add(newValue)).isTrue();
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
 
         expectedList.addFirst(newValue);
@@ -147,15 +147,15 @@ public abstract class ListTestBase {
 
     @Test
     public void addAll_fromEmptyInput_doesNothing() {
-        emptyList.addAll(Collections.emptyList());
+        assertThat(emptyList.addAll(Collections.emptyList())).isFalse();
         assertThat(emptyList).isEmpty();
-        list.addAll(Collections.emptyList());
+        assertThat(list.addAll(Collections.emptyList())).isFalse();
         assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
     public void addAll_intoEmptyList_buildsSameList() {
-        emptyList.addAll(VALUES);
+        assertThat(emptyList.addAll(VALUES)).isTrue();
         assertThat(emptyList).containsExactlyElementsIn(VALUES).inOrder();
     }
 
@@ -164,7 +164,7 @@ public abstract class ListTestBase {
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
         expectedList.addAll(VALUES);
 
-        list.addAll(VALUES);
+        assertThat(list.addAll(VALUES)).isTrue();
 
         assertThat(list).containsExactlyElementsIn(expectedList).inOrder();
     }
@@ -363,7 +363,7 @@ public abstract class ListTestBase {
         java.util.List<Integer> valuesToRemove = new ArrayList<>(VALUES);
         valuesToRemove.add(null);
 
-        list.addAll(Collections.nCopies(VALUES.size(), null));
+        assertThat(list.addAll(Collections.nCopies(VALUES.size(), null))).isTrue();
         assertThat(list.removeAll(valuesToRemove)).isTrue();
         assertThat(list).isEmpty();
     }

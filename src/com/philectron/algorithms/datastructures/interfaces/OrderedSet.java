@@ -25,7 +25,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     }
 
     /**
-     * Retrieves the first (smallest) in this set.
+     * Retrieves the first (smallest) element in this set.
      *
      * @return the first (smallest) element in this set
      *
@@ -36,7 +36,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     E getFirst();
 
     /**
-     * Retrieves the last (largest) in this set.
+     * Retrieves the last (largest) element in this set.
      *
      * @return the last (largest) element in this set
      *
@@ -51,7 +51,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if this set is modified as a result of the insertion, or {@code false}
+     * @return {@code true} if {@code element} was inserted into this set, or {@code false}
      *         otherwise
      *
      * @throws NullPointerException if {@code element} is {@code null}
@@ -63,8 +63,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if this set has been modified as a result of the insertions, or
-     *         {@code false} otherwise
+     * @return {@code true} if this set changed as a result of this call, or {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
      *         {@code null}
@@ -96,20 +95,40 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param element the element to be removed if exists
      *
-     * @return {@code true} if this set is modified as a result of the removal, or {@code false}
-     *         otherwise
+     * @return {@code true} if {@code element} was removed from this set, or {@code false} otherwise
      *
      * @throws NullPointerException if {@code element} is {@code null}
      */
     boolean remove(E element);
 
     /**
+     * Removes the first (smallest) element from this set.
+     *
+     * @return the first (smallest) element in this set before the removal
+     *
+     * @throws NoSuchElementException if this set is empty
+     *
+     * @see #removeLast
+     */
+    E removeFirst();
+
+    /**
+     * Removes the last (largest) element from this set.
+     *
+     * @return the last (largest) element in this set before the removal
+     *
+     * @throws NoSuchElementException if this set is empty
+     *
+     * @see #removeFirst
+     */
+    E removeLast();
+
+    /**
      * Removes from this set all elements that are contained in {@code iterable}.
      *
      * @param iterable the {@link Iterable} containing the elements to be removed from this set
      *
-     * @return {@code true} if this set is modified as a result of the removals, or {@code false}
-     *         otherwise
+     * @return {@code true} if this set changed as a result of this call, or {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
      *         {@code null}
@@ -118,7 +137,8 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
         checkNotNull(iterable);
         // For each distinct element of the iterable, remove it from this set, then return the final
         // result as true if any of the removals modified the list.
-        return StreamSupport.stream(iterable.spliterator(), false)
+        return StreamSupport
+                .stream(iterable.spliterator(), false)
                 .distinct()
                 .map(element -> remove(element))
                 .reduce(Boolean::logicalOr)

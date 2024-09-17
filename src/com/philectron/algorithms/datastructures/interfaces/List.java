@@ -143,6 +143,8 @@ public interface List<E> extends Iterable<E> {
      *
      * @param element the element to be appended
      *
+     * @return always {@code true} to indicate {@code element} was appended to this list
+     *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
      *
@@ -150,8 +152,9 @@ public interface List<E> extends Iterable<E> {
      * @see #addFirst(E)
      * @see #addLast(E)
      */
-    default void add(E element) {
+    default boolean add(E element) {
         add(size(), element);
+        return true;
     }
 
     /**
@@ -192,12 +195,20 @@ public interface List<E> extends Iterable<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be appended
      *
+     * @return always {@code true} to indicate all elements of {@code iterable} was appended to this
+     *         list
+     *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
      *         in {@code iterable} is {@code null} and this list does not permit null elements
      */
-    default void addAll(Iterable<? extends E> iterable) {
+    default boolean addAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
-        iterable.forEach(this::add);
+        boolean modified = false;
+        for (E element : iterable) {
+            add(element);
+            modified = true;
+        }
+        return modified;
     }
 
     /**
@@ -271,7 +282,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @param element the element to be removed if exists
      *
-     * @return {@code true} if this list is modified as a result of the removal, or {@code false}
+     * @return {@code true} if {@code element} was removed from this list, or {@code false}
      *         otherwise
      */
     boolean remove(E element);
@@ -310,7 +321,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be removed from this list
      *
-     * @return {@code true} if this list is modified as a result of the removals, or {@code false}
+     * @return {@code true} if this list changed as a result of this call, or {@code false}
      *         otherwise
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
@@ -320,7 +331,8 @@ public interface List<E> extends Iterable<E> {
         checkNotNull(iterable);
         // For each distinct element of the iterable, remove it from this list until it no longer
         // exists, then return the final result as true if any of the removals modified the list.
-        return StreamSupport.stream(iterable.spliterator(), false)
+        return StreamSupport
+                .stream(iterable.spliterator(), false)
                 .distinct()
                 .map(element -> {
                     var wrapper = new Object() {

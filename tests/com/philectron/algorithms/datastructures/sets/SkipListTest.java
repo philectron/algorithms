@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.philectron.algorithms.datastructures.interfaces.OrderedSet;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,8 +90,8 @@ public class SkipListTest extends OrderedSetTestBase {
     @Test
     public void remove_byIndex_emptySkipList_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptySkipList.remove(0));
-        assertThrows(IndexOutOfBoundsException.class, () -> emptySkipList.removeFirst());
-        assertThrows(IndexOutOfBoundsException.class, () -> emptySkipList.removeLast());
+        assertThrows(NoSuchElementException.class, () -> emptySkipList.removeFirst());
+        assertThrows(NoSuchElementException.class, () -> emptySkipList.removeLast());
     }
 
     @Test

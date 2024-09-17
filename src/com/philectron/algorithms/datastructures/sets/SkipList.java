@@ -313,30 +313,19 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         return removeAfter(previousNodes);
     }
 
-    /**
-     * Removes the element at the front of this set. Shifts any subsequent elements to the left
-     * (subtracts 1 from their indices).
-     *
-     * @return the element previously at the front of this set
-     *
-     * @throws IndexOutOfBoundsException if the set is empty
-     *
-     * @see #remove(int)
-     */
+    @Override
     public E removeFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Skip list is empty");
+        }
         return remove(0);
     }
 
-    /**
-     * Removes the element at the back of this set.
-     *
-     * @return the element previously at the back of this set
-     *
-     * @throws IndexOutOfBoundsException if the set is empty
-     *
-     * @see #remove(int)
-     */
+    @Override
     public E removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Skip list is empty");
+        }
         return remove(size() - 1);
     }
 
