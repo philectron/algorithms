@@ -129,14 +129,14 @@ public abstract class StackTestBase {
     }
 
     @Test
-    public void top_emptyStack_returnsEmpty() {
-        assertThat(emptyStack.top()).isEmpty();
+    public void peek_emptyStack_returnsEmpty() {
+        assertThat(emptyStack.peek()).isEmpty();
         assertThat(emptyStack).isEmpty();
     }
 
     @Test
-    public void top_existingStack_returnsTopElementWithoutRemoval() {
-        assertThat(stack.top()).hasValue(VALUES.getFirst());
+    public void peek_existingStack_returnsTopElementWithoutRemoval() {
+        assertThat(stack.peek()).hasValue(VALUES.getFirst());
         assertThat(stack).containsExactlyElementsIn(VALUES_REVERSED).inOrder();
     }
 

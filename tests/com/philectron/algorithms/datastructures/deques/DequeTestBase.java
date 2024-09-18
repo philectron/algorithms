@@ -210,26 +210,26 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void front_emptyDeque_returnsEmpty() {
-        assertThat(emptyDeque.front()).isEmpty();
+    public void peekFront_emptyDeque_returnsEmpty() {
+        assertThat(emptyDeque.peekFront()).isEmpty();
         assertThat(emptyDeque).isEmpty();
     }
 
     @Test
-    public void front_existingDeque_returnsFrontElementWithoutRemoval() {
-        assertThat(deque.front()).hasValue(VALUES.getFirst());
+    public void peekFront_existingDeque_returnsFrontElementWithoutRemoval() {
+        assertThat(deque.peekFront()).hasValue(VALUES.getFirst());
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void rear_emptyDeque_returnsEmpty() {
-        assertThat(emptyDeque.rear()).isEmpty();
+    public void peekRear_emptyDeque_returnsEmpty() {
+        assertThat(emptyDeque.peekRear()).isEmpty();
         assertThat(emptyDeque).isEmpty();
     }
 
     @Test
-    public void rear_existingDeque_returnsRearElementWithoutRemoval() {
-        assertThat(deque.rear()).hasValue(VALUES.getLast());
+    public void peekRear_existingDeque_returnsRearElementWithoutRemoval() {
+        assertThat(deque.peekRear()).hasValue(VALUES.getLast());
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
     }
 

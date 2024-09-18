@@ -6,7 +6,7 @@ public class LinkedListDequeTest extends DequeTestBase {
 
     @Override
     Deque<Integer> createDeque(Iterable<Integer> iterable) {
-        return new LinkedListDeque<>(iterable);
+        return new LinkedDeque<>(iterable);
     }
 
 }

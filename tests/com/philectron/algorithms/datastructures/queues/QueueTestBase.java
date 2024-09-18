@@ -126,26 +126,26 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void front_emptyQueue_returnsEmpty() {
-        assertThat(emptyQueue.front()).isEmpty();
+    public void peekFront_emptyQueue_returnsEmpty() {
+        assertThat(emptyQueue.peekFront()).isEmpty();
         assertThat(emptyQueue).isEmpty();
     }
 
     @Test
-    public void front_existingQueue_returnsFrontElementWithoutRemoval() {
-        assertThat(queue.front()).hasValue(VALUES.getFirst());
+    public void peekFront_existingQueue_returnsFrontElementWithoutRemoval() {
+        assertThat(queue.peekFront()).hasValue(VALUES.getFirst());
         assertThat(queue).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void rear_emptyQueue_returnsEmpty() {
-        assertThat(emptyQueue.rear()).isEmpty();
+    public void peekRear_emptyQueue_returnsEmpty() {
+        assertThat(emptyQueue.peekRear()).isEmpty();
         assertThat(emptyQueue).isEmpty();
     }
 
     @Test
-    public void rear_existingQueue_returnsRearElementWithoutRemoval() {
-        assertThat(queue.rear()).hasValue(VALUES.getLast());
+    public void peekRear_existingQueue_returnsRearElementWithoutRemoval() {
+        assertThat(queue.peekRear()).hasValue(VALUES.getLast());
         assertThat(queue).containsExactlyElementsIn(VALUES).inOrder();
     }
 

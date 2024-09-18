@@ -58,7 +58,7 @@ public interface Queue<E> extends Iterable<E> {
      * @return the element previously at the front of this queue, or {@link Optional#empty()} if
      *         this queue {@link #isEmpty()}
      *
-     * @see #front()
+     * @see #peekFront()
      */
     Optional<E> dequeue();
 
@@ -69,9 +69,9 @@ public interface Queue<E> extends Iterable<E> {
      *         queue {@link #isEmpty()}
      *
      * @see #dequeue()
-     * @see #rear()
+     * @see #peekRear()
      */
-    Optional<E> front();
+    Optional<E> peekFront();
 
     /**
      * Retrieves, but does not remove, the element at the rear of this queue, if any.
@@ -79,9 +79,9 @@ public interface Queue<E> extends Iterable<E> {
      * @return the element currently at the rear of this queue, or {@link Optional#empty()} if this
      *         queue {@link #isEmpty()}
      *
-     * @see #front()
+     * @see #peekFront()
      */
-    Optional<E> rear();
+    Optional<E> peekRear();
 
     /**
      * Removes all elements from this queue. The queue will be empty after this call.

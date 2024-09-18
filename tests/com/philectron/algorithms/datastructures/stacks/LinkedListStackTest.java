@@ -6,7 +6,7 @@ public class LinkedListStackTest extends StackTestBase {
 
     @Override
     Stack<Integer> createStack(Iterable<Integer> iterable) {
-        return new LinkedListStack<>(iterable);
+        return new LinkedStack<>(iterable);
     }
 
 }

@@ -6,7 +6,7 @@ public class LinkedListQueueTest extends QueueTestBase {
 
     @Override
     Queue<Integer> createQueue(Iterable<Integer> iterable) {
-        return new LinkedListQueue<>(iterable);
+        return new LinkedQueue<>(iterable);
     }
 
 }

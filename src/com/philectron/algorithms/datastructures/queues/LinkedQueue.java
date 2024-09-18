@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class LinkedListQueue<E> implements Queue<E> {
+public class LinkedQueue<E> implements Queue<E> {
 
     private static class Node<E> {
         private E data;
@@ -24,21 +24,21 @@ public class LinkedListQueue<E> implements Queue<E> {
     private int size;
 
     /**
-     * Initializes an empty linked list queue.
+     * Initializes an empty linked queue.
      */
-    public LinkedListQueue() {
+    public LinkedQueue() {
         rear = front = null;
         size = 0;
     }
 
     /**
-     * Initializes a linked list queue with all elements copied from {@code iterable}.
+     * Initializes a linked queue with all elements copied from {@code iterable}.
      *
      * @param iterable the {@link Iterable} whose elements are to be copied to this queue
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
-    public LinkedListQueue(Iterable<? extends E> iterable) {
+    public LinkedQueue(Iterable<? extends E> iterable) {
         this();
         enqueueAll(iterable);
     }
@@ -91,7 +91,7 @@ public class LinkedListQueue<E> implements Queue<E> {
     }
 
     @Override
-    public Optional<E> front() {
+    public Optional<E> peekFront() {
         if (isEmpty()) {
             return Optional.empty();
         }
@@ -99,7 +99,7 @@ public class LinkedListQueue<E> implements Queue<E> {
     }
 
     @Override
-    public Optional<E> rear() {
+    public Optional<E> peekRear() {
         if (isEmpty()) {
             return Optional.empty();
         }

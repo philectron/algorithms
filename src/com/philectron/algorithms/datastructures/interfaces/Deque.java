@@ -103,7 +103,7 @@ public interface Deque<E> extends Iterable<E> {
      * @return the element currently at the front of this deque, or {@link Optional#empty()} if this
      *         deque {@link #isEmpty()}
      */
-    Optional<E> front();
+    Optional<E> peekFront();
 
     /**
      * Retrieves, but does not remove, the element at the rear of this deque.
@@ -111,7 +111,7 @@ public interface Deque<E> extends Iterable<E> {
      * @return the element currently at the rear of this deque, or {@link Optional#empty()} if this
      *         deque {@link #isEmpty()}
      */
-    Optional<E> rear();
+    Optional<E> peekRear();
 
     /**
      * Removes all elements from this deque. The deque will be empty after this call.

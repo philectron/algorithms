@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class LinkedListDeque<E> implements Deque<E> {
+public class LinkedDeque<E> implements Deque<E> {
 
     private static class Node<E> {
         private E data;
@@ -25,21 +25,21 @@ public class LinkedListDeque<E> implements Deque<E> {
     private int size;
 
     /**
-     * Initializes an empty linked list deque.
+     * Initializes an empty linked deque.
      */
-    public LinkedListDeque() {
+    public LinkedDeque() {
         rear = front = null;
         size = 0;
     }
 
     /**
-     * Initializes a linked list deque with all elements copied from {@code iterable}.
+     * Initializes a linked deque with all elements copied from {@code iterable}.
      *
      * @param iterable the {@link Iterable} whose elements are to be copied to this deque
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
-    public LinkedListDeque(Iterable<? extends E> iterable) {
+    public LinkedDeque(Iterable<? extends E> iterable) {
         this();
         pushRearAll(iterable);
     }
@@ -140,7 +140,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public Optional<E> front() {
+    public Optional<E> peekFront() {
         if (isEmpty()) {
             return Optional.empty();
         }
@@ -148,7 +148,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public Optional<E> rear() {
+    public Optional<E> peekRear() {
         if (isEmpty()) {
             return Optional.empty();
         }

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class LinkedListStack<E> implements Stack<E> {
+public class LinkedStack<E> implements Stack<E> {
 
     private static class Node<E> {
         private E data;
@@ -23,21 +23,21 @@ public class LinkedListStack<E> implements Stack<E> {
     private int size;
 
     /**
-     * Initializes an empty linked list stack.
+     * Initializes an empty linked stack.
      */
-    public LinkedListStack() {
+    public LinkedStack() {
         top = null;
         size = 0;
     }
 
     /**
-     * Initializes a linked list stack with all elements copied from {@code iterable}.
+     * Initializes a linked stack with all elements copied from {@code iterable}.
      *
      * @param iterable the {@link Iterable} whose elements are to be copied to this stack
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
-    public LinkedListStack(Iterable<? extends E> iterable) {
+    public LinkedStack(Iterable<? extends E> iterable) {
         this();
         pushAll(iterable);
     }
@@ -77,7 +77,7 @@ public class LinkedListStack<E> implements Stack<E> {
     }
 
     @Override
-    public Optional<E> top() {
+    public Optional<E> peek() {
         if (isEmpty()) {
             return Optional.empty();
         }

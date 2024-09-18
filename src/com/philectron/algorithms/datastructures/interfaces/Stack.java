@@ -58,7 +58,7 @@ public interface Stack<E> extends Iterable<E> {
      * @return the element previously at the top of this stack, or {@link Optional#empty()} if this
      *         stack {@link #isEmpty()}
      *
-     * @see #top()
+     * @see #peek()
      */
     Optional<E> pop();
 
@@ -70,7 +70,7 @@ public interface Stack<E> extends Iterable<E> {
      *
      * @see #pop()
      */
-    Optional<E> top();
+    Optional<E> peek();
 
     /**
      * Removes all elements from this stack. The stack will be empty after this call.
