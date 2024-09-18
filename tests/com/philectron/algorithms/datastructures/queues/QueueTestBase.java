@@ -162,7 +162,7 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void iterator_traversesListForward() {
+    public void iterator_traversesQueueForward() {
         Iterator<Integer> emptyIt = emptyQueue.iterator();
         assertThat(emptyIt.hasNext()).isFalse();
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());

@@ -67,6 +67,9 @@ public interface Queue<E> extends Iterable<E> {
      *
      * @return the element currently at the front of this queue, or {@link Optional#empty()} if this
      *         queue {@link #isEmpty()}
+     *
+     * @see #dequeue()
+     * @see #rear()
      */
     Optional<E> front();
 
@@ -75,6 +78,8 @@ public interface Queue<E> extends Iterable<E> {
      *
      * @return the element currently at the rear of this queue, or {@link Optional#empty()} if this
      *         queue {@link #isEmpty()}
+     *
+     * @see #front()
      */
     Optional<E> rear();
 
