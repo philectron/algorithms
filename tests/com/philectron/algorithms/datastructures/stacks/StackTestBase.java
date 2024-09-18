@@ -122,9 +122,8 @@ public abstract class StackTestBase {
     @Test
     public void pop_existingStack_retrievesAndRemovesTopElement() {
         List<Integer> expectedStack = new ArrayList<>(VALUES_REVERSED);
-        expectedStack.removeFirst();
 
-        assertThat(stack.pop()).hasValue(VALUES.getLast());
+        assertThat(stack.pop()).hasValue(expectedStack.removeFirst());
 
         assertThat(stack).containsExactlyElementsIn(expectedStack).inOrder();
     }

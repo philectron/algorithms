@@ -119,9 +119,8 @@ public abstract class QueueTestBase {
     @Test
     public void dequeue_existingQueue_retrievesAndRemovesFrontElement() {
         List<Integer> expectedQueue = new ArrayList<>(VALUES);
-        expectedQueue.removeFirst();
 
-        assertThat(queue.dequeue()).hasValue(VALUES.getFirst());
+        assertThat(queue.dequeue()).hasValue(expectedQueue.removeFirst());
 
         assertThat(queue).containsExactlyElementsIn(expectedQueue).inOrder();
     }
