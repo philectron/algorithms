@@ -2,7 +2,7 @@ package com.philectron.algorithms.datastructures.deques;
 
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 
-public class LinkedListDequeTest extends DequeTestBase {
+public class LinkedDequeTest extends DequeTestBase {
 
     @Override
     Deque<Integer> createDeque(Iterable<Integer> iterable) {

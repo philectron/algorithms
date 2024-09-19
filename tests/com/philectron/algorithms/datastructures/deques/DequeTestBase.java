@@ -245,7 +245,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void iterator_traversesDequeForward() {
+    public void iterator_traversesDequeFrontToRear() {
         Iterator<Integer> emptyIt = emptyDeque.iterator();
         assertThat(emptyIt.hasNext()).isFalse();
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());

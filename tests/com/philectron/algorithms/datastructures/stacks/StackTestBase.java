@@ -152,7 +152,7 @@ public abstract class StackTestBase {
     }
 
     @Test
-    public void iterator_traversesStackForward() {
+    public void iterator_traversesStackTopToBottom() {
         Iterator<Integer> emptyIt = emptyStack.iterator();
         assertThat(emptyIt.hasNext()).isFalse();
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());
