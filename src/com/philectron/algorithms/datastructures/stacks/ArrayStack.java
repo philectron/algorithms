@@ -22,6 +22,13 @@ public class ArrayStack<E> implements Stack<E> {
         array = allocateArray(DEFAULT_STACK_CAPACITY);
     }
 
+    /**
+     * Initializes an array stack with all elements copied from {@code iterable}.
+     *
+     * @param iterable the {@link Iterable} whose elements are to be copied to this stack
+     *
+     * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
+     */
     public ArrayStack(Iterable<? extends E> iterable) {
         this();
         pushAll(iterable);

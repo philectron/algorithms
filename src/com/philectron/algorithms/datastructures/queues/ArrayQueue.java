@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class CircularArrayQueue<E> implements Queue<E> {
+public class ArrayQueue<E> implements Queue<E> {
 
     static final int DEFAULT_QUEUE_CAPACITY = 20;
 
@@ -16,14 +16,24 @@ public class CircularArrayQueue<E> implements Queue<E> {
     private int rear;
     private int size;
 
-    public CircularArrayQueue() {
+    /**
+     * Initializes an empty array queue.
+     */
+    public ArrayQueue() {
         front = 0;
         rear = -1;
         size = 0;
         array = allocateArray(DEFAULT_QUEUE_CAPACITY);
     }
 
-    public CircularArrayQueue(Iterable<? extends E> iterable) {
+    /**
+     * Initializes an array queue with all elements copied from {@code iterable}.
+     *
+     * @param iterable the {@link Iterable} whose elements are to be copied to this stack
+     *
+     * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
+     */
+    public ArrayQueue(Iterable<? extends E> iterable) {
         this();
         enqueueAll(iterable);
     }
