@@ -1,0 +1,54 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Java CI with Maven
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: temurin
+          cache: maven
+
+      - name: Build with Maven
+        shell: bash
+        run: mvn verify --file pom.xml --batch-mode --update-snapshots
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: |
+            target/*.jar
+            target/site/
+
+  dependabot:
+    name: Auto-merge Dependabot PRs
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    if: |
+      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      contains(github.event.pull_request.title, 'bump') &&
+      (github.event.pull_request.merged == false || github.event.pull_request.merged == null)
+
+    steps:
+      - name: Enable auto-merge for Dependabot PRs
+        shell: bash
+        run: gh pr merge --auto --merge "${PR_URL}"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
