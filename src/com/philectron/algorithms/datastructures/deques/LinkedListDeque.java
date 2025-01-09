@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class LinkedDeque<E> implements Deque<E> {
+public class LinkedListDeque<E> implements Deque<E> {
 
     private static class Node<E> {
         private E data;
@@ -27,7 +27,7 @@ public class LinkedDeque<E> implements Deque<E> {
     /**
      * Initializes an empty linked deque.
      */
-    public LinkedDeque() {
+    public LinkedListDeque() {
         rear = front = null;
         size = 0;
     }
@@ -39,7 +39,7 @@ public class LinkedDeque<E> implements Deque<E> {
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
-    public LinkedDeque(Iterable<? extends E> iterable) {
+    public LinkedListDeque(Iterable<? extends E> iterable) {
         this();
         pushRearAll(iterable);
     }

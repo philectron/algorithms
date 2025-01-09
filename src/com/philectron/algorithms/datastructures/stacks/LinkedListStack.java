@@ -1,13 +1,13 @@
-package com.philectron.algorithms.datastructures.queues;
+package com.philectron.algorithms.datastructures.stacks;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.philectron.algorithms.datastructures.interfaces.Queue;
+import com.philectron.algorithms.datastructures.interfaces.Stack;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class LinkedQueue<E> implements Queue<E> {
+public class LinkedListStack<E> implements Stack<E> {
 
     private static class Node<E> {
         private E data;
@@ -19,28 +19,27 @@ public class LinkedQueue<E> implements Queue<E> {
         }
     }
 
-    private Node<E> front;
-    private Node<E> rear;
+    private Node<E> top;
     private int size;
 
     /**
-     * Initializes an empty linked queue.
+     * Initializes an empty linked stack.
      */
-    public LinkedQueue() {
-        rear = front = null;
+    public LinkedListStack() {
+        top = null;
         size = 0;
     }
 
     /**
-     * Initializes a linked queue with all elements copied from {@code iterable}.
+     * Initializes a linked stack with all elements copied from {@code iterable}.
      *
-     * @param iterable the {@link Iterable} whose elements are to be copied to this queue
+     * @param iterable the {@link Iterable} whose elements are to be copied to this stack
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
-    public LinkedQueue(Iterable<? extends E> iterable) {
+    public LinkedListStack(Iterable<? extends E> iterable) {
         this();
-        enqueueAll(iterable);
+        pushAll(iterable);
     }
 
     @Override
@@ -49,38 +48,25 @@ public class LinkedQueue<E> implements Queue<E> {
     }
 
     @Override
-    public void enqueue(E element) {
+    public void push(E element) {
         checkNotNull(element);
 
         Node<E> newNode = new Node<>(element);
+        newNode.next = top;
+        top = newNode;
 
-        if (rear != null) {
-            rear.next = newNode;
-        } else {
-            // If the rear node is null, then this queue is currently empty,
-            // so the new node also becomes the front node.
-            front = newNode;
-        }
-
-        rear = newNode;
         size++;
     }
 
     @Override
-    public Optional<E> dequeue() {
+    public Optional<E> pop() {
         if (isEmpty()) {
             return Optional.empty();
         }
 
-        Node<E> nodeToRemove = front;
+        Node<E> nodeToRemove = top;
         E oldData = nodeToRemove.data;
-        front = nodeToRemove.next;
-
-        // If the front node is now null, then this queue is now empty,
-        // so the rear node also needs to be null.
-        if (front == null) {
-            rear = null;
-        }
+        top = nodeToRemove.next;
 
         // Cleanup to help with garbage collection.
         nodeToRemove.data = null;
@@ -91,25 +77,17 @@ public class LinkedQueue<E> implements Queue<E> {
     }
 
     @Override
-    public Optional<E> peekFront() {
+    public Optional<E> peek() {
         if (isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(front.data);
-    }
-
-    @Override
-    public Optional<E> peekRear() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(rear.data);
+        return Optional.of(top.data);
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-            private Node<E> currentNode = front;
+            private Node<E> currentNode = top;
 
             @Override
             public boolean hasNext() {
