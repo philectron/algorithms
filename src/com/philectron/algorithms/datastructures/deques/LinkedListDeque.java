@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class LinkedListDeque<E> implements Deque<E> {
 
@@ -88,9 +87,9 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public Optional<E> popFront() {
+    public E popFront() {
         if (isEmpty()) {
-            return Optional.empty();
+            throw new NoSuchElementException("Deque is empty");
         }
 
         Node<E> nodeToRemove = front;
@@ -110,13 +109,13 @@ public class LinkedListDeque<E> implements Deque<E> {
         nodeToRemove.next = nodeToRemove.previous = null;
 
         size--;
-        return Optional.of(oldData);
+        return oldData;
     }
 
     @Override
-    public Optional<E> popRear() {
+    public E popRear() {
         if (isEmpty()) {
-            return Optional.empty();
+            throw new NoSuchElementException("Deque is empty");
         }
 
         Node<E> nodeToRemove = rear;
@@ -136,23 +135,17 @@ public class LinkedListDeque<E> implements Deque<E> {
         nodeToRemove.next = nodeToRemove.previous = null;
 
         size--;
-        return Optional.of(oldData);
+        return oldData;
     }
 
     @Override
-    public Optional<E> peekFront() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(front.data);
+    public E peekFront() {
+        return !isEmpty() ? front.data : null;
     }
 
     @Override
-    public Optional<E> peekRear() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(rear.data);
+    public E peekRear() {
+        return !isEmpty() ? rear.data : null;
     }
 
     @Override

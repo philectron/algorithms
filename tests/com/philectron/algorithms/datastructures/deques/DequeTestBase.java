@@ -164,8 +164,8 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void popFront_emptyDeque_returnsEmpty() {
-        assertThat(emptyDeque.popFront()).isEmpty();
+    public void popFront_emptyDeque_fails() {
+        assertThrows(NoSuchElementException.class, () -> emptyDeque.popFront());
     }
 
     @Test
@@ -173,7 +173,7 @@ public abstract class DequeTestBase {
         final int expectedFrontValue = 1;
         Deque<Integer> singletonDeque = createDeque(Collections.singletonList(expectedFrontValue));
 
-        assertThat(singletonDeque.popFront()).hasValue(expectedFrontValue);
+        assertThat(singletonDeque.popFront()).isEqualTo(expectedFrontValue);
         assertThat(singletonDeque).isEmpty();
     }
 
@@ -181,14 +181,14 @@ public abstract class DequeTestBase {
     public void popFront_existingDeque_retrievesAndRemovesFrontElement() {
         List<Integer> expectedDeque = new ArrayList<>(VALUES);
 
-        assertThat(deque.popFront()).hasValue(expectedDeque.removeFirst());
+        assertThat(deque.popFront()).isEqualTo(expectedDeque.removeFirst());
 
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void popRear_emptyDeque_returnsEmpty() {
-        assertThat(emptyDeque.popRear()).isEmpty();
+    public void popRear_emptyDeque_fails() {
+        assertThrows(NoSuchElementException.class, () -> emptyDeque.popRear());
     }
 
     @Test
@@ -196,7 +196,7 @@ public abstract class DequeTestBase {
         final int expectedRearValue = 1;
         Deque<Integer> singletonDeque = createDeque(Collections.singletonList(expectedRearValue));
 
-        assertThat(singletonDeque.popRear()).hasValue(expectedRearValue);
+        assertThat(singletonDeque.popRear()).isEqualTo(expectedRearValue);
         assertThat(singletonDeque).isEmpty();
     }
 
@@ -204,32 +204,32 @@ public abstract class DequeTestBase {
     public void popRear_existingDeque_retrievesAndRemovesRearElement() {
         List<Integer> expectedDeque = new ArrayList<>(VALUES);
 
-        assertThat(deque.popRear()).hasValue(expectedDeque.removeLast());
+        assertThat(deque.popRear()).isEqualTo(expectedDeque.removeLast());
 
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void peekFront_emptyDeque_returnsEmpty() {
-        assertThat(emptyDeque.peekFront()).isEmpty();
+    public void peekFront_emptyDeque_returnsNull() {
+        assertThat(emptyDeque.peekFront()).isNull();
         assertThat(emptyDeque).isEmpty();
     }
 
     @Test
     public void peekFront_existingDeque_returnsFrontElementWithoutRemoval() {
-        assertThat(deque.peekFront()).hasValue(VALUES.getFirst());
+        assertThat(deque.peekFront()).isEqualTo(VALUES.getFirst());
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void peekRear_emptyDeque_returnsEmpty() {
-        assertThat(emptyDeque.peekRear()).isEmpty();
+    public void peekRear_emptyDeque_returnsNull() {
+        assertThat(emptyDeque.peekRear()).isNull();
         assertThat(emptyDeque).isEmpty();
     }
 
     @Test
     public void peekRear_existingDeque_returnsRearElementWithoutRemoval() {
-        assertThat(deque.peekRear()).hasValue(VALUES.getLast());
+        assertThat(deque.peekRear()).isEqualTo(VALUES.getLast());
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
     }
 

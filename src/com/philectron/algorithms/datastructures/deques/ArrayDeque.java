@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class ArrayDeque<E> implements Deque<E> {
 
@@ -104,20 +103,20 @@ public class ArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public Optional<E> popFront() {
+    public E popFront() {
         if (isEmpty()) {
-            return Optional.empty();
+            throw new NoSuchElementException("Deque is empty");
         }
         E oldData = array[front];
         front = (front + 1) % array.length;
         size--;
-        return Optional.of(oldData);
+        return oldData;
     }
 
     @Override
-    public Optional<E> popRear() {
+    public E popRear() {
         if (isEmpty()) {
-            return Optional.empty();
+            throw new NoSuchElementException("Deque is empty");
         }
         E oldData = array[rear];
         rear--;
@@ -125,23 +124,17 @@ public class ArrayDeque<E> implements Deque<E> {
             rear = size - 1;
         }
         size--;
-        return Optional.of(oldData);
+        return oldData;
     }
 
     @Override
-    public Optional<E> peekFront() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(array[front]);
+    public E peekFront() {
+        return !isEmpty() ? array[front] : null;
     }
 
     @Override
-    public Optional<E> peekRear() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(array[rear]);
+    public E peekRear() {
+        return !isEmpty() ? array[rear] : null;
     }
 
     @Override

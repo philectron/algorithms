@@ -2,7 +2,7 @@ package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 public interface Deque<E> extends Iterable<E> {
 
@@ -84,34 +84,36 @@ public interface Deque<E> extends Iterable<E> {
     /**
      * Retrieves and removes the element at the front of this deque.
      *
-     * @return the element previously at the front of this deque, or {@link Optional#empty()} if
-     *         this deque {@link #isEmpty()}
+     * @return the element previously at the front of this deque
+     *
+     * @throws NoSuchElementException if this deque {@link #isEmpty()}
      */
-    Optional<E> popFront();
+    E popFront();
 
     /**
      * Retrieves and removes the element at the rear of this deque.
      *
-     * @return the element previously at the rear of this deque, or {@link Optional#empty()} if this
-     *         deque {@link #isEmpty()}
+     * @return the element previously at the rear of this deque
+     *
+     * @throws NoSuchElementException if this deque {@link #isEmpty()}
      */
-    Optional<E> popRear();
+    E popRear();
 
     /**
      * Retrieves, but does not remove, the element at the front of this deque.
      *
-     * @return the element currently at the front of this deque, or {@link Optional#empty()} if this
-     *         deque {@link #isEmpty()}
+     * @return the element currently at the front of this deque, or {@code null} if this deque
+     *         {@link #isEmpty()}
      */
-    Optional<E> peekFront();
+    E peekFront();
 
     /**
      * Retrieves, but does not remove, the element at the rear of this deque.
      *
-     * @return the element currently at the rear of this deque, or {@link Optional#empty()} if this
-     *         deque {@link #isEmpty()}
+     * @return the element currently at the rear of this deque, or {@code null} if this deque
+     *         {@link #isEmpty()}
      */
-    Optional<E> peekRear();
+    E peekRear();
 
     /**
      * Removes all elements from this deque. The deque will be empty after this call.
