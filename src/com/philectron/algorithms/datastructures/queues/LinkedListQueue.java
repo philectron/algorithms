@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.philectron.algorithms.datastructures.interfaces.Queue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class LinkedListQueue<E> implements Queue<E> {
 
@@ -67,9 +66,9 @@ public class LinkedListQueue<E> implements Queue<E> {
     }
 
     @Override
-    public Optional<E> dequeue() {
+    public E dequeue() {
         if (isEmpty()) {
-            return Optional.empty();
+            throw new NoSuchElementException("Queue is empty");
         }
 
         Node<E> nodeToRemove = front;
@@ -87,23 +86,12 @@ public class LinkedListQueue<E> implements Queue<E> {
         nodeToRemove.next = null;
 
         size--;
-        return Optional.of(oldData);
+        return oldData;
     }
 
     @Override
-    public Optional<E> peekFront() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(front.data);
-    }
-
-    @Override
-    public Optional<E> peekRear() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(rear.data);
+    public E peek() {
+        return !isEmpty() ? front.data : null;
     }
 
     @Override

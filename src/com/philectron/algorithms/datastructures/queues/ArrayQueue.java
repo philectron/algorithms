@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.philectron.algorithms.datastructures.interfaces.Queue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class ArrayQueue<E> implements Queue<E> {
 
@@ -79,9 +78,9 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     @Override
-    public Optional<E> dequeue() {
+    public E dequeue() {
         if (isEmpty()) {
-            return Optional.empty();
+            throw new NoSuchElementException("Queue is empty");
         }
 
         E oldData = array[front];
@@ -89,23 +88,12 @@ public class ArrayQueue<E> implements Queue<E> {
         front = (front + 1) % array.length;
 
         size--;
-        return Optional.of(oldData);
+        return oldData;
     }
 
     @Override
-    public Optional<E> peekFront() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(array[front]);
-    }
-
-    @Override
-    public Optional<E> peekRear() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(array[rear]);
+    public E peek() {
+        return !isEmpty() ? array[front] : null;
     }
 
     @Override

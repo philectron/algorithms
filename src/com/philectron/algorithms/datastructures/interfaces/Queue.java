@@ -2,7 +2,7 @@ package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 public interface Queue<E> extends Iterable<E> {
 
@@ -55,33 +55,23 @@ public interface Queue<E> extends Iterable<E> {
     /**
      * Retrieves and removes the element at the front of this queue.
      *
-     * @return the element previously at the front of this queue, or {@link Optional#empty()} if
-     *         this queue {@link #isEmpty()}
+     * @return the element previously at the front of this queue
      *
-     * @see #peekFront()
+     * @throws NoSuchElementException if this queue {@link #isEmpty()}
+     *
+     * @see #peek()
      */
-    Optional<E> dequeue();
+    E dequeue();
 
     /**
      * Retrieves, but does not remove, the element at the front of this queue, if any.
      *
-     * @return the element currently at the front of this queue, or {@link Optional#empty()} if this
-     *         queue {@link #isEmpty()}
+     * @return the element currently at the front of this queue, or {@code null} if this queue
+     *         {@link #isEmpty()}
      *
      * @see #dequeue()
-     * @see #peekRear()
      */
-    Optional<E> peekFront();
-
-    /**
-     * Retrieves, but does not remove, the element at the rear of this queue, if any.
-     *
-     * @return the element currently at the rear of this queue, or {@link Optional#empty()} if this
-     *         queue {@link #isEmpty()}
-     *
-     * @see #peekFront()
-     */
-    Optional<E> peekRear();
+    E peek();
 
     /**
      * Removes all elements from this queue. The queue will be empty after this call.

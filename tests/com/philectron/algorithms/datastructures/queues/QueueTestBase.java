@@ -103,8 +103,8 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void dequeue_emptyQueue_returnsEmpty() {
-        assertThat(emptyQueue.dequeue()).isEmpty();
+    public void dequeue_emptyQueue_fails() {
+        assertThrows(NoSuchElementException.class, () -> emptyQueue.dequeue());
     }
 
     @Test
@@ -112,7 +112,7 @@ public abstract class QueueTestBase {
         final int expectedFrontValue = 1;
         Queue<Integer> singletonQueue = createQueue(Collections.singletonList(expectedFrontValue));
 
-        assertThat(singletonQueue.dequeue()).hasValue(expectedFrontValue);
+        assertThat(singletonQueue.dequeue()).isEqualTo(expectedFrontValue);
         assertThat(singletonQueue).isEmpty();
     }
 
@@ -120,32 +120,20 @@ public abstract class QueueTestBase {
     public void dequeue_existingQueue_retrievesAndRemovesFrontElement() {
         List<Integer> expectedQueue = new ArrayList<>(VALUES);
 
-        assertThat(queue.dequeue()).hasValue(expectedQueue.removeFirst());
+        assertThat(queue.dequeue()).isEqualTo(expectedQueue.removeFirst());
 
         assertThat(queue).containsExactlyElementsIn(expectedQueue).inOrder();
     }
 
     @Test
-    public void peekFront_emptyQueue_returnsEmpty() {
-        assertThat(emptyQueue.peekFront()).isEmpty();
+    public void peekFront_emptyQueue_returnsNull() {
+        assertThat(emptyQueue.peek()).isNull();
         assertThat(emptyQueue).isEmpty();
     }
 
     @Test
     public void peekFront_existingQueue_returnsFrontElementWithoutRemoval() {
-        assertThat(queue.peekFront()).hasValue(VALUES.getFirst());
-        assertThat(queue).containsExactlyElementsIn(VALUES).inOrder();
-    }
-
-    @Test
-    public void peekRear_emptyQueue_returnsEmpty() {
-        assertThat(emptyQueue.peekRear()).isEmpty();
-        assertThat(emptyQueue).isEmpty();
-    }
-
-    @Test
-    public void peekRear_existingQueue_returnsRearElementWithoutRemoval() {
-        assertThat(queue.peekRear()).hasValue(VALUES.getLast());
+        assertThat(queue.peek()).isEqualTo(VALUES.getFirst());
         assertThat(queue).containsExactlyElementsIn(VALUES).inOrder();
     }
 
