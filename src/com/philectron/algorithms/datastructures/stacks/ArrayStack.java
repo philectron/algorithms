@@ -3,9 +3,9 @@ package com.philectron.algorithms.datastructures.stacks;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.philectron.algorithms.datastructures.interfaces.Stack;
+import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class ArrayStack<E> implements Stack<E> {
 
@@ -62,8 +62,6 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
-     * @inheritDoc
-     *
      * @throws IllegalStateException if this stack is full
      */
     @Override
@@ -78,24 +76,21 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     @Override
-    public Optional<E> pop() {
+    public E pop() {
         if (isEmpty()) {
-            return Optional.empty();
+            throw new EmptyStackException();
         }
 
         E oldData = array[size - 1];
         array[size - 1] = null;
 
         size--;
-        return Optional.of(oldData);
+        return oldData;
     }
 
     @Override
-    public Optional<E> peek() {
-        if (isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(array[size - 1]);
+    public E peek() {
+        return !isEmpty() ? array[size - 1] : null;
     }
 
     @Override

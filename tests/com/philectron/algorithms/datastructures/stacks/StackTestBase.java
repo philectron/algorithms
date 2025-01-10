@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThrows;
 import com.philectron.algorithms.datastructures.interfaces.Stack;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -106,8 +107,8 @@ public abstract class StackTestBase {
     }
 
     @Test
-    public void pop_emptyStack_returnsEmpty() {
-        assertThat(emptyStack.pop()).isEmpty();
+    public void pop_emptyStack_fails() {
+        assertThrows(EmptyStackException.class, () -> emptyStack.pop());
     }
 
     @Test
@@ -115,7 +116,7 @@ public abstract class StackTestBase {
         final int expectedTopValue = 1;
         Stack<Integer> singletonStack = createStack(Collections.singletonList(expectedTopValue));
 
-        assertThat(singletonStack.pop()).hasValue(expectedTopValue);
+        assertThat(singletonStack.pop()).isEqualTo(expectedTopValue);
         assertThat(singletonStack).isEmpty();
     }
 
@@ -123,20 +124,20 @@ public abstract class StackTestBase {
     public void pop_existingStack_retrievesAndRemovesTopElement() {
         List<Integer> expectedStack = new ArrayList<>(VALUES_REVERSED);
 
-        assertThat(stack.pop()).hasValue(expectedStack.removeFirst());
+        assertThat(stack.pop()).isEqualTo(expectedStack.removeFirst());
 
         assertThat(stack).containsExactlyElementsIn(expectedStack).inOrder();
     }
 
     @Test
-    public void peek_emptyStack_returnsEmpty() {
-        assertThat(emptyStack.peek()).isEmpty();
+    public void peek_emptyStack_returnsNull() {
+        assertThat(emptyStack.peek()).isNull();
         assertThat(emptyStack).isEmpty();
     }
 
     @Test
     public void peek_existingStack_returnsTopElementWithoutRemoval() {
-        assertThat(stack.peek()).hasValue(VALUES.getFirst());
+        assertThat(stack.peek()).isEqualTo(VALUES.getFirst());
         assertThat(stack).containsExactlyElementsIn(VALUES_REVERSED).inOrder();
     }
 

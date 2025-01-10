@@ -2,7 +2,7 @@ package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Optional;
+import java.util.EmptyStackException;
 
 public interface Stack<E> extends Iterable<E> {
 
@@ -55,22 +55,23 @@ public interface Stack<E> extends Iterable<E> {
     /**
      * Retrieves and removes the element at the top of this stack.
      *
-     * @return the element previously at the top of this stack, or {@link Optional#empty()} if this
-     *         stack {@link #isEmpty()}
+     * @return the element previously at the top of this stack
+     *
+     * @throws EmptyStackException if this stack {@link #isEmpty()}
      *
      * @see #peek()
      */
-    Optional<E> pop();
+    E pop();
 
     /**
      * Retrieves, but does not remove, the element at the top of this stack, if any.
      *
-     * @return the element currently at the top of this stack, or {@link Optional#empty()} if this
-     *         stack {@link #isEmpty()}
+     * @return the element currently at the top of this stack, or {@code null} if this stack
+     *         {@link #isEmpty()}
      *
      * @see #pop()
      */
-    Optional<E> peek();
+    E peek();
 
     /**
      * Removes all elements from this stack. The stack will be empty after this call.
