@@ -6,12 +6,12 @@ import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
 import java.util.Random;
 
-public class QuickSort implements SortingAlgorithm {
+public class QuickSortLomuto implements SortingAlgorithm {
 
     private final Random random;
 
-    public QuickSort() {
-        random = new Random();
+    public QuickSortLomuto(Random random) {
+        this.random = random;
     }
 
     @Override
@@ -46,7 +46,8 @@ public class QuickSort implements SortingAlgorithm {
     }
 
     /**
-     * Partitions {@code array} based on a random pivot within the {@code [low..high]} interval.
+     * The Lomuto partition algorithm partitions {@code array} based on a random pivot within the
+     * {@code [low..high]} interval.
      *
      * @param array the array to be partitioned
      * @param low the starting element index of the array, inclusive
@@ -54,28 +55,33 @@ public class QuickSort implements SortingAlgorithm {
      *
      * @return the final and correct index of the pivot in {@code array}, where
      *         {@code array[low..index - 1]} are less than or equal to the pivot, and
-     *         {@code array[index + 1..high]} are greater than or equal to the pivot
+     *         {@code array[index + 1..high]} are greater than the pivot, and {@code array[index]}
+     *         is the pivot itself
      */
     private int partition(int[] array, int low, int high) {
         assertNotNull(array);
-        assertNotNull(random);
         assertElementIndexes(low, high, array.length);
 
         // Choose a random element as the pivot, then swap it with the last element.
-        final int pivotIndex = low + random.nextInt(high - low + 1);
-        final int pivot = array[pivotIndex];
-        SortUtils.swap(array, pivotIndex, high);
+        final int randomIndex = low + (int) (random.nextDouble() * (high - low + 1));
+        SortUtils.swap(array, randomIndex, high);
 
-        int correctPivotIndex = low;
+        final int pivot = array[high];
+
+        // Boundary between smaller and larger elements compared to the pivot
+        int pivotIndex = low;
+
+        // Partition the subarray[low..high - 1] using the pivot.
         for (int i = low; i < high; i++) {
-            if (array[i] < pivot) {
-                SortUtils.swap(array, i, correctPivotIndex++);
+            if (array[i] <= pivot) {
+                SortUtils.swap(array, i, pivotIndex++);
             }
         }
 
-        SortUtils.swap(array, correctPivotIndex, high);
+        // Swap the pivot back to its correct and final position.
+        SortUtils.swap(array, pivotIndex, high);
 
-        return correctPivotIndex;
+        return pivotIndex;
     }
 
 }
