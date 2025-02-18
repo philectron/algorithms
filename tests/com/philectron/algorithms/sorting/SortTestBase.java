@@ -7,17 +7,38 @@ import org.junit.jupiter.api.Test;
 
 public abstract class SortTestBase {
 
-    private final SortingAlgorithm sorter;
+    static int[] buildEmptyArray() {
+        return new int[0];
+    }
 
-    private int[] array;
+    static int[] buildSingletonArray() {
+        return new int[1];
+    }
+
+    static int[] buildNCopiesArray() {
+        return new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
+    }
+
+    static int[] buildAscendingArray() {
+        return new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+    }
+
+    static int[] buildDescendingArray() {
+        return new int[] { 8, 7, 6, 5, 4, 3, 2, 1 };
+    }
+
+    static int[] buildLargeMiddleArray() {
+        return new int[] { 1, 2, 3, 4, 5, 1, 1, 1, 1, 1, 1, 1, 1, -5, -4, -3, -2, -1 };
+    }
+
+    static int[] buildArbitraryArray() {
+        return new int[] { 21, 37, 36, 19, 30, 27, 25, 36, 32, 28, 13, 33, 34, 20, 30, 4, 15, 40 };
+    }
+
+    private final SortingAlgorithm sorter;
 
     SortTestBase(SortingAlgorithm sorter) {
         this.sorter = sorter;
-    }
-
-    private void sortAndAssert() {
-        sorter.sort(array);
-        assertThat(array).asList().isInOrder();
     }
 
     @Test
@@ -27,38 +48,51 @@ public abstract class SortTestBase {
 
     @Test
     public void sort_emptyArray() {
-        array = new int[0];
-        sortAndAssert();
+        int[] array = buildEmptyArray();
+        sorter.sort(array);
+        assertThat(array).asList().isInOrder();
     }
 
     @Test
     public void sort_singletonArray() {
-        array = new int[1];
-        sortAndAssert();
+        int[] array = buildSingletonArray();
+        sorter.sort(array);
+        assertThat(array).asList().isInOrder();
     }
 
     @Test
     public void sort_nCopiesArray() {
-        array = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
-        sortAndAssert();
+        int[] array = buildNCopiesArray();
+        sorter.sort(array);
+        assertThat(array).asList().isInOrder();
     }
 
     @Test
     public void sort_ascendingArray() {
-        array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-        sortAndAssert();
+        int[] array = buildAscendingArray();
+        sorter.sort(array);
+        assertThat(array).asList().isInOrder();
     }
 
     @Test
     public void sort_descendingArray() {
-        array = new int[] { 8, 7, 6, 5, 4, 3, 2, 1 };
-        sortAndAssert();
+        int[] array = buildDescendingArray();
+        sorter.sort(array);
+        assertThat(array).asList().isInOrder();
+    }
+
+    @Test
+    public void sort_largeMiddleArray() {
+        int[] array = buildLargeMiddleArray();
+        sorter.sort(array);
+        assertThat(array).asList().isInOrder();
     }
 
     @Test
     public void sort_arbitraryArray() {
-        array = new int[] { 21, 37, 36, 19, 30, 27, 25, 36, 32, 28, 13, 33, 34, 20, 30, 4, 15, 40 };
-        sortAndAssert();
+        int[] array = buildArbitraryArray();
+        sorter.sort(array);
+        assertThat(array).asList().isInOrder();
     }
 
 }

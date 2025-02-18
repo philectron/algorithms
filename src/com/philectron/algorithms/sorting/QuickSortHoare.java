@@ -4,15 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndexes;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
-import java.util.Random;
-
-public class QuickSortHoare implements SortingAlgorithm {
-
-    private final Random random;
-
-    public QuickSortHoare(Random random) {
-        this.random = random;
-    }
+public class QuickSortHoare implements QuickSort {
 
     @Override
     public void sort(int[] array) {
@@ -62,7 +54,7 @@ public class QuickSortHoare implements SortingAlgorithm {
         assertElementIndexes(low, high, array.length);
 
         // Choose a random element as the pivot, then swap it with the first element.
-        final int randomIndex = low + (int) (random.nextDouble() * (high - low + 1));
+        final int randomIndex = getRandomPivotIndex(low, high);
         SortUtils.swap(array, randomIndex, low);
 
         final int pivot = array[low];
@@ -71,18 +63,15 @@ public class QuickSortHoare implements SortingAlgorithm {
         int right = high + 1;
         while (true) {
             // Move left bound to the right until it meets an element >= pivot.
-            do {
-                ++left;
-            } while (array[left] < pivot);
+            while (array[++left] < pivot);
 
             // Move right bound to the left until it meets an element <= pivot.
-            do {
-                --right;
-            } while (array[right] > pivot);
+            while (array[--right] > pivot);
 
             // When 2 pointers crossed, the right pointer is the partition point:
             // array[low..right] <= pivot, and array[right + 1..high] >= pivot. Fast return.
             if (left >= right) {
+                // Note that Hoare partitioning does not necessary set the pivot at the final point.
                 return right;
             }
 

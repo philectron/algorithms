@@ -4,15 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.philectron.algorithms.logic.Assertion.assertElementIndexes;
 import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
-import java.util.Random;
-
-public class QuickSortLomuto implements SortingAlgorithm {
-
-    private final Random random;
-
-    public QuickSortLomuto(Random random) {
-        this.random = random;
-    }
+public class QuickSortLomuto implements QuickSort {
 
     @Override
     public void sort(int[] array) {
@@ -63,7 +55,7 @@ public class QuickSortLomuto implements SortingAlgorithm {
         assertElementIndexes(low, high, array.length);
 
         // Choose a random element as the pivot, then swap it with the last element.
-        final int randomIndex = low + (int) (random.nextDouble() * (high - low + 1));
+        final int randomIndex = getRandomPivotIndex(low, high);
         SortUtils.swap(array, randomIndex, high);
 
         final int pivot = array[high];
