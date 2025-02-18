@@ -29,12 +29,11 @@ public class QuickSortHoare implements QuickSort {
 
         assertElementIndexes(low, high, array.length);
 
-        int pivotIndex = partition(array, low, high);
+        int partitionIndex = partition(array, low, high);
 
-        // Sort left half and right half of the array, excluding the pivot itself,
-        // because its position after the partitioning is final.
-        quicksort(array, low, pivotIndex);
-        quicksort(array, pivotIndex + 1, high);
+        // Sort left half and right half of the array at the partition point.
+        quicksort(array, low, partitionIndex);
+        quicksort(array, partitionIndex + 1, high);
     }
 
     /**
