@@ -1,0 +1,32 @@
+name: Dependabot Automation
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabot:
+    name: Dependabot Auto-Merge
+    runs-on: ubuntu-latest
+
+    if: |
+      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.repository == 'philectron/algorithms' &&
+      (github.event.pull_request.merged == false || github.event.pull_request.merged == null)
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2
+
+      - name: Enable auto-merge for Dependabot PRs
+        shell: bash
+        run: gh pr merge --auto --merge "${PR_URL}"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
