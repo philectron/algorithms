@@ -12,5 +12,3 @@ updates:
     commit-message:
       prefix: "maven"
     open-pull-requests-limit: 10
-    reviewers:
-      - "philectron"
