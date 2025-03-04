@@ -9,11 +9,13 @@ permissions:
   contents: write
 
 jobs:
-  dependabot:
+  auto-merge:
     name: Dependabot Auto-Merge
     runs-on: ubuntu-latest
 
     if: |
+      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       github.repository == 'philectron/algorithms' &&
       (github.event.pull_request.merged == false || github.event.pull_request.merged == null)
 
