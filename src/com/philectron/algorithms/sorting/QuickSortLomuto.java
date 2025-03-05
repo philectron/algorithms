@@ -64,7 +64,7 @@ public class QuickSortLomuto implements QuickSort {
         int pivotIndex = low;
 
         // Partition the subarray[low..high - 1] using the pivot.
-        for (int i = low; i < high; i++) {
+        for (int i = low; i < high; ++i) {
             if (array[i] <= pivot) {
                 SortUtils.swap(array, i, pivotIndex++);
             }

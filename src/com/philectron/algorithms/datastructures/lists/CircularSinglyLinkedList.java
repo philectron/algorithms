@@ -72,7 +72,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         }
 
         Node<E> node = last;
-        for (int i = -1; i < index; i++) {
+        for (int i = -1; i < index; ++i) {
             node = assertNotNull(node.next);
         }
 
@@ -108,7 +108,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         newNode.next = previousNode.next;
         previousNode.next = newNode;
 
-        size++;
+        ++size;
     }
 
     /**
@@ -135,7 +135,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
             last = newNode;
         }
 
-        size++;
+        ++size;
     }
 
     @Override
@@ -148,7 +148,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
             if (element == null ? currentData == null : element.equals(currentData)) {
                 return firstIndex;
             }
-            firstIndex++;
+            ++firstIndex;
         }
 
         return -1;
@@ -165,7 +165,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
             if (element == null ? currentData == null : element.equals(currentData)) {
                 lastIndex = currentIndex;
             }
-            currentIndex++;
+            ++currentIndex;
         }
 
         return lastIndex;
@@ -233,7 +233,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

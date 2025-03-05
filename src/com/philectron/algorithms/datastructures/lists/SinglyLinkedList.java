@@ -71,7 +71,7 @@ public class SinglyLinkedList<E> implements List<E> {
         }
 
         Node<E> node = assertNotNull(head);
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < index; ++i) {
             node = assertNotNull(node.next);
         }
 
@@ -114,7 +114,7 @@ public class SinglyLinkedList<E> implements List<E> {
         newNode.next = previousNode.next;
         previousNode.next = newNode;
 
-        size++;
+        ++size;
     }
 
     /**
@@ -136,7 +136,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
         head = newNode;
 
-        size++;
+        ++size;
     }
 
     /**
@@ -154,7 +154,7 @@ public class SinglyLinkedList<E> implements List<E> {
         tail.next = newNode;
         tail = newNode;
 
-        size++;
+        ++size;
     }
 
     @Override
@@ -164,7 +164,7 @@ public class SinglyLinkedList<E> implements List<E> {
             if (element == null ? node.data == null : element.equals(node.data)) {
                 return firstIndex;
             }
-            firstIndex++;
+            ++firstIndex;
         }
         return -1; // not found
     }
@@ -177,7 +177,7 @@ public class SinglyLinkedList<E> implements List<E> {
             if (element == null ? node.data == null : element.equals(node.data)) {
                 lastIndex = currentIndex;
             }
-            currentIndex++;
+            ++currentIndex;
         }
         return lastIndex;
     }
@@ -234,7 +234,7 @@ public class SinglyLinkedList<E> implements List<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = null;
 
-        size--;
+        --size;
         return oldData;
     }
 
@@ -259,7 +259,7 @@ public class SinglyLinkedList<E> implements List<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

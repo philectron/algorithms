@@ -84,7 +84,7 @@ public class ArrayStack<E> implements Stack<E> {
         E oldData = array[size - 1];
         array[size - 1] = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

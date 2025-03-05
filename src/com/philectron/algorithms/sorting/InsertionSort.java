@@ -8,8 +8,8 @@ public class InsertionSort implements SortingAlgorithm {
     public void sort(int[] array) {
         checkNotNull(array);
 
-        for (int nSorted = 1, n = array.length; nSorted < n; nSorted++) {
-            for (int i = nSorted; i > 0 && array[i - 1] > array[i]; i--) {
+        for (int nSorted = 1, n = array.length; nSorted < n; ++nSorted) {
+            for (int i = nSorted; i > 0 && array[i - 1] > array[i]; --i) {
                 SortUtils.swap(array, i - 1, i);
             }
         }

@@ -55,7 +55,7 @@ public class LinkedListStack<E> implements Stack<E> {
         newNode.next = top;
         top = newNode;
 
-        size++;
+        ++size;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class LinkedListStack<E> implements Stack<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

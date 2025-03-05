@@ -8,10 +8,10 @@ public class SelectionSort implements SortingAlgorithm {
     public void sort(int[] array) {
         checkNotNull(array);
 
-        for (int i = 0, n = array.length; i < n - 1; i++) {
+        for (int i = 0, n = array.length; i < n - 1; ++i) {
             int iMin = i;
 
-            for (int j = i + 1; j < n; j++) {
+            for (int j = i + 1; j < n; ++j) {
                 if (array[j] < array[iMin]) {
                     iMin = j;
                 }

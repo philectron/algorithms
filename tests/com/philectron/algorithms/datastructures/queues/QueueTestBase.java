@@ -155,7 +155,7 @@ public abstract class QueueTestBase {
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());
 
         Iterator<Integer> it = queue.iterator();
-        for (int i = 0; i < VALUES.size(); i++) {
+        for (int i = 0; i < VALUES.size(); ++i) {
             assertThat(it.hasNext()).isTrue();
             assertThat(it.next()).isEqualTo(VALUES.get(i));
         }

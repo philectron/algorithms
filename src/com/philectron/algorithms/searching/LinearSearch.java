@@ -8,7 +8,7 @@ public class LinearSearch implements SearchingAlgorithm {
     public int findFirst(int[] array, int target) {
         checkNotNull(array);
 
-        for (int i = 0, n = array.length; i < n; i++) {
+        for (int i = 0, n = array.length; i < n; ++i) {
             if (array[i] == target) {
                 return i;
             }
@@ -21,7 +21,7 @@ public class LinearSearch implements SearchingAlgorithm {
     public int findLast(int[] array, int target) {
         checkNotNull(array);
 
-        for (int n = array.length, i = n - 1; i >= 0; i--) {
+        for (int n = array.length, i = n - 1; i >= 0; --i) {
             if (array[i] == target) {
                 return i;
             }

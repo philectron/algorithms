@@ -159,7 +159,7 @@ public abstract class StackTestBase {
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());
 
         Iterator<Integer> it = stack.iterator();
-        for (int i = 0; i < VALUES_REVERSED.size(); i++) {
+        for (int i = 0; i < VALUES_REVERSED.size(); ++i) {
             assertThat(it.hasNext()).isTrue();
             assertThat(it.next()).isEqualTo(VALUES_REVERSED.get(i));
         }

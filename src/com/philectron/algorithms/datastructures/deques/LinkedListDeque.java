@@ -64,7 +64,7 @@ public class LinkedListDeque<E> implements Deque<E> {
         }
 
         front = newNode;
-        size++;
+        ++size;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class LinkedListDeque<E> implements Deque<E> {
         }
 
         rear = newNode;
-        size++;
+        ++size;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class LinkedListDeque<E> implements Deque<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = nodeToRemove.previous = null;
 
-        size--;
+        --size;
         return oldData;
     }
 
@@ -134,7 +134,7 @@ public class LinkedListDeque<E> implements Deque<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = nodeToRemove.previous = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

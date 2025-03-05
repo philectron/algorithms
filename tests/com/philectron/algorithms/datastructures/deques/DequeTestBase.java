@@ -251,7 +251,7 @@ public abstract class DequeTestBase {
         assertThrows(NoSuchElementException.class, () -> emptyIt.next());
 
         Iterator<Integer> it = deque.iterator();
-        for (int i = 0; i < VALUES.size(); i++) {
+        for (int i = 0; i < VALUES.size(); ++i) {
             assertThat(it.hasNext()).isTrue();
             assertThat(it.next()).isEqualTo(VALUES.get(i));
         }

@@ -8,10 +8,10 @@ public class BubbleSort implements SortingAlgorithm {
     public void sort(int[] array) {
         checkNotNull(array);
 
-        for (int i = 0, n = array.length; i < n - 1; i++) {
+        for (int i = 0, n = array.length; i < n - 1; ++i) {
             boolean swapped = false;
 
-            for (int j = 0; j < n - i - 1; j++) {
+            for (int j = 0; j < n - i - 1; ++j) {
                 if (array[j] > array[j + 1]) {
                     SortUtils.swap(array, j, j + 1);
                     swapped = true;

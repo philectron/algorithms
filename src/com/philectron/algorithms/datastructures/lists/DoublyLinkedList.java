@@ -71,12 +71,12 @@ public class DoublyLinkedList<E> implements List<E> {
         Node<E> node = null;
         if (index < size / 2) {
             node = assertNotNull(head);
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i < index; ++i) {
                 node = assertNotNull(node.next);
             }
         } else {
             node = assertNotNull(tail);
-            for (int i = size - 1; i > index; i--) {
+            for (int i = size - 1; i > index; --i) {
                 node = assertNotNull(node.previous);
             }
         }
@@ -123,7 +123,7 @@ public class DoublyLinkedList<E> implements List<E> {
         newNode.next = nextNode;
         nextNode.previous = previousNode.next = newNode;
 
-        size++;
+        ++size;
     }
 
     /**
@@ -147,7 +147,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
         head = newNode;
 
-        size++;
+        ++size;
     }
 
     /**
@@ -165,7 +165,7 @@ public class DoublyLinkedList<E> implements List<E> {
         tail.next = newNode;
         tail = newNode;
 
-        size++;
+        ++size;
     }
 
     @Override
@@ -175,7 +175,7 @@ public class DoublyLinkedList<E> implements List<E> {
             if (element == null ? node.data == null : element.equals(node.data)) {
                 return firstIndex;
             }
-            firstIndex++;
+            ++firstIndex;
         }
         return -1; // not found
     }
@@ -187,7 +187,7 @@ public class DoublyLinkedList<E> implements List<E> {
             if (element == null ? node.data == null : element.equals(node.data)) {
                 return lastIndex;
             }
-            lastIndex--;
+            --lastIndex;
         }
         return -1; // not found
     }
@@ -247,7 +247,7 @@ public class DoublyLinkedList<E> implements List<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = nodeToRemove.previous = null;
 
-        size--;
+        --size;
         return oldData;
     }
 
@@ -274,7 +274,7 @@ public class DoublyLinkedList<E> implements List<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = nodeToRemove.previous = null;
 
-        size--;
+        --size;
         return oldData;
     }
 
@@ -297,7 +297,7 @@ public class DoublyLinkedList<E> implements List<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = nodeToRemove.previous = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

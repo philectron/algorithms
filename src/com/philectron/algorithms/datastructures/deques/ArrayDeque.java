@@ -73,7 +73,7 @@ public class ArrayDeque<E> implements Deque<E> {
         front = (front - 1 + array.length) % array.length;
 
         array[front] = element;
-        size++;
+        ++size;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ArrayDeque<E> implements Deque<E> {
         }
 
         array[(front + size) % array.length] = element;
-        size++;
+        ++size;
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ArrayDeque<E> implements Deque<E> {
         }
         E oldData = array[front];
         front = (front + 1) % array.length;
-        size--;
+        --size;
         return oldData;
     }
 
@@ -105,7 +105,7 @@ public class ArrayDeque<E> implements Deque<E> {
             throw new NoSuchElementException("Deque is empty");
         }
         E oldData = array[(front + size - 1) % array.length];
-        size--;
+        --size;
         return oldData;
     }
 
@@ -137,7 +137,7 @@ public class ArrayDeque<E> implements Deque<E> {
                 }
                 E currentData = array[currentIndex];
                 currentIndex = (currentIndex + 1) % array.length;
-                numElements++;
+                ++numElements;
                 return currentData;
             }
         };

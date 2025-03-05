@@ -57,10 +57,10 @@ public class MergeSort implements SortingAlgorithm {
         int[] rightArray = new int[nRight];
 
         // Make a temporary copy array for each sorted half.
-        for (int i = 0; i < nLeft; i++) {
+        for (int i = 0; i < nLeft; ++i) {
             leftArray[i] = array[low + i];
         }
-        for (int i = 0; i < nRight; i++) {
+        for (int i = 0; i < nRight; ++i) {
             rightArray[i] = array[mid + 1 + i];
         }
 
@@ -75,7 +75,7 @@ public class MergeSort implements SortingAlgorithm {
             } else {
                 array[nMerged] = rightArray[j++];
             }
-            nMerged++;
+            ++nMerged;
         }
 
         // Copy the remaining left half, if any, to the original array.

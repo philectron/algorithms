@@ -68,11 +68,11 @@ public class CircularDoublyLinkedList<E> implements List<E> {
 
         Node<E> node = assertNotNull(last);
         if (index < size / 2) {
-            for (int i = -1; i < index; i++) {
+            for (int i = -1; i < index; ++i) {
                 node = assertNotNull(node.next);
             }
         } else {
-            for (int i = size - 1; i > index; i--) {
+            for (int i = size - 1; i > index; --i) {
                 node = assertNotNull(node.previous);
             }
         }
@@ -111,7 +111,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         newNode.next = nextNode;
         nextNode.previous = previousNode.next = newNode;
 
-        size++;
+        ++size;
     }
 
     /**
@@ -140,7 +140,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             last = newNode;
         }
 
-        size++;
+        ++size;
     }
 
     @Override
@@ -153,7 +153,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             if (element == null ? currentData == null : element.equals(currentData)) {
                 return firstIndex;
             }
-            firstIndex++;
+            ++firstIndex;
         }
 
         return -1; // not found
@@ -169,7 +169,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
             if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
                 return lastIndex;
             }
-            lastIndex--;
+            --lastIndex;
             if (currentNode == last.next) {
                 isLastIteration = true;
             }
@@ -234,7 +234,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = nodeToRemove.previous = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

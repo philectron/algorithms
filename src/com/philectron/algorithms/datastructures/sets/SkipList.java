@@ -89,7 +89,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         int remainingDistance = index + 1;
 
         Node<E> node = head;
-        for (int i = level; i >= 0; i--) {
+        for (int i = level; i >= 0; --i) {
             // If the width of the current node is too large, then the step is too far.
             while (node.width[i] <= remainingDistance) {
                 // For every step forward, update the remaining distance.
@@ -134,21 +134,21 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         }
 
         // Perform reference manipulation to put the new node in place.
-        for (int i = 0; i <= newNode.level; i++) {
+        for (int i = 0; i <= newNode.level; ++i) {
             newNode.forward.set(i, previousNodes.get(i).forward.get(i));
             previousNodes.get(i).forward.set(i, newNode);
         }
 
         // For each level, calculate the new node's width and its previous node's width.
         // Skipping level 0 since all nodes there form a normal linked list and have widths of 1.
-        for (int i = 1; i < previousNodes.size(); i++) {
+        for (int i = 1; i < previousNodes.size(); ++i) {
             updateWidths(i, newNode, previousNodes.get(i));
         }
 
         // Update this list's level if needed.
         level = Math.max(level, newNode.level);
 
-        size++;
+        ++size;
         return true; // list was modified
     }
 
@@ -162,7 +162,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
     private int randomLevel() {
         int nodeLevel = 0;
         while (random.nextBoolean() && nodeLevel < MAX_LEVEL) {
-            nodeLevel++;
+            ++nodeLevel;
         }
         return nodeLevel;
     }
@@ -191,7 +191,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         // Start at this list's level and the head node and traverse right then down.
         // For each level, store to the node right before the value.
         Node<E> node = head;
-        for (int i = level; i >= 0; i--) {
+        for (int i = level; i >= 0; --i) {
             while (node.forward.get(i) != null && value.compareTo(node.forward.get(i).data) > 0) {
                 node = node.forward.get(i);
             }
@@ -250,7 +250,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
 
         Node<E> node = head;
         int index = -1;
-        for (int i = level; i >= 0; i--) {
+        for (int i = level; i >= 0; --i) {
             while (node.forward.get(i) != null
                     && element.compareTo(node.forward.get(i).data) >= 0) {
                 // For every step forward, update the distance from head.
@@ -300,7 +300,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         // Start at this list's level and the head node and traverse right then down.
         // For each level, store to the node right before the value.
         Node<E> node = head;
-        for (int i = level; i >= 0; i--) {
+        for (int i = level; i >= 0; --i) {
             // If the width of the current node is too large, then the step is too far.
             while (node.width[i] < remainingDistance) {
                 // For every step forward, update the remaining distance.
@@ -364,18 +364,18 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         E oldData = nodeToRemove.data;
 
         // Perform reference manipulation to detach the node.
-        for (int i = 0; i <= nodeToRemove.level; i++) {
+        for (int i = 0; i <= nodeToRemove.level; ++i) {
             previousNodes.get(i).forward.set(i, nodeToRemove.forward.get(i));
             // Combine its widths with the previous node, minus 1 because we are removing 1 node.
             previousNodes.get(i).width[i] += nodeToRemove.width[i] - 1;
         }
 
         // For the remaining previous nodes on levels above the node, update their widths as well.
-        for (int i = nodeToRemove.level + 1; i <= MAX_LEVEL; i++) {
+        for (int i = nodeToRemove.level + 1; i <= MAX_LEVEL; ++i) {
             previousNodes.get(i).width[i]--;
         }
 
-        size--;
+        --size;
         return oldData;
     }
 
@@ -412,7 +412,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = MAX_LEVEL; i >= 0; i--) {
+        for (int i = MAX_LEVEL; i >= 0; --i) {
             for (Node<E> node = head; node != null; node = node.forward.get(i)) {
                 sb.append(node == head ? "H" : node.data.toString());
                 sb.append("(" + node.width[i] + ")");

@@ -79,13 +79,13 @@ public class DynamicArray<E> implements List<E> {
             growArray();
         }
 
-        for (int i = size; i > position; i--) {
+        for (int i = size; i > position; --i) {
             array[i] = array[i - 1];
         }
 
         array[position] = element;
 
-        size++;
+        ++size;
     }
 
     /**
@@ -96,7 +96,7 @@ public class DynamicArray<E> implements List<E> {
         E[] oldArray = assertNotNull(array);
         assertPositionIndex(size, oldArray.length);
         array = allocateArray(oldArray.length * 2);
-        for (int i = 0; i < oldArray.length; i++) {
+        for (int i = 0; i < oldArray.length; ++i) {
             array[i] = oldArray[i];
             oldArray[i] = null; // to help with garbage collection
         }
@@ -106,11 +106,11 @@ public class DynamicArray<E> implements List<E> {
     public int indexOf(E element) {
         assertPositionIndex(size, array.length);
         int firstIndex = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             if (element == null ? array[i] == null : element.equals(array[i])) {
                 return firstIndex;
             }
-            firstIndex++;
+            ++firstIndex;
         }
         return -1; // not found
     }
@@ -119,11 +119,11 @@ public class DynamicArray<E> implements List<E> {
     public int lastIndexOf(E element) {
         assertPositionIndex(size, array.length);
         int lastIndex = size - 1;
-        for (int i = size - 1; i >= 0; i--) {
+        for (int i = size - 1; i >= 0; --i) {
             if (element == null ? array[i] == null : element.equals(array[i])) {
                 return lastIndex;
             }
-            lastIndex--;
+            --lastIndex;
         }
         return -1; // not found
     }
@@ -135,12 +135,12 @@ public class DynamicArray<E> implements List<E> {
 
         E oldValue = array[index];
 
-        for (int i = index; i < size - 1; i++) {
+        for (int i = index; i < size - 1; ++i) {
             array[i] = array[i + 1];
         }
         array[size - 1] = null; // to help with garbage collection
 
-        size--;
+        --size;
         if (size == array.length / 2) {
             shrinkArray();
         }
@@ -170,7 +170,7 @@ public class DynamicArray<E> implements List<E> {
         E[] oldArray = assertNotNull(array);
         assertPositionIndex(size, oldArray.length);
         array = allocateArray(oldArray.length / 2);
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; ++i) {
             array[i] = oldArray[i];
             oldArray[i] = null; // to help with garbage collection
         }
@@ -186,7 +186,7 @@ public class DynamicArray<E> implements List<E> {
     @Override
     public void reverse() {
         assertPositionIndex(size, array.length);
-        for (int i = 0, mid = size / 2; i < mid; i++) {
+        for (int i = 0, mid = size / 2; i < mid; ++i) {
             E tmp = array[i];
             array[i] = array[size - 1 - i];
             array[size - 1 - i] = tmp;

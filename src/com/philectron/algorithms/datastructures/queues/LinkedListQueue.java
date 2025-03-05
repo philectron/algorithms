@@ -62,7 +62,7 @@ public class LinkedListQueue<E> implements Queue<E> {
         }
 
         rear = newNode;
-        size++;
+        ++size;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class LinkedListQueue<E> implements Queue<E> {
         nodeToRemove.data = null;
         nodeToRemove.next = null;
 
-        size--;
+        --size;
         return oldData;
     }
 

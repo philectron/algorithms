@@ -71,7 +71,7 @@ public class ArrayQueue<E> implements Queue<E> {
         }
 
         array[(front + size) % array.length] = element;
-        size++;
+        ++size;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ArrayQueue<E> implements Queue<E> {
         array[front] = null;
         front = (front + 1) % array.length;
 
-        size--;
+        --size;
         return oldData;
     }
 
@@ -111,7 +111,7 @@ public class ArrayQueue<E> implements Queue<E> {
                 }
                 E currentData = array[currentIndex];
                 currentIndex = (currentIndex + 1) % array.length;
-                numElements++;
+                ++numElements;
                 return currentData;
             }
         };
