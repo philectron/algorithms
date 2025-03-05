@@ -12,7 +12,6 @@ public class ArrayQueue<E> implements Queue<E> {
 
     private E[] array;
     private int front;
-    private int rear;
     private int size;
 
     /**
@@ -20,7 +19,6 @@ public class ArrayQueue<E> implements Queue<E> {
      */
     public ArrayQueue() {
         front = 0;
-        rear = -1;
         size = 0;
         array = allocateArray(DEFAULT_QUEUE_CAPACITY);
     }
@@ -72,8 +70,7 @@ public class ArrayQueue<E> implements Queue<E> {
             throw new IllegalStateException("Queue is full");
         }
 
-        rear = (rear + 1) % array.length;
-        array[rear] = element;
+        array[(front + size) % array.length] = element;
         size++;
     }
 
