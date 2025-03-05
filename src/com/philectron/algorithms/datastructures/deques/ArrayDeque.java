@@ -12,15 +12,13 @@ public class ArrayDeque<E> implements Deque<E> {
 
     private E[] array;
     private int front;
-    private int rear;
     private int size;
 
     /**
      * Initializes an empty array deque.
      */
     public ArrayDeque() {
-        front = -1;
-        rear = 0;
+        front = 0;
         size = 0;
         array = allocateArray(DEFAULT_QUEUE_CAPACITY);
     }
@@ -72,13 +70,7 @@ public class ArrayDeque<E> implements Deque<E> {
             throw new IllegalStateException("Deque is full");
         }
 
-        if (front == -1) {
-            rear = front = 0;
-        } else if (front == 0) {
-            front = array.length - 1;
-        } else {
-            front--;
-        }
+        front = (front - 1 + array.length) % array.length;
 
         array[front] = element;
         size++;
@@ -92,13 +84,7 @@ public class ArrayDeque<E> implements Deque<E> {
             throw new IllegalStateException("Deque is full");
         }
 
-        if (front == -1) {
-            front = rear = 0;
-        } else {
-            rear = (rear + 1) % array.length;
-        }
-
-        array[rear] = element;
+        array[(front + size) % array.length] = element;
         size++;
     }
 
@@ -118,11 +104,7 @@ public class ArrayDeque<E> implements Deque<E> {
         if (isEmpty()) {
             throw new NoSuchElementException("Deque is empty");
         }
-        E oldData = array[rear];
-        rear--;
-        if (rear < 0) {
-            rear = size - 1;
-        }
+        E oldData = array[(front + size - 1) % array.length];
         size--;
         return oldData;
     }
@@ -134,7 +116,7 @@ public class ArrayDeque<E> implements Deque<E> {
 
     @Override
     public E peekRear() {
-        return !isEmpty() ? array[rear] : null;
+        return !isEmpty() ? array[(front + size - 1) % array.length] : null;
     }
 
     @Override
