@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.deques;
+package com.philectron.algorithms.datastructures.queues;
 
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 

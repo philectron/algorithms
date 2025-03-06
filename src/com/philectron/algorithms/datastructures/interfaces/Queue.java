@@ -2,8 +2,6 @@ package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.NoSuchElementException;
-
 public interface Queue<E> extends Iterable<E> {
 
     /**
@@ -28,48 +26,44 @@ public interface Queue<E> extends Iterable<E> {
      *
      * @param element the element to be inserted
      *
+     * @return {@code true} if {@code element} was pushed to this queue, or {@code false} otherwise
+     *
      * @throws NullPointerException if {@code element} is {@code null}
      */
-    void enqueue(E element);
+    boolean push(E element);
 
     /**
-     * Enqueues all elements from {@code iterable} to this queue.
+     * Pushes all elements from {@code iterable} to this queue.
      *
-     * @param iterable the {@link Iterable} containing the elements to be enqueued
+     * @param iterable the {@link Iterable} containing the elements to be pushed
      *
-     * @return {@code true} if any element of {@code iterable} was enqueued to this queue, or
+     * @return {@code true} if any element of {@code iterable} was pushed to this queue, or
      *         {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
-    default boolean enqueueAll(Iterable<? extends E> iterable) {
+    default boolean pushAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            enqueue(element);
-            modified = true;
+            modified = push(element) || modified;
         }
         return modified;
     }
 
     /**
-     * Retrieves and removes the element at the front of this queue.
+     * Retrieves and removes the element at the front of this queue, if any.
      *
-     * @return the element previously at the front of this queue
-     *
-     * @throws NoSuchElementException if this queue {@link #isEmpty()}
-     *
-     * @see #peek()
+     * @return the element previously at the front of this queue, or {@code null} if this queue
+     *         {@link #isEmpty()}
      */
-    E dequeue();
+    E pop();
 
     /**
      * Retrieves, but does not remove, the element at the front of this queue, if any.
      *
      * @return the element currently at the front of this queue, or {@code null} if this queue
      *         {@link #isEmpty()}
-     *
-     * @see #dequeue()
      */
     E peek();
 
@@ -78,7 +72,7 @@ public interface Queue<E> extends Iterable<E> {
      */
     default void clear() {
         while (!isEmpty()) {
-            dequeue();
+            pop();
         }
     }
 

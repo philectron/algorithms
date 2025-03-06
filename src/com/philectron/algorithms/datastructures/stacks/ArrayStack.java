@@ -3,13 +3,12 @@ package com.philectron.algorithms.datastructures.stacks;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.philectron.algorithms.datastructures.interfaces.Stack;
-import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ArrayStack<E> implements Stack<E> {
 
-    static final int DEFAULT_STACK_CAPACITY = 20;
+    static final int DEFAULT_CAPACITY = 20;
 
     private E[] array;
     private int size;
@@ -19,7 +18,7 @@ public class ArrayStack<E> implements Stack<E> {
      */
     public ArrayStack() {
         size = 0;
-        array = allocateArray(DEFAULT_STACK_CAPACITY);
+        array = allocateArray(DEFAULT_CAPACITY);
     }
 
     /**
@@ -61,24 +60,22 @@ public class ArrayStack<E> implements Stack<E> {
         return size == array.length;
     }
 
-    /**
-     * @throws IllegalStateException if this stack is full
-     */
     @Override
-    public void push(E element) {
+    public boolean push(E element) {
         checkNotNull(element);
 
         if (isFull()) {
-            throw new IllegalStateException("Stack is full");
+            return false;
         }
 
         array[size++] = element;
+        return true;
     }
 
     @Override
     public E pop() {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            return null;
         }
 
         E oldData = array[size - 1];
@@ -93,6 +90,9 @@ public class ArrayStack<E> implements Stack<E> {
         return !isEmpty() ? array[size - 1] : null;
     }
 
+    /**
+     * Iterates from top (last added) to bottom (first added) of the stack.
+     */
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {

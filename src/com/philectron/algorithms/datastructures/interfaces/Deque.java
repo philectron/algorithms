@@ -2,25 +2,23 @@ package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.NoSuchElementException;
-
-public interface Deque<E> extends Iterable<E> {
+public interface Deque<E> extends Queue<E> {
 
     /**
-     * Retrieves the size of this deque.
+     * Inserts {@code element} to the rear of this deque.
      *
-     * @return the number of elements in this deque
-     */
-    int size();
-
-    /**
-     * Checks if this deque is empty.
+     * @param element the element to be inserted
      *
-     * @return {@code true} if this deque has no elements (when {@link #size()} is zero), or
-     *         {@code false} otherwise
+     * @return {@code true} if {@code element} was pushed to this deque, or {@code false} otherwise
+     *
+     * @throws NullPointerException if {@code element} is {@code null}
+     *
+     * @see #pushFront(E)
+     * @see #pushRear(E)
      */
-    default boolean isEmpty() {
-        return size() == 0;
+    @Override
+    default boolean push(E element) {
+        return pushRear(element);
     }
 
     /**
@@ -28,82 +26,132 @@ public interface Deque<E> extends Iterable<E> {
      *
      * @param element the element to be inserted
      *
+     * @return {@code true} if {@code element} was pushed to this deque, or {@code false} otherwise
+     *
      * @throws NullPointerException if {@code element} is {@code null}
+     *
+     * @see #push(E)
+     * @see #pushRear(E)
      */
-    void pushFront(E element);
+    boolean pushFront(E element);
 
     /**
      * Inserts {@code element} to the rear of this deque.
      *
      * @param element the element to be inserted
      *
+     * @return {@code true} if {@code element} was pushed to this deque, or {@code false} otherwise
+     *
      * @throws NullPointerException if {@code element} is {@code null}
+     *
+     * @see #push(E)
+     * @see #pushFront(E)
      */
-    void pushRear(E element);
+    boolean pushRear(E element);
 
     /**
-     * Inserts all elements from {@code iterable} to the front of this deque.
+     * Pushes all elements from {@code iterable} to the front of this deque. This results in
+     * reversing the order of {@code iterable}'s elements in this deque.
      *
-     * @param iterable the {@link Iterable} containing the elements to be inserted
+     * @param iterable the {@link Iterable} containing the elements to be pushed
      *
-     * @return {@code true} if any element of {@code iterable} was inserted to this deque, or
+     * @return {@code true} if any element of {@code iterable} was pushed to this deque, or
      *         {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
+     *
+     * @see Queue#pushAll(Iterable)
+     * @see #pushRearAll(Iterable)
      */
     default boolean pushFrontAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            pushFront(element);
-            modified = true;
+            modified = pushFront(element) || modified;
         }
         return modified;
     }
 
     /**
-     * Inserts all elements from {@code iterable} to the rear of this deque.
+     * Pushes all elements from {@code iterable} to the rear of this deque.
      *
-     * @param iterable the {@link Iterable} containing the elements to be inserted
+     * @param iterable the {@link Iterable} containing the elements to be pushed
      *
-     * @return {@code true} if any element of {@code iterable} was inserted to this deque, or
+     * @return {@code true} if any element of {@code iterable} was pushed to this deque, or
      *         {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
+     *
+     * @see #pushAll(Iterable)
+     * @see #pushFrontAll(Iterable)
      */
     default boolean pushRearAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            pushRear(element);
-            modified = true;
+            modified = pushRear(element) || modified;
         }
         return modified;
     }
 
     /**
-     * Retrieves and removes the element at the front of this deque.
+     * Retrieves and removes the element at the front of this deque, if any.
      *
-     * @return the element previously at the front of this deque
+     * @return the element previously at the front of this deque, or {@code null} if this deque
+     *         {@link #isEmpty()}
      *
-     * @throws NoSuchElementException if this deque {@link #isEmpty()}
+     * @see #popFront()
+     * @see #popRear()
+     */
+    @Override
+    default E pop() {
+        return popFront();
+    }
+
+    /**
+     * Retrieves and removes the element at the front of this deque, if any.
+     *
+     * @return the element previously at the front of this deque, or {@code null} if this deque
+     *         {@link #isEmpty()}
+     *
+     * @see #pop()
+     * @see #popRear()
      */
     E popFront();
 
     /**
      * Retrieves and removes the element at the rear of this deque.
      *
-     * @return the element previously at the rear of this deque
+     * @return the element previously at the rear of this deque, or {@code null} if this deque
+     *         {@link #isEmpty()}
      *
-     * @throws NoSuchElementException if this deque {@link #isEmpty()}
+     * @see #pop()
+     * @see #popFront()
      */
     E popRear();
+
+    /**
+     * Retrieves, but does not remove, the element at the front of this deque, if any.
+     *
+     * @return the element currently at the front of this deque, or {@code null} if this deque
+     *         {@link #isEmpty()}
+     *
+     * @see #peekFront()
+     * @see #peekRear()
+     */
+    @Override
+    default E peek() {
+        return peekFront();
+    }
 
     /**
      * Retrieves, but does not remove, the element at the front of this deque.
      *
      * @return the element currently at the front of this deque, or {@code null} if this deque
      *         {@link #isEmpty()}
+     *
+     * @see #peek()
+     * @see #peekRear()
      */
     E peekFront();
 
@@ -112,16 +160,10 @@ public interface Deque<E> extends Iterable<E> {
      *
      * @return the element currently at the rear of this deque, or {@code null} if this deque
      *         {@link #isEmpty()}
+     *
+     * @see #peek()
+     * @see #peekFront()
      */
     E peekRear();
-
-    /**
-     * Removes all elements from this deque. The deque will be empty after this call.
-     */
-    default void clear() {
-        while (!isEmpty()) {
-            popFront();
-        }
-    }
 
 }

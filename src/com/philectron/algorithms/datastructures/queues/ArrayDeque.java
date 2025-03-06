@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.deques;
+package com.philectron.algorithms.datastructures.queues;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 
 public class ArrayDeque<E> implements Deque<E> {
 
-    static final int DEFAULT_QUEUE_CAPACITY = 20;
+    static final int DEFAULT_CAPACITY = 20;
 
     private E[] array;
     private int front;
@@ -20,7 +20,7 @@ public class ArrayDeque<E> implements Deque<E> {
     public ArrayDeque() {
         front = 0;
         size = 0;
-        array = allocateArray(DEFAULT_QUEUE_CAPACITY);
+        array = allocateArray(DEFAULT_CAPACITY);
     }
 
     /**
@@ -32,7 +32,7 @@ public class ArrayDeque<E> implements Deque<E> {
      */
     public ArrayDeque(Iterable<? extends E> iterable) {
         this();
-        pushRearAll(iterable);
+        pushAll(iterable);
     }
 
     /**
@@ -63,35 +63,39 @@ public class ArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public void pushFront(E element) {
+    public boolean pushFront(E element) {
         checkNotNull(element);
 
         if (isFull()) {
-            throw new IllegalStateException("Deque is full");
+            return false;
         }
 
         front = (front - 1 + array.length) % array.length;
 
         array[front] = element;
         ++size;
+
+        return true;
     }
 
     @Override
-    public void pushRear(E element) {
+    public boolean pushRear(E element) {
         checkNotNull(element);
 
         if (isFull()) {
-            throw new IllegalStateException("Deque is full");
+            return false;
         }
 
         array[(front + size) % array.length] = element;
         ++size;
+
+        return true;
     }
 
     @Override
     public E popFront() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Deque is empty");
+            return null;
         }
         E oldData = array[front];
         front = (front + 1) % array.length;
@@ -102,7 +106,7 @@ public class ArrayDeque<E> implements Deque<E> {
     @Override
     public E popRear() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Deque is empty");
+            return null;
         }
         E oldData = array[(front + size - 1) % array.length];
         --size;

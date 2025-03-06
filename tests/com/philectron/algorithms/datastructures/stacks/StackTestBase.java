@@ -4,9 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.philectron.algorithms.datastructures.interfaces.Stack;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -50,21 +48,16 @@ public abstract class StackTestBase {
     }
 
     @Test
-    public void push_emptyStack_insertElementToTop() {
+    public void push_insertsElementToTop_returnsTrue() {
         final int value = 1;
-        emptyStack.push(value);
+
+        assertThat(emptyStack.push(value)).isTrue();
         assertThat(emptyStack).containsExactlyElementsIn(Collections.singletonList(value))
                 .inOrder();
-    }
 
-    @Test
-    public void push_insertsElementToTop() {
-        final int value = 1;
-        List<Integer> expectedStack = new ArrayList<>(VALUES_REVERSED);
-        expectedStack.addFirst(value);
-
-        stack.push(value);
-
+        java.util.Deque<Integer> expectedStack = new java.util.ArrayDeque<>(VALUES_REVERSED);
+        expectedStack.push(value);
+        assertThat(stack.push(value)).isTrue();
         assertThat(stack).containsExactlyElementsIn(expectedStack).inOrder();
     }
 
@@ -72,10 +65,7 @@ public abstract class StackTestBase {
     public void pushAll_fromNullInput_fails() {
         assertThrows(NullPointerException.class, () -> emptyStack.pushAll(null));
         assertThrows(NullPointerException.class, () -> stack.pushAll(null));
-    }
 
-    @Test
-    public void pushAll_fromInputWithNull_fails() {
         assertThrows(NullPointerException.class,
                 () -> emptyStack.pushAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class,
@@ -83,61 +73,49 @@ public abstract class StackTestBase {
     }
 
     @Test
-    public void pushAll_fromEmptyInput_doesNothing() {
+    public void pushAll_fromEmptyInput_addsNothing_returnsFalse() {
         assertThat(emptyStack.pushAll(Collections.emptyList())).isFalse();
+        assertThat(emptyStack).isEmpty();
+
         assertThat(stack.pushAll(Collections.emptyList())).isFalse();
+        assertThat(stack).containsExactlyElementsIn(VALUES_REVERSED).inOrder();
     }
 
     @Test
-    public void pushAll_intoEmptyStack_buildsSameStack() {
+    public void pushAll_prependsToStackInReversedOrder_returnsTrue() {
         assertThat(emptyStack.pushAll(VALUES)).isTrue();
         assertThat(emptyStack).containsExactlyElementsIn(VALUES_REVERSED).inOrder();
-    }
 
-    @Test
-    public void pushAll_intoExistingStack_prependsToStack() {
-        List<Integer> valuesToPush = VALUES.stream().map(value -> -value).toList();
-        List<Integer> expectedStack = new ArrayList<>(VALUES);
-        expectedStack.addAll(valuesToPush);
-        expectedStack = expectedStack.reversed();
-
-        assertThat(stack.pushAll(valuesToPush)).isTrue();
-
+        java.util.Deque<Integer> expectedStack = new java.util.ArrayDeque<>(VALUES_REVERSED);
+        VALUES.forEach(expectedStack::push);
+        assertThat(stack.pushAll(VALUES)).isTrue();
         assertThat(stack).containsExactlyElementsIn(expectedStack).inOrder();
     }
 
     @Test
-    public void pop_emptyStack_fails() {
-        assertThrows(EmptyStackException.class, () -> emptyStack.pop());
-    }
-
-    @Test
-    public void pop_singletonStack_retrievesAndRemovesTopElement() {
-        final int expectedTopValue = 1;
-        Stack<Integer> singletonStack = createStack(Collections.singletonList(expectedTopValue));
-
-        assertThat(singletonStack.pop()).isEqualTo(expectedTopValue);
-        assertThat(singletonStack).isEmpty();
-    }
-
-    @Test
-    public void pop_existingStack_retrievesAndRemovesTopElement() {
-        List<Integer> expectedStack = new ArrayList<>(VALUES_REVERSED);
-
-        assertThat(stack.pop()).isEqualTo(expectedStack.removeFirst());
-
-        assertThat(stack).containsExactlyElementsIn(expectedStack).inOrder();
-    }
-
-    @Test
-    public void peek_emptyStack_returnsNull() {
-        assertThat(emptyStack.peek()).isNull();
+    public void pop_emptyStack_removesNothing_returnsNull() {
+        assertThat(emptyStack.pop()).isNull();
         assertThat(emptyStack).isEmpty();
     }
 
     @Test
-    public void peek_existingStack_returnsTopElementWithoutRemoval() {
-        assertThat(stack.peek()).isEqualTo(VALUES.getFirst());
+    public void pop_removesTopElement_returnsElement() {
+        final int expectedValue = 1;
+        assertThat(emptyStack.push(expectedValue)).isTrue();
+        assertThat(emptyStack.pop()).isEqualTo(expectedValue);
+        assertThat(emptyStack).isEmpty();
+
+        java.util.Deque<Integer> expectedStack = new java.util.ArrayDeque<>(VALUES_REVERSED);
+        assertThat(stack.pop()).isEqualTo(expectedStack.pop());
+        assertThat(stack).containsExactlyElementsIn(expectedStack).inOrder();
+    }
+
+    @Test
+    public void peek_modifiesNothing_returnsTopElementIfAny() {
+        assertThat(emptyStack.peek()).isNull();
+        assertThat(emptyStack).isEmpty();
+
+        assertThat(stack.peek()).isEqualTo(VALUES.getLast());
         assertThat(stack).containsExactlyElementsIn(VALUES_REVERSED).inOrder();
     }
 
@@ -153,18 +131,18 @@ public abstract class StackTestBase {
     }
 
     @Test
-    public void iterator_traversesStackTopToBottom() {
-        Iterator<Integer> emptyIt = emptyStack.iterator();
-        assertThat(emptyIt.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> emptyIt.next());
+    public void iterator_traversesStackBottomToTop() {
+        Iterator<Integer> emptyIterator = emptyStack.iterator();
+        assertThat(emptyIterator.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> emptyIterator.next());
 
-        Iterator<Integer> it = stack.iterator();
+        Iterator<Integer> iterator = stack.iterator();
         for (int i = 0; i < VALUES_REVERSED.size(); ++i) {
-            assertThat(it.hasNext()).isTrue();
-            assertThat(it.next()).isEqualTo(VALUES_REVERSED.get(i));
+            assertThat(iterator.hasNext()).isTrue();
+            assertThat(iterator.next()).isEqualTo(VALUES_REVERSED.get(i));
         }
-        assertThat(it.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> it.next());
+        assertThat(iterator.hasNext()).isFalse();
+        assertThrows(NoSuchElementException.class, () -> iterator.next());
     }
 
 }

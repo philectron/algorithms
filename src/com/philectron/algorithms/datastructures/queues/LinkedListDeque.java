@@ -1,4 +1,4 @@
-package com.philectron.algorithms.datastructures.deques;
+package com.philectron.algorithms.datastructures.queues;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -24,7 +24,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     private int size;
 
     /**
-     * Initializes an empty linked deque.
+     * Initializes an empty linked list deque.
      */
     public LinkedListDeque() {
         rear = front = null;
@@ -32,7 +32,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     /**
-     * Initializes a linked deque with all elements copied from {@code iterable}.
+     * Initializes a linked list deque with all elements copied from {@code iterable}.
      *
      * @param iterable the {@link Iterable} whose elements are to be copied to this deque
      *
@@ -49,7 +49,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public void pushFront(E element) {
+    public boolean pushFront(E element) {
         checkNotNull(element);
 
         Node<E> newNode = new Node<>(element);
@@ -65,10 +65,12 @@ public class LinkedListDeque<E> implements Deque<E> {
 
         front = newNode;
         ++size;
+
+        return true;
     }
 
     @Override
-    public void pushRear(E element) {
+    public boolean pushRear(E element) {
         checkNotNull(element);
 
         Node<E> newNode = new Node<>(element);
@@ -84,12 +86,14 @@ public class LinkedListDeque<E> implements Deque<E> {
 
         rear = newNode;
         ++size;
+
+        return true;
     }
 
     @Override
     public E popFront() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Deque is empty");
+            return null;
         }
 
         Node<E> nodeToRemove = front;
@@ -115,7 +119,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     @Override
     public E popRear() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Deque is empty");
+            return null;
         }
 
         Node<E> nodeToRemove = rear;

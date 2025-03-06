@@ -2,8 +2,6 @@ package com.philectron.algorithms.datastructures.interfaces;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.EmptyStackException;
-
 public interface Stack<E> extends Iterable<E> {
 
     /**
@@ -28,9 +26,11 @@ public interface Stack<E> extends Iterable<E> {
      *
      * @param element the element to be inserted
      *
+     * @return {@code true} if {@code element} was pushed to this stack, or {@code false} otherwise
+     *
      * @throws NullPointerException if {@code element} is {@code null}
      */
-    void push(E element);
+    boolean push(E element);
 
     /**
      * Pushes all elements from {@code iterable} to this stack.
@@ -46,20 +46,16 @@ public interface Stack<E> extends Iterable<E> {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            push(element);
-            modified = true;
+            modified = push(element) || modified;
         }
         return modified;
     }
 
     /**
-     * Retrieves and removes the element at the top of this stack.
+     * Retrieves and removes the element at the top of this stack, if any.
      *
-     * @return the element previously at the top of this stack
-     *
-     * @throws EmptyStackException if this stack {@link #isEmpty()}
-     *
-     * @see #peek()
+     * @return the element previously at the top of this stack, or {@code null} if this stack
+     *         {@link #isEmpty()}
      */
     E pop();
 
@@ -68,8 +64,6 @@ public interface Stack<E> extends Iterable<E> {
      *
      * @return the element currently at the top of this stack, or {@code null} if this stack
      *         {@link #isEmpty()}
-     *
-     * @see #pop()
      */
     E peek();
 

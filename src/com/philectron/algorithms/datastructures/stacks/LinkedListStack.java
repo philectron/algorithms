@@ -3,7 +3,6 @@ package com.philectron.algorithms.datastructures.stacks;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.philectron.algorithms.datastructures.interfaces.Stack;
-import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -19,11 +18,11 @@ public class LinkedListStack<E> implements Stack<E> {
         }
     }
 
-    private Node<E> top;
+    private Node<E> top; // head
     private int size;
 
     /**
-     * Initializes an empty linked stack.
+     * Initializes an empty linked list stack.
      */
     public LinkedListStack() {
         top = null;
@@ -31,7 +30,7 @@ public class LinkedListStack<E> implements Stack<E> {
     }
 
     /**
-     * Initializes a linked stack with all elements copied from {@code iterable}.
+     * Initializes a linked list stack with all elements copied from {@code iterable}.
      *
      * @param iterable the {@link Iterable} whose elements are to be copied to this stack
      *
@@ -48,7 +47,7 @@ public class LinkedListStack<E> implements Stack<E> {
     }
 
     @Override
-    public void push(E element) {
+    public boolean push(E element) {
         checkNotNull(element);
 
         Node<E> newNode = new Node<>(element);
@@ -56,12 +55,13 @@ public class LinkedListStack<E> implements Stack<E> {
         top = newNode;
 
         ++size;
+        return true;
     }
 
     @Override
     public E pop() {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            return null;
         }
 
         Node<E> nodeToRemove = top;
@@ -81,6 +81,9 @@ public class LinkedListStack<E> implements Stack<E> {
         return !isEmpty() ? top.data : null;
     }
 
+    /**
+     * Iterates from top (last added) to bottom (first added) of the stack.
+     */
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
