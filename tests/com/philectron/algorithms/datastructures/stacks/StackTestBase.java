@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public abstract class StackTestBase {
 
-    private static final List<Integer> VALUES = List.of(100, 400, 700, 200, 500, 300, 600, 100);
+    static final List<Integer> VALUES = List.of(100, 400, 700, 200, 500, 300, 600, 100);
     private static final List<Integer> VALUES_REVERSED = VALUES.reversed();
 
     private Stack<Integer> stack;
