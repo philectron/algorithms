@@ -17,8 +17,8 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     /**
      * Checks if this set is empty.
      *
-     * @return {@code true} if this set has no elements (when {@link #size()} is zero), or
-     *         {@code false} otherwise
+     * @return {@code true} if this set has no elements (when {@link #size()} is zero), else
+     *         {@code false}
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -51,8 +51,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was inserted into this set, or {@code false}
-     *         otherwise
+     * @return {@code true} if {@code element} was inserted into this set, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      */
@@ -63,7 +62,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if this set changed as a result of this call, or {@code false} otherwise
+     * @return {@code true} if this set changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
      *         {@code null}
@@ -84,7 +83,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param element the element to be searched in this set
      *
-     * @return {@code true} if this set contains {@code element}, or {@code false} otherwise
+     * @return {@code true} if this set contains {@code element}, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      */
@@ -95,7 +94,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param element the element to be removed if exists
      *
-     * @return {@code true} if {@code element} was removed from this set, or {@code false} otherwise
+     * @return {@code true} if {@code element} was removed from this set, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      */
@@ -128,7 +127,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be removed from this set
      *
-     * @return {@code true} if this set changed as a result of this call, or {@code false} otherwise
+     * @return {@code true} if this set changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
      *         {@code null}

@@ -1,6 +1,8 @@
 package com.philectron.algorithms.datastructures.queues;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 import java.util.Iterator;
@@ -13,14 +15,26 @@ public class ArrayDeque<E> implements Deque<E> {
     private E[] array;
     private int front;
     private int size;
+    private int capacity;
 
     /**
-     * Initializes an empty array deque.
+     * Initializes an empty array deque with default capacity and no capacity restrictions.
      */
     public ArrayDeque() {
         front = 0;
         size = 0;
+        capacity = -1;
         array = allocateArray(DEFAULT_CAPACITY);
+    }
+
+    /**
+     * Initializes an empty array deque with the given maximum capacity.
+     */
+    public ArrayDeque(int maximumCapacity) {
+        front = 0;
+        size = 0;
+        capacity = maximumCapacity;
+        array = allocateArray(maximumCapacity);
     }
 
     /**
@@ -38,12 +52,15 @@ public class ArrayDeque<E> implements Deque<E> {
     /**
      * Allocates a new primitive array of length {@code capacity}.
      *
-     * @param capacity the initial capacity to allocate memory for the array
+     * @param capacity the capacity to allocate memory for the array
      *
      * @return the newly allocated array
+     *
+     * @throws IllegalArgumentException if {@code capacity} is not positive.
      */
     @SuppressWarnings("unchecked")
     private E[] allocateArray(int capacity) {
+        checkArgument(capacity > 0, "Capacity must be positive");
         return (E[]) new Object[capacity];
     }
 
@@ -52,26 +69,19 @@ public class ArrayDeque<E> implements Deque<E> {
         return size;
     }
 
-    /**
-     * Checks if this deque is full.
-     *
-     * @return {@code true} if this deque can no longer hold more elements, or {@code false}
-     *         otherwise
-     */
-    public boolean isFull() {
-        return size == array.length;
-    }
-
     @Override
     public boolean offerFront(E element) {
         checkNotNull(element);
 
-        if (isFull()) {
+        if (size == capacity) {
             return false;
         }
 
-        front = (front - 1 + array.length) % array.length;
+        if (size == array.length) {
+            growArray();
+        }
 
+        front = (front - 1 + array.length) % array.length;
         array[front] = element;
         ++size;
 
@@ -82,8 +92,12 @@ public class ArrayDeque<E> implements Deque<E> {
     public boolean offerRear(E element) {
         checkNotNull(element);
 
-        if (isFull()) {
+        if (size == capacity) {
             return false;
+        }
+
+        if (size == array.length) {
+            growArray();
         }
 
         array[(front + size) % array.length] = element;
@@ -145,6 +159,32 @@ public class ArrayDeque<E> implements Deque<E> {
                 return currentData;
             }
         };
+    }
+
+    /**
+     * Allocates a new array with double the capacity of the original array and copies all the
+     * elements there.
+     */
+    private void growArray() {
+        E[] oldArray = assertNotNull(array);
+        final int oldFront = front;
+
+        array = allocateArray(oldArray.length * 2);
+
+        // Copy the rear elements, ranging from 0 (inclusive) to the old front (exclusive).
+        for (int i = 0; i < oldFront; ++i) {
+            array[i] = oldArray[i];
+            oldArray[i] = null; // cleanup
+        }
+
+        // Copy the front elements, ranging from the old front (inclusive) to end of the old array.
+        for (int i = oldFront; i < oldArray.length; ++i) {
+            array[i + oldArray.length] = oldArray[i];
+            oldArray[i] = null; // cleanup
+        }
+
+        // Set the new front using the old front's offset relative to the end of the old array.
+        front = oldFront + oldArray.length;
     }
 
 }

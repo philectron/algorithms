@@ -9,8 +9,7 @@ public interface Deque<E> extends Queue<E> {
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was inserted into this deque, or {@code false}
-     *         otherwise
+     * @return {@code true} if {@code element} was inserted into this deque, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
@@ -27,8 +26,7 @@ public interface Deque<E> extends Queue<E> {
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was inserted into this deque, or {@code false}
-     *         otherwise
+     * @return {@code true} if {@code element} was inserted into this deque, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
@@ -42,8 +40,7 @@ public interface Deque<E> extends Queue<E> {
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was inserted into this deque, or {@code false}
-     *         otherwise
+     * @return {@code true} if {@code element} was inserted into this deque, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
@@ -59,7 +56,7 @@ public interface Deque<E> extends Queue<E> {
      * @param element the element to be pushed
      *
      * @return {@code true} if {@code element} was pushed onto the stack represented by this deque,
-     *         or {@code false} otherwise
+     *         else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
@@ -75,8 +72,8 @@ public interface Deque<E> extends Queue<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if any element of {@code iterable} was inserted into this deque, or
-     *         {@code false} otherwise
+     * @return {@code true} if any element of {@code iterable} was inserted into this deque, else
+     *         {@code false}
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      *
@@ -97,8 +94,8 @@ public interface Deque<E> extends Queue<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if any element of {@code iterable} was inserted into this deque, or
-     *         {@code false} otherwise
+     * @return {@code true} if any element of {@code iterable} was inserted into this deque, else
+     *         {@code false}
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      *

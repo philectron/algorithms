@@ -16,8 +16,8 @@ public interface List<E> extends Iterable<E> {
     /**
      * Checks if this list is empty.
      *
-     * @return {@code true} if this list has no elements (when {@link #size()} is zero), or
-     *         {@code false} otherwise
+     * @return {@code true} if this list has no elements (when {@link #size()} is zero), else
+     *         {@code false}
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -248,7 +248,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @param element the element to be searched in this list
      *
-     * @return {@code true} if this list contains {@code element}, or {@code false} otherwise
+     * @return {@code true} if this list contains {@code element}, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
@@ -282,8 +282,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @param element the element to be removed if exists
      *
-     * @return {@code true} if {@code element} was removed from this list, or {@code false}
-     *         otherwise
+     * @return {@code true} if {@code element} was removed from this list, else {@code false}
      */
     boolean remove(E element);
 
@@ -321,8 +320,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be removed from this list
      *
-     * @return {@code true} if this list changed as a result of this call, or {@code false}
-     *         otherwise
+     * @return {@code true} if this list changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
      *         in {@code iterable} is {@code null} and this list does not permit null elements
@@ -331,20 +329,15 @@ public interface List<E> extends Iterable<E> {
         checkNotNull(iterable);
         // For each distinct element of the iterable, remove it from this list until it no longer
         // exists, then return the final result as true if any of the removals modified the list.
-        return StreamSupport
-                .stream(iterable.spliterator(), false)
-                .distinct()
-                .map(element -> {
-                    var wrapper = new Object() {
-                        boolean modified = false;
-                    };
-                    while (remove(element)) {
-                        wrapper.modified = true;
-                    }
-                    return wrapper.modified;
-                })
-                .reduce(Boolean::logicalOr)
-                .orElse(false);
+        return StreamSupport.stream(iterable.spliterator(), false).distinct().map(element -> {
+            var wrapper = new Object() {
+                boolean modified = false;
+            };
+            while (remove(element)) {
+                wrapper.modified = true;
+            }
+            return wrapper.modified;
+        }).reduce(Boolean::logicalOr).orElse(false);
     }
 
     /**

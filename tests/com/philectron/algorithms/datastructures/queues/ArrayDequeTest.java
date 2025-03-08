@@ -1,20 +1,14 @@
 package com.philectron.algorithms.datastructures.queues;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 import java.util.Collections;
-import java.util.List;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 public class ArrayDequeTest extends DequeTestBase {
-
-    private static final List<Integer> ZEROES_FULL_CAPACITY =
-            Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY, 0);
-    private static final List<Integer> ZEROES_NEAR_CAPACITY =
-            Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY - 1, 0);
-
-    private final Deque<Integer> fullDeque = new ArrayDeque<>(ZEROES_FULL_CAPACITY);
 
     @Override
     Deque<Integer> createDeque(Iterable<Integer> iterable) {
@@ -22,79 +16,94 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void isFull_checksDequeCapacity() {
-        assertThat(new ArrayDeque<>().isFull()).isFalse();
-        assertThat(new ArrayDeque<>(ZEROES_FULL_CAPACITY).isFull()).isTrue();
+    public void init_nonPositiveCapacity_fails() {
+        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(0));
+        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(-1));
+    }
+
+    @Test
+    public void offer_exceedsCapacity_growsArray_addsElements_returnsTrue() {
+        java.util.List<Integer> frontSequence = IntStream.range(0, ArrayDeque.DEFAULT_CAPACITY / 2)
+                .limit(ArrayDeque.DEFAULT_CAPACITY / 2).boxed().toList();
+        java.util.List<Integer> rearSequence =
+                IntStream.range(ArrayDeque.DEFAULT_CAPACITY / 2, ArrayDeque.DEFAULT_CAPACITY)
+                        .limit(ArrayDeque.DEFAULT_CAPACITY / 2).boxed().toList();
+
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();
+        frontSequence.forEach(expectedDeque::offerFirst);
+        rearSequence.forEach(expectedDeque::offerLast);
+        expectedDeque.offer(-1);
+        expectedDeque.offerFirst(-2);
+        expectedDeque.offerLast(-3);
+        expectedDeque.push(-4);
+
+        Deque<Integer> deque = new ArrayDeque<>();
+        assertThat(deque.offerFrontAll(frontSequence)).isTrue();
+        assertThat(deque.offerRearAll(rearSequence)).isTrue();
+        assertThat(deque.offer(-1)).isTrue();
+        assertThat(deque.offerFront(-2)).isTrue();
+        assertThat(deque.offerRear(-3)).isTrue();
+        assertThat(deque.push(-4)).isTrue();
+
+        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
     public void offer_fullDeque_addsNothing_returnsFalse() {
-        assertThat(fullDeque.offer(1)).isFalse();
-        assertThat(fullDeque).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
-    }
+        Deque<Integer> fullDeque = new ArrayDeque<>(1);
+        fullDeque.offer(1);
 
-    @Test
-    public void offerFront_fullDeque_addsNothing_returnsFalse() {
-        assertThat(fullDeque.offerFront(1)).isFalse();
-        assertThat(fullDeque).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
-    }
+        assertThat(fullDeque.offer(2)).isFalse();
+        assertThat(fullDeque.offerFront(2)).isFalse();
+        assertThat(fullDeque.offerRear(2)).isFalse();
+        assertThat(fullDeque.push(2)).isFalse();
 
-    @Test
-    public void offerRear_fullDeque_addsNothing_returnsFalse() {
-        assertThat(fullDeque.offerRear(1)).isFalse();
-        assertThat(fullDeque).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
-    }
-
-    @Test
-    public void push_asStack_fullDeque_addsNothing_returnsFalse() {
-        assertThat(fullDeque.push(1)).isFalse();
-        assertThat(fullDeque).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
-    }
-
-    @Test
-    public void offerAll_fullDeque_addsNothing_returnsFalse() {
         assertThat(fullDeque.offerAll(VALUES)).isFalse();
-        assertThat(fullDeque).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
+        assertThat(fullDeque.offerFrontAll(VALUES)).isFalse();
+        assertThat(fullDeque.offerRearAll(VALUES)).isFalse();
+
+        assertThat(fullDeque.size()).isEqualTo(1);
+        assertThat(fullDeque).containsExactlyElementsIn(Collections.singletonList(1)).inOrder();
     }
 
     @Test
     public void offerAll_nearFullDeque_addsPartialElements_returnsTrue() {
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(ZEROES_NEAR_CAPACITY);
-        expectedDeque.offer(VALUES.getFirst());
+        final int maximumCapacity = 3;
 
-        Deque<Integer> nearFullDeque = new ArrayDeque<>(ZEROES_NEAR_CAPACITY);
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();
+        for (int i = 0; i < maximumCapacity; ++i) {
+            expectedDeque.offer(VALUES.get(i));
+        }
+
+        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity);
         assertThat(nearFullDeque.offerAll(VALUES)).isTrue();
         assertThat(nearFullDeque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void offerFrontAll_fullDeque_addsNothing_returnsFalse() {
-        assertThat(fullDeque.offerFrontAll(ZEROES_FULL_CAPACITY)).isFalse();
-        assertThat(fullDeque).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
-    }
-
-    @Test
     public void offerFrontAll_nearFullDeque_addsPartialElements_returnsTrue() {
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(ZEROES_NEAR_CAPACITY);
-        expectedDeque.offerFirst(VALUES.getFirst());
+        final int maximumCapacity = 3;
 
-        Deque<Integer> nearFullDeque = new ArrayDeque<>(ZEROES_NEAR_CAPACITY);
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();
+        for (int i = 0; i < maximumCapacity; ++i) {
+            expectedDeque.offerFirst(VALUES.get(i));
+        }
+
+        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity);
         assertThat(nearFullDeque.offerFrontAll(VALUES)).isTrue();
         assertThat(nearFullDeque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void offerRearAll_fullDeque_addsNothing_returnsFalse() {
-        assertThat(fullDeque.offerRearAll(ZEROES_FULL_CAPACITY)).isFalse();
-        assertThat(fullDeque).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
-    }
-
-    @Test
     public void offerRearAll_nearFullDeque_addsPartialElements_returnsTrue() {
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(ZEROES_NEAR_CAPACITY);
-        expectedDeque.offerLast(VALUES.getFirst());
+        final int maximumCapacity = 3;
 
-        Deque<Integer> nearFullDeque = new ArrayDeque<>(ZEROES_NEAR_CAPACITY);
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();
+        for (int i = 0; i < maximumCapacity; ++i) {
+            expectedDeque.offerLast(VALUES.get(i));
+        }
+
+        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity);
         assertThat(nearFullDeque.offerRearAll(VALUES)).isTrue();
         assertThat(nearFullDeque).containsExactlyElementsIn(expectedDeque).inOrder();
     }

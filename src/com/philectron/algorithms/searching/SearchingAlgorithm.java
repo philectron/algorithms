@@ -36,7 +36,7 @@ public interface SearchingAlgorithm {
      * @param array the array that may or may not contain {@code target}
      * @param target the target value to be searched in {@code array}
      *
-     * @return {@code true} if {@code array} contains {@code target}, or {@code false} otherwise
+     * @return {@code true} if {@code array} contains {@code target}, else {@code false}
      *
      * @throws NullPointerException if {@code array} is {@code null}
      */
