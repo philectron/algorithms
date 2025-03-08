@@ -117,7 +117,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void add_insertsElementToPosition_shiftsListRight() {
+    public void add_insertsElementAtPosition_shiftsListRight() {
         final int midPosition = VALUES.size() / 2;
         final int newValue = Collections.max(VALUES) + 1;
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);

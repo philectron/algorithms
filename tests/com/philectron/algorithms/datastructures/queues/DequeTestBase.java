@@ -41,13 +41,73 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void push_nullElement_fails() {
+    public void offer_nullElement_fails() {
+        assertThrows(NullPointerException.class, () -> emptyDeque.offer(null));
+        assertThrows(NullPointerException.class, () -> deque.offer(null));
+    }
+
+    @Test
+    public void offer_insertsElementAtRear_returnsTrue() {
+        final int value = 1;
+
+        assertThat(emptyDeque.offer(value)).isTrue();
+        assertThat(emptyDeque).containsExactlyElementsIn(Collections.singletonList(value))
+                .inOrder();
+
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
+        expectedDeque.offer(value);
+        assertThat(deque.offer(value)).isTrue();
+        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
+    }
+
+    @Test
+    public void offerFront_nullElement_fails() {
+        assertThrows(NullPointerException.class, () -> emptyDeque.offerFront(null));
+        assertThrows(NullPointerException.class, () -> deque.offerFront(null));
+    }
+
+    @Test
+    public void offerFront_insertsElementAtFront_returnsTrue() {
+        final int value = 1;
+
+        assertThat(emptyDeque.offerFront(value)).isTrue();
+        assertThat(emptyDeque).containsExactlyElementsIn(Collections.singletonList(value))
+                .inOrder();
+
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
+        expectedDeque.offerFirst(value);
+        assertThat(deque.offerFront(value)).isTrue();
+        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
+    }
+
+    @Test
+    public void offerRear_nullElement_fails() {
+        assertThrows(NullPointerException.class, () -> emptyDeque.offerRear(null));
+        assertThrows(NullPointerException.class, () -> deque.offerRear(null));
+    }
+
+    @Test
+    public void offerRear_insertsElementAtRear_returnsTrue() {
+        final int value = 1;
+
+        assertThat(emptyDeque.offerRear(value)).isTrue();
+        assertThat(emptyDeque).containsExactlyElementsIn(Collections.singletonList(value))
+                .inOrder();
+
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
+        expectedDeque.offerLast(value);
+        assertThat(deque.offerRear(value)).isTrue();
+        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
+    }
+
+    @Test
+    public void push_asStack_nullElement_fails() {
         assertThrows(NullPointerException.class, () -> emptyDeque.push(null));
         assertThrows(NullPointerException.class, () -> deque.push(null));
     }
 
     @Test
-    public void push_insertsElementToRear_returnsTrue() {
+    public void push_asStack_insertsElementAtFront_returnsTrue() {
         final int value = 1;
 
         assertThat(emptyDeque.push(value)).isTrue();
@@ -55,195 +115,173 @@ public abstract class DequeTestBase {
                 .inOrder();
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
-        expectedDeque.offer(value);
+        expectedDeque.push(value);
         assertThat(deque.push(value)).isTrue();
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void pushFront_nullElement_fails() {
-        assertThrows(NullPointerException.class, () -> emptyDeque.pushFront(null));
-        assertThrows(NullPointerException.class, () -> deque.pushFront(null));
-    }
-
-    @Test
-    public void pushFront_insertsElementToFront_returnsTrue() {
-        final int value = 1;
-
-        assertThat(emptyDeque.pushFront(value)).isTrue();
-        assertThat(emptyDeque).containsExactlyElementsIn(Collections.singletonList(value))
-                .inOrder();
-
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
-        expectedDeque.offerFirst(value);
-        assertThat(deque.pushFront(value)).isTrue();
-        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
-    }
-
-    @Test
-    public void pushRear_nullElement_fails() {
-        assertThrows(NullPointerException.class, () -> emptyDeque.pushRear(null));
-        assertThrows(NullPointerException.class, () -> deque.pushRear(null));
-    }
-
-    @Test
-    public void pushRear_insertsElementToRear_returnsTrue() {
-        final int value = 1;
-
-        assertThat(emptyDeque.pushRear(value)).isTrue();
-        assertThat(emptyDeque).containsExactlyElementsIn(Collections.singletonList(value))
-                .inOrder();
-
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
-        expectedDeque.offerLast(value);
-        assertThat(deque.pushRear(value)).isTrue();
-        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
-    }
-
-    @Test
-    public void pushAll_fromNullInput_fails() {
-        assertThrows(NullPointerException.class, () -> emptyDeque.pushAll(null));
-        assertThrows(NullPointerException.class, () -> deque.pushAll(null));
+    public void offerAll_fromNullInput_fails() {
+        assertThrows(NullPointerException.class, () -> emptyDeque.offerAll(null));
+        assertThrows(NullPointerException.class, () -> deque.offerAll(null));
 
         assertThrows(NullPointerException.class,
-                () -> emptyDeque.pushAll(Collections.singletonList(null)));
+                () -> emptyDeque.offerAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class,
-                () -> deque.pushAll(Collections.singletonList(null)));
+                () -> deque.offerAll(Collections.singletonList(null)));
     }
 
     @Test
-    public void pushAll_fromEmptyInput_addsNothing_returnsFalse() {
-        assertThat(emptyDeque.pushAll(Collections.emptyList())).isFalse();
+    public void offerAll_fromEmptyInput_addsNothing_returnsFalse() {
+        assertThat(emptyDeque.offerAll(Collections.emptyList())).isFalse();
         assertThat(emptyDeque).isEmpty();
 
-        assertThat(deque.pushAll(Collections.emptyList())).isFalse();
+        assertThat(deque.offerAll(Collections.emptyList())).isFalse();
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void pushAll_appendsToDeque_returnsTrue() {
-        assertThat(emptyDeque.pushAll(VALUES)).isTrue();
+    public void offerAll_appendsToDeque_returnsTrue() {
+        assertThat(emptyDeque.offerAll(VALUES)).isTrue();
         assertThat(emptyDeque).containsExactlyElementsIn(VALUES).inOrder();
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
         VALUES.forEach(expectedDeque::offer);
-        assertThat(deque.pushAll(VALUES)).isTrue();
+        assertThat(deque.offerAll(VALUES)).isTrue();
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void pushFrontAll_fromNullInput_fails() {
-        assertThrows(NullPointerException.class, () -> emptyDeque.pushFrontAll(null));
-        assertThrows(NullPointerException.class, () -> deque.pushFrontAll(null));
+    public void offerFrontAll_fromNullInput_fails() {
+        assertThrows(NullPointerException.class, () -> emptyDeque.offerFrontAll(null));
+        assertThrows(NullPointerException.class, () -> deque.offerFrontAll(null));
 
         assertThrows(NullPointerException.class,
-                () -> emptyDeque.pushFrontAll(Collections.singletonList(null)));
+                () -> emptyDeque.offerFrontAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class,
-                () -> deque.pushFrontAll(Collections.singletonList(null)));
+                () -> deque.offerFrontAll(Collections.singletonList(null)));
     }
 
     @Test
-    public void pushFrontAll_fromEmptyInput_addsNothing_returnsFalse() {
-        assertThat(emptyDeque.pushFrontAll(Collections.emptyList())).isFalse();
+    public void offerFrontAll_fromEmptyInput_addsNothing_returnsFalse() {
+        assertThat(emptyDeque.offerFrontAll(Collections.emptyList())).isFalse();
         assertThat(emptyDeque).isEmpty();
 
-        assertThat(deque.pushFrontAll(Collections.emptyList())).isFalse();
+        assertThat(deque.offerFrontAll(Collections.emptyList())).isFalse();
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void pushFrontAll_prependsToDequeInReversedOrder_returnsTrue() {
-        assertThat(emptyDeque.pushFrontAll(VALUES)).isTrue();
+    public void offerFrontAll_prependsToDequeInReversedOrder_returnsTrue() {
+        assertThat(emptyDeque.offerFrontAll(VALUES)).isTrue();
         assertThat(emptyDeque).containsExactlyElementsIn(VALUES.reversed()).inOrder();
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
         VALUES.forEach(expectedDeque::offerFirst);
-        assertThat(deque.pushFrontAll(VALUES)).isTrue();
+        assertThat(deque.offerFrontAll(VALUES)).isTrue();
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void pushRearAll_fromNullInput_fails() {
-        assertThrows(NullPointerException.class, () -> emptyDeque.pushRearAll(null));
-        assertThrows(NullPointerException.class, () -> deque.pushRearAll(null));
+    public void offerRearAll_fromNullInput_fails() {
+        assertThrows(NullPointerException.class, () -> emptyDeque.offerRearAll(null));
+        assertThrows(NullPointerException.class, () -> deque.offerRearAll(null));
 
         assertThrows(NullPointerException.class,
-                () -> emptyDeque.pushRearAll(Collections.singletonList(null)));
+                () -> emptyDeque.offerRearAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class,
-                () -> deque.pushRearAll(Collections.singletonList(null)));
+                () -> deque.offerRearAll(Collections.singletonList(null)));
     }
 
     @Test
-    public void pushRearAll_fromEmptyInput_addsNothing_returnsFalse() {
-        assertThat(emptyDeque.pushRearAll(Collections.emptyList())).isFalse();
+    public void offerRearAll_fromEmptyInput_addsNothing_returnsFalse() {
+        assertThat(emptyDeque.offerRearAll(Collections.emptyList())).isFalse();
         assertThat(emptyDeque).isEmpty();
 
-        assertThat(deque.pushRearAll(Collections.emptyList())).isFalse();
+        assertThat(deque.offerRearAll(Collections.emptyList())).isFalse();
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void pushRearAll_appendsToDeque_returnsTrue() {
-        assertThat(emptyDeque.pushRearAll(VALUES)).isTrue();
+    public void offerRearAll_appendsToDeque_returnsTrue() {
+        assertThat(emptyDeque.offerRearAll(VALUES)).isTrue();
         assertThat(emptyDeque).containsExactlyElementsIn(VALUES).inOrder();
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
         VALUES.forEach(expectedDeque::offerLast);
-        assertThat(deque.pushRearAll(VALUES)).isTrue();
+        assertThat(deque.offerRearAll(VALUES)).isTrue();
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 
     @Test
-    public void pop_emptyDeque_removesNothing_returnsNull() {
+    public void poll_emptyDeque_removesNothing_returnsNull() {
+        assertThat(emptyDeque.poll()).isNull();
+        assertThat(emptyDeque).isEmpty();
+    }
+
+    @Test
+    public void poll_removesFrontElement_returnsElement() {
+        final int expectedValue = 1;
+        assertThat(emptyDeque.offer(expectedValue)).isTrue();
+        assertThat(emptyDeque.poll()).isEqualTo(expectedValue);
+        assertThat(emptyDeque).isEmpty();
+
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
+        assertThat(deque.poll()).isEqualTo(expectedDeque.poll());
+        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
+    }
+
+    @Test
+    public void pollFront_emptyDeque_removesNothing_returnsNull() {
+        assertThat(emptyDeque.pollFront()).isNull();
+        assertThat(emptyDeque).isEmpty();
+    }
+
+    @Test
+    public void pollFront_removesFrontElement_returnsElement() {
+        final int expectedValue = 1;
+        assertThat(emptyDeque.offer(expectedValue)).isTrue();
+        assertThat(emptyDeque.pollFront()).isEqualTo(expectedValue);
+        assertThat(emptyDeque).isEmpty();
+
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
+        assertThat(deque.pollFront()).isEqualTo(expectedDeque.pollFirst());
+        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
+    }
+
+    @Test
+    public void pollRear_emptyDeque_removesNothing_returnsNull() {
+        assertThat(emptyDeque.pollRear()).isNull();
+        assertThat(emptyDeque).isEmpty();
+    }
+
+    @Test
+    public void pollRear_removesRearElement_returnsElement() {
+        final int expectedValue = 1;
+        assertThat(emptyDeque.offer(expectedValue)).isTrue();
+        assertThat(emptyDeque.pollRear()).isEqualTo(expectedValue);
+        assertThat(emptyDeque).isEmpty();
+
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
+        assertThat(deque.pollRear()).isEqualTo(expectedDeque.pollLast());
+        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
+    }
+
+    @Test
+    public void pop_asStack_emptyDeque_removesNothing_returnsNull() {
         assertThat(emptyDeque.pop()).isNull();
         assertThat(emptyDeque).isEmpty();
     }
 
     @Test
-    public void pop_removesFrontElement_returnsElement() {
+    public void pop_asStack_removesFrontElement_returnsElement() {
         final int expectedValue = 1;
-        assertThat(emptyDeque.push(expectedValue)).isTrue();
+        assertThat(emptyDeque.offer(expectedValue)).isTrue();
         assertThat(emptyDeque.pop()).isEqualTo(expectedValue);
         assertThat(emptyDeque).isEmpty();
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
-        assertThat(deque.pop()).isEqualTo(expectedDeque.poll());
-        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
-    }
-
-    @Test
-    public void popFront_emptyDeque_removesNothing_returnsNull() {
-        assertThat(emptyDeque.popFront()).isNull();
-        assertThat(emptyDeque).isEmpty();
-    }
-
-    @Test
-    public void popFront_removesFrontElement_returnsElement() {
-        final int expectedValue = 1;
-        assertThat(emptyDeque.push(expectedValue)).isTrue();
-        assertThat(emptyDeque.popFront()).isEqualTo(expectedValue);
-        assertThat(emptyDeque).isEmpty();
-
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
-        assertThat(deque.popFront()).isEqualTo(expectedDeque.pollFirst());
-        assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
-    }
-
-    @Test
-    public void popRear_emptyDeque_removesNothing_returnsNull() {
-        assertThat(emptyDeque.popRear()).isNull();
-        assertThat(emptyDeque).isEmpty();
-    }
-
-    @Test
-    public void popRear_removesRearElement_returnsElement() {
-        final int expectedValue = 1;
-        assertThat(emptyDeque.push(expectedValue)).isTrue();
-        assertThat(emptyDeque.popRear()).isEqualTo(expectedValue);
-        assertThat(emptyDeque).isEmpty();
-
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(VALUES);
-        assertThat(deque.popRear()).isEqualTo(expectedDeque.pollLast());
+        assertThat(deque.pop()).isEqualTo(expectedDeque.pop());
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
 

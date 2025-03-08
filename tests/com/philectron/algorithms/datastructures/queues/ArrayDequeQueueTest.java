@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Test;
 
 public class ArrayDequeQueueTest extends QueueTestBase {
 
-    private static final List<Integer> ZEROES_FULL_CAPACITY = Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY, 0);
-    private static final List<Integer> ZEROES_NEAR_CAPACITY = Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY - 1, 0);
+    private static final List<Integer> ZEROES_FULL_CAPACITY =
+            Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY, 0);
+    private static final List<Integer> ZEROES_NEAR_CAPACITY =
+            Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY - 1, 0);
 
     private final Queue<Integer> fullQueue = new ArrayDeque<>(ZEROES_FULL_CAPACITY);
 
@@ -26,24 +28,24 @@ public class ArrayDequeQueueTest extends QueueTestBase {
     }
 
     @Test
-    public void push_fullQueue_addsNothing_returnsFalse() {
-        assertThat(fullQueue.push(1)).isFalse();
+    public void offer_fullQueue_addsNothing_returnsFalse() {
+        assertThat(fullQueue.offer(1)).isFalse();
         assertThat(fullQueue).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
     }
 
     @Test
-    public void pushAll_fullQueue_addsNothing_returnsFalse() {
-        assertThat(fullQueue.pushAll(VALUES)).isFalse();
+    public void offerAll_fullQueue_addsNothing_returnsFalse() {
+        assertThat(fullQueue.offerAll(VALUES)).isFalse();
         assertThat(fullQueue).containsExactlyElementsIn(ZEROES_FULL_CAPACITY).inOrder();
     }
 
     @Test
-    public void pushAll_nearFullQueue_addsPartialElements_returnsTrue() {
+    public void offerAll_nearFullQueue_addsPartialElements_returnsTrue() {
         java.util.Queue<Integer> expectedQueue = new java.util.ArrayDeque<>(ZEROES_NEAR_CAPACITY);
         expectedQueue.offer(VALUES.getFirst());
 
         Queue<Integer> nearFullQueue = new ArrayDeque<>(ZEROES_NEAR_CAPACITY);
-        assertThat(nearFullQueue.pushAll(VALUES)).isTrue();
+        assertThat(nearFullQueue.offerAll(VALUES)).isTrue();
         assertThat(nearFullQueue).containsExactlyElementsIn(expectedQueue).inOrder();
     }
 

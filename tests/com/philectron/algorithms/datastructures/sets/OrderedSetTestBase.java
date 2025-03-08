@@ -76,7 +76,7 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
-    public void add_newElement_insertsToCorrectPosition() {
+    public void add_newElement_insertsAtCorrectPosition() {
         // Plus or minus 1 to ensure no duplicates.
         final int smallValue = VALUES_UNIQUE_SORTED.getFirst() - 1;
         final int largeValue = VALUES_UNIQUE_SORTED.getLast() + 1;
@@ -128,7 +128,7 @@ public abstract class OrderedSetTestBase {
     }
 
     @Test
-    public void addAll_intoExistingSet_insertsNewElementsInOrder() {
+    public void addAll_intoExistingSet_insertsOnlyDistinctElementsAtCorrectOrders() {
         // The list to insert will contain some duplicate values and some new values.
         List<Integer> newValues = new ArrayList<>(VALUES);
         VALUES.forEach(value -> newValues.add(-value));

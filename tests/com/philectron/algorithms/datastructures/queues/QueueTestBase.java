@@ -41,71 +41,71 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void push_nullElement_fails() {
-        assertThrows(NullPointerException.class, () -> emptyQueue.push(null));
-        assertThrows(NullPointerException.class, () -> queue.push(null));
+    public void offer_nullElement_fails() {
+        assertThrows(NullPointerException.class, () -> emptyQueue.offer(null));
+        assertThrows(NullPointerException.class, () -> queue.offer(null));
     }
 
     @Test
-    public void push_insertsElementToRear_returnsTrue() {
+    public void offer_insertsElementAtRear_returnsTrue() {
         final int value = 1;
 
-        assertThat(emptyQueue.push(value)).isTrue();
+        assertThat(emptyQueue.offer(value)).isTrue();
         assertThat(emptyQueue).containsExactlyElementsIn(Collections.singletonList(value))
                 .inOrder();
 
         java.util.Queue<Integer> expectedQueue = new java.util.ArrayDeque<>(VALUES);
         expectedQueue.offer(value);
-        assertThat(queue.push(value)).isTrue();
+        assertThat(queue.offer(value)).isTrue();
         assertThat(queue).containsExactlyElementsIn(expectedQueue).inOrder();
     }
 
     @Test
-    public void pushAll_fromNullInput_fails() {
-        assertThrows(NullPointerException.class, () -> emptyQueue.pushAll(null));
-        assertThrows(NullPointerException.class, () -> queue.pushAll(null));
+    public void offerAll_fromNullInput_fails() {
+        assertThrows(NullPointerException.class, () -> emptyQueue.offerAll(null));
+        assertThrows(NullPointerException.class, () -> queue.offerAll(null));
 
         assertThrows(NullPointerException.class,
-                () -> emptyQueue.pushAll(Collections.singletonList(null)));
+                () -> emptyQueue.offerAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class,
-                () -> queue.pushAll(Collections.singletonList(null)));
+                () -> queue.offerAll(Collections.singletonList(null)));
     }
 
     @Test
-    public void pushAll_fromEmptyInput_addsNothing_returnsFalse() {
-        assertThat(emptyQueue.pushAll(Collections.emptyList())).isFalse();
+    public void offerAll_fromEmptyInput_addsNothing_returnsFalse() {
+        assertThat(emptyQueue.offerAll(Collections.emptyList())).isFalse();
         assertThat(emptyQueue).isEmpty();
 
-        assertThat(queue.pushAll(Collections.emptyList())).isFalse();
+        assertThat(queue.offerAll(Collections.emptyList())).isFalse();
         assertThat(queue).containsExactlyElementsIn(VALUES).inOrder();
     }
 
     @Test
-    public void pushAll_appendsToQueue_returnsTrue() {
-        assertThat(emptyQueue.pushAll(VALUES)).isTrue();
+    public void offerAll_appendsToQueue_returnsTrue() {
+        assertThat(emptyQueue.offerAll(VALUES)).isTrue();
         assertThat(emptyQueue).containsExactlyElementsIn(VALUES).inOrder();
 
         java.util.Queue<Integer> expectedQueue = new java.util.ArrayDeque<>(VALUES);
         VALUES.forEach(expectedQueue::offer);
-        assertThat(queue.pushAll(VALUES)).isTrue();
+        assertThat(queue.offerAll(VALUES)).isTrue();
         assertThat(queue).containsExactlyElementsIn(expectedQueue).inOrder();
     }
 
     @Test
-    public void pop_emptyQueue_removesNothing_returnsNull() {
-        assertThat(emptyQueue.pop()).isNull();
+    public void poll_emptyQueue_removesNothing_returnsNull() {
+        assertThat(emptyQueue.poll()).isNull();
         assertThat(emptyQueue).isEmpty();
     }
 
     @Test
-    public void pop_removesFrontElement_returnsElement() {
+    public void poll_removesFrontElement_returnsElement() {
         final int expectedValue = 1;
-        assertThat(emptyQueue.push(expectedValue)).isTrue();
-        assertThat(emptyQueue.pop()).isEqualTo(expectedValue);
+        assertThat(emptyQueue.offer(expectedValue)).isTrue();
+        assertThat(emptyQueue.poll()).isEqualTo(expectedValue);
         assertThat(emptyQueue).isEmpty();
 
         java.util.Queue<Integer> expectedQueue = new java.util.ArrayDeque<>(VALUES);
-        assertThat(queue.pop()).isEqualTo(expectedQueue.poll());
+        assertThat(queue.poll()).isEqualTo(expectedQueue.poll());
         assertThat(queue).containsExactlyElementsIn(expectedQueue).inOrder();
     }
 

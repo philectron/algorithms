@@ -32,7 +32,7 @@ public class ArrayDeque<E> implements Deque<E> {
      */
     public ArrayDeque(Iterable<? extends E> iterable) {
         this();
-        pushAll(iterable);
+        offerAll(iterable);
     }
 
     /**
@@ -63,7 +63,7 @@ public class ArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public boolean pushFront(E element) {
+    public boolean offerFront(E element) {
         checkNotNull(element);
 
         if (isFull()) {
@@ -79,7 +79,7 @@ public class ArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public boolean pushRear(E element) {
+    public boolean offerRear(E element) {
         checkNotNull(element);
 
         if (isFull()) {
@@ -93,7 +93,7 @@ public class ArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public E popFront() {
+    public E pollFront() {
         if (isEmpty()) {
             return null;
         }
@@ -104,7 +104,7 @@ public class ArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public E popRear() {
+    public E pollRear() {
         if (isEmpty()) {
             return null;
         }

@@ -202,12 +202,12 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
     }
 
     /**
-     * After the new node has been inserted to its correct position in this list, this method
+     * After the new node has been inserted at its correct position in this list, this method
      * updates the width of the previous node and calculates the width of the new node on the
      * current level.
      *
      * @param currentLevel the current level to update the widths of the previous and new nodes
-     * @param newNode the new node already inserted into its correct position in this list
+     * @param newNode the new node already inserted at its correct position in this list
      * @param previousNode the node right before the new node on the current level
      */
     private void updateWidths(int currentLevel, Node<E> newNode, Node<E> previousNode) {

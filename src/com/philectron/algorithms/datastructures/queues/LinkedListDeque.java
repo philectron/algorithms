@@ -40,7 +40,7 @@ public class LinkedListDeque<E> implements Deque<E> {
      */
     public LinkedListDeque(Iterable<? extends E> iterable) {
         this();
-        pushRearAll(iterable);
+        offerRearAll(iterable);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public boolean pushFront(E element) {
+    public boolean offerFront(E element) {
         checkNotNull(element);
 
         Node<E> newNode = new Node<>(element);
@@ -70,7 +70,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public boolean pushRear(E element) {
+    public boolean offerRear(E element) {
         checkNotNull(element);
 
         Node<E> newNode = new Node<>(element);
@@ -91,7 +91,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public E popFront() {
+    public E pollFront() {
         if (isEmpty()) {
             return null;
         }
@@ -117,7 +117,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public E popRear() {
+    public E pollRear() {
         if (isEmpty()) {
             return null;
         }

@@ -22,31 +22,32 @@ public interface Queue<E> extends Iterable<E> {
     }
 
     /**
-     * Inserts {@code element} to the rear of this queue.
+     * Inserts {@code element} at the rear of this queue.
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was pushed to this queue, or {@code false} otherwise
+     * @return {@code true} if {@code element} was inserted into this queue, or {@code false}
+     *         otherwise
      *
      * @throws NullPointerException if {@code element} is {@code null}
      */
-    boolean push(E element);
+    boolean offer(E element);
 
     /**
-     * Pushes all elements from {@code iterable} to this queue.
+     * Inserts all elements from {@code iterable} into this queue.
      *
-     * @param iterable the {@link Iterable} containing the elements to be pushed
+     * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if any element of {@code iterable} was pushed to this queue, or
+     * @return {@code true} if any element of {@code iterable} was inserted into this queue, or
      *         {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
-    default boolean pushAll(Iterable<? extends E> iterable) {
+    default boolean offerAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            modified = push(element) || modified;
+            modified = offer(element) || modified;
         }
         return modified;
     }
@@ -57,7 +58,7 @@ public interface Queue<E> extends Iterable<E> {
      * @return the element previously at the front of this queue, or {@code null} if this queue
      *         {@link #isEmpty()}
      */
-    E pop();
+    E poll();
 
     /**
      * Retrieves, but does not remove, the element at the front of this queue, if any.
@@ -72,7 +73,7 @@ public interface Queue<E> extends Iterable<E> {
      */
     default void clear() {
         while (!isEmpty()) {
-            pop();
+            poll();
         }
     }
 

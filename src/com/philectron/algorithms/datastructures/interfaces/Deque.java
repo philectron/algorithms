@@ -5,91 +5,111 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public interface Deque<E> extends Queue<E> {
 
     /**
-     * Inserts {@code element} to the rear of this deque.
+     * Inserts {@code element} at the rear of this deque.
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was pushed to this deque, or {@code false} otherwise
+     * @return {@code true} if {@code element} was inserted into this deque, or {@code false}
+     *         otherwise
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
-     * @see #pushFront(E)
-     * @see #pushRear(E)
+     * @see #offerFront(E)
+     * @see #offerRear(E)
      */
     @Override
-    default boolean push(E element) {
-        return pushRear(element);
+    default boolean offer(E element) {
+        return offerRear(element);
     }
 
     /**
-     * Inserts {@code element} to the front of this deque.
+     * Inserts {@code element} at the front of this deque.
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was pushed to this deque, or {@code false} otherwise
+     * @return {@code true} if {@code element} was inserted into this deque, or {@code false}
+     *         otherwise
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
-     * @see #push(E)
-     * @see #pushRear(E)
+     * @see #offer(E)
+     * @see #offerRear(E)
      */
-    boolean pushFront(E element);
+    boolean offerFront(E element);
 
     /**
-     * Inserts {@code element} to the rear of this deque.
+     * Inserts {@code element} at the rear of this deque.
      *
      * @param element the element to be inserted
      *
-     * @return {@code true} if {@code element} was pushed to this deque, or {@code false} otherwise
+     * @return {@code true} if {@code element} was inserted into this deque, or {@code false}
+     *         otherwise
      *
      * @throws NullPointerException if {@code element} is {@code null}
      *
-     * @see #push(E)
-     * @see #pushFront(E)
+     * @see #offer(E)
+     * @see #offerFront(E)
      */
-    boolean pushRear(E element);
+    boolean offerRear(E element);
 
     /**
-     * Pushes all elements from {@code iterable} to the front of this deque. This results in
+     * Pushes {@code element} onto the stack represented by this deque. This operation inserts
+     * {@code element} at the front of this deque (treated as the top of the represented stack).
+     *
+     * @param element the element to be pushed
+     *
+     * @return {@code true} if {@code element} was pushed onto the stack represented by this deque,
+     *         or {@code false} otherwise
+     *
+     * @throws NullPointerException if {@code element} is {@code null}
+     *
+     * @see #offerFront(E)
+     */
+    default boolean push(E element) {
+        return offerFront(element);
+    }
+
+    /**
+     * Inserts all elements from {@code iterable} at the front of this deque. This results in
      * reversing the order of {@code iterable}'s elements in this deque.
      *
-     * @param iterable the {@link Iterable} containing the elements to be pushed
+     * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if any element of {@code iterable} was pushed to this deque, or
+     * @return {@code true} if any element of {@code iterable} was inserted into this deque, or
      *         {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      *
-     * @see Queue#pushAll(Iterable)
-     * @see #pushRearAll(Iterable)
+     * @see Queue#offerAll(Iterable)
+     * @see #offerRearAll(Iterable)
      */
-    default boolean pushFrontAll(Iterable<? extends E> iterable) {
+    default boolean offerFrontAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            modified = pushFront(element) || modified;
+            modified = offerFront(element) || modified;
         }
         return modified;
     }
 
     /**
-     * Pushes all elements from {@code iterable} to the rear of this deque.
+     * Inserts all elements from {@code iterable} at the rear of this deque.
      *
-     * @param iterable the {@link Iterable} containing the elements to be pushed
+     * @param iterable the {@link Iterable} containing the elements to be inserted
      *
-     * @return {@code true} if any element of {@code iterable} was pushed to this deque, or
+     * @return {@code true} if any element of {@code iterable} was inserted into this deque, or
      *         {@code false} otherwise
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      *
-     * @see #pushAll(Iterable)
-     * @see #pushFrontAll(Iterable)
+     * @see Queue#offerAll(Iterable)
+     * @see #offerFrontAll(Iterable)
      */
-    default boolean pushRearAll(Iterable<? extends E> iterable) {
+    default boolean offerRearAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            modified = pushRear(element) || modified;
+            modified = offerRear(element) || modified;
         }
         return modified;
     }
@@ -100,12 +120,12 @@ public interface Deque<E> extends Queue<E> {
      * @return the element previously at the front of this deque, or {@code null} if this deque
      *         {@link #isEmpty()}
      *
-     * @see #popFront()
-     * @see #popRear()
+     * @see #pollFront()
+     * @see #pollRear()
      */
     @Override
-    default E pop() {
-        return popFront();
+    default E poll() {
+        return pollFront();
     }
 
     /**
@@ -114,10 +134,10 @@ public interface Deque<E> extends Queue<E> {
      * @return the element previously at the front of this deque, or {@code null} if this deque
      *         {@link #isEmpty()}
      *
-     * @see #pop()
-     * @see #popRear()
+     * @see #poll()
+     * @see #pollRear()
      */
-    E popFront();
+    E pollFront();
 
     /**
      * Retrieves and removes the element at the rear of this deque.
@@ -125,10 +145,21 @@ public interface Deque<E> extends Queue<E> {
      * @return the element previously at the rear of this deque, or {@code null} if this deque
      *         {@link #isEmpty()}
      *
-     * @see #pop()
-     * @see #popFront()
+     * @see #poll()
+     * @see #pollFront()
      */
-    E popRear();
+    E pollRear();
+
+    /**
+     * Pops the top element from the stack represented by this deque. This operation retrieves and
+     * removes the element at the front of this deque (treated as the top of the represented stack).
+     *
+     * @return the element previously at the front of this deque (top of the stack), or {@code null}
+     *         if this deque {@link #isEmpty()}
+     */
+    default E pop() {
+        return pollFront();
+    }
 
     /**
      * Retrieves, but does not remove, the element at the front of this deque, if any.

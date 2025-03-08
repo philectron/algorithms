@@ -47,7 +47,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     E getLast();
 
     /**
-     * Inserts {@code element} into its correct position in this set.
+     * Inserts {@code element} at its correct position in this set.
      *
      * @param element the element to be inserted
      *
@@ -59,7 +59,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     boolean add(E element);
 
     /**
-     * Inserts all elements from {@code iterable} into their correct positions in this set.
+     * Inserts all elements from {@code iterable} at their correct positions in this set.
      *
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
