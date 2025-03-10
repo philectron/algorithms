@@ -21,24 +21,27 @@ public class ArrayDeque<E> implements Deque<E> {
      * Initializes an empty array deque with default capacity and no capacity restrictions.
      */
     public ArrayDeque() {
-        front = 0;
-        size = 0;
-        capacity = -1;
-        array = allocateArray(DEFAULT_CAPACITY);
+        this(DEFAULT_CAPACITY, -1);
     }
 
     /**
-     * Initializes an empty array deque with the given maximum capacity.
+     * Initializes an empty array deque with the given maximum capacity, where a value of {@code -1}
+     * for maximum capacity means no restrictions.
+     *
+     * @param initialCapacity the initial amount of memory to be allocated for the array
+     * @param maximumCapacity the maximum capacity restriction the array can hold
      */
-    public ArrayDeque(int maximumCapacity) {
+    public ArrayDeque(int initialCapacity, int maximumCapacity) {
+        checkArgument(maximumCapacity == -1 || initialCapacity <= maximumCapacity,
+                "Initial capacity must be at or below maximum capacity");
         front = 0;
         size = 0;
         capacity = maximumCapacity;
-        array = allocateArray(maximumCapacity);
+        array = allocateArray(initialCapacity);
     }
 
     /**
-     * Initializes an array deque with all elements copied from {@code iterable}.
+     * Initializes a default array deque with all elements copied from {@code iterable}.
      *
      * @param iterable the {@link Iterable} whose elements are to be copied to this stack
      *

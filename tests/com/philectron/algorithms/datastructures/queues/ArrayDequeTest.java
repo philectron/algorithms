@@ -16,9 +16,11 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void init_nonPositiveCapacity_fails() {
-        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(0));
-        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(-1));
+    public void init_invalidCapacity_fails() {
+        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(2, 1));
+        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(0, -1));
     }
 
     @Test
@@ -46,7 +48,7 @@ public class ArrayDequeTest extends DequeTestBase {
 
     @Test
     public void offer_fullDeque_addsNothing_returnsFalse() {
-        Deque<Integer> fullDeque = new ArrayDeque<>(1);
+        Deque<Integer> fullDeque = new ArrayDeque<>(1, 1);
         fullDeque.offer(1);
 
         assertThat(fullDeque.offer(2)).isFalse();
@@ -71,7 +73,7 @@ public class ArrayDequeTest extends DequeTestBase {
             expectedDeque.offer(VALUES.get(i));
         }
 
-        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity);
+        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity, maximumCapacity);
         assertThat(nearFullDeque.offerAll(VALUES)).isTrue();
         assertThat(nearFullDeque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
@@ -85,7 +87,7 @@ public class ArrayDequeTest extends DequeTestBase {
             expectedDeque.offerFirst(VALUES.get(i));
         }
 
-        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity);
+        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity, maximumCapacity);
         assertThat(nearFullDeque.offerFrontAll(VALUES)).isTrue();
         assertThat(nearFullDeque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
@@ -99,7 +101,7 @@ public class ArrayDequeTest extends DequeTestBase {
             expectedDeque.offerLast(VALUES.get(i));
         }
 
-        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity);
+        Deque<Integer> nearFullDeque = new ArrayDeque<>(maximumCapacity, maximumCapacity);
         assertThat(nearFullDeque.offerRearAll(VALUES)).isTrue();
         assertThat(nearFullDeque).containsExactlyElementsIn(expectedDeque).inOrder();
     }
