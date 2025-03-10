@@ -43,7 +43,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @return the element at the first index of this list
      *
-     * @throws IndexOutOfBoundsException if this list is empty
+     * @throws IndexOutOfBoundsException if this list {@link #isEmpty()}
      *
      * @see #get(int)
      * @see #getLast()
@@ -57,7 +57,7 @@ public interface List<E> extends Iterable<E> {
      *
      * @return the element at the last index of this list
      *
-     * @throws IndexOutOfBoundsException if this list is empty
+     * @throws IndexOutOfBoundsException if this list {@link #isEmpty()}
      *
      * @see #get(int)
      * @see #getFirst()
@@ -127,6 +127,8 @@ public interface List<E> extends Iterable<E> {
      * @param position the position index at which the new element is to be inserted
      * @param element the element to be inserted at {@code position}
      *
+     * @return {@code true} if {@code element} was inserted into this list, else {@code false}
+     *
      * @throws IndexOutOfBoundsException if {@code position} is negative or is greater than
      *         {@link #size()}
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
@@ -136,14 +138,14 @@ public interface List<E> extends Iterable<E> {
      * @see #addFirst(E)
      * @see #addLast(E)
      */
-    void add(int position, E element);
+    boolean add(int position, E element);
 
     /**
      * Appends {@code element} to the end of this list.
      *
      * @param element the element to be appended
      *
-     * @return always {@code true} to indicate {@code element} was appended to this list
+     * @return {@code true} if {@code element} was appended to this list, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
@@ -153,8 +155,7 @@ public interface List<E> extends Iterable<E> {
      * @see #addLast(E)
      */
     default boolean add(E element) {
-        add(size(), element);
-        return true;
+        return add(size(), element);
     }
 
     /**
@@ -163,6 +164,8 @@ public interface List<E> extends Iterable<E> {
      *
      * @param element the element to be inserted as the first element
      *
+     * @return {@code true} if {@code element} was inserted into this list, else {@code false}
+     *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
      *
@@ -170,14 +173,16 @@ public interface List<E> extends Iterable<E> {
      * @see #add(E)
      * @see #addLast(E)
      */
-    default void addFirst(E element) {
-        add(0, element);
+    default boolean addFirst(E element) {
+        return add(0, element);
     }
 
     /**
      * Inserts {@code element} as the last element of this list.
      *
      * @param element the element to be inserted as the last element
+     *
+     * @return {@code true} if {@code element} was inserted into this list, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *         null elements
@@ -186,8 +191,8 @@ public interface List<E> extends Iterable<E> {
      * @see #add(E)
      * @see #addFirst(E)
      */
-    default void addLast(E element) {
-        add(size(), element);
+    default boolean addLast(E element) {
+        return add(size(), element);
     }
 
     /**
@@ -195,8 +200,8 @@ public interface List<E> extends Iterable<E> {
      *
      * @param iterable the {@link Iterable} containing the elements to be appended
      *
-     * @return always {@code true} to indicate all elements of {@code iterable} was appended to this
-     *         list
+     * @return {@code true} if all elements of {@code iterable} was appended to this list, else
+     *         {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
      *         in {@code iterable} is {@code null} and this list does not permit null elements
@@ -205,8 +210,7 @@ public interface List<E> extends Iterable<E> {
         checkNotNull(iterable);
         boolean modified = false;
         for (E element : iterable) {
-            add(element);
-            modified = true;
+            modified = add(element) || modified;
         }
         return modified;
     }
@@ -329,15 +333,19 @@ public interface List<E> extends Iterable<E> {
         checkNotNull(iterable);
         // For each distinct element of the iterable, remove it from this list until it no longer
         // exists, then return the final result as true if any of the removals modified the list.
-        return StreamSupport.stream(iterable.spliterator(), false).distinct().map(element -> {
-            var wrapper = new Object() {
-                boolean modified = false;
-            };
-            while (remove(element)) {
-                wrapper.modified = true;
-            }
-            return wrapper.modified;
-        }).reduce(Boolean::logicalOr).orElse(false);
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .distinct()
+                .map(element -> {
+                    var wrapper = new Object() {
+                        boolean modified = false;
+                    };
+                    while (remove(element)) {
+                        wrapper.modified = true;
+                    }
+                    return wrapper.modified;
+                })
+                .reduce(Boolean::logicalOr)
+                .orElse(false);
     }
 
     /**

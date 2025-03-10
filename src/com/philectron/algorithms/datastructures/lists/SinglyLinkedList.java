@@ -88,7 +88,7 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void add(int position, E element) {
+    public boolean add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
@@ -97,13 +97,13 @@ public class SinglyLinkedList<E> implements List<E> {
         // This branch handles empty list.
         if (position == 0) {
             addHead(newNode);
-            return;
+            return true;
         }
 
         // If insert at the tail, the new node becomes the new tail.
         if (position == size) {
             addTail(newNode);
-            return;
+            return true;
         }
 
         // For all other positions, traverse the list to the node right before the insert position.
@@ -115,6 +115,7 @@ public class SinglyLinkedList<E> implements List<E> {
         previousNode.next = newNode;
 
         ++size;
+        return true;
     }
 
     /**

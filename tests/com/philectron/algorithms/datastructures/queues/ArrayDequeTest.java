@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 import java.util.Collections;
-import java.util.stream.IntStream;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class ArrayDequeTest extends DequeTestBase {
@@ -23,27 +23,23 @@ public class ArrayDequeTest extends DequeTestBase {
 
     @Test
     public void offer_exceedsCapacity_growsArray_addsElements_returnsTrue() {
-        java.util.List<Integer> frontSequence = IntStream.range(0, ArrayDeque.DEFAULT_CAPACITY / 2)
-                .limit(ArrayDeque.DEFAULT_CAPACITY / 2).boxed().toList();
-        java.util.List<Integer> rearSequence =
-                IntStream.range(ArrayDeque.DEFAULT_CAPACITY / 2, ArrayDeque.DEFAULT_CAPACITY)
-                        .limit(ArrayDeque.DEFAULT_CAPACITY / 2).boxed().toList();
+        List<Integer> fullCapacityList = Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY, 0);
 
-        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();
-        frontSequence.forEach(expectedDeque::offerFirst);
-        rearSequence.forEach(expectedDeque::offerLast);
+        java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(fullCapacityList);
         expectedDeque.offer(-1);
         expectedDeque.offerFirst(-2);
         expectedDeque.offerLast(-3);
         expectedDeque.push(-4);
+        VALUES.forEach(expectedDeque::offerFirst);
+        VALUES.forEach(expectedDeque::offerLast);
 
-        Deque<Integer> deque = new ArrayDeque<>();
-        assertThat(deque.offerFrontAll(frontSequence)).isTrue();
-        assertThat(deque.offerRearAll(rearSequence)).isTrue();
+        Deque<Integer> deque = new ArrayDeque<>(fullCapacityList);
         assertThat(deque.offer(-1)).isTrue();
         assertThat(deque.offerFront(-2)).isTrue();
         assertThat(deque.offerRear(-3)).isTrue();
         assertThat(deque.push(-4)).isTrue();
+        assertThat(deque.offerFrontAll(VALUES)).isTrue();
+        assertThat(deque.offerRearAll(VALUES)).isTrue();
 
         assertThat(deque).containsExactlyElementsIn(expectedDeque).inOrder();
     }

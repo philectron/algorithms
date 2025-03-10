@@ -13,6 +13,8 @@ import java.util.NoSuchElementException;
 
 public class DynamicArray<E> implements List<E> {
 
+    static final int DEFAULT_CAPACITY = 20;
+
     private E[] array;
     private int size;
 
@@ -21,7 +23,7 @@ public class DynamicArray<E> implements List<E> {
      */
     public DynamicArray() {
         size = 0;
-        array = allocateArray(1);
+        array = allocateArray(DEFAULT_CAPACITY);
     }
 
     /**
@@ -70,7 +72,7 @@ public class DynamicArray<E> implements List<E> {
     }
 
     @Override
-    public void add(int position, E element) {
+    public boolean add(int position, E element) {
         assertPositionIndex(size, array.length);
         checkPositionIndex(position, size);
 
@@ -86,6 +88,7 @@ public class DynamicArray<E> implements List<E> {
         array[position] = element;
 
         ++size;
+        return true;
     }
 
     /**
@@ -141,10 +144,6 @@ public class DynamicArray<E> implements List<E> {
         array[size - 1] = null; // to help with garbage collection
 
         --size;
-        if (size == array.length / 2) {
-            shrinkArray();
-        }
-
         return oldValue;
     }
 
@@ -162,20 +161,6 @@ public class DynamicArray<E> implements List<E> {
         return true; // element found, array was modified
     }
 
-    /**
-     * Allocates a new array with half the capacity of the original array and copies all the
-     * elements there.
-     */
-    private void shrinkArray() {
-        E[] oldArray = assertNotNull(array);
-        assertPositionIndex(size, oldArray.length);
-        array = allocateArray(oldArray.length / 2);
-        for (int i = 0; i < size; ++i) {
-            array[i] = oldArray[i];
-            oldArray[i] = null; // to help with garbage collection
-        }
-    }
-
     @Override
     public void clear() {
         while (!isEmpty()) {
@@ -186,10 +171,15 @@ public class DynamicArray<E> implements List<E> {
     @Override
     public void reverse() {
         assertPositionIndex(size, array.length);
-        for (int i = 0, mid = size / 2; i < mid; ++i) {
-            E tmp = array[i];
-            array[i] = array[size - 1 - i];
-            array[size - 1 - i] = tmp;
+
+        int left = 0;
+        int right = size - 1;
+        while (left < right) {
+            E tmp = array[left];
+            array[left] = array[right];
+            array[right] = tmp;
+            ++left;
+            --right;
         }
     }
 

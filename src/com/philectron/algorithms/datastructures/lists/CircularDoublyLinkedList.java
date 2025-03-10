@@ -90,7 +90,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void add(int position, E element) {
+    public boolean add(int position, E element) {
         checkPositionIndex(position, size);
 
         Node<E> newNode = new Node<>(element);
@@ -98,7 +98,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         // Since this list is circular, adding to the start is the same as adding to the end.
         if (position == 0 || position == size) {
             addAfterLast(newNode, position == size);
-            return;
+            return true;
         }
 
         // For all other positions, traverse this list to the node right before the insert position.
@@ -112,6 +112,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         nextNode.previous = previousNode.next = newNode;
 
         ++size;
+        return true;
     }
 
     /**
