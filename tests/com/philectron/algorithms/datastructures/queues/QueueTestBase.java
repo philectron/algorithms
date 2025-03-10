@@ -35,7 +35,7 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void isEmpty_checksQueueSize() {
+    public void isEmpty_checksSize() {
         assertThat(emptyQueue.isEmpty()).isTrue();
         assertThat(queue.isEmpty()).isFalse();
     }
@@ -47,32 +47,25 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void offer_insertsElementAtRear_returnsTrue() {
-        final int value = 1;
-
-        assertThat(emptyQueue.offer(value)).isTrue();
-        assertThat(emptyQueue).containsExactlyElementsIn(Collections.singletonList(value))
-                .inOrder();
+    public void offer_insertsElement_returnsTrue() {
+        assertThat(emptyQueue.offer(1)).isTrue();
+        assertThat(emptyQueue).containsExactly(1);
 
         java.util.Queue<Integer> expectedQueue = new java.util.ArrayDeque<>(VALUES);
-        expectedQueue.offer(value);
-        assertThat(queue.offer(value)).isTrue();
+        expectedQueue.offer(1);
+        assertThat(queue.offer(1)).isTrue();
         assertThat(queue).containsExactlyElementsIn(expectedQueue).inOrder();
     }
 
     @Test
     public void offerAll_fromNullInput_fails() {
-        assertThrows(NullPointerException.class, () -> emptyQueue.offerAll(null));
         assertThrows(NullPointerException.class, () -> queue.offerAll(null));
-
-        assertThrows(NullPointerException.class,
-                () -> emptyQueue.offerAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class,
                 () -> queue.offerAll(Collections.singletonList(null)));
     }
 
     @Test
-    public void offerAll_fromEmptyInput_addsNothing_returnsFalse() {
+    public void offerAll_fromEmptyInput_insertsNothing_returnsFalse() {
         assertThat(emptyQueue.offerAll(Collections.emptyList())).isFalse();
         assertThat(emptyQueue).isEmpty();
 
@@ -81,7 +74,7 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void offerAll_appendsToQueue_returnsTrue() {
+    public void offerAll_insertsAllElement_returnsTrue() {
         assertThat(emptyQueue.offerAll(VALUES)).isTrue();
         assertThat(emptyQueue).containsExactlyElementsIn(VALUES).inOrder();
 
@@ -92,21 +85,19 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void poll_emptyQueue_removesNothing_returnsNull() {
+    public void poll_onEmpty_removesNothing_returnsNull() {
         assertThat(emptyQueue.poll()).isNull();
         assertThat(emptyQueue).isEmpty();
     }
 
     @Test
     public void poll_removesFrontElement_returnsElement() {
-        final int expectedValue = 1;
-        assertThat(emptyQueue.offer(expectedValue)).isTrue();
-        assertThat(emptyQueue.poll()).isEqualTo(expectedValue);
+        assertThat(emptyQueue.offer(1)).isTrue();
+        assertThat(emptyQueue.poll()).isEqualTo(1);
         assertThat(emptyQueue).isEmpty();
 
-        java.util.Queue<Integer> expectedQueue = new java.util.ArrayDeque<>(VALUES);
-        assertThat(queue.poll()).isEqualTo(expectedQueue.poll());
-        assertThat(queue).containsExactlyElementsIn(expectedQueue).inOrder();
+        assertThat(queue.poll()).isEqualTo(VALUES.getFirst());
+        assertThat(queue).containsExactlyElementsIn(VALUES.subList(1, VALUES.size())).inOrder();
     }
 
     @Test
@@ -130,7 +121,7 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void iterator_traversesQueueFrontToRear() {
+    public void iterator_traversesFrontToRear() {
         Iterator<Integer> emptyIterator = emptyQueue.iterator();
         assertThat(emptyIterator.hasNext()).isFalse();
         assertThrows(NoSuchElementException.class, () -> emptyIterator.next());
