@@ -1,7 +1,7 @@
 package com.philectron.algorithms.datastructures.sets;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.philectron.algorithms.datastructures.interfaces.OrderedSet;
 import java.util.Collections;

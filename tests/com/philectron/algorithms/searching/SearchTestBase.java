@@ -2,7 +2,7 @@ package com.philectron.algorithms.searching;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
