@@ -17,7 +17,7 @@ public abstract class SearchTestBase {
     private static final int DUPLICATE_TARGET = 5;
     private static final int NON_TARGET = 6;
     private static final List<Integer> LIST =
-            List.of(DUPLICATE_TARGET, UNIQUE_TARGET, 8, 7, 4, 3, 9, 7, 1, DUPLICATE_TARGET);
+        List.of(DUPLICATE_TARGET, UNIQUE_TARGET, 8, 7, 4, 3, 9, 7, 1, DUPLICATE_TARGET);
     private static final List<Integer> SORTED_LIST = LIST.stream().sorted().toList();
 
     private final SearchingAlgorithm searcher;
@@ -32,7 +32,7 @@ public abstract class SearchTestBase {
     }
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         list = isSortRequired ? SORTED_LIST : LIST;
     }
 
@@ -41,104 +41,104 @@ public abstract class SearchTestBase {
         int[] originalArray = array.clone();
 
         assertWithMessage("First index of target %s in array %s", target, Arrays.toString(array))
-                .that(searcher.findFirst(array, target))
-                .isEqualTo(Ints.indexOf(array, target));
+            .that(searcher.findFirst(array, target))
+            .isEqualTo(Ints.indexOf(array, target));
 
         assertWithMessage("Last index of target %s in array %s", target, Arrays.toString(array))
-                .that(searcher.findLast(array, target))
-                .isEqualTo(Ints.lastIndexOf(array, target));
+            .that(searcher.findLast(array, target))
+            .isEqualTo(Ints.lastIndexOf(array, target));
 
         assertWithMessage("Whether array %s contains target %s", Arrays.toString(array), target)
-                .that(searcher.contains(array, target))
-                .isEqualTo(Ints.contains(array, target));
+            .that(searcher.contains(array, target))
+            .isEqualTo(Ints.contains(array, target));
 
         assertThat(array).isEqualTo(originalArray); // searching should not mutate the array
     }
 
     @Test
-    public void search_nullArray_fails() {
+    void search_nullArray_fails() {
         assertThrows(NullPointerException.class, () -> searcher.findFirst(null, 0));
         assertThrows(NullPointerException.class, () -> searcher.findLast(null, 0));
         assertThrows(NullPointerException.class, () -> searcher.contains(null, 0));
     }
 
     @Test
-    public void search_emptyArray_returnsNotFound() {
+    void search_emptyArray_returnsNotFound() {
         list = Collections.emptyList();
         target = 1;
         searchAndAssert();
     }
 
     @Test
-    public void search_singletonArray_returnsSingleIndex() {
+    void search_singletonArray_returnsSingleIndex() {
         list = Collections.singletonList(1);
-        target = list.get(0);
+        target = list.getFirst();
         searchAndAssert();
     }
 
     @Test
-    public void search_nCopiesArray() {
+    void search_nCopiesArray() {
         target = 1;
         list = Collections.nCopies(LIST.size(), target);
         searchAndAssert();
     }
 
     @Test
-    public void search_uniqueTarget_returnsSingleIndex() {
+    void search_uniqueTarget_returnsSingleIndex() {
         target = UNIQUE_TARGET;
         searchAndAssert();
     }
 
     @Test
-    public void search_duplicateTargets() {
+    void search_duplicateTargets() {
         target = DUPLICATE_TARGET;
         searchAndAssert();
     }
 
     @Test
-    public void search_targetIsMinValue() {
+    void search_targetIsMinValue() {
         target = Collections.min(list);
         searchAndAssert();
     }
 
     @Test
-    public void search_targetIsMaxValue() {
+    void search_targetIsMaxValue() {
         target = Collections.max(list);
         searchAndAssert();
     }
 
     @Test
-    public void search_targetAtStartOfList() {
-        target = list.get(0);
+    void search_targetAtStartOfList() {
+        target = list.getFirst();
         searchAndAssert();
     }
 
     @Test
-    public void search_targetAtMiddleOfList() {
+    void search_targetAtMiddleOfList() {
         target = list.get(list.size() / 2);
         searchAndAssert();
     }
 
     @Test
-    public void search_targetAtEndOfList() {
-        target = list.get(0);
+    void search_targetAtEndOfList() {
+        target = list.getFirst();
         searchAndAssert();
     }
 
     @Test
-    public void search_nonTarget_returnsNotFound() {
+    void search_nonTarget_returnsNotFound() {
         target = NON_TARGET;
         searchAndAssert();
     }
 
     @Test
-    public void search_targetLessThanMin_returnsNotFound() {
+    void search_targetLessThanMin_returnsNotFound() {
         target = Collections.min(list) - 1;
         searchAndAssert();
     }
 
     @Test
-    public void search_targetGreaterThanMax_returnsNotFound() {
+    void search_targetGreaterThanMax_returnsNotFound() {
         target = Collections.max(list) + 1;
         searchAndAssert();
     }

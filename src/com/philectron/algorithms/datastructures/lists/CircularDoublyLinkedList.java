@@ -8,23 +8,13 @@ import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 import com.philectron.algorithms.datastructures.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class CircularDoublyLinkedList<E> implements List<E> {
 
-    private static class Node<E> {
-        private E data;
-        private Node<E> previous;
-        private Node<E> next;
-
-        private Node(E data) {
-            this.data = data;
-            next = previous = null;
-        }
-    }
-
     private Node<E> last;
     private int size;
-
+    
     /**
      * Initializes an empty circular doubly linked list.
      */
@@ -118,7 +108,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     /**
      * Inserts {@code newNode} after the last node of this list.
      *
-     * @param newNode the node to be inserted after {@link #last}
+     * @param newNode   the node to be inserted after {@link #last}
      * @param isAddLast whether this insertion adds the new node as the first or the last node
      */
     private void addAfterLast(Node<E> newNode, boolean isAddLast) {
@@ -148,10 +138,8 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     public int indexOf(E element) {
         int firstIndex = 0;
 
-        Iterator<E> it = iterator();
-        while (it.hasNext()) {
-            E currentData = it.next();
-            if (element == null ? currentData == null : element.equals(currentData)) {
+        for (E currentData : this) {
+            if (Objects.equals(element, currentData)) {
                 return firstIndex;
             }
             ++firstIndex;
@@ -167,7 +155,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         boolean isLastIteration = false;
         Node<E> currentNode = last;
         while (currentNode != null && !isLastIteration) {
-            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+            if (Objects.equals(element, currentNode.data)) {
                 return lastIndex;
             }
             --lastIndex;
@@ -192,7 +180,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
         boolean isLastIteration = false;
 
         while (currentNode != null && !isLastIteration) {
-            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+            if (Objects.equals(element, currentNode.data)) {
                 removeNode(currentNode);
                 return true; // element found, list was modified
             }
@@ -293,6 +281,17 @@ public class CircularDoublyLinkedList<E> implements List<E> {
                 return currentData;
             }
         };
+    }
+
+    private static class Node<E> {
+        private E data;
+        private Node<E> previous;
+        private Node<E> next;
+
+        private Node(E data) {
+            this.data = data;
+            next = previous = null;
+        }
     }
 
 }

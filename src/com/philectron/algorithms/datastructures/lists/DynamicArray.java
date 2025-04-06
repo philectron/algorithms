@@ -10,6 +10,7 @@ import static com.philectron.algorithms.logic.Assertion.assertPositionIndex;
 import com.philectron.algorithms.datastructures.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class DynamicArray<E> implements List<E> {
 
@@ -110,7 +111,7 @@ public class DynamicArray<E> implements List<E> {
         assertPositionIndex(size, array.length);
         int firstIndex = 0;
         for (int i = 0; i < size; ++i) {
-            if (element == null ? array[i] == null : element.equals(array[i])) {
+            if (Objects.equals(element, array[i])) {
                 return firstIndex;
             }
             ++firstIndex;
@@ -123,7 +124,7 @@ public class DynamicArray<E> implements List<E> {
         assertPositionIndex(size, array.length);
         int lastIndex = size - 1;
         for (int i = size - 1; i >= 0; --i) {
-            if (element == null ? array[i] == null : element.equals(array[i])) {
+            if (Objects.equals(element, array[i])) {
                 return lastIndex;
             }
             --lastIndex;

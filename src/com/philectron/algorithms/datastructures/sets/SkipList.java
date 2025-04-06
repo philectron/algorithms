@@ -17,25 +17,6 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
 
     private static final int MAX_LEVEL = 4;
 
-    private static class Node<E> {
-        private final E data;
-        private final int level; // how tall this node is in the list
-        private final List<Node<E>> forward; // the next node on level i
-        private final int[] width; // the number of bottom-level nodes being skipped on level i
-
-        private Node(E data, int level) {
-            this.data = data;
-            this.level = level;
-
-            // Since we need to reference levels [0..level], we need to init +1 for the size.
-            forward = new ArrayList<>(Collections.nCopies(level + 1, null));
-            width = new int[level + 1];
-
-            // By default, the widths should be 1.
-            Arrays.fill(width, 1);
-        }
-    }
-
     private final Random random;
     private final Node<E> head; // sentinel node that does not hold actual list data
     private int level; // the height of the tallest node in this list
@@ -76,8 +57,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * @return the element at {@code index}
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *         {@link #size()}, or if this skip list {@link #isEmpty()}
-     *
+     *                                   {@link #size()}, or if this skip list {@link #isEmpty()}
      * @see #getFirst()
      * @see #getLast()
      */
@@ -129,7 +109,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         // At level 0, if the previous node's next node has the same value as the one to be
         // inserted, then this is a duplicate insertion, in which case we will fast-return.
         if (previousNodes.getFirst().forward.getFirst() != null
-                && element.equals(previousNodes.getFirst().forward.getFirst().data)) {
+            && element.equals(previousNodes.getFirst().forward.getFirst().data)) {
             return false; // list was unmodified
         }
 
@@ -180,7 +160,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * @param value the value to be compared against the nodes on each level of this list
      *
      * @return a list of existing nodes of this list, where the {@code i}-th element is the
-     *         reference to the largest node on level {@code i} that is less than {@code value}
+     *     reference to the largest node on level {@code i} that is less than {@code value}
      */
     private List<Node<E>> findPreviousNodes(E value) {
         assertNotNull(value);
@@ -207,7 +187,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * current level.
      *
      * @param currentLevel the current level to update the widths of the previous and new nodes
-     * @param newNode the new node already inserted at its correct position in this list
+     * @param newNode      the new node already inserted at its correct position in this list
      * @param previousNode the node right before the new node on the current level
      */
     private void updateWidths(int currentLevel, Node<E> newNode, Node<E> previousNode) {
@@ -252,7 +232,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         int index = -1;
         for (int i = level; i >= 0; --i) {
             while (node.forward.get(i) != null
-                    && element.compareTo(node.forward.get(i).data) >= 0) {
+                && element.compareTo(node.forward.get(i).data) >= 0) {
                 // For every step forward, update the distance from head.
                 index += node.width[i];
                 node = node.forward.get(i);
@@ -283,8 +263,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * @return the element previously at {@code index}
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *         {@link #size()}
-     *
+     *                                   {@link #size()}
      * @see #remove(E)
      */
     public E remove(int index) {
@@ -314,22 +293,6 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
     }
 
     @Override
-    public E removeFirst() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Skip list is empty");
-        }
-        return remove(0);
-    }
-
-    @Override
-    public E removeLast() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Skip list is empty");
-        }
-        return remove(size() - 1);
-    }
-
-    @Override
     public boolean remove(E element) {
         checkNotNull(element);
 
@@ -340,7 +303,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         // one to be removed, then the element does not exist in this list, in which case we will
         // fast-return.
         if (previousNodes.getFirst().forward.getFirst() == null
-                || !element.equals(previousNodes.getFirst().forward.getFirst().data)) {
+            || !element.equals(previousNodes.getFirst().forward.getFirst().data)) {
             return false; // list was unmodified
         }
 
@@ -351,7 +314,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
 
     /**
      * Given a list of nodes on each level of this list starting from zero to {@link #MAX_LEVEL},
-     * identifies the node to be remove and then removes that node from this list and updates the
+     * identifies the node to be removed and then removes that node from this list and updates the
      * size.
      *
      * @param previousNodes the list of references to the previous node on each level
@@ -382,13 +345,13 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            removeFirst();
+            remove(0);
         }
     }
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
+        return new Iterator<>() {
             private Node<E> currentNode = head.forward.getFirst();
 
             @Override
@@ -415,13 +378,32 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         for (int i = MAX_LEVEL; i >= 0; --i) {
             for (Node<E> node = head; node != null; node = node.forward.get(i)) {
                 sb.append(node == head ? "H" : node.data.toString());
-                sb.append("(" + node.width[i] + ")");
+                sb.append("(").append(node.width[i]).append(")");
                 sb.append(String.join("", Collections.nCopies(node.width[i], "\t")));
             }
             sb.append("NULL\n");
         }
 
         return sb.toString();
+    }
+
+    private static class Node<E> {
+        private final E data;
+        private final int level; // how tall this node is in the list
+        private final List<Node<E>> forward; // the next node on level i
+        private final int[] width; // the number of bottom-level nodes being skipped on level i
+
+        private Node(E data, int level) {
+            this.data = data;
+            this.level = level;
+
+            // Since we need to reference levels [0..level], we need to init +1 for the size.
+            forward = new ArrayList<>(Collections.nCopies(level + 1, null));
+            width = new int[level + 1];
+
+            // By default, the widths should be 1.
+            Arrays.fill(width, 1);
+        }
     }
 
 }

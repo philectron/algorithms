@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 
 public abstract class SortTestBase {
 
+    private final SortingAlgorithm sorter;
+
+    SortTestBase(SortingAlgorithm sorter) {
+        this.sorter = sorter;
+    }
+
     static int[] buildEmptyArray() {
         return new int[0];
     }
@@ -35,61 +41,55 @@ public abstract class SortTestBase {
         return new int[] { 21, 37, 36, 19, 30, 27, 25, 36, 32, 28, 13, 33, 34, 20, 30, 4, 15, 40 };
     }
 
-    private final SortingAlgorithm sorter;
-
-    SortTestBase(SortingAlgorithm sorter) {
-        this.sorter = sorter;
-    }
-
     @Test
-    public void sort_nullArray_fails() {
+    void sort_nullArray_fails() {
         assertThrows(NullPointerException.class, () -> sorter.sort(null));
     }
 
     @Test
-    public void sort_emptyArray() {
+    void sort_emptyArray() {
         int[] array = buildEmptyArray();
         sorter.sort(array);
         assertThat(array).asList().isInOrder();
     }
 
     @Test
-    public void sort_singletonArray() {
+    void sort_singletonArray() {
         int[] array = buildSingletonArray();
         sorter.sort(array);
         assertThat(array).asList().isInOrder();
     }
 
     @Test
-    public void sort_nCopiesArray() {
+    void sort_nCopiesArray() {
         int[] array = buildNCopiesArray();
         sorter.sort(array);
         assertThat(array).asList().isInOrder();
     }
 
     @Test
-    public void sort_ascendingArray() {
+    void sort_ascendingArray() {
         int[] array = buildAscendingArray();
         sorter.sort(array);
         assertThat(array).asList().isInOrder();
     }
 
     @Test
-    public void sort_descendingArray() {
+    void sort_descendingArray() {
         int[] array = buildDescendingArray();
         sorter.sort(array);
         assertThat(array).asList().isInOrder();
     }
 
     @Test
-    public void sort_largeMiddleArray() {
+    void sort_largeMiddleArray() {
         int[] array = buildLargeMiddleArray();
         sorter.sort(array);
         assertThat(array).asList().isInOrder();
     }
 
     @Test
-    public void sort_arbitraryArray() {
+    void sort_arbitraryArray() {
         int[] array = buildArbitraryArray();
         sorter.sort(array);
         assertThat(array).asList().isInOrder();

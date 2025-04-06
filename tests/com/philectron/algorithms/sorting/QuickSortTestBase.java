@@ -21,13 +21,13 @@ public abstract class QuickSortTestBase extends SortTestBase {
     abstract QuickSort createQuickSorter();
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         sorter = spy(createQuickSorter());
         assertThat(sorter).isNotNull();
     }
 
     @Test
-    public void sort_nCopiesArray_pivotLow() {
+    void sort_nCopiesArray_pivotLow() {
         doAnswer(returnsFirstArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildNCopiesArray();
@@ -37,7 +37,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_nCopiesArray_pivotHigh() {
+    void sort_nCopiesArray_pivotHigh() {
         doAnswer(returnsLastArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildNCopiesArray();
@@ -47,7 +47,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_ascendingArray_pivotLow() {
+    void sort_ascendingArray_pivotLow() {
         doAnswer(returnsFirstArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildAscendingArray();
@@ -57,7 +57,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_ascendingArray_pivotHigh() {
+    void sort_ascendingArray_pivotHigh() {
         doAnswer(returnsLastArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildAscendingArray();
@@ -67,7 +67,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_descendingArray_pivotLow() {
+    void sort_descendingArray_pivotLow() {
         doAnswer(returnsFirstArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildDescendingArray();
@@ -77,7 +77,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_descendingArray_pivotHigh() {
+    void sort_descendingArray_pivotHigh() {
         doAnswer(returnsLastArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildDescendingArray();
@@ -87,7 +87,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_largeMiddleArray_pivotLow() {
+    void sort_largeMiddleArray_pivotLow() {
         doAnswer(returnsFirstArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildLargeMiddleArray();
@@ -97,7 +97,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_largeMiddleArray_pivotHigh() {
+    void sort_largeMiddleArray_pivotHigh() {
         doAnswer(returnsLastArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildLargeMiddleArray();
@@ -107,7 +107,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_arbitraryArray_pivotLow() {
+    void sort_arbitraryArray_pivotLow() {
         doAnswer(returnsFirstArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildArbitraryArray();
@@ -117,7 +117,7 @@ public abstract class QuickSortTestBase extends SortTestBase {
     }
 
     @Test
-    public void sort_arbitraryArray_pivotHigh() {
+    void sort_arbitraryArray_pivotHigh() {
         doAnswer(returnsLastArg()).when(sorter).getRandomPivotIndex(anyInt(), anyInt());
 
         int[] array = SortTestBase.buildArbitraryArray();

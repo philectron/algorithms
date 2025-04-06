@@ -18,7 +18,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * Checks if this set is empty.
      *
      * @return {@code true} if this set has no elements (when {@link #size()} is zero), else
-     *         {@code false}
+     *     {@code false}
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -30,7 +30,6 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * @return the first (smallest) element in this set
      *
      * @throws NoSuchElementException if this set is empty
-     *
      * @see #getLast()
      */
     E getFirst();
@@ -41,7 +40,6 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * @return the last (largest) element in this set
      *
      * @throws NoSuchElementException if this set is empty
-     *
      * @see #getFirst()
      */
     E getLast();
@@ -65,7 +63,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * @return {@code true} if this set changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
-     *         {@code null}
+     *                              {@code null}
      */
     default boolean addAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
@@ -101,28 +99,6 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
     boolean remove(E element);
 
     /**
-     * Removes the first (smallest) element from this set.
-     *
-     * @return the first (smallest) element in this set before the removal
-     *
-     * @throws NoSuchElementException if this set is empty
-     *
-     * @see #removeLast
-     */
-    E removeFirst();
-
-    /**
-     * Removes the last (largest) element from this set.
-     *
-     * @return the last (largest) element in this set before the removal
-     *
-     * @throws NoSuchElementException if this set is empty
-     *
-     * @see #removeFirst
-     */
-    E removeLast();
-
-    /**
      * Removes from this set all elements that are contained in {@code iterable}.
      *
      * @param iterable the {@link Iterable} containing the elements to be removed from this set
@@ -130,18 +106,18 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * @return {@code true} if this set changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
-     *         {@code null}
+     *                              {@code null}
      */
     default boolean removeAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         // For each distinct element of the iterable, remove it from this set, then return the final
         // result as true if any of the removals modified the list.
         return StreamSupport
-                .stream(iterable.spliterator(), false)
-                .distinct()
-                .map(element -> remove(element))
-                .reduce(Boolean::logicalOr)
-                .orElse(false);
+            .stream(iterable.spliterator(), false)
+            .distinct()
+            .map(this::remove)
+            .reduce(Boolean::logicalOr)
+            .orElse(false);
     }
 
     /**

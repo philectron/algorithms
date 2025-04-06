@@ -21,7 +21,7 @@ public abstract class QueueTestBase {
     abstract Queue<Integer> createQueue(Iterable<Integer> iterable);
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         queue = createQueue(VALUES);
         emptyQueue = createQueue(Collections.emptyList());
         assertThat(queue).containsExactlyElementsIn(VALUES).inOrder();
@@ -29,25 +29,25 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void size_returnsNumberOfElements() {
+    void size_returnsNumberOfElements() {
         assertThat(emptyQueue.size()).isEqualTo(0);
         assertThat(queue.size()).isEqualTo(VALUES.size());
     }
 
     @Test
-    public void isEmpty_checksSize() {
+    void isEmpty_checksSize() {
         assertThat(emptyQueue.isEmpty()).isTrue();
         assertThat(queue.isEmpty()).isFalse();
     }
 
     @Test
-    public void offer_nullElement_fails() {
+    void offer_nullElement_fails() {
         assertThrows(NullPointerException.class, () -> emptyQueue.offer(null));
         assertThrows(NullPointerException.class, () -> queue.offer(null));
     }
 
     @Test
-    public void offer_insertsElement_returnsTrue() {
+    void offer_insertsElement_returnsTrue() {
         assertThat(emptyQueue.offer(1)).isTrue();
         assertThat(emptyQueue).containsExactly(1);
 
@@ -58,14 +58,14 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void offerAll_fromNullInput_fails() {
+    void offerAll_fromNullInput_fails() {
         assertThrows(NullPointerException.class, () -> queue.offerAll(null));
         assertThrows(NullPointerException.class,
-                () -> queue.offerAll(Collections.singletonList(null)));
+            () -> queue.offerAll(Collections.singletonList(null)));
     }
 
     @Test
-    public void offerAll_fromEmptyInput_insertsNothing_returnsFalse() {
+    void offerAll_fromEmptyInput_insertsNothing_returnsFalse() {
         assertThat(emptyQueue.offerAll(Collections.emptyList())).isFalse();
         assertThat(emptyQueue).isEmpty();
 
@@ -74,7 +74,7 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void offerAll_insertsAllElement_returnsTrue() {
+    void offerAll_insertsAllElement_returnsTrue() {
         assertThat(emptyQueue.offerAll(VALUES)).isTrue();
         assertThat(emptyQueue).containsExactlyElementsIn(VALUES).inOrder();
 
@@ -85,13 +85,13 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void poll_onEmpty_removesNothing_returnsNull() {
+    void poll_onEmpty_removesNothing_returnsNull() {
         assertThat(emptyQueue.poll()).isNull();
         assertThat(emptyQueue).isEmpty();
     }
 
     @Test
-    public void poll_removesFrontElement_returnsElement() {
+    void poll_removesFrontElement_returnsElement() {
         assertThat(emptyQueue.offer(1)).isTrue();
         assertThat(emptyQueue.poll()).isEqualTo(1);
         assertThat(emptyQueue).isEmpty();
@@ -101,7 +101,7 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void peek_modifiesNothing_returnsFrontElementIfAny() {
+    void peek_modifiesNothing_returnsFrontElementIfAny() {
         assertThat(emptyQueue.peek()).isNull();
         assertThat(emptyQueue).isEmpty();
 
@@ -110,7 +110,7 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void clear_removesAllElements() {
+    void clear_removesAllElements() {
         emptyQueue.clear();
         assertThat(emptyQueue.isEmpty()).isTrue();
         assertThat(emptyQueue).isEmpty();
@@ -121,18 +121,18 @@ public abstract class QueueTestBase {
     }
 
     @Test
-    public void iterator_traversesFrontToRear() {
+    void iterator_traversesFrontToRear() {
         Iterator<Integer> emptyIterator = emptyQueue.iterator();
         assertThat(emptyIterator.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> emptyIterator.next());
+        assertThrows(NoSuchElementException.class, emptyIterator::next);
 
         Iterator<Integer> iterator = queue.iterator();
-        for (int i = 0; i < VALUES.size(); ++i) {
+        for (int value : VALUES) {
             assertThat(iterator.hasNext()).isTrue();
-            assertThat(iterator.next()).isEqualTo(VALUES.get(i));
+            assertThat(iterator.next()).isEqualTo(value);
         }
         assertThat(iterator.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> iterator.next());
+        assertThrows(NoSuchElementException.class, iterator::next);
     }
 
 }

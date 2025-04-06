@@ -5,7 +5,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class SortUtils {
 
-    private SortUtils() {}
+    private SortUtils() {
+    }
 
     public static void swap(int[] array, int i, int j) {
         checkNotNull(array);

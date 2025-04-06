@@ -8,23 +8,14 @@ import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 import com.philectron.algorithms.datastructures.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SinglyLinkedList<E> implements List<E> {
-
-    private static class Node<E> {
-        private E data;
-        private Node<E> next;
-
-        private Node(E data) {
-            this.data = data;
-            next = null;
-        }
-    }
 
     private Node<E> head;
     private Node<E> tail;
     private int size;
-
+    
     /**
      * Initializes an empty singly linked list.
      */
@@ -162,7 +153,7 @@ public class SinglyLinkedList<E> implements List<E> {
     public int indexOf(E element) {
         int firstIndex = 0;
         for (Node<E> node = head; node != null; node = node.next) {
-            if (element == null ? node.data == null : element.equals(node.data)) {
+            if (Objects.equals(element, node.data)) {
                 return firstIndex;
             }
             ++firstIndex;
@@ -175,7 +166,7 @@ public class SinglyLinkedList<E> implements List<E> {
         int lastIndex = -1; // not found by default
         int currentIndex = 0;
         for (Node<E> node = head; node != null; node = node.next) {
-            if (element == null ? node.data == null : element.equals(node.data)) {
+            if (Objects.equals(element, node.data)) {
                 lastIndex = currentIndex;
             }
             ++currentIndex;
@@ -196,7 +187,7 @@ public class SinglyLinkedList<E> implements List<E> {
         Node<E> previousNode = null;
 
         while (currentNode != null) {
-            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+            if (Objects.equals(element, currentNode.data)) {
                 removeAfterNode(previousNode);
                 return true; // element found, list was modified
             }
@@ -211,7 +202,7 @@ public class SinglyLinkedList<E> implements List<E> {
      * Removes the node after {@code previousNode} from this list and performs reference
      * manipulation to connect its previous and next nodes.
      *
-     * @param previousNode
+     * @param previousNode the node before the to-be-removed node
      *
      * @return the data of the removed node
      */
@@ -306,6 +297,16 @@ public class SinglyLinkedList<E> implements List<E> {
                 return currentData;
             }
         };
+    }
+
+    private static class Node<E> {
+        private E data;
+        private Node<E> next;
+
+        private Node(E data) {
+            this.data = data;
+            next = null;
+        }
     }
 
 }

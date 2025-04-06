@@ -2,7 +2,7 @@ package com.philectron.algorithms.sorting;
 
 public class QuickSortLomutoTest extends QuickSortTestBase {
 
-    public QuickSortLomutoTest() {
+    QuickSortLomutoTest() {
         super(new QuickSortLomuto());
     }
 

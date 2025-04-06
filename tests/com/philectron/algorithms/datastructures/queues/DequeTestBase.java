@@ -21,7 +21,7 @@ public abstract class DequeTestBase {
     abstract Deque<Integer> createDeque(Iterable<Integer> iterable);
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         deque = createDeque(VALUES);
         emptyDeque = createDeque(Collections.emptyList());
         assertThat(deque).containsExactlyElementsIn(VALUES).inOrder();
@@ -29,26 +29,26 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void size_returnsNumberOfElements() {
+    void size_returnsNumberOfElements() {
         assertThat(emptyDeque.size()).isEqualTo(0);
         assertThat(deque.size()).isEqualTo(VALUES.size());
     }
 
     @Test
-    public void isEmpty_checksSize() {
+    void isEmpty_checksSize() {
         assertThat(emptyDeque.isEmpty()).isTrue();
         assertThat(deque.isEmpty()).isFalse();
     }
 
     @Test
-    public void offer_nullElement_fails() {
+    void offer_nullElement_fails() {
         assertThrows(NullPointerException.class, () -> deque.offer(null));
         assertThrows(NullPointerException.class, () -> deque.offerFront(null));
         assertThrows(NullPointerException.class, () -> deque.offerRear(null));
     }
 
     @Test
-    public void offer_insertsElement_returnsTrue() {
+    void offer_insertsElement_returnsTrue() {
         assertThat(emptyDeque.offer(1)).isTrue();
         assertThat(emptyDeque).containsExactly(1);
 
@@ -65,12 +65,12 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void pushStack_nullElement_fails() {
+    void pushStack_nullElement_fails() {
         assertThrows(NullPointerException.class, () -> deque.push(null));
     }
 
     @Test
-    public void pushStack_insertsElementAtFront_returnsTrue() {
+    void pushStack_insertsElementAtFront_returnsTrue() {
         final int value = 1;
 
         assertThat(emptyDeque.push(value)).isTrue();
@@ -83,7 +83,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void offerAll_fromNullInput_fails() {
+    void offerAll_fromNullInput_fails() {
         List<Integer> singletonNullList = Collections.singletonList(null);
 
         assertThrows(NullPointerException.class, () -> deque.offerAll(null));
@@ -97,7 +97,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void offerAll_fromEmptyInput_insertsNothing_returnsFalse() {
+    void offerAll_fromEmptyInput_insertsNothing_returnsFalse() {
         assertThat(emptyDeque.offerAll(Collections.emptyList())).isFalse();
         assertThat(emptyDeque).isEmpty();
         assertThat(deque.offerAll(Collections.emptyList())).isFalse();
@@ -115,7 +115,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void offerAll_insertsAllElements_returnsTrue() {
+    void offerAll_insertsAllElements_returnsTrue() {
         assertThat(emptyDeque.offerAll(VALUES)).isTrue();
         assertThat(emptyDeque).containsExactlyElementsIn(VALUES).inOrder();
 
@@ -131,7 +131,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void poll_onEmpty_removesNothing_returnsNull() {
+    void poll_onEmpty_removesNothing_returnsNull() {
         assertThat(emptyDeque.poll()).isNull();
         assertThat(emptyDeque).isEmpty();
 
@@ -143,7 +143,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void poll_removesElement_returnsElement() {
+    void poll_removesElement_returnsElement() {
         assertThat(emptyDeque.offer(1)).isTrue();
         assertThat(emptyDeque.poll()).isEqualTo(1);
         assertThat(emptyDeque).isEmpty();
@@ -156,13 +156,13 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void popStack_onEmpty_removesNothing_returnsNull() {
+    void popStack_onEmpty_removesNothing_returnsNull() {
         assertThat(emptyDeque.pop()).isNull();
         assertThat(emptyDeque).isEmpty();
     }
 
     @Test
-    public void popStack_removesFrontElement_returnsElement() {
+    void popStack_removesFrontElement_returnsElement() {
         final int value = 1;
         assertThat(emptyDeque.offer(value)).isTrue();
         assertThat(emptyDeque.pop()).isEqualTo(value);
@@ -174,7 +174,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void peek_modifiesNothing_returnsElementIfAny() {
+    void peek_modifiesNothing_returnsElementIfAny() {
         assertThat(emptyDeque.peek()).isNull();
         assertThat(emptyDeque.peekFront()).isNull();
         assertThat(emptyDeque.peekRear()).isNull();
@@ -187,7 +187,7 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void clear_removesAllElements() {
+    void clear_removesAllElements() {
         emptyDeque.clear();
         assertThat(emptyDeque.isEmpty()).isTrue();
         assertThat(emptyDeque).isEmpty();
@@ -198,18 +198,18 @@ public abstract class DequeTestBase {
     }
 
     @Test
-    public void iterator_traversesFrontToRear() {
+    void iterator_traversesFrontToRear() {
         Iterator<Integer> emptyIterator = emptyDeque.iterator();
         assertThat(emptyIterator.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> emptyIterator.next());
+        assertThrows(NoSuchElementException.class, emptyIterator::next);
 
         Iterator<Integer> iterator = deque.iterator();
-        for (int i = 0; i < VALUES.size(); ++i) {
+        for (int value : VALUES) {
             assertThat(iterator.hasNext()).isTrue();
-            assertThat(iterator.next()).isEqualTo(VALUES.get(i));
+            assertThat(iterator.next()).isEqualTo(value);
         }
         assertThat(iterator.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> iterator.next());
+        assertThrows(NoSuchElementException.class, iterator::next);
     }
 
 }

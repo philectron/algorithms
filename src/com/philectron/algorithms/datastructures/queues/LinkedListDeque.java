@@ -8,21 +8,10 @@ import java.util.NoSuchElementException;
 
 public class LinkedListDeque<E> implements Deque<E> {
 
-    private static class Node<E> {
-        private E data;
-        private Node<E> previous;
-        private Node<E> next;
-
-        private Node(E data) {
-            this.data = data;
-            next = previous = null;
-        }
-    }
-
     private Node<E> front;
     private Node<E> rear;
     private int size;
-
+    
     /**
      * Initializes an empty linked list deque.
      */
@@ -172,6 +161,17 @@ public class LinkedListDeque<E> implements Deque<E> {
                 return currentData;
             }
         };
+    }
+
+    private static class Node<E> {
+        private E data;
+        private Node<E> previous;
+        private Node<E> next;
+
+        private Node(E data) {
+            this.data = data;
+            next = previous = null;
+        }
     }
 
 }

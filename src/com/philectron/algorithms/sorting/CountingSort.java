@@ -16,9 +16,9 @@ public class CountingSort implements SortingAlgorithm {
         // Find min and max elements in the array.
         int min = array[0];
         int max = array[0];
-        for (int i = 0; i < array.length; ++i) {
-            min = Math.min(min, array[i]);
-            max = Math.max(max, array[i]);
+        for (int number : array) {
+            min = Math.min(min, number);
+            max = Math.max(max, number);
         }
 
         // Make a count array to store the frequency of each element's offset against min.
@@ -53,9 +53,7 @@ public class CountingSort implements SortingAlgorithm {
         }
 
         // Mutate the original array.
-        for (int i = 0; i < array.length; ++i) {
-            array[i] = sortedArray[i];
-        }
+        System.arraycopy(sortedArray, 0, array, 0, array.length);
     }
 
 }

@@ -43,8 +43,7 @@ public class MergeSort3Way implements SortingAlgorithm {
 
     /**
      * Merges three sorted sub-arrays {@code array[low..midLeft]},
-     * {@code array[midLeft + 1..midRight]}, and {@code array[midRight + 1..high]}.
-     * Modifies the
+     * {@code array[midLeft + 1..midRight]}, and {@code array[midRight + 1..high]}. Modifies the
      * original array such that {@code array[low..high]} is sorted after the merge.
      *
      * @param array    the array containing the two sub-arrays to be merged
@@ -90,7 +89,6 @@ public class MergeSort3Way implements SortingAlgorithm {
             }
 
             if (right < numRight && rightArray[right] < minValue) {
-                minValue = rightArray[right];
                 minIndex = 2;
             }
 

@@ -12,10 +12,10 @@ public class ArrayDeque<E> implements Deque<E> {
 
     static final int DEFAULT_CAPACITY = 20;
 
+    private final int capacity;
     private E[] array;
     private int front;
     private int size;
-    private int capacity;
 
     /**
      * Initializes an empty array deque with default capacity and no capacity restrictions.
@@ -33,7 +33,7 @@ public class ArrayDeque<E> implements Deque<E> {
      */
     public ArrayDeque(int initialCapacity, int maximumCapacity) {
         checkArgument(maximumCapacity == -1 || initialCapacity <= maximumCapacity,
-                "Initial capacity must be at or below maximum capacity");
+            "Initial capacity must be at or below maximum capacity");
         front = 0;
         size = 0;
         capacity = maximumCapacity;

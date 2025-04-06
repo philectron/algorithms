@@ -17,7 +17,7 @@ public interface List<E> extends Iterable<E> {
      * Checks if this list is empty.
      *
      * @return {@code true} if this list has no elements (when {@link #size()} is zero), else
-     *         {@code false}
+     *     {@code false}
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -31,8 +31,7 @@ public interface List<E> extends Iterable<E> {
      * @return the element at {@code index}
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *         {@link #size()}, or if this list {@link #isEmpty()}
-     *
+     *                                   {@link #size()}, or if this list {@link #isEmpty()}
      * @see #getFirst()
      * @see #getLast()
      */
@@ -44,7 +43,6 @@ public interface List<E> extends Iterable<E> {
      * @return the element at the first index of this list
      *
      * @throws IndexOutOfBoundsException if this list {@link #isEmpty()}
-     *
      * @see #get(int)
      * @see #getLast()
      */
@@ -58,7 +56,6 @@ public interface List<E> extends Iterable<E> {
      * @return the element at the last index of this list
      *
      * @throws IndexOutOfBoundsException if this list {@link #isEmpty()}
-     *
      * @see #get(int)
      * @see #getFirst()
      */
@@ -69,16 +66,15 @@ public interface List<E> extends Iterable<E> {
     /**
      * Replaces the element at index {@code index} of this list with {@code element}.
      *
-     * @param index the index of the element to replace
+     * @param index   the index of the element to replace
      * @param element the new element to be stored at {@code index}
      *
      * @return the element previously at {@code index}
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *         {@link #size()}, or if this list {@link #isEmpty()}
-     * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                                   {@link #size()}, or if this list {@link #isEmpty()}
+     * @throws NullPointerException      if {@code element} is {@code null} and this list does not
+     *                                   permit null elements
      * @see #setFirst(E)
      * @see #setLast(E)
      */
@@ -92,9 +88,8 @@ public interface List<E> extends Iterable<E> {
      * @return the previous first element
      *
      * @throws IndexOutOfBoundsException if this list {@link #isEmpty()}
-     * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     * @throws NullPointerException      if {@code element} is {@code null} and this list does not
+     *                                   permit null elements
      * @see #set(int, E)
      * @see #setLast(E)
      */
@@ -110,9 +105,8 @@ public interface List<E> extends Iterable<E> {
      * @return the previous last element
      *
      * @throws IndexOutOfBoundsException if this list {@link #isEmpty()}
-     * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     * @throws NullPointerException      if {@code element} is {@code null} and this list does not
+     *                                   permit null elements
      * @see #set(int, E)
      * @see #setFirst(E)
      */
@@ -125,15 +119,14 @@ public interface List<E> extends Iterable<E> {
      * at that index (if any) and any subsequent elements to the right (adds 1 to their indices).
      *
      * @param position the position index at which the new element is to be inserted
-     * @param element the element to be inserted at {@code position}
+     * @param element  the element to be inserted at {@code position}
      *
      * @return {@code true} if {@code element} was inserted into this list, else {@code false}
      *
      * @throws IndexOutOfBoundsException if {@code position} is negative or is greater than
-     *         {@link #size()}
-     * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                                   {@link #size()}
+     * @throws NullPointerException      if {@code element} is {@code null} and this list does not
+     *                                   permit null elements
      * @see #add(E)
      * @see #addFirst(E)
      * @see #addLast(E)
@@ -148,8 +141,7 @@ public interface List<E> extends Iterable<E> {
      * @return {@code true} if {@code element} was appended to this list, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                              null elements
      * @see #add(int, E)
      * @see #addFirst(E)
      * @see #addLast(E)
@@ -167,8 +159,7 @@ public interface List<E> extends Iterable<E> {
      * @return {@code true} if {@code element} was inserted into this list, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                              null elements
      * @see #add(int, E)
      * @see #add(E)
      * @see #addLast(E)
@@ -185,8 +176,7 @@ public interface List<E> extends Iterable<E> {
      * @return {@code true} if {@code element} was inserted into this list, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                              null elements
      * @see #add(int, E)
      * @see #add(E)
      * @see #addFirst(E)
@@ -201,10 +191,11 @@ public interface List<E> extends Iterable<E> {
      * @param iterable the {@link Iterable} containing the elements to be appended
      *
      * @return {@code true} if all elements of {@code iterable} was appended to this list, else
-     *         {@code false}
+     *     {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
-     *         in {@code iterable} is {@code null} and this list does not permit null elements
+     *                              in {@code iterable} is {@code null} and this list does not
+     *                              permit null elements
      */
     default boolean addAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
@@ -221,11 +212,10 @@ public interface List<E> extends Iterable<E> {
      * @param element the element to be searched in this list
      *
      * @return the index of the first occurrence of {@code element}, or {@code -1} if this list does
-     *         not contain {@code element}
+     *     not contain {@code element}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                              null elements
      * @see #lastIndexOf(E)
      * @see #contains(E)
      */
@@ -237,11 +227,10 @@ public interface List<E> extends Iterable<E> {
      * @param element the element to be searched in this list
      *
      * @return the index of the last occurrence of {@code element}, or {@code -1} if this list does
-     *         not contain {@code element}
+     *     not contain {@code element}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                              null elements
      * @see #indexOf(E)
      * @see #contains(E)
      */
@@ -255,8 +244,7 @@ public interface List<E> extends Iterable<E> {
      * @return {@code true} if this list contains {@code element}, else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
-     *         null elements
-     *
+     *                              null elements
      * @see #indexOf(E)
      * @see #lastIndexOf(E)
      */
@@ -273,8 +261,7 @@ public interface List<E> extends Iterable<E> {
      * @return the element previously at {@code index}
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *         {@link #size()}
-     *
+     *                                   {@link #size()}
      * @see #removeFirst()
      * @see #removeLast()
      */
@@ -297,7 +284,6 @@ public interface List<E> extends Iterable<E> {
      * @return the previous first element of this list
      *
      * @throws IndexOutOfBoundsException if the list is empty
-     *
      * @see #remove(int)
      * @see #removeLast()
      */
@@ -311,7 +297,6 @@ public interface List<E> extends Iterable<E> {
      * @return the previous last element of this list
      *
      * @throws IndexOutOfBoundsException if the list is empty
-     *
      * @see #remove(int)
      * @see #removeFirst()
      */
@@ -327,25 +312,26 @@ public interface List<E> extends Iterable<E> {
      * @return {@code true} if this list changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
-     *         in {@code iterable} is {@code null} and this list does not permit null elements
+     *                              in {@code iterable} is {@code null} and this list does not
+     *                              permit null elements
      */
     default boolean removeAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
         // For each distinct element of the iterable, remove it from this list until it no longer
         // exists, then return the final result as true if any of the removals modified the list.
         return StreamSupport.stream(iterable.spliterator(), false)
-                .distinct()
-                .map(element -> {
-                    var wrapper = new Object() {
-                        boolean modified = false;
-                    };
-                    while (remove(element)) {
-                        wrapper.modified = true;
-                    }
-                    return wrapper.modified;
-                })
-                .reduce(Boolean::logicalOr)
-                .orElse(false);
+            .distinct()
+            .map(element -> {
+                var wrapper = new Object() {
+                    boolean modified = false;
+                };
+                while (remove(element)) {
+                    wrapper.modified = true;
+                }
+                return wrapper.modified;
+            })
+            .reduce(Boolean::logicalOr)
+            .orElse(false);
     }
 
     /**

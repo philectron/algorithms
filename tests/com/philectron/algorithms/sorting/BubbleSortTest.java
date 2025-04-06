@@ -2,7 +2,7 @@ package com.philectron.algorithms.sorting;
 
 public class BubbleSortTest extends SortTestBase {
 
-    public BubbleSortTest() {
+    BubbleSortTest() {
         super(new BubbleSort());
     }
 

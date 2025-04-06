@@ -16,7 +16,7 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void init_invalidCapacity_fails() {
+    void init_invalidCapacity_fails() {
         assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(2, 1));
         assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(0, 1));
         assertThrows(IllegalArgumentException.class, () -> new ArrayDeque<>(0, 0));
@@ -24,7 +24,7 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void offer_exceedsCapacity_growsArray_addsElements_returnsTrue() {
+    void offer_exceedsCapacity_growsArray_addsElements_returnsTrue() {
         List<Integer> fullCapacityList = Collections.nCopies(ArrayDeque.DEFAULT_CAPACITY, 0);
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>(fullCapacityList);
@@ -47,7 +47,7 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void offer_fullDeque_addsNothing_returnsFalse() {
+    void offer_fullDeque_addsNothing_returnsFalse() {
         Deque<Integer> fullDeque = new ArrayDeque<>(1, 1);
         fullDeque.offer(1);
 
@@ -65,7 +65,7 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void offerAll_nearFullDeque_addsPartialElements_returnsTrue() {
+    void offerAll_nearFullDeque_addsPartialElements_returnsTrue() {
         final int maximumCapacity = 3;
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();
@@ -79,7 +79,7 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void offerFrontAll_nearFullDeque_addsPartialElements_returnsTrue() {
+    void offerFrontAll_nearFullDeque_addsPartialElements_returnsTrue() {
         final int maximumCapacity = 3;
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();
@@ -93,7 +93,7 @@ public class ArrayDequeTest extends DequeTestBase {
     }
 
     @Test
-    public void offerRearAll_nearFullDeque_addsPartialElements_returnsTrue() {
+    void offerRearAll_nearFullDeque_addsPartialElements_returnsTrue() {
         final int maximumCapacity = 3;
 
         java.util.Deque<Integer> expectedDeque = new java.util.ArrayDeque<>();

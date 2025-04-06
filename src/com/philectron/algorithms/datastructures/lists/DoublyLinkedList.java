@@ -8,19 +8,9 @@ import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 import com.philectron.algorithms.datastructures.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class DoublyLinkedList<E> implements List<E> {
-
-    private static class Node<E> {
-        private E data;
-        private Node<E> previous;
-        private Node<E> next;
-
-        private Node(E data) {
-            this.data = data;
-            next = previous = null;
-        }
-    }
 
     private Node<E> head;
     private Node<E> tail;
@@ -68,7 +58,7 @@ public class DoublyLinkedList<E> implements List<E> {
     private Node<E> nodeAt(int index) {
         assertElementIndex(index, size);
 
-        Node<E> node = null;
+        Node<E> node;
         if (index < size / 2) {
             node = assertNotNull(head);
             for (int i = 0; i < index; ++i) {
@@ -173,7 +163,7 @@ public class DoublyLinkedList<E> implements List<E> {
     public int indexOf(E element) {
         int firstIndex = 0;
         for (Node<E> node = head; node != null; node = node.next) {
-            if (element == null ? node.data == null : element.equals(node.data)) {
+            if (Objects.equals(element, node.data)) {
                 return firstIndex;
             }
             ++firstIndex;
@@ -185,7 +175,7 @@ public class DoublyLinkedList<E> implements List<E> {
     public int lastIndexOf(E element) {
         int lastIndex = size - 1;
         for (Node<E> node = tail; node != null; node = node.previous) {
-            if (element == null ? node.data == null : element.equals(node.data)) {
+            if (Objects.equals(element, node.data)) {
                 return lastIndex;
             }
             --lastIndex;
@@ -203,7 +193,7 @@ public class DoublyLinkedList<E> implements List<E> {
     public boolean remove(E element) {
         Node<E> currentNode = head;
         while (currentNode != null) {
-            if (element == null ? currentNode.data == null : element.equals(currentNode.data)) {
+            if (Objects.equals(element, currentNode.data)) {
                 removeNode(currentNode);
                 return true; // element found, list was modified
             }
@@ -346,6 +336,17 @@ public class DoublyLinkedList<E> implements List<E> {
                 return currentData;
             }
         };
+    }
+
+    private static class Node<E> {
+        private E data;
+        private Node<E> previous;
+        private Node<E> next;
+
+        private Node(E data) {
+            this.data = data;
+            next = previous = null;
+        }
     }
 
 }

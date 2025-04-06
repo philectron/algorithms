@@ -2,7 +2,7 @@ package com.philectron.algorithms.searching;
 
 public class LinearSearchTest extends SearchTestBase {
 
-    public LinearSearchTest() {
+    LinearSearchTest() {
         super(new LinearSearch(), false);
     }
 

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 public abstract class ListTestBase {
 
     static final java.util.List<Integer> VALUES =
-            java.util.List.of(100, 400, 700, 200, 500, 300, 600, 100);
+        java.util.List.of(100, 400, 700, 200, 500, 300, 600, 100);
 
     private List<Integer> list;
     private List<Integer> emptyList;
@@ -22,7 +22,7 @@ public abstract class ListTestBase {
     abstract List<Integer> createList(Iterable<Integer> iterable);
 
     @BeforeEach
-    private void setUp() {
+    void setUp() {
         list = createList(VALUES);
         emptyList = createList(Collections.emptyList());
         assertThat(list).containsExactlyElementsIn(VALUES).inOrder();
@@ -30,19 +30,19 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void size_returnsNumberOfElements() {
+    void size_returnsNumberOfElements() {
         assertThat(emptyList.size()).isEqualTo(0);
         assertThat(list.size()).isEqualTo(VALUES.size());
     }
 
     @Test
-    public void isEmpty_checksSize() {
+    void isEmpty_checksSize() {
         assertThat(emptyList.isEmpty()).isTrue();
         assertThat(list.isEmpty()).isFalse();
     }
 
     @Test
-    public void get_indexOutOfBound_fails() {
+    void get_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.get(0));
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.getFirst());
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.getLast());
@@ -52,7 +52,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void get_returnsElementAtIndex() {
+    void get_returnsElementAtIndex() {
         final int midIndex = VALUES.size() / 2;
         assertThat(list.get(midIndex)).isEqualTo(VALUES.get(midIndex));
         assertThat(list.getFirst()).isEqualTo(VALUES.getFirst());
@@ -60,7 +60,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void set_indexOutOfBound_fails() {
+    void set_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.set(0, 1));
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.setFirst(1));
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.setLast(1));
@@ -70,7 +70,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void set_replacesElement_returnsOldElement() {
+    void set_replacesElement_returnsOldElement() {
         final int midIndex = VALUES.size() / 2;
         final int newValue = Collections.max(VALUES) + 1;
 
@@ -85,13 +85,13 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void add_positionOutOfBound_fails() {
+    void add_positionOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.add(-1, 1));
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.add(1, 1));
     }
 
     @Test
-    public void add_insertsElementAtPosition_shiftsRight() {
+    void add_insertsElementAtPosition_shiftsRight() {
         emptyList.add(1);
         assertThat(emptyList).containsExactly(1);
 
@@ -112,12 +112,12 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void addAll_fromNullInput_fails() {
+    void addAll_fromNullInput_fails() {
         assertThrows(NullPointerException.class, () -> list.addAll(null));
     }
 
     @Test
-    public void addAll_fromEmptyInput_insertsNothing_returnsFalse() {
+    void addAll_fromEmptyInput_insertsNothing_returnsFalse() {
         assertThat(emptyList.addAll(Collections.emptyList())).isFalse();
         assertThat(emptyList).isEmpty();
 
@@ -126,7 +126,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void addAll_appendsAllElements_returnsTrue() {
+    void addAll_appendsAllElements_returnsTrue() {
         assertThat(emptyList.addAll(VALUES)).isTrue();
         assertThat(emptyList).containsExactlyElementsIn(VALUES).inOrder();
 
@@ -138,13 +138,13 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void indexOf_onEmpty_modifiesNothing_returnsNotFound() {
+    void indexOf_onEmpty_modifiesNothing_returnsNotFound() {
         assertThat(emptyList.indexOf(1)).isEqualTo(-1);
         assertThat(emptyList).isEmpty();
     }
 
     @Test
-    public void indexOf_nullElement_modifiesNothing_returnsFirstOccurrenceIndex() {
+    void indexOf_nullElement_modifiesNothing_returnsFirstOccurrenceIndex() {
         // Before adding or setting null values, make sure this list does not have any.
         assertThat(list.indexOf(null)).isEqualTo(-1);
 
@@ -155,7 +155,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void indexOf_modifiesNothing_returnsFirstOccurrenceIndex() {
+    void indexOf_modifiesNothing_returnsFirstOccurrenceIndex() {
         final int targetValue = VALUES.get(VALUES.size() / 2);
         assertFirstIndexSearch(targetValue, VALUES.indexOf(targetValue));
     }
@@ -184,13 +184,13 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void lastIndexOf_onEmpty_modifiesNothing_returnsNotFound() {
+    void lastIndexOf_onEmpty_modifiesNothing_returnsNotFound() {
         assertThat(emptyList.lastIndexOf(1)).isEqualTo(-1);
         assertThat(emptyList).isEmpty();
     }
 
     @Test
-    public void lastIndexOf_nullElement_modifiesNothing_returnsLastOccurrenceIndex() {
+    void lastIndexOf_nullElement_modifiesNothing_returnsLastOccurrenceIndex() {
         // Before adding or setting null values, make sure this list does not have any.
         assertThat(list.lastIndexOf(null)).isEqualTo(-1);
 
@@ -201,7 +201,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void lastIndexOf_modifiesNothing_returnsLastOccurrence() {
+    void lastIndexOf_modifiesNothing_returnsLastOccurrence() {
         final int targetValue = VALUES.get(VALUES.size() / 2);
         assertLastIndexSearch(targetValue, VALUES.lastIndexOf(targetValue));
 
@@ -231,7 +231,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void contains_modifiesNothing_checksElementExistence() {
+    void contains_modifiesNothing_checksElementExistence() {
         assertThat(emptyList.contains(1)).isFalse();
         assertThat(emptyList.contains(null)).isFalse();
         assertThat(list.contains(VALUES.getLast())).isTrue();
@@ -243,7 +243,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void remove_indexOutOfBound_fails() {
+    void remove_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.remove(0));
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeFirst());
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.removeLast());
@@ -255,7 +255,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void remove_shiftsLeft_returnsRemovedElement() {
+    void remove_shiftsLeft_returnsRemovedElement() {
         final int midIndex = VALUES.size() / 2;
 
         java.util.List<Integer> expectedList = new ArrayList<>(VALUES);
@@ -272,12 +272,12 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void removeAll_fromNullInput_fails() {
+    void removeAll_fromNullInput_fails() {
         assertThrows(NullPointerException.class, () -> list.removeAll(null));
     }
 
     @Test
-    public void removeAll_fromEmptyInput_removesNothing() {
+    void removeAll_fromEmptyInput_removesNothing() {
         assertThat(emptyList.removeAll(Collections.emptyList())).isFalse();
         assertThat(emptyList).isEmpty();
 
@@ -286,7 +286,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void removeAll_noCommonElements_removesNothing() {
+    void removeAll_noCommonElements_removesNothing() {
         // Test for both null and non-null values.
         java.util.List<Integer> noCommonValues = new ArrayList<>();
         VALUES.forEach(value -> noCommonValues.add(-value));
@@ -297,7 +297,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void removeAll_removesAllCommonElements() {
+    void removeAll_removesAllCommonElements() {
         // Test for both null and non-null values.
         java.util.List<Integer> valuesToRemove = new ArrayList<>(VALUES);
         valuesToRemove.add(null);
@@ -308,7 +308,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void clear_removesAllElements() {
+    void clear_removesAllElements() {
         emptyList.clear();
         assertThat(emptyList.isEmpty()).isTrue();
         assertThat(emptyList).isEmpty();
@@ -319,7 +319,7 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void reverse_flipsListOrder() {
+    void reverse_flipsListOrder() {
         emptyList.reverse();
         assertThat(emptyList).isEmpty();
 
@@ -335,18 +335,18 @@ public abstract class ListTestBase {
     }
 
     @Test
-    public void iterator_traversesStartToEnd() {
+    void iterator_traversesStartToEnd() {
         Iterator<Integer> emptyIt = emptyList.iterator();
         assertThat(emptyIt.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> emptyIt.next());
+        assertThrows(NoSuchElementException.class, emptyIt::next);
 
         Iterator<Integer> it = list.iterator();
-        for (int i = 0; i < VALUES.size(); ++i) {
+        for (int value : VALUES) {
             assertThat(it.hasNext()).isTrue();
-            assertThat(it.next()).isEqualTo(VALUES.get(i));
+            assertThat(it.next()).isEqualTo(value);
         }
         assertThat(it.hasNext()).isFalse();
-        assertThrows(NoSuchElementException.class, () -> it.next());
+        assertThrows(NoSuchElementException.class, it::next);
     }
 
 }

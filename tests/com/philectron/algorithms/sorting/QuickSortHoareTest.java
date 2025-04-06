@@ -2,7 +2,7 @@ package com.philectron.algorithms.sorting;
 
 public class QuickSortHoareTest extends QuickSortTestBase {
 
-    public QuickSortHoareTest() {
+    QuickSortHoareTest() {
         super(new QuickSortHoare());
     }
 
