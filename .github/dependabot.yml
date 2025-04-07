@@ -9,7 +9,7 @@ updates:
     directory: /
 
     schedule:
-      interval: monthly
+      interval: daily
 
     allow:
       - dependency-type: all

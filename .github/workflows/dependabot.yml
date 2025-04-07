@@ -6,7 +6,6 @@ on:
 
 permissions:
   pull-requests: write
-  contents: write
 
 jobs:
   auto-merge:
@@ -20,13 +19,9 @@ jobs:
       (github.event.pull_request.merged == false || github.event.pull_request.merged == null)
 
     steps:
-      - name: Fetch Dependabot metadata
-        id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v2
-
-      - name: Enable auto-merge for Dependabot PRs
+      - name: Enable auto-merge for Dependabot's PR
         shell: bash
         run: gh pr merge --auto --merge "${PR_URL}"
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
