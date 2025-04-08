@@ -15,7 +15,7 @@ public class SinglyLinkedList<E> implements List<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size;
-    
+
     /**
      * Initializes an empty singly linked list.
      */

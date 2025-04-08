@@ -14,7 +14,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
 
     private Node<E> last;
     private int size;
-    
+
     /**
      * Initializes an empty circular singly linked list.
      */

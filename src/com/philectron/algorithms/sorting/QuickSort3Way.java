@@ -46,9 +46,9 @@ public class QuickSort3Way implements QuickSort {
      * @param high  the ending element index of the array, inclusive
      *
      * @return a partition index pair {@code [preMid, postMid]} in {@code array}, where
-     *     {@code array[low..preMid]} contains all elements smaller than pivot, and
-     *     {@code array[preMid + 1..postMid - 1]} contains all occurrences of pivot, and
-     *     {@code array[postMid..high]} contains all elements greater than pivot
+     *         {@code array[low..preMid]} contains all elements smaller than pivot, and
+     *         {@code array[preMid + 1..postMid - 1]} contains all occurrences of pivot, and
+     *         {@code array[postMid..high]} contains all elements greater than pivot
      */
     private int[] partition(int[] array, int low, int high) {
         assertNotNull(array);

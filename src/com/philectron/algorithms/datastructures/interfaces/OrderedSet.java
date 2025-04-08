@@ -18,7 +18,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * Checks if this set is empty.
      *
      * @return {@code true} if this set has no elements (when {@link #size()} is zero), else
-     *     {@code false}
+     *         {@code false}
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -112,12 +112,11 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
         checkNotNull(iterable);
         // For each distinct element of the iterable, remove it from this set, then return the final
         // result as true if any of the removals modified the list.
-        return StreamSupport
-            .stream(iterable.spliterator(), false)
-            .distinct()
-            .map(this::remove)
-            .reduce(Boolean::logicalOr)
-            .orElse(false);
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .distinct()
+                .map(this::remove)
+                .reduce(Boolean::logicalOr)
+                .orElse(false);
     }
 
     /**

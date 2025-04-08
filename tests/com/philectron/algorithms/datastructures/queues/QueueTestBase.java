@@ -61,7 +61,7 @@ public abstract class QueueTestBase {
     void offerAll_fromNullInput_fails() {
         assertThrows(NullPointerException.class, () -> queue.offerAll(null));
         assertThrows(NullPointerException.class,
-            () -> queue.offerAll(Collections.singletonList(null)));
+                () -> queue.offerAll(Collections.singletonList(null)));
     }
 
     @Test

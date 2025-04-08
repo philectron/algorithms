@@ -17,7 +17,7 @@ public class DynamicArrayTest extends ListTestBase {
     @Test
     void add_exceedsCapacity_growsArray_addsElements_returnsTrue() {
         java.util.List<Integer> fullCapacityList =
-            Collections.nCopies(DynamicArray.DEFAULT_CAPACITY, 0);
+                Collections.nCopies(DynamicArray.DEFAULT_CAPACITY, 0);
 
         java.util.List<Integer> expectedList = new ArrayList<>(fullCapacityList);
         expectedList.add(-1);

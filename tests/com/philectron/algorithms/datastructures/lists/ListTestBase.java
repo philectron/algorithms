@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 public abstract class ListTestBase {
 
     static final java.util.List<Integer> VALUES =
-        java.util.List.of(100, 400, 700, 200, 500, 300, 600, 100);
+            java.util.List.of(100, 400, 700, 200, 500, 300, 600, 100);
 
     private List<Integer> list;
     private List<Integer> emptyList;

@@ -46,9 +46,9 @@ public class QuickSortLomuto implements QuickSort {
      * @param high  the ending element index of the array, inclusive
      *
      * @return the final and correct index of the pivot in {@code array}, where
-     *     {@code array[low..index - 1]} are less than or equal to the pivot, and
-     *     {@code array[index + 1..high]} are greater than the pivot, and {@code array[index]} is
-     *     the pivot itself
+     *         {@code array[low..index - 1]} are less than or equal to the pivot, and
+     *         {@code array[index + 1..high]} are greater than the pivot, and {@code array[index]}
+     *         is the pivot itself
      */
     private int partition(int[] array, int low, int high) {
         assertNotNull(array);

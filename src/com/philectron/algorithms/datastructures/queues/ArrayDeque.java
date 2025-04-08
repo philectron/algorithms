@@ -33,7 +33,7 @@ public class ArrayDeque<E> implements Deque<E> {
      */
     public ArrayDeque(int initialCapacity, int maximumCapacity) {
         checkArgument(maximumCapacity == -1 || initialCapacity <= maximumCapacity,
-            "Initial capacity must be at or below maximum capacity");
+                "Initial capacity must be at or below maximum capacity");
         front = 0;
         size = 0;
         capacity = maximumCapacity;

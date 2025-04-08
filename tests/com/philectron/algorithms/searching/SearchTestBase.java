@@ -17,7 +17,7 @@ public abstract class SearchTestBase {
     private static final int DUPLICATE_TARGET = 5;
     private static final int NON_TARGET = 6;
     private static final List<Integer> LIST =
-        List.of(DUPLICATE_TARGET, UNIQUE_TARGET, 8, 7, 4, 3, 9, 7, 1, DUPLICATE_TARGET);
+            List.of(DUPLICATE_TARGET, UNIQUE_TARGET, 8, 7, 4, 3, 9, 7, 1, DUPLICATE_TARGET);
     private static final List<Integer> SORTED_LIST = LIST.stream().sorted().toList();
 
     private final SearchingAlgorithm searcher;
@@ -40,17 +40,17 @@ public abstract class SearchTestBase {
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
         int[] originalArray = array.clone();
 
-        assertWithMessage("First index of target %s in array %s", target, Arrays.toString(array))
-            .that(searcher.findFirst(array, target))
-            .isEqualTo(Ints.indexOf(array, target));
+        assertWithMessage("First index of target %s in array %s", target,
+                Arrays.toString(array)).that(searcher.findFirst(array, target))
+                .isEqualTo(Ints.indexOf(array, target));
 
-        assertWithMessage("Last index of target %s in array %s", target, Arrays.toString(array))
-            .that(searcher.findLast(array, target))
-            .isEqualTo(Ints.lastIndexOf(array, target));
+        assertWithMessage("Last index of target %s in array %s", target,
+                Arrays.toString(array)).that(searcher.findLast(array, target))
+                .isEqualTo(Ints.lastIndexOf(array, target));
 
-        assertWithMessage("Whether array %s contains target %s", Arrays.toString(array), target)
-            .that(searcher.contains(array, target))
-            .isEqualTo(Ints.contains(array, target));
+        assertWithMessage("Whether array %s contains target %s", Arrays.toString(array),
+                target).that(searcher.contains(array, target))
+                .isEqualTo(Ints.contains(array, target));
 
         assertThat(array).isEqualTo(originalArray); // searching should not mutate the array
     }

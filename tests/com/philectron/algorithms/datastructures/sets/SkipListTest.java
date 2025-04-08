@@ -37,7 +37,7 @@ public class SkipListTest extends OrderedSetTestBase {
     void get_byIndex_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> skipList.get(-1));
         assertThrows(IndexOutOfBoundsException.class,
-            () -> skipList.get(VALUES_UNIQUE_SORTED.size()));
+                () -> skipList.get(VALUES_UNIQUE_SORTED.size()));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class SkipListTest extends OrderedSetTestBase {
     void remove_byIndex_indexOutOfBound_fails() {
         assertThrows(IndexOutOfBoundsException.class, () -> skipList.remove(-1));
         assertThrows(IndexOutOfBoundsException.class,
-            () -> skipList.remove(VALUES_UNIQUE_SORTED.size()));
+                () -> skipList.remove(VALUES_UNIQUE_SORTED.size()));
     }
 
     @Test

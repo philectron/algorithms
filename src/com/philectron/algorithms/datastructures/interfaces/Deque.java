@@ -53,7 +53,7 @@ public interface Deque<E> extends Queue<E> {
      * @param element the element to be pushed
      *
      * @return {@code true} if {@code element} was pushed onto the stack represented by this deque,
-     *     else {@code false}
+     *         else {@code false}
      *
      * @throws NullPointerException if {@code element} is {@code null}
      * @see #offerFront(E)
@@ -69,7 +69,7 @@ public interface Deque<E> extends Queue<E> {
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
      * @return {@code true} if any element of {@code iterable} was inserted into this deque, else
-     *     {@code false}
+     *         {@code false}
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      * @see Queue#offerAll(Iterable)
@@ -90,7 +90,7 @@ public interface Deque<E> extends Queue<E> {
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
      * @return {@code true} if any element of {@code iterable} was inserted into this deque, else
-     *     {@code false}
+     *         {@code false}
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      * @see Queue#offerAll(Iterable)
@@ -109,7 +109,7 @@ public interface Deque<E> extends Queue<E> {
      * Retrieves and removes the element at the front of this deque, if any.
      *
      * @return the element previously at the front of this deque, or {@code null} if this deque
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      *
      * @see #pollFront()
      * @see #pollRear()
@@ -123,7 +123,7 @@ public interface Deque<E> extends Queue<E> {
      * Retrieves and removes the element at the front of this deque, if any.
      *
      * @return the element previously at the front of this deque, or {@code null} if this deque
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      *
      * @see #poll()
      * @see #pollRear()
@@ -134,7 +134,7 @@ public interface Deque<E> extends Queue<E> {
      * Retrieves and removes the element at the rear of this deque.
      *
      * @return the element previously at the rear of this deque, or {@code null} if this deque
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      *
      * @see #poll()
      * @see #pollFront()
@@ -147,7 +147,7 @@ public interface Deque<E> extends Queue<E> {
      * stack).
      *
      * @return the element previously at the front of this deque (top of the stack), or {@code null}
-     *     if this deque {@link #isEmpty()}
+     *         if this deque {@link #isEmpty()}
      */
     default E pop() {
         return pollFront();
@@ -157,7 +157,7 @@ public interface Deque<E> extends Queue<E> {
      * Retrieves, but does not remove, the element at the front of this deque, if any.
      *
      * @return the element currently at the front of this deque, or {@code null} if this deque
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      *
      * @see #peekFront()
      * @see #peekRear()
@@ -171,7 +171,7 @@ public interface Deque<E> extends Queue<E> {
      * Retrieves, but does not remove, the element at the front of this deque.
      *
      * @return the element currently at the front of this deque, or {@code null} if this deque
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      *
      * @see #peek()
      * @see #peekRear()
@@ -182,7 +182,7 @@ public interface Deque<E> extends Queue<E> {
      * Retrieves, but does not remove, the element at the rear of this deque.
      *
      * @return the element currently at the rear of this deque, or {@code null} if this deque
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      *
      * @see #peek()
      * @see #peekFront()

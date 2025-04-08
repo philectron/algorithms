@@ -15,7 +15,7 @@ public interface Queue<E> extends Iterable<E> {
      * Checks if this queue is empty.
      *
      * @return {@code true} if this queue has no elements (when {@link #size()} is zero), else
-     *     {@code false}
+     *         {@code false}
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -38,7 +38,7 @@ public interface Queue<E> extends Iterable<E> {
      * @param iterable the {@link Iterable} containing the elements to be inserted
      *
      * @return {@code true} if any element of {@code iterable} was inserted into this queue, else
-     *     {@code false}
+     *         {@code false}
      *
      * @throws NullPointerException if {@code iterable} or any of its elements is {@code null}
      */
@@ -55,7 +55,7 @@ public interface Queue<E> extends Iterable<E> {
      * Retrieves and removes the element at the front of this queue, if any.
      *
      * @return the element previously at the front of this queue, or {@code null} if this queue
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      */
     E poll();
 
@@ -63,7 +63,7 @@ public interface Queue<E> extends Iterable<E> {
      * Retrieves, but does not remove, the element at the front of this queue, if any.
      *
      * @return the element currently at the front of this queue, or {@code null} if this queue
-     *     {@link #isEmpty()}
+     *         {@link #isEmpty()}
      */
     E peek();
 

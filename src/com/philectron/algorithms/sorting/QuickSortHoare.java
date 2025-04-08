@@ -45,8 +45,8 @@ public class QuickSortHoare implements QuickSort {
      * @param high  the ending element index of the array, inclusive
      *
      * @return a partition index in {@code array}, where {@code array[low..index]} are less than or
-     *     equal to the pivot, and {@code array[index + 1..high]} are greater than or equal to the
-     *     pivot
+     *         equal to the pivot, and {@code array[index + 1..high]} are greater than or equal to
+     *         the pivot
      */
     private int partition(int[] array, int low, int high) {
         assertNotNull(array);

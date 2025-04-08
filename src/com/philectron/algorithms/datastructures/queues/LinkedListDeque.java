@@ -11,7 +11,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     private Node<E> front;
     private Node<E> rear;
     private int size;
-    
+
     /**
      * Initializes an empty linked list deque.
      */

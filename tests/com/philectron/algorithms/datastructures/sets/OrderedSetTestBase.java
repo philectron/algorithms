@@ -107,7 +107,7 @@ public abstract class OrderedSetTestBase {
     @Test
     void addAll_fromInputWithNull_fails() {
         assertThrows(NullPointerException.class,
-            () -> emptySet.addAll(Collections.singletonList(null)));
+                () -> emptySet.addAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class, () -> set.addAll(Collections.singletonList(null)));
     }
 
@@ -207,9 +207,9 @@ public abstract class OrderedSetTestBase {
     @Test
     void removeAll_fromInputWithNullElements_fails() {
         assertThrows(NullPointerException.class,
-            () -> emptySet.removeAll(Collections.singletonList(null)));
+                () -> emptySet.removeAll(Collections.singletonList(null)));
         assertThrows(NullPointerException.class,
-            () -> set.removeAll(Collections.singletonList(null)));
+                () -> set.removeAll(Collections.singletonList(null)));
     }
 
     @Test

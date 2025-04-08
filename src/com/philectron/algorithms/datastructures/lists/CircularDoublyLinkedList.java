@@ -14,7 +14,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
 
     private Node<E> last;
     private int size;
-    
+
     /**
      * Initializes an empty circular doubly linked list.
      */

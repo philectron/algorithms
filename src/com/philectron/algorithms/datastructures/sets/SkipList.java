@@ -108,8 +108,8 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
 
         // At level 0, if the previous node's next node has the same value as the one to be
         // inserted, then this is a duplicate insertion, in which case we will fast-return.
-        if (previousNodes.getFirst().forward.getFirst() != null
-            && element.equals(previousNodes.getFirst().forward.getFirst().data)) {
+        if (previousNodes.getFirst().forward.getFirst() != null && element.equals(
+                previousNodes.getFirst().forward.getFirst().data)) {
             return false; // list was unmodified
         }
 
@@ -160,7 +160,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * @param value the value to be compared against the nodes on each level of this list
      *
      * @return a list of existing nodes of this list, where the {@code i}-th element is the
-     *     reference to the largest node on level {@code i} that is less than {@code value}
+     *         reference to the largest node on level {@code i} that is less than {@code value}
      */
     private List<Node<E>> findPreviousNodes(E value) {
         assertNotNull(value);
@@ -232,7 +232,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         int index = -1;
         for (int i = level; i >= 0; --i) {
             while (node.forward.get(i) != null
-                && element.compareTo(node.forward.get(i).data) >= 0) {
+                    && element.compareTo(node.forward.get(i).data) >= 0) {
                 // For every step forward, update the distance from head.
                 index += node.width[i];
                 node = node.forward.get(i);
@@ -302,8 +302,8 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
         // At level 0, if the previous node's next node is null or has a different value from the
         // one to be removed, then the element does not exist in this list, in which case we will
         // fast-return.
-        if (previousNodes.getFirst().forward.getFirst() == null
-            || !element.equals(previousNodes.getFirst().forward.getFirst().data)) {
+        if (previousNodes.getFirst().forward.getFirst() == null || !element.equals(
+                previousNodes.getFirst().forward.getFirst().data)) {
             return false; // list was unmodified
         }
 

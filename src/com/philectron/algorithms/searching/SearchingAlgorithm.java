@@ -11,7 +11,7 @@ public interface SearchingAlgorithm {
      * @param target the target value to be searched in {@code array}
      *
      * @return the index of the first occurrence of {@code target} in {@code array}, or {@code -1}
-     *     if {@code target} is not in {@code array}
+     *         if {@code target} is not in {@code array}
      *
      * @throws NullPointerException if {@code array} is {@code null}
      */
@@ -24,7 +24,7 @@ public interface SearchingAlgorithm {
      * @param target the target value to be searched in {@code array}
      *
      * @return the index of the last (final) occurrence of {@code target} in {@code array}, or
-     *     {@code -1} if {@code target} is not in {@code array}
+     *         {@code -1} if {@code target} is not in {@code array}
      *
      * @throws NullPointerException if {@code array} is {@code null}
      */

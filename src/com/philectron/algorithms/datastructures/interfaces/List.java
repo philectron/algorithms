@@ -17,7 +17,7 @@ public interface List<E> extends Iterable<E> {
      * Checks if this list is empty.
      *
      * @return {@code true} if this list has no elements (when {@link #size()} is zero), else
-     *     {@code false}
+     *         {@code false}
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -191,7 +191,7 @@ public interface List<E> extends Iterable<E> {
      * @param iterable the {@link Iterable} containing the elements to be appended
      *
      * @return {@code true} if all elements of {@code iterable} was appended to this list, else
-     *     {@code false}
+     *         {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null}, or if any of the elements
      *                              in {@code iterable} is {@code null} and this list does not
@@ -212,7 +212,7 @@ public interface List<E> extends Iterable<E> {
      * @param element the element to be searched in this list
      *
      * @return the index of the first occurrence of {@code element}, or {@code -1} if this list does
-     *     not contain {@code element}
+     *         not contain {@code element}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *                              null elements
@@ -227,7 +227,7 @@ public interface List<E> extends Iterable<E> {
      * @param element the element to be searched in this list
      *
      * @return the index of the last occurrence of {@code element}, or {@code -1} if this list does
-     *     not contain {@code element}
+     *         not contain {@code element}
      *
      * @throws NullPointerException if {@code element} is {@code null} and this list does not permit
      *                              null elements
@@ -320,18 +320,18 @@ public interface List<E> extends Iterable<E> {
         // For each distinct element of the iterable, remove it from this list until it no longer
         // exists, then return the final result as true if any of the removals modified the list.
         return StreamSupport.stream(iterable.spliterator(), false)
-            .distinct()
-            .map(element -> {
-                var wrapper = new Object() {
-                    boolean modified = false;
-                };
-                while (remove(element)) {
-                    wrapper.modified = true;
-                }
-                return wrapper.modified;
-            })
-            .reduce(Boolean::logicalOr)
-            .orElse(false);
+                .distinct()
+                .map(element -> {
+                    var wrapper = new Object() {
+                        boolean modified = false;
+                    };
+                    while (remove(element)) {
+                        wrapper.modified = true;
+                    }
+                    return wrapper.modified;
+                })
+                .reduce(Boolean::logicalOr)
+                .orElse(false);
     }
 
     /**
