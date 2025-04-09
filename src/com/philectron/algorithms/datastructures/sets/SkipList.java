@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import javax.annotation.Nonnull;
 
 public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
 
@@ -351,7 +352,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
     }
 
     @Override
-    public Iterator<E> iterator() {
+    public @Nonnull Iterator<E> iterator() {
         return new Iterator<>() {
             private Node<E> currentNode = head.forward.getFirst();
 

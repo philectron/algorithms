@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import javax.annotation.Nonnull;
 
 public class LinkedListDeque<E> implements Deque<E> {
 
@@ -142,7 +143,7 @@ public class LinkedListDeque<E> implements Deque<E> {
     }
 
     @Override
-    public Iterator<E> iterator() {
+    public @Nonnull Iterator<E> iterator() {
         return new Iterator<>() {
             private Node<E> currentNode = front;
 
