@@ -57,7 +57,8 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * @return the element at {@code index}
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *                                   {@link #size()}, or if this skip list {@link #isEmpty()}
+     *         {@link #size()}, or if this skip list {@link #isEmpty()}
+     *
      * @see #getFirst()
      * @see #getLast()
      */
@@ -187,7 +188,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * current level.
      *
      * @param currentLevel the current level to update the widths of the previous and new nodes
-     * @param newNode      the new node already inserted at its correct position in this list
+     * @param newNode the new node already inserted at its correct position in this list
      * @param previousNode the node right before the new node on the current level
      */
     private void updateWidths(int currentLevel, Node<E> newNode, Node<E> previousNode) {
@@ -263,7 +264,7 @@ public class SkipList<E extends Comparable<E>> implements OrderedSet<E> {
      * @return the element previously at {@code index}
      *
      * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than
-     *                                   {@link #size()}
+     *         {@link #size()}
      * @see #remove(E)
      */
     public E remove(int index) {

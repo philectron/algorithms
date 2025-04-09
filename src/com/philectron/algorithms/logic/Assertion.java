@@ -8,7 +8,7 @@ public final class Assertion {
     /**
      * Ensures that {@code reference} is non-null.
      *
-     * @param <T>       any object type
+     * @param <T> any object type
      * @param reference the reference to be null-checked
      *
      * @return {@code reference}, guaranteed to be non-null, for convenience
@@ -40,12 +40,12 @@ public final class Assertion {
      * exclusive.
      *
      * @param index the index identifying an element of an array, list, or string
-     * @param size  the size of that array, list, or string
+     * @param size the size of that array, list, or string
      *
      * @return the value of {@code index}, for convenience
      *
      * @throws AssertionError if {@code size} is negative, or if {@code index} is negative or is not
-     *                        less than {@code size}
+     *         less than {@code size}
      */
     public static int assertElementIndex(int index, int size) {
         assert size >= 0;
@@ -59,12 +59,13 @@ public final class Assertion {
      * from zero, inclusive, to {@code size}, exclusive.
      *
      * @param start the index identifying a starting element in an array, list, or string
-     * @param end   the index identifying an ending element in an array, list, or string
-     * @param size  the size of that array, list, or string
+     * @param end the index identifying an ending element in an array, list, or string
+     * @param size the size of that array, list, or string
      *
      * @throws AssertionError if {@link #assertElementIndex(int start, int size)} fails, or if
-     *                        {@link #assertElementIndex(int end, int size)} fails, or if
-     *                        {@code start} is greater than {@code end}
+     *         {@link #assertElementIndex(int end, int size)} fails, or if {@code start} is greater
+     *         than {@code end}
+     *
      * @see #assertElementIndex(int, int)
      */
     public static void assertElementIndexes(int start, int end, int size) {
@@ -79,12 +80,12 @@ public final class Assertion {
      * inclusive.
      *
      * @param position the index identifying a position in an array, list, or string
-     * @param size     the size of that array, list, or string
+     * @param size the size of that array, list, or string
      *
      * @return the value of {@code position}, for convenience
      *
      * @throws AssertionError if {@code size} is negative, or if {@code position} is negative or is
-     *                        greater than {@code size}
+     *         greater than {@code size}
      */
     public static int assertPositionIndex(int position, int size) {
         assert size >= 0;

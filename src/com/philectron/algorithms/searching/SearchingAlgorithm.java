@@ -7,7 +7,7 @@ public interface SearchingAlgorithm {
     /**
      * Finds the first occurrence of {@code target} in {@code array}.
      *
-     * @param array  the array that may or may not contain {@code target}
+     * @param array the array that may or may not contain {@code target}
      * @param target the target value to be searched in {@code array}
      *
      * @return the index of the first occurrence of {@code target} in {@code array}, or {@code -1}
@@ -20,7 +20,7 @@ public interface SearchingAlgorithm {
     /**
      * Finds the last (final) occurrence of {@code target} in {@code array}.
      *
-     * @param array  the array that may or may not contain {@code target}
+     * @param array the array that may or may not contain {@code target}
      * @param target the target value to be searched in {@code array}
      *
      * @return the index of the last (final) occurrence of {@code target} in {@code array}, or
@@ -33,7 +33,7 @@ public interface SearchingAlgorithm {
     /**
      * Checks if {@code array} contains {@code target}.
      *
-     * @param array  the array that may or may not contain {@code target}
+     * @param array the array that may or may not contain {@code target}
      * @param target the target value to be searched in {@code array}
      *
      * @return {@code true} if {@code array} contains {@code target}, else {@code false}

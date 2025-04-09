@@ -16,8 +16,8 @@ public class QuickSortHoare implements QuickSort {
      * Performs recursive quick sort on {@code array[low..high]}.
      *
      * @param array the array to be sorted
-     * @param low   the starting element index of the array, inclusive
-     * @param high  the ending element index of the array, inclusive
+     * @param low the starting element index of the array, inclusive
+     * @param high the ending element index of the array, inclusive
      */
     private void quicksort(int[] array, int low, int high) {
         assertNotNull(array);
@@ -41,8 +41,8 @@ public class QuickSortHoare implements QuickSort {
      * {@code [low..high]} interval.
      *
      * @param array the array to be partitioned
-     * @param low   the starting element index of the array, inclusive
-     * @param high  the ending element index of the array, inclusive
+     * @param low the starting element index of the array, inclusive
+     * @param high the ending element index of the array, inclusive
      *
      * @return a partition index in {@code array}, where {@code array[low..index]} are less than or
      *         equal to the pivot, and {@code array[index + 1..high]} are greater than or equal to

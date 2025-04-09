@@ -29,7 +29,8 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @return the first (smallest) element in this set
      *
-     * @throws NoSuchElementException if this set is empty
+     * @throws NoSuchElementException if this set {@link #isEmpty()}
+     *
      * @see #getLast()
      */
     E getFirst();
@@ -39,7 +40,8 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      *
      * @return the last (largest) element in this set
      *
-     * @throws NoSuchElementException if this set is empty
+     * @throws NoSuchElementException if this set {@link #isEmpty()}
+     *
      * @see #getFirst()
      */
     E getLast();
@@ -63,7 +65,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * @return {@code true} if this set changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
-     *                              {@code null}
+     *         {@code null}
      */
     default boolean addAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);
@@ -106,7 +108,7 @@ public interface OrderedSet<E extends Comparable<E>> extends Iterable<E> {
      * @return {@code true} if this set changed as a result of this call, else {@code false}
      *
      * @throws NullPointerException if {@code iterable} is {@code null} or any of its elements is
-     *                              {@code null}
+     *         {@code null}
      */
     default boolean removeAll(Iterable<? extends E> iterable) {
         checkNotNull(iterable);

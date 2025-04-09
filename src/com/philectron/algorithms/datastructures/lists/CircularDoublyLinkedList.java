@@ -108,7 +108,7 @@ public class CircularDoublyLinkedList<E> implements List<E> {
     /**
      * Inserts {@code newNode} after the last node of this list.
      *
-     * @param newNode   the node to be inserted after {@link #last}
+     * @param newNode the node to be inserted after {@link #last}
      * @param isAddLast whether this insertion adds the new node as the first or the last node
      */
     private void addAfterLast(Node<E> newNode, boolean isAddLast) {

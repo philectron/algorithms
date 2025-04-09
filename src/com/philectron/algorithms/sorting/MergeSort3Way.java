@@ -18,8 +18,8 @@ public class MergeSort3Way implements SortingAlgorithm {
      * Performs recursive merge sort on {@code array[low..high]}.
      *
      * @param array the array to be sorted
-     * @param low   the starting element index of the array, inclusive
-     * @param high  the ending element index of the array, inclusive
+     * @param low the starting element index of the array, inclusive
+     * @param high the ending element index of the array, inclusive
      */
     private void mergeSort(int[] array, int low, int high) {
         assertNotNull(array);
@@ -46,11 +46,11 @@ public class MergeSort3Way implements SortingAlgorithm {
      * {@code array[midLeft + 1..midRight]}, and {@code array[midRight + 1..high]}. Modifies the
      * original array such that {@code array[low..high]} is sorted after the merge.
      *
-     * @param array    the array containing the two sub-arrays to be merged
-     * @param low      the starting element index of the left sub-array, inclusive
-     * @param midLeft  the ending element index of the left sub-array, inclusive
+     * @param array the array containing the two sub-arrays to be merged
+     * @param low the starting element index of the left sub-array, inclusive
+     * @param midLeft the ending element index of the left sub-array, inclusive
      * @param midRight the ending element index of the middle sub-array, inclusive
-     * @param high     the ending element index of the right sub-array, inclusive
+     * @param high the ending element index of the right sub-array, inclusive
      */
     private void merge(int[] array, int low, int midLeft, int midRight, int high) {
         assertNotNull(array);

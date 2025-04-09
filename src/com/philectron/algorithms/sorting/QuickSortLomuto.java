@@ -16,8 +16,8 @@ public class QuickSortLomuto implements QuickSort {
      * Performs recursive quick sort on {@code array[low..high]}.
      *
      * @param array the array to be sorted
-     * @param low   the starting element index of the array, inclusive
-     * @param high  the ending element index of the array, inclusive
+     * @param low the starting element index of the array, inclusive
+     * @param high the ending element index of the array, inclusive
      */
     private void quicksort(int[] array, int low, int high) {
         assertNotNull(array);
@@ -42,8 +42,8 @@ public class QuickSortLomuto implements QuickSort {
      * {@code [low..high]} interval.
      *
      * @param array the array to be partitioned
-     * @param low   the starting element index of the array, inclusive
-     * @param high  the ending element index of the array, inclusive
+     * @param low the starting element index of the array, inclusive
+     * @param high the ending element index of the array, inclusive
      *
      * @return the final and correct index of the pivot in {@code array}, where
      *         {@code array[low..index - 1]} are less than or equal to the pivot, and
