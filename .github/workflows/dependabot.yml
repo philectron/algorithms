@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   auto-merge:
-    name: Dependabot Auto-Merge
+    name: Dependabot PR Auto-Merge
     runs-on: ubuntu-latest
 
     if: |
@@ -18,9 +18,9 @@ jobs:
       github.repository == 'philectron/algorithms'
 
     steps:
-      - name: Enable auto-merge for Dependabot's PR
+      - name: Enable auto-merge
         shell: bash
-        run: gh pr merge --auto --merge "${PR_URL}"
+        run: gh pr merge --auto --merge "${PR_NUMBER}"
         env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
