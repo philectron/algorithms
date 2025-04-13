@@ -5,6 +5,7 @@ on:
     branches: [main]
 
 permissions:
+  contents: write
   pull-requests: write
 
 jobs:
@@ -13,10 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     if: |
-      github.actor == 'dependabot[bot]' &&
       github.event.pull_request.user.login == 'dependabot[bot]' &&
-      github.repository == 'philectron/algorithms' &&
-      (github.event.pull_request.merged == false || github.event.pull_request.merged == null)
+      github.repository == 'philectron/algorithms'
 
     steps:
       - name: Enable auto-merge for Dependabot's PR
