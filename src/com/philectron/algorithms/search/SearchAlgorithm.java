@@ -1,8 +1,8 @@
-package com.philectron.algorithms.searching;
+package com.philectron.algorithms.search;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public interface SearchingAlgorithm {
+public interface SearchAlgorithm {
 
     /**
      * Finds the first occurrence of {@code target} in {@code array}.

@@ -1,4 +1,4 @@
-package com.philectron.algorithms.searching;
+package com.philectron.algorithms.search;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -20,14 +20,14 @@ public abstract class SearchTestBase {
             List.of(DUPLICATE_TARGET, UNIQUE_TARGET, 8, 7, 4, 3, 9, 7, 1, DUPLICATE_TARGET);
     private static final List<Integer> SORTED_LIST = LIST.stream().sorted().toList();
 
-    private final SearchingAlgorithm searcher;
+    private final SearchAlgorithm search;
     private final boolean isSortRequired;
 
     private List<Integer> list;
     private int target;
 
-    SearchTestBase(SearchingAlgorithm searcher, boolean isSortRequired) {
-        this.searcher = searcher;
+    SearchTestBase(SearchAlgorithm search, boolean isSortRequired) {
+        this.search = search;
         this.isSortRequired = isSortRequired;
     }
 
@@ -40,16 +40,16 @@ public abstract class SearchTestBase {
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
         int[] originalArray = array.clone();
 
-        assertWithMessage("First index of target %s in array %s", target,
-                Arrays.toString(array)).that(searcher.findFirst(array, target))
+        assertWithMessage("First index of target %s in array %s", target, Arrays.toString(array))
+                .that(search.findFirst(array, target))
                 .isEqualTo(Ints.indexOf(array, target));
 
-        assertWithMessage("Last index of target %s in array %s", target,
-                Arrays.toString(array)).that(searcher.findLast(array, target))
+        assertWithMessage("Last index of target %s in array %s", target, Arrays.toString(array))
+                .that(search.findLast(array, target))
                 .isEqualTo(Ints.lastIndexOf(array, target));
 
-        assertWithMessage("Whether array %s contains target %s", Arrays.toString(array),
-                target).that(searcher.contains(array, target))
+        assertWithMessage("Whether array %s contains target %s", Arrays.toString(array), target)
+                .that(search.contains(array, target))
                 .isEqualTo(Ints.contains(array, target));
 
         assertThat(array).isEqualTo(originalArray); // searching should not mutate the array
@@ -57,9 +57,9 @@ public abstract class SearchTestBase {
 
     @Test
     void search_nullArray_fails() {
-        assertThrows(NullPointerException.class, () -> searcher.findFirst(null, 0));
-        assertThrows(NullPointerException.class, () -> searcher.findLast(null, 0));
-        assertThrows(NullPointerException.class, () -> searcher.contains(null, 0));
+        assertThrows(NullPointerException.class, () -> search.findFirst(null, 0));
+        assertThrows(NullPointerException.class, () -> search.findLast(null, 0));
+        assertThrows(NullPointerException.class, () -> search.contains(null, 0));
     }
 
     @Test

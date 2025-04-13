@@ -1,4 +1,4 @@
-package com.philectron.algorithms.searching;
+package com.philectron.algorithms.search;
 
 public class LinearSearchTest extends SearchTestBase {
 

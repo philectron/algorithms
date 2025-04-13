@@ -1,8 +1,8 @@
-package com.philectron.algorithms.searching;
+package com.philectron.algorithms.search;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class BinarySearch implements SearchingAlgorithm {
+public class BinarySearch implements SearchAlgorithm {
 
     @Override
     public int findFirst(int[] sortedArray, int target) {
