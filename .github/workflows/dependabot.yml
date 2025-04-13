@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Enable auto-merge
         shell: bash
-        run: gh pr merge --auto --merge "${PR_NUMBER}"
+        run: gh pr merge --auto --merge "${PR_URL}"
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
