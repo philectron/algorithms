@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     if: |
+      github.actor == 'dependabot[bot]' &&
       github.event.pull_request.user.login == 'dependabot[bot]' &&
       github.repository == 'philectron/algorithms'
 
