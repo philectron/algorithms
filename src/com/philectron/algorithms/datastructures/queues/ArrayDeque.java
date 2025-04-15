@@ -7,7 +7,6 @@ import static com.philectron.algorithms.logic.Assertion.assertNotNull;
 import com.philectron.algorithms.datastructures.interfaces.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import javax.annotation.Nonnull;
 
 public class ArrayDeque<E> implements Deque<E> {
 
@@ -142,7 +141,7 @@ public class ArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public @Nonnull Iterator<E> iterator() {
+    public Iterator<E> iterator() {
         return new Iterator<>() {
             private int currentIndex = front;
             private int numElements = 0;
