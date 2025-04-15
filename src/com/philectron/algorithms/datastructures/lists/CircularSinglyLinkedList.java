@@ -9,7 +9,6 @@ import com.philectron.algorithms.datastructures.interfaces.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 public class CircularSinglyLinkedList<E> implements List<E> {
 
@@ -257,7 +256,7 @@ public class CircularSinglyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public @Nonnull Iterator<E> iterator() {
+    public Iterator<E> iterator() {
         return new Iterator<>() {
             private Node<E> currentNode = last != null ? last.next : null;
             private boolean isLastIteration = false;
